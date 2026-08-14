@@ -1,0 +1,333 @@
+# MultiCityExperts — Backend Foundation
+
+This repository currently contains **only the backend foundation** for
+MultiCityExperts: a Next.js API layer, Prisma/PostgreSQL wiring, and the
+folder structure future features (flights, airports, airlines, offers,
+blog, CMS, admin dashboard, public site, authentication, SEO) will be
+built into. None of those features exist yet — this is intentionally
+infrastructure-only.
+
+## Tech stack
+
+- **Next.js** (App Router) — used purely for its `app/api` route handlers
+- **TypeScript** (strict mode)
+- **PostgreSQL** via **Prisma**
+- **Zod** for request validation
+
+## Architecture
+
+REST API, layered so each piece has one job and depends only on the layer
+below it:
+
+```
+route handler (app/api/v1/**)
+        │  parses request, calls a service, formats the response
+        ▼
+   services/
+        │  business logic, orchestrates repositories
+        ▼
+ repositories/
+        │  Prisma queries — the only layer that touches the database
+        ▼
+   prisma/  (PostgreSQL)
+```
+
+`validations/` (Zod schemas) sits alongside this and is used by route
+handlers to validate input before it ever reaches a service. `types/`
+holds shared TypeScript types (e.g. the API response envelope) that don't
+belong to any single layer.
+
+### Why this layering
+
+- **Route handlers stay thin.** They validate input, call a service, and
+  map the result to an HTTP response — no business rules or Prisma calls
+  live here.
+- **Services hold business logic** and are plain TypeScript, so they're
+  testable without spinning up Next.js or mocking HTTP.
+- **Repositories are the only place that imports `lib/prisma.ts`.** If the
+  ORM or schema ever changes, the blast radius is contained to this layer.
+- **Services never call each other's repositories directly** — cross-domain
+  work is coordinated at the service layer.
+
+## Folder structure
+
+```
+app/api/v1/       REST route handlers, one folder per resource
+  health/
+    route.ts        GET /api/v1/health — verifies DB connectivity
+
+lib/               Framework-agnostic infrastructure
+  prisma.ts          Prisma client singleton (server-only)
+  api-response.ts    apiSuccess() / apiError() response builders
+  errors.ts          ErrorCode enum + AppError and its typed subclasses
+  handle-error.ts    Converts thrown errors into a consistent API response
+  validation.ts      Reusable Zod helpers (validateJsonBody, etc.)
+  logger.ts          Minimal structured (JSON line) logger, server-only
+
+services/          Business logic (empty — scaffolding only)
+repositories/       Data access via Prisma (empty — scaffolding only)
+validations/        Zod request schemas (empty — scaffolding only)
+types/              Shared TypeScript types
+  api.ts             ApiResponse<T> / ApiSuccess<T> / ApiError envelope
+
+prisma/
+  schema.prisma      Datasource + generator config, auth models (see below)
+  migrations/          Generated SQL migrations
+  seed.ts              Seeds roles, permissions, and role-permission assignments
+```
+
+## API conventions
+
+All routes live under `/api/v1` and return one of two shapes.
+
+Success:
+
+```json
+{
+  "success": true,
+  "data": { "...": "..." },
+  "meta": {}
+}
+```
+
+Error:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Resource not found",
+    "details": []
+  }
+}
+```
+
+Route handlers build these with `apiSuccess()` / `apiError()` from
+`lib/api-response.ts`. `details` is an array of `{ field?, message }`
+entries — populated for validation errors (one entry per invalid field),
+empty otherwise.
+
+### Error handling
+
+`code` is always one of the values in the `ErrorCode` const object
+exported from `lib/errors.ts`:
+
+| Code                    | HTTP status | Thrown via              |
+| ----------------------- | ----------- | ------------------------ |
+| `VALIDATION_ERROR`      | 422         | `ValidationError`        |
+| `UNAUTHORIZED`          | 401         | `UnauthorizedError`      |
+| `FORBIDDEN`             | 403         | `ForbiddenError`         |
+| `NOT_FOUND`             | 404         | `NotFoundError`          |
+| `CONFLICT`              | 409         | `ConflictError`          |
+| `RATE_LIMITED`          | 429         | `RateLimitError`         |
+| `DATABASE_ERROR`        | 503         | `DatabaseError`          |
+| `INTERNAL_SERVER_ERROR` | 500         | `InternalServerError`    |
+
+Route handlers, services, and repositories should `throw` these — never
+build an error response by hand — and let `handleApiError()` in
+`lib/handle-error.ts` do the translation:
+
+```ts
+export async function GET() {
+  try {
+    // ...
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+```
+
+`handleApiError()` also normalizes two error sources it didn't throw
+itself, so nothing downstream needs a special case for them:
+
+- A `ZodError` (e.g. from a schema's `.parse()` used outside
+  `lib/validation.ts`) → `VALIDATION_ERROR`, 422, with one `details` entry
+  per invalid field.
+- Any Prisma client error (`PrismaClientKnownRequestError`, connection
+  failures, etc.) bubbling up from a repository → `DATABASE_ERROR`, 503.
+- Anything else (a genuinely unexpected exception) → `INTERNAL_SERVER_ERROR`,
+  500, logged via `lib/logger.ts` before responding.
+
+### Validation
+
+`lib/validation.ts` wraps Zod so every validation failure — regardless of
+whether it came from a request body, query string, or route params —
+throws the same `ValidationError`:
+
+```ts
+import { z } from "zod";
+import { validateJsonBody, validateSearchParams } from "@/lib/validation";
+
+const createWidgetSchema = z.object({ name: z.string().min(1) });
+const body = await validateJsonBody(request, createWidgetSchema);
+
+const listQuerySchema = z.object({ page: z.coerce.number().int().min(1).default(1) });
+const query = validateSearchParams(request.nextUrl.searchParams, listQuerySchema);
+```
+
+Malformed JSON bodies are treated as a validation failure too (422), not
+a 500 — the caller sent something invalid, not the server.
+
+Use `lib/logger.ts` (`logger.info/warn/error/debug`) instead of
+`console.*` directly — it's guarded with the `server-only` package so it
+can never end up in a client bundle, and emits structured JSON lines that
+are easy to ship to a log aggregator later.
+
+## Endpoints
+
+| Method | Path             | Description                                  |
+| ------ | ---------------- | --------------------------------------------- |
+| GET    | `/api/v1/health` | Liveness check — verifies the API can reach PostgreSQL |
+
+`GET /api/v1/health` runs `SELECT 1` through Prisma. On success:
+
+```json
+{ "success": true, "data": { "status": "ok", "database": "connected" }, "meta": {} }
+```
+
+If the database is unreachable, it returns HTTP 503 with
+`error.code: "DATABASE_ERROR"` instead of throwing.
+
+## Data model
+
+Core authentication tables only — no auth logic (login, sessions, tokens)
+exists yet, just the schema future auth work will read and write.
+
+```
+roles ──< role_permissions >── permissions
+  │
+  └──< users
+```
+
+- **`users`** — `email` and unique; `passwordHash` stores a hash, never a
+  plaintext password (nothing hashes/verifies it yet — that's auth logic,
+  out of scope for this task); `roleId` is required, so every user has
+  exactly one role.
+- **`roles`** — `name` unique. Deleting a role that still has users
+  attached is blocked at the database level (`ON DELETE RESTRICT`) —
+  reassign those users first.
+- **`permissions`** — `key` unique, `<module>:<action>` convention (e.g.
+  `blog:publish`). Deleting a permission cascades to remove any
+  `role_permissions` rows that reference it.
+- **`role_permissions`** — join table, composite primary key
+  `(roleId, permissionId)`. Deleting a role or permission cascades here.
+
+Permissions are assigned to roles, never directly to users — a user's
+effective permissions are just their role's permissions.
+
+### Seed data
+
+`prisma/seed.ts` seeds five roles and a starter catalog of permissions
+covering both the current infra (users/roles/permissions/dashboard/
+settings) and modules that don't exist yet (blog, cms, seo, flights,
+airports, airlines, offers) — so role/permission wiring is already in
+place the moment each module lands.
+
+| Role               | Access                                                              |
+| ------------------ | -------------------------------------------------------------------- |
+| `SUPER_ADMIN`       | Every permission, including managing roles/permissions and settings. |
+| `ADMIN`             | Every permission except managing roles, permissions, and settings.   |
+| `SEO_MANAGER`       | SEO read/write; read-only on blog, CMS, flights, airports, airlines. |
+| `CONTENT_MANAGER`   | Full blog/CMS read, write, publish, delete; SEO read.                |
+| `EDITOR`            | Blog/CMS read and write (drafting) only — no publish or delete.      |
+
+The script is idempotent (`upsert` on the unique `name`/`key` fields), so
+re-running it — after adding a new permission, for example — won't
+duplicate existing rows.
+
+## Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Create the PostgreSQL database in pgAdmin
+
+1. Open pgAdmin and connect to your PostgreSQL server (create a server
+   connection first if you haven't — right-click **Servers** → **Register**
+   → **Server**, using the host/port/user/password of your Postgres
+   instance).
+2. Right-click **Databases** under that server → **Create** → **Database…**.
+3. Set **Database**: `multicityexperts` (or any name you prefer), leave
+   the owner as your default role, then **Save**.
+4. Note the host, port, database name, username, and password you used —
+   you'll need them for `DATABASE_URL` in the next step.
+
+### 3. Configure `DATABASE_URL`
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and fill in:
+
+```bash
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/multicityexperts?schema=public"
+DIRECT_URL="postgresql://USER:PASSWORD@HOST:PORT/multicityexperts?schema=public"
+NEXT_PUBLIC_SITE_URL="http://localhost:3000"
+```
+
+- `DATABASE_URL` is what Prisma uses at runtime for queries.
+- `DIRECT_URL` is a non-pooled connection, used by Prisma for
+  introspection/migrations. If you're connecting straight to Postgres
+  (no PgBouncer/connection pooler in front of it, which is the normal
+  case for a local pgAdmin-managed database), set it to the same value
+  as `DATABASE_URL`.
+- `NEXT_PUBLIC_SITE_URL` is safe to expose to the browser (hence the
+  `NEXT_PUBLIC_` prefix). `DATABASE_URL` and `DIRECT_URL` are **not**
+  prefixed with `NEXT_PUBLIC_`, so Next.js never bundles them into
+  client-side code — they're only readable from server-side files like
+  `lib/prisma.ts` (which additionally imports the `server-only` package
+  as a build-time guard against accidental client imports).
+
+### 4. Run Prisma
+
+```bash
+npx prisma migrate dev
+npx prisma db seed
+```
+
+`migrate dev` applies the migrations in `prisma/migrations/` (creating
+`users`, `roles`, `permissions`, `role_permissions`) and generates the
+typed Prisma Client. `db seed` runs `prisma/seed.ts`, populating the five
+roles and their permissions described above — safe to re-run any time.
+
+### 5. Start the development server
+
+```bash
+npm run dev
+```
+
+The app runs at `http://localhost:3000` by default.
+
+### 6. Test `/api/v1/health`
+
+```bash
+curl http://localhost:3000/api/v1/health
+```
+
+Expected response when PostgreSQL is reachable:
+
+```json
+{ "success": true, "data": { "status": "ok", "database": "connected" }, "meta": {} }
+```
+
+If you get a 503 with `"code": "DATABASE_ERROR"`, double-check that
+the database from step 2 exists in pgAdmin, is running, and that
+`DATABASE_URL` in `.env` matches its host/port/user/password/database
+name exactly.
+
+## What's intentionally not here yet
+
+Per scope, this task does not include: the public website, admin
+dashboard, authentication (login, sessions, password hashing/verification,
+middleware/guards), CMS, airline/airport management, flights, offers,
+blog, or SEO. Those will be built on top of this foundation — new
+resources get a route handler under `app/api/v1/<resource>/`, a service,
+a repository, and a Zod schema, following the pattern above. Only the
+`users`/`roles`/`permissions`/`role_permissions` tables exist in
+`prisma/schema.prisma` so far; other domain models will be added
+alongside their own modules.
