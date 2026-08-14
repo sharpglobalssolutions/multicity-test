@@ -191,13 +191,21 @@ If the database is unreachable, it returns HTTP 503 with
 
 ## Data model
 
-Core authentication + audit tables only — no auth logic (login, sessions,
-tokens) exists yet, just the schema future auth work will read and write.
+Auth/audit tables, CMS content tables, and travel master data — no auth
+logic, API routes, or admin UI exist yet, just the schema future work
+will read and write.
 
 ```
 roles ──< role_permissions >── permissions
   │
   └──< users ──< audit_logs
+         │
+         └──< pages ──< page_sections
+
+services  (standalone — no relations yet)
+
+airlines ──< airline_content   (1:1)
+airports  (standalone — no relations yet)
 ```
 
 - **`users`** — `email` unique; `passwordHash` stores a hash, never a
@@ -220,6 +228,37 @@ roles ──< role_permissions >── permissions
   Indexed on `userId`, `(entityType, entityId)`, and `createdAt` for the
   common access patterns (a user's activity, an entity's history, a
   chronological feed).
+- **`pages`** — `slug` unique; `status` is the `ContentStatus` enum
+  (`DRAFT` / `PUBLISHED` / `ARCHIVED`, default `DRAFT`). `createdBy`/
+  `updatedBy` reference `users` but are nullable with `ON DELETE SET
+  NULL` — deleting the authoring user drops the attribution, not the
+  page (same pattern as `audit_logs.userId`). `featuredImageId` is a
+  plain string, not a foreign key — there's no media/asset model yet.
+- **`page_sections`** — a page's content blocks. `pageId` is `ON DELETE
+  CASCADE` (a section has no meaning without its parent page). `data` is
+  JSON for section-type-specific structured content; `content` is
+  freeform body text. Indexed on `(pageId, sortOrder)` for the page's
+  ordered section list, and on `sectionType`.
+- **`services`** — standalone content entries (e.g. a services listing).
+  `slug` unique; `status` uses the same `ContentStatus` enum as `pages`.
+  `heroImageId` is a plain string for the same reason as
+  `pages.featuredImageId`. No relations yet — none were requested for
+  this model.
+- **`airports`** — travel reference data. `slug` and `iataCode` are
+  required and unique; `icaoCode` is optional but unique when present
+  (Postgres unique constraints allow multiple `NULL`s, so airports
+  without an ICAO code don't collide with each other). Indexed on
+  `city`, `country`, `countryCode`, and `isActive`.
+- **`airlines`** — same required+unique `iataCode` / optional+unique
+  `icaoCode` pattern as `airports`. `logoId` is a plain string, not a
+  foreign key, for the same reason as `pages.featuredImageId`. Indexed
+  on `country`, `countryCode`, `isActive`, `isFeatured`, and `sortOrder`
+  (the latter two support a "featured airlines" listing).
+- **`airline_content`** — long-form editorial content (overview,
+  business/first class, lounge, route write-ups) split out from
+  `airlines` to keep that table lean. Strictly one-to-one: `airlineId`
+  is unique, and the row is `ON DELETE CASCADE`d with its airline since
+  it has no meaning on its own.
 
 Permissions are assigned to roles, never directly to users — a user's
 effective permissions are just their role's permissions.
@@ -340,10 +379,11 @@ name exactly.
 
 Per scope, this task does not include: the public website, admin
 dashboard, authentication (login, sessions, password hashing/verification,
-middleware/guards), CMS, airline/airport management, flights, offers,
-blog, or SEO. Those will be built on top of this foundation — new
+middleware/guards), CMS/airline/airport API routes or admin UI, flights,
+offers, blog, or SEO. Those will be built on top of this foundation — new
 resources get a route handler under `app/api/v1/<resource>/`, a service,
 a repository, and a Zod schema, following the pattern above. Only the
-`users`/`roles`/`permissions`/`role_permissions` tables exist in
-`prisma/schema.prisma` so far; other domain models will be added
+`users`/`roles`/`permissions`/`role_permissions`/`audit_logs`/`pages`/
+`page_sections`/`services`/`airports`/`airlines`/`airline_content` tables
+exist in `prisma/schema.prisma` so far; other domain models will be added
 alongside their own modules.
