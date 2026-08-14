@@ -191,46 +191,61 @@ If the database is unreachable, it returns HTTP 503 with
 
 ## Data model
 
-Core authentication tables only — no auth logic (login, sessions, tokens)
-exists yet, just the schema future auth work will read and write.
+Core authentication + audit tables only — no auth logic (login, sessions,
+tokens) exists yet, just the schema future auth work will read and write.
 
 ```
 roles ──< role_permissions >── permissions
   │
-  └──< users
+  └──< users ──< audit_logs
 ```
 
-- **`users`** — `email` and unique; `passwordHash` stores a hash, never a
+- **`users`** — `email` unique; `passwordHash` stores a hash, never a
   plaintext password (nothing hashes/verifies it yet — that's auth logic,
   out of scope for this task); `roleId` is required, so every user has
   exactly one role.
 - **`roles`** — `name` unique. Deleting a role that still has users
   attached is blocked at the database level (`ON DELETE RESTRICT`) —
   reassign those users first.
-- **`permissions`** — `key` unique, `<module>:<action>` convention (e.g.
-  `blog:publish`). Deleting a permission cascades to remove any
+- **`permissions`** — `key` unique, `<module>.<action>` convention (e.g.
+  `blog.publish`). Deleting a permission cascades to remove any
   `role_permissions` rows that reference it.
 - **`role_permissions`** — join table, composite primary key
   `(roleId, permissionId)`. Deleting a role or permission cascades here.
+- **`audit_logs`** — append-only; no `updatedAt`, rows are never modified
+  after creation. `userId` is nullable and set to `NULL` (not
+  cascade-deleted) if the user is later removed, so the audit trail
+  outlives the account it describes. `oldData`/`newData` are JSON
+  (nullable — a create has no `oldData`, a delete has no `newData`).
+  Indexed on `userId`, `(entityType, entityId)`, and `createdAt` for the
+  common access patterns (a user's activity, an entity's history, a
+  chronological feed).
 
 Permissions are assigned to roles, never directly to users — a user's
 effective permissions are just their role's permissions.
 
 ### Seed data
 
-`prisma/seed.ts` seeds five roles and a starter catalog of permissions
-covering both the current infra (users/roles/permissions/dashboard/
-settings) and modules that don't exist yet (blog, cms, seo, flights,
-airports, airlines, offers) — so role/permission wiring is already in
-place the moment each module lands.
+`prisma/seed.ts` seeds five roles and a starter catalog of 32 permissions
+covering both current infra (users, roles, permissions, audit_logs) and
+modules that don't exist yet (pages, seo, airlines, airports, offers,
+blog) — so role/permission wiring is already in place the moment each
+module lands.
 
-| Role               | Access                                                              |
-| ------------------ | -------------------------------------------------------------------- |
-| `SUPER_ADMIN`       | Every permission, including managing roles/permissions and settings. |
-| `ADMIN`             | Every permission except managing roles, permissions, and settings.   |
-| `SEO_MANAGER`       | SEO read/write; read-only on blog, CMS, flights, airports, airlines. |
-| `CONTENT_MANAGER`   | Full blog/CMS read, write, publish, delete; SEO read.                |
-| `EDITOR`            | Blog/CMS read and write (drafting) only — no publish or delete.      |
+| Role               | Access                                                                 |
+| ------------------ | ------------------------------------------------------------------------ |
+| `SUPER_ADMIN`       | Every permission, including managing the roles/permissions catalog.      |
+| `ADMIN`             | Every permission except `roles.update` and `permissions.update`.         |
+| `SEO_MANAGER`       | SEO read/write; read-only on pages, blog, airlines, airports, offers.    |
+| `CONTENT_MANAGER`   | Full pages/blog read, create, update, delete, publish; SEO read.         |
+| `EDITOR`            | Pages/blog read, create, update (drafting) only — no publish or delete.  |
+
+The script is fully declarative and safe to re-run: it upserts every role
+and permission in the lists above, deletes any permission no longer in
+the list (cascading to its `role_permissions` rows), and reconciles each
+role's assignments to match exactly — so removing or renaming a
+permission key here and re-running the seed cleans up the old one
+automatically instead of leaving it orphaned.
 
 The script is idempotent (`upsert` on the unique `name`/`key` fields), so
 re-running it — after adding a new permission, for example — won't
@@ -291,9 +306,10 @@ npx prisma db seed
 ```
 
 `migrate dev` applies the migrations in `prisma/migrations/` (creating
-`users`, `roles`, `permissions`, `role_permissions`) and generates the
-typed Prisma Client. `db seed` runs `prisma/seed.ts`, populating the five
-roles and their permissions described above — safe to re-run any time.
+`users`, `roles`, `permissions`, `role_permissions`, `audit_logs`) and
+generates the typed Prisma Client. `db seed` runs `prisma/seed.ts`,
+populating the five roles and their permissions described above — safe
+to re-run any time.
 
 ### 5. Start the development server
 

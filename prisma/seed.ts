@@ -10,12 +10,12 @@ const prisma = new PrismaClient();
 const ROLES = [
   {
     name: "SUPER_ADMIN",
-    description: "Full, unrestricted access to every module and system setting.",
+    description: "Full, unrestricted access to every module, including role/permission management.",
   },
   {
     name: "ADMIN",
     description:
-      "Manages users and all content/domain modules; cannot modify roles, permissions, or system settings.",
+      "Manages users and all content/domain modules; cannot modify the roles or permissions catalog.",
   },
   {
     name: "SEO_MANAGER",
@@ -23,101 +23,103 @@ const ROLES = [
   },
   {
     name: "CONTENT_MANAGER",
-    description: "Creates, edits, and publishes blog and CMS content.",
+    description: "Creates, edits, and publishes pages and blog content.",
   },
   {
     name: "EDITOR",
-    description: "Creates and edits draft content; cannot publish or delete it.",
+    description: "Creates and edits draft pages and blog content; cannot publish or delete.",
   },
 ] as const;
 
 /**
- * Permission keys use a `<module>:<action>` convention. Most of these
- * modules (flights, airports, airlines, offers, blog, cms, seo) don't have
- * an implementation yet — the keys are seeded now so role/permission
- * wiring is ready the moment each module lands, without a follow-up
- * migration just to add its permissions.
+ * Permission keys use a `<module>.<action>` convention. Most of these
+ * modules (pages, seo, airlines, airports, offers, blog) don't have an
+ * implementation yet — the keys are seeded now so role/permission wiring
+ * is ready the moment each module lands, without a follow-up migration
+ * just to add its permissions.
  */
 const PERMISSIONS = [
-  // Users, roles & permissions (access control)
-  { key: "users:read", description: "View user accounts." },
-  { key: "users:write", description: "Create and update user accounts." },
-  { key: "users:delete", description: "Delete user accounts." },
-  { key: "roles:read", description: "View roles." },
-  { key: "roles:write", description: "Create, update, and assign roles." },
-  { key: "permissions:read", description: "View permissions and role-permission assignments." },
-  { key: "permissions:write", description: "Create, update, and assign permissions." },
+  // Pages
+  { key: "pages.read", description: "View pages." },
+  { key: "pages.create", description: "Create pages." },
+  { key: "pages.update", description: "Edit pages." },
+  { key: "pages.delete", description: "Delete pages." },
 
-  // Admin / platform
-  { key: "admin:access", description: "Access the admin dashboard." },
-  { key: "dashboard:view", description: "View dashboard analytics and overview." },
-  { key: "settings:manage", description: "Manage system-wide settings." },
-
-  // CMS
-  { key: "cms:read", description: "View CMS pages and content." },
-  { key: "cms:write", description: "Create and edit CMS pages and content." },
-  { key: "cms:publish", description: "Publish CMS pages and content." },
-
-  // Blog
-  { key: "blog:read", description: "View blog posts." },
-  { key: "blog:write", description: "Create and edit blog posts." },
-  { key: "blog:publish", description: "Publish blog posts." },
-  { key: "blog:delete", description: "Delete blog posts." },
+  // Users
+  { key: "users.read", description: "View user accounts." },
+  { key: "users.create", description: "Create user accounts." },
+  { key: "users.update", description: "Edit user accounts." },
+  { key: "users.delete", description: "Delete user accounts." },
 
   // SEO
-  { key: "seo:read", description: "View SEO metadata and reports." },
-  { key: "seo:write", description: "Edit SEO metadata." },
-
-  // Flights
-  { key: "flights:read", description: "View flight data." },
-  { key: "flights:write", description: "Create and edit flight data." },
-  { key: "flights:delete", description: "Delete flight data." },
-
-  // Airports
-  { key: "airports:read", description: "View airport data." },
-  { key: "airports:write", description: "Create and edit airport data." },
-  { key: "airports:delete", description: "Delete airport data." },
+  { key: "seo.read", description: "View SEO metadata and reports." },
+  { key: "seo.update", description: "Edit SEO metadata." },
 
   // Airlines
-  { key: "airlines:read", description: "View airline data." },
-  { key: "airlines:write", description: "Create and edit airline data." },
-  { key: "airlines:delete", description: "Delete airline data." },
+  { key: "airlines.read", description: "View airline data." },
+  { key: "airlines.create", description: "Create airline records." },
+  { key: "airlines.update", description: "Edit airline records." },
+  { key: "airlines.delete", description: "Delete airline records." },
+
+  // Airports
+  { key: "airports.read", description: "View airport data." },
+  { key: "airports.create", description: "Create airport records." },
+  { key: "airports.update", description: "Edit airport records." },
+  { key: "airports.delete", description: "Delete airport records." },
 
   // Offers
-  { key: "offers:read", description: "View offers and deals." },
-  { key: "offers:write", description: "Create and edit offers and deals." },
-  { key: "offers:delete", description: "Delete offers and deals." },
+  { key: "offers.read", description: "View offers/deals." },
+  { key: "offers.create", description: "Create offers/deals." },
+  { key: "offers.update", description: "Edit offers/deals." },
+  { key: "offers.delete", description: "Delete offers/deals." },
+
+  // Blog
+  { key: "blog.read", description: "View blog posts." },
+  { key: "blog.create", description: "Create blog posts." },
+  { key: "blog.update", description: "Edit blog posts." },
+  { key: "blog.delete", description: "Delete blog posts." },
+  { key: "blog.publish", description: "Publish blog posts." },
+
+  // Access control (reserved for SUPER_ADMIN — see ROLE_PERMISSIONS below)
+  { key: "roles.read", description: "View roles." },
+  { key: "roles.update", description: "Create, edit, and assign roles." },
+  { key: "permissions.read", description: "View permissions and role-permission assignments." },
+  { key: "permissions.update", description: "Create, edit, and assign permissions." },
+
+  // Audit
+  { key: "audit_logs.read", description: "View the audit log." },
 ] as const;
 
 const ALL_PERMISSION_KEYS = PERMISSIONS.map((permission) => permission.key);
 
+/** Access-control permissions reserved for SUPER_ADMIN only. */
+const ACCESS_CONTROL_ONLY = ["roles.update", "permissions.update"];
+
 const ROLE_PERMISSIONS: Record<(typeof ROLES)[number]["name"], readonly string[]> = {
   SUPER_ADMIN: ALL_PERMISSION_KEYS,
-  ADMIN: ALL_PERMISSION_KEYS.filter(
-    (key) => !["roles:write", "permissions:write", "settings:manage"].includes(key),
-  ),
+  ADMIN: ALL_PERMISSION_KEYS.filter((key) => !ACCESS_CONTROL_ONLY.includes(key)),
   SEO_MANAGER: [
-    "dashboard:view",
-    "seo:read",
-    "seo:write",
-    "cms:read",
-    "blog:read",
-    "flights:read",
-    "airports:read",
-    "airlines:read",
+    "seo.read",
+    "seo.update",
+    "pages.read",
+    "blog.read",
+    "airlines.read",
+    "airports.read",
+    "offers.read",
   ],
   CONTENT_MANAGER: [
-    "dashboard:view",
-    "cms:read",
-    "cms:write",
-    "cms:publish",
-    "blog:read",
-    "blog:write",
-    "blog:publish",
-    "blog:delete",
-    "seo:read",
+    "pages.read",
+    "pages.create",
+    "pages.update",
+    "pages.delete",
+    "blog.read",
+    "blog.create",
+    "blog.update",
+    "blog.delete",
+    "blog.publish",
+    "seo.read",
   ],
-  EDITOR: ["dashboard:view", "cms:read", "cms:write", "blog:read", "blog:write"],
+  EDITOR: ["pages.read", "pages.create", "pages.update", "blog.read", "blog.create", "blog.update"],
 };
 
 async function main() {
@@ -143,30 +145,41 @@ async function main() {
     ),
   );
 
+  console.log("Removing permissions no longer in the catalog...");
+  const removedPermissions = await prisma.permission.deleteMany({
+    where: { key: { notIn: ALL_PERMISSION_KEYS } },
+  });
+
   const roleByName = new Map(roles.map((role) => [role.name, role]));
   const permissionByKey = new Map(permissions.map((permission) => [permission.key, permission]));
 
-  console.log("Seeding role-permission assignments...");
+  console.log("Reconciling role-permission assignments...");
   for (const [roleName, permissionKeys] of Object.entries(ROLE_PERMISSIONS)) {
     const role = roleByName.get(roleName);
     if (!role) continue;
 
-    await Promise.all(
-      permissionKeys.map((key) => {
-        const permission = permissionByKey.get(key);
-        if (!permission) return null;
+    const permissionIds = permissionKeys
+      .map((key) => permissionByKey.get(key)?.id)
+      .filter((id): id is string => Boolean(id));
 
-        return prisma.rolePermission.upsert({
-          where: { roleId_permissionId: { roleId: role.id, permissionId: permission.id } },
+    await prisma.rolePermission.deleteMany({
+      where: { roleId: role.id, permissionId: { notIn: permissionIds } },
+    });
+
+    await Promise.all(
+      permissionIds.map((permissionId) =>
+        prisma.rolePermission.upsert({
+          where: { roleId_permissionId: { roleId: role.id, permissionId } },
           update: {},
-          create: { roleId: role.id, permissionId: permission.id },
-        });
-      }),
+          create: { roleId: role.id, permissionId },
+        }),
+      ),
     );
   }
 
   console.log(
-    `Seed complete: ${roles.length} roles, ${permissions.length} permissions.`,
+    `Seed complete: ${roles.length} roles, ${permissions.length} permissions ` +
+      `(${removedPermissions.count} stale permission(s) removed).`,
   );
 }
 

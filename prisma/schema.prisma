@@ -1,10 +1,11 @@
 // Prisma schema for MultiCityExperts.
 //
-// This task adds only the core authentication database models
-// (User, Role, Permission, RolePermission) that future auth/authorization
-// work will build on. No auth logic, sessions, or tokens exist yet — this
-// is data modeling only. Domain models (flights, airports, airlines, blog,
-// etc.) will be added in later tasks alongside their own services/repositories.
+// This task adds only the core authentication + audit database models
+// (User, Role, Permission, RolePermission, AuditLog) that future
+// auth/authorization work will build on. No auth logic, sessions, or
+// tokens exist yet — this is data modeling only. Domain models (flights,
+// airports, airlines, blog, etc.) will be added in later tasks alongside
+// their own services/repositories.
 
 generator client {
   provider = "prisma-client-js"
@@ -27,7 +28,8 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  role Role @relation(fields: [roleId], references: [id])
+  role      Role       @relation(fields: [roleId], references: [id])
+  auditLogs AuditLog[]
 
   @@index([roleId])
   @@index([isActive])
@@ -70,4 +72,28 @@ model RolePermission {
   @@id([roleId, permissionId])
   @@index([permissionId])
   @@map("role_permissions")
+}
+
+/// Append-only audit trail — rows are written once and never updated
+/// (hence no `updatedAt`). `userId` is nullable and set null (not
+/// cascade-deleted) if the user is later removed, so the audit record
+/// outlives the account it describes. `oldData`/`newData` are nullable
+/// since a create has no `oldData` and a delete has no `newData`.
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String
+  oldData    Json?
+  newData    Json?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@map("audit_logs")
 }
