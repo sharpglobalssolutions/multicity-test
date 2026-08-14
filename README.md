@@ -205,7 +205,9 @@ roles ──< role_permissions >── permissions
 services  (standalone — no relations yet)
 
 airlines ──< airline_content   (1:1)
-airports  (standalone — no relations yet)
+airlines ──< flight_offers ──< flight_offer_segments >── airports
+                                       │
+                                       └────────────────── airlines
 ```
 
 - **`users`** — `email` unique; `passwordHash` stores a hash, never a
@@ -259,6 +261,24 @@ airports  (standalone — no relations yet)
   `airlines` to keep that table lean. Strictly one-to-one: `airlineId`
   is unique, and the row is `ON DELETE CASCADE`d with its airline since
   it has no meaning on its own.
+- **`flight_offers`** — a sellable itinerary. `cabinClass` uses the
+  `CabinClass` enum (`ECONOMY` / `PREMIUM_ECONOMY` / `BUSINESS` /
+  `FIRST`), shared with `flight_offer_segments`. `price`/`originalPrice`
+  are `Decimal(10,2)`, not floats, to avoid rounding error on money.
+  `airlineId` keeps the default `ON DELETE RESTRICT` — an airline with
+  live offers can't be deleted out from under them. Indexed on
+  `airlineId`, `cabinClass`, `isActive`, `featured`, `validFrom`, and
+  `validUntil`.
+- **`flight_offer_segments`** — one leg of an offer's itinerary.
+  `flightOfferId` is `ON DELETE CASCADE` (a segment has no meaning
+  without its offer, like `page_sections`/`pages`); `airlineId`,
+  `originAirportId`, and `destinationAirportId` keep the default
+  `ON DELETE RESTRICT` (can't delete an airline/airport still referenced
+  by a segment). No `createdAt`/`updatedAt` — segments are
+  created/replaced as a batch with their offer, not edited individually.
+  Indexed on `(flightOfferId, sortOrder)` for the offer's ordered
+  itinerary, plus `airlineId`, `originAirportId`, `destinationAirportId`,
+  and `departureAt`.
 
 Permissions are assigned to roles, never directly to users — a user's
 effective permissions are just their role's permissions.
@@ -379,11 +399,12 @@ name exactly.
 
 Per scope, this task does not include: the public website, admin
 dashboard, authentication (login, sessions, password hashing/verification,
-middleware/guards), CMS/airline/airport API routes or admin UI, flights,
-offers, blog, or SEO. Those will be built on top of this foundation — new
-resources get a route handler under `app/api/v1/<resource>/`, a service,
-a repository, and a Zod schema, following the pattern above. Only the
-`users`/`roles`/`permissions`/`role_permissions`/`audit_logs`/`pages`/
-`page_sections`/`services`/`airports`/`airlines`/`airline_content` tables
-exist in `prisma/schema.prisma` so far; other domain models will be added
-alongside their own modules.
+middleware/guards), any API routes or admin UI, flight search/pricing/
+booking logic, blog, or SEO. Those will be built on top of this
+foundation — new resources get a route handler under
+`app/api/v1/<resource>/`, a service, a repository, and a Zod schema,
+following the pattern above. Only the `users`/`roles`/`permissions`/
+`role_permissions`/`audit_logs`/`pages`/`page_sections`/`services`/
+`airports`/`airlines`/`airline_content`/`flight_offers`/
+`flight_offer_segments` tables exist in `prisma/schema.prisma` so far;
+other domain models will be added alongside their own modules.

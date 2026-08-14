@@ -7,11 +7,12 @@
 //   or admin UI. `featuredImageId`/`heroImageId`/`logoId` are plain
 //   string references, not foreign keys — there's no media/asset model
 //   yet, so they'll become real relations once one is added.
-// - Travel master data: Airport, Airline, AirlineContent — reference data
-//   only, no routes/flights/offers yet.
+// - Travel master data: Airport, Airline, AirlineContent — reference data.
+// - Flight offers: FlightOffer, FlightOfferSegment — data models only, no
+//   pricing/search/booking logic.
 //
-// Other domain models (flights, blog, etc.) will be added in later tasks
-// alongside their own services/repositories.
+// Other domain models (blog, etc.) will be added in later tasks alongside
+// their own services/repositories.
 
 generator client {
   provider = "prisma-client-js"
@@ -170,17 +171,17 @@ model PageSection {
 /// entry). No author attribution fields — unlike Page, none were
 /// requested for this model.
 model Service {
-  id                String        @id @default(cuid())
-  name              String
-  slug              String        @unique
-  shortDescription  String?
-  description       String?
-  heroImageId       String?
-  icon              String?
-  status            ContentStatus @default(DRAFT)
-  sortOrder         Int           @default(0)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  id               String        @id @default(cuid())
+  name             String
+  slug             String        @unique
+  shortDescription String?
+  description      String?
+  heroImageId      String?
+  icon             String?
+  status           ContentStatus @default(DRAFT)
+  sortOrder        Int           @default(0)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
   @@index([status])
   @@index([sortOrder])
@@ -207,6 +208,9 @@ model Airport {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  originSegments      FlightOfferSegment[] @relation("SegmentOriginAirport")
+  destinationSegments FlightOfferSegment[] @relation("SegmentDestinationAirport")
 
   @@index([city])
   @@index([country])
@@ -235,7 +239,9 @@ model Airline {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  content AirlineContent?
+  content      AirlineContent?
+  flightOffers FlightOffer[]
+  segments     FlightOfferSegment[]
 
   @@index([country])
   @@index([countryCode])
@@ -263,4 +269,85 @@ model AirlineContent {
   airline Airline @relation(fields: [airlineId], references: [id], onDelete: Cascade)
 
   @@map("airline_content")
+}
+
+/// Cabin class, shared between FlightOffer (the offer's headline cabin)
+/// and FlightOfferSegment (each individual segment's actual cabin —
+/// segments can theoretically differ from the offer's headline cabin on
+/// mixed-cabin itineraries).
+enum CabinClass {
+  ECONOMY
+  PREMIUM_ECONOMY
+  BUSINESS
+  FIRST
+}
+
+/// A sellable flight offer — one or more `FlightOfferSegment`s make up
+/// the itinerary. `price`/`originalPrice` use `Decimal` (not `Float`) to
+/// avoid floating-point rounding on money. `airlineId` uses the default
+/// `ON DELETE RESTRICT` — an airline with live offers can't be deleted
+/// out from under them.
+model FlightOffer {
+  id            String     @id @default(cuid())
+  title         String
+  airlineId     String
+  cabinClass    CabinClass
+  price         Decimal    @db.Decimal(10, 2)
+  currency      String
+  originalPrice Decimal?   @db.Decimal(10, 2)
+  offerLabel    String?
+  description   String?
+  featured      Boolean    @default(false)
+  isActive      Boolean    @default(true)
+  validFrom     DateTime?
+  validUntil    DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  airline  Airline              @relation(fields: [airlineId], references: [id])
+  segments FlightOfferSegment[]
+
+  @@index([airlineId])
+  @@index([cabinClass])
+  @@index([isActive])
+  @@index([featured])
+  @@index([validFrom])
+  @@index([validUntil])
+  @@map("flight_offers")
+}
+
+/// One leg of a FlightOffer's itinerary. `flightOfferId` is `ON DELETE
+/// CASCADE` (a segment has no meaning without its parent offer, like
+/// PageSection/Page). `airlineId`, `originAirportId`, and
+/// `destinationAirportId` keep the default `ON DELETE RESTRICT` — you
+/// can't delete an airline or airport that existing segments reference.
+/// No `createdAt`/`updatedAt` — segments are created/replaced as a batch
+/// with their offer, not edited individually over time.
+model FlightOfferSegment {
+  id                   String     @id @default(cuid())
+  flightOfferId        String
+  airlineId            String
+  flightNumber         String
+  originAirportId      String
+  destinationAirportId String
+  departureAt          DateTime
+  arrivalAt            DateTime
+  cabinClass           CabinClass
+  bookingClass         String
+  durationMinutes      Int
+  stops                Int        @default(0)
+  baggage              String?
+  sortOrder            Int        @default(0)
+
+  flightOffer        FlightOffer @relation(fields: [flightOfferId], references: [id], onDelete: Cascade)
+  airline            Airline     @relation(fields: [airlineId], references: [id])
+  originAirport      Airport     @relation("SegmentOriginAirport", fields: [originAirportId], references: [id])
+  destinationAirport Airport     @relation("SegmentDestinationAirport", fields: [destinationAirportId], references: [id])
+
+  @@index([flightOfferId, sortOrder])
+  @@index([airlineId])
+  @@index([originAirportId])
+  @@index([destinationAirportId])
+  @@index([departureAt])
+  @@map("flight_offer_segments")
 }
