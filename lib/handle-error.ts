@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import type { NextResponse } from "next/server";
 import type { ApiErrorDetail, ApiResponse } from "@/types/api";
 import { apiError } from "@/lib/api-response";
-import { AppError, ErrorCode } from "@/lib/errors";
+import { AppError, ErrorCode, RateLimitError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 
 const PRISMA_ERROR_TYPES = [
@@ -37,9 +37,14 @@ export function handleApiError(error: unknown): NextResponse<ApiResponse<never>>
   }
 
   if (error instanceof AppError) {
+    const headers =
+      error instanceof RateLimitError && error.retryAfterSeconds !== undefined
+        ? { "Retry-After": String(error.retryAfterSeconds) }
+        : undefined;
     return apiError(
       { code: error.code, message: error.message, details: error.details },
       error.statusCode,
+      headers,
     );
   }
 

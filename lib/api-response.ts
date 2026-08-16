@@ -30,6 +30,7 @@ interface ApiErrorInput {
 export function apiError(
   error: ApiErrorInput,
   status = 400,
+  headers?: HeadersInit,
 ): NextResponse<ApiResponse<never>> {
   return NextResponse.json(
     {
@@ -40,6 +41,6 @@ export function apiError(
         details: error.details ?? [],
       },
     },
-    { status },
+    { status, headers },
   );
 }

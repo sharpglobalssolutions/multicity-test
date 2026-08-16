@@ -24,6 +24,18 @@
 //   yet. SeoMetadata's `ogImageId`/`twitterImageId` are real foreign keys
 //   to Media (both fields are new, and Media already exists by this
 //   point, unlike the older image-field placeholders above).
+// - System: FormSubmission, Navigation, NavigationItem, SiteSettings —
+//   data models only. SiteSettings' image fields are real foreign keys to
+//   Media for the same reason as SeoMetadata's. (AuditLog already existed
+//   from an earlier task and matches this task's spec exactly — nothing
+//   to add there.)
+//
+// - Auth continued: GET /me and POST /logout added `User.tokenVersion` —
+//   a counter embedded in each session JWT and bumped on logout, so a
+//   logged-out token is rejected server-side even if replayed, not just
+//   discarded client-side.
+// - Security hardening: `User.failedLoginAttempts`/`lockedUntil` added
+//   for silent per-account login lockout (see services/auth.service.ts).
 //
 // Other domain models will be added in later tasks alongside their own
 // services/repositories.
@@ -39,15 +51,30 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(cuid())
-  name         String
-  email        String    @unique
-  passwordHash String
-  roleId       String
-  isActive     Boolean   @default(true)
-  lastLoginAt  DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id                  String    @id @default(cuid())
+  name                String
+  email               String    @unique
+  passwordHash        String
+  roleId              String
+  isActive            Boolean   @default(true)
+  lastLoginAt         DateTime?
+  /// Bumped on logout so previously issued session tokens (which embed
+  /// the version they were issued under) stop verifying — this is what
+  /// makes logout actually invalidate a session server-side, rather than
+  /// just relying on the client to discard its cookie.
+  tokenVersion        Int       @default(0)
+  /// Consecutive failed login attempts since the last success. Reset to
+  /// 0 on a successful login. See `lockedUntil`.
+  failedLoginAttempts Int       @default(0)
+  /// Set once `failedLoginAttempts` crosses the threshold in
+  /// `services/auth.service.ts`; while in the future, login is rejected
+  /// regardless of whether the submitted password is correct. This is
+  /// what defends a single account against brute force even when the
+  /// attempts are spread across many IPs (which per-IP rate limiting
+  /// alone wouldn't catch).
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   role         Role       @relation(fields: [roleId], references: [id])
   auditLogs    AuditLog[]
@@ -612,9 +639,12 @@ model Media {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  reviews            Review[]
-  ogSeoMetadata      SeoMetadata[] @relation("SeoOgImage")
-  twitterSeoMetadata SeoMetadata[] @relation("SeoTwitterImage")
+  reviews             Review[]
+  ogSeoMetadata       SeoMetadata[]  @relation("SeoOgImage")
+  twitterSeoMetadata  SeoMetadata[]  @relation("SeoTwitterImage")
+  logoSiteSettings    SiteSettings[] @relation("SiteSettingsLogo")
+  faviconSiteSettings SiteSettings[] @relation("SiteSettingsFavicon")
+  ogImageSiteSettings SiteSettings[] @relation("SiteSettingsOgImage")
 
   @@index([mimeType])
   @@map("media")
@@ -691,4 +721,114 @@ model Redirect {
   @@index([isActive])
   @@index([destinationUrl])
   @@map("redirects")
+}
+
+/// Processing workflow for an inbound form submission.
+enum FormSubmissionStatus {
+  PENDING
+  PROCESSED
+  SPAM
+  ARCHIVED
+}
+
+/// A submitted form (contact, newsletter, quote request, etc.).
+/// `formType` stays a free string, not an enum — new form types are
+/// expected to be added over time without a schema migration.
+/// `name`/`email`/`phone` are nullable since not every form collects all
+/// three; `payload` holds the full submitted data as JSON regardless of
+/// which fields the form actually had.
+model FormSubmission {
+  id        String               @id @default(cuid())
+  formType  String
+  name      String?
+  email     String?
+  phone     String?
+  payload   Json
+  ipAddress String?
+  userAgent String?
+  status    FormSubmissionStatus @default(PENDING)
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([formType])
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
+  @@map("form_submissions")
+}
+
+/// A named navigation menu (e.g. "Main Menu", "Footer Links"). `location`
+/// is unique — only one menu can be assigned to a given placement slot
+/// (e.g. "header", "footer") at a time. Kept as a free string rather than
+/// an enum, same reasoning as `pages.pageType`/`pages.template` — the set
+/// of layout slots is a content/theme concern, not a fixed developer-only
+/// enum.
+model Navigation {
+  id        String   @id @default(cuid())
+  name      String
+  location  String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items NavigationItem[]
+
+  @@map("navigation")
+}
+
+/// One link within a Navigation menu. Self-referential `parentId` enables
+/// nested (dropdown/submenu) structures; deleting a parent item cascades
+/// to its children, and deleting the whole Navigation cascades to all its
+/// items. No `createdAt`/`updatedAt` — items are managed as a batch with
+/// their menu, not edited individually over time (same reasoning as
+/// FlightOfferSegment).
+model NavigationItem {
+  id           String  @id @default(cuid())
+  navigationId String
+  label        String
+  url          String
+  parentId     String?
+  sortOrder    Int     @default(0)
+  isActive     Boolean @default(true)
+
+  navigation Navigation       @relation(fields: [navigationId], references: [id], onDelete: Cascade)
+  parent     NavigationItem?  @relation("NavigationItemChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children   NavigationItem[] @relation("NavigationItemChildren")
+
+  @@index([navigationId, sortOrder])
+  @@index([parentId])
+  @@index([isActive])
+  @@map("navigation_items")
+}
+
+/// Global site configuration. Expected to hold a single row in practice
+/// (enforcing that is a service-layer concern, not a schema one).
+/// `logoId`/`faviconId`/`defaultOgImageId` are real foreign keys to
+/// Media, same reasoning as SeoMetadata's image fields — all three are
+/// new here and Media already exists. `socialLinks` is JSON (shape like
+/// `{ facebook: "...", instagram: "..." }`).
+model SiteSettings {
+  id                    String   @id @default(cuid())
+  siteName              String
+  logoId                String?
+  faviconId             String?
+  phone                 String?
+  email                 String?
+  address               String?
+  socialLinks           Json?
+  defaultSeoTitle       String?
+  defaultSeoDescription String?
+  defaultOgImageId      String?
+  gaId                  String?
+  gtmId                 String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  logo           Media? @relation("SiteSettingsLogo", fields: [logoId], references: [id], onDelete: SetNull)
+  favicon        Media? @relation("SiteSettingsFavicon", fields: [faviconId], references: [id], onDelete: SetNull)
+  defaultOgImage Media? @relation("SiteSettingsOgImage", fields: [defaultOgImageId], references: [id], onDelete: SetNull)
+
+  @@index([logoId])
+  @@index([faviconId])
+  @@index([defaultOgImageId])
+  @@map("site_settings")
 }

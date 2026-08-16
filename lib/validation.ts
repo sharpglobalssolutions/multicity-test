@@ -29,11 +29,34 @@ export function validate<T>(schema: ZodType<T>, data: unknown): T {
   return result.data;
 }
 
+/** Default cap for `validateJsonBody` — generous for the small JSON
+ * payloads (login, form fields, etc.) this API currently accepts. Pass a
+ * larger `maxBytes` explicitly for an endpoint that legitimately needs
+ * more. */
+const DEFAULT_MAX_JSON_BODY_BYTES = 100 * 1024; // 100 KB
+
 /**
  * Reads and validates a request's JSON body. Malformed JSON is treated as
  * a validation failure (400-class, not a 500) since it's caller error.
+ *
+ * Rejects (as a validation error, not a 500) any body whose declared
+ * `Content-Length` exceeds `maxBytes` — a cheap first line of defense
+ * against oversized-payload abuse before any parsing work happens. This
+ * only checks the *declared* length, so it isn't airtight against a
+ * client that sends a mismatched or absent `Content-Length` — full
+ * protection would mean capping the stream itself, not worth the
+ * complexity while every payload here is small JSON.
  */
-export async function validateJsonBody<T>(request: Request, schema: ZodType<T>): Promise<T> {
+export async function validateJsonBody<T>(
+  request: Request,
+  schema: ZodType<T>,
+  maxBytes: number = DEFAULT_MAX_JSON_BODY_BYTES,
+): Promise<T> {
+  const contentLength = request.headers.get("content-length");
+  if (contentLength && Number(contentLength) > maxBytes) {
+    throw new ValidationError("Request body is too large");
+  }
+
   let body: unknown;
   try {
     body = await request.json();

@@ -77,7 +77,12 @@ export class ConflictError extends AppError {
 
 /** 429 — the caller has exceeded an allowed request rate. */
 export class RateLimitError extends AppError {
-  constructor(message = "Too many requests", details: ApiErrorDetail[] = []) {
+  constructor(
+    message = "Too many requests",
+    /** Seconds until the caller may retry — surfaced as a `Retry-After` header by `handleApiError`. */
+    public readonly retryAfterSeconds?: number,
+    details: ApiErrorDetail[] = [],
+  ) {
     super(message, 429, ErrorCode.RATE_LIMITED, details);
   }
 }
