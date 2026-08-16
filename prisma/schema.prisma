@@ -10,9 +10,13 @@
 // - Travel master data: Airport, Airline, AirlineContent — reference data.
 // - Flight offers: FlightOffer, FlightOfferSegment — data models only, no
 //   pricing/search/booking logic.
+// - Destinations/routes: DestinationCategory, Destination, Route —
+//   reference/content data only, no search or booking logic.
+// - Blog: BlogCategory, BlogTag, BlogPost, BlogPostTag — content models
+//   only, no API routes or admin UI.
 //
-// Other domain models (blog, etc.) will be added in later tasks alongside
-// their own services/repositories.
+// Other domain models will be added in later tasks alongside their own
+// services/repositories.
 
 generator client {
   provider = "prisma-client-js"
@@ -39,6 +43,7 @@ model User {
   auditLogs    AuditLog[]
   pagesCreated Page[]     @relation("PagesCreatedBy")
   pagesUpdated Page[]     @relation("PagesUpdatedBy")
+  blogPosts    BlogPost[]
 
   @@index([roleId])
   @@index([isActive])
@@ -211,6 +216,8 @@ model Airport {
 
   originSegments      FlightOfferSegment[] @relation("SegmentOriginAirport")
   destinationSegments FlightOfferSegment[] @relation("SegmentDestinationAirport")
+  originRoutes        Route[]              @relation("RouteOriginAirport")
+  destinationRoutes   Route[]              @relation("RouteDestinationAirport")
 
   @@index([city])
   @@index([country])
@@ -350,4 +357,158 @@ model FlightOfferSegment {
   @@index([destinationAirportId])
   @@index([departureAt])
   @@map("flight_offer_segments")
+}
+
+/// Simple taxonomy for grouping destinations (e.g. "Beach", "City
+/// Break", "Adventure").
+model DestinationCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  destinations Destination[]
+
+  @@map("destination_categories")
+}
+
+/// A destination (city/region) content entry. `categoryId` is nullable
+/// with `ON DELETE SET NULL` — deleting a category declassifies its
+/// destinations rather than deleting them (same pattern used elsewhere
+/// for optional attribution/classification relations). `iataCode` here
+/// is a metro/city code (e.g. "NYC", "LON") for display, not a unique
+/// key — unlike Airport.iataCode, it isn't required to be unique since
+/// it isn't a primary identifier for this model. `heroImageId` is a
+/// plain string, not a foreign key, for the same reason as
+/// `pages.featuredImageId` (no media/asset model yet).
+model Destination {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  city        String
+  country     String
+  countryCode String
+  region      String
+  iataCode    String?
+  description String?
+  heroImageId String?
+  categoryId  String?
+  isFeatured  Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category DestinationCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  @@index([city])
+  @@index([country])
+  @@index([countryCode])
+  @@index([region])
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([isActive])
+  @@map("destinations")
+}
+
+/// A content page for a specific origin→destination airport pair (e.g.
+/// a programmatic SEO route page). `originAirportId`/`destinationAirportId`
+/// keep the default `ON DELETE RESTRICT` — can't delete an airport still
+/// referenced by a route. `description` is a short summary; `content` is
+/// the long-form body.
+model Route {
+  id                   String   @id @default(cuid())
+  originAirportId      String
+  destinationAirportId String
+  slug                 String   @unique
+  title                String
+  description          String?
+  content              String?
+  isFeatured           Boolean  @default(false)
+  isActive             Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  originAirport      Airport @relation("RouteOriginAirport", fields: [originAirportId], references: [id])
+  destinationAirport Airport @relation("RouteDestinationAirport", fields: [destinationAirportId], references: [id])
+
+  @@index([originAirportId, destinationAirportId])
+  @@index([isFeatured])
+  @@index([isActive])
+  @@map("routes")
+}
+
+/// Simple taxonomy for grouping blog posts (e.g. "Travel Tips", "Guides").
+model BlogCategory {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  posts BlogPost[]
+
+  @@map("blog_categories")
+}
+
+/// A freeform label for a blog post, many-to-many via BlogPostTag.
+model BlogTag {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  postTags BlogPostTag[]
+
+  @@map("blog_tags")
+}
+
+/// A blog post. `status` reuses the `ContentStatus` enum shared with
+/// Page/Service. `authorId`/`categoryId` are nullable with `ON DELETE SET
+/// NULL` — deleting the author or category drops the attribution/
+/// classification, not the post (same pattern as `pages.createdBy` and
+/// `destinations.categoryId`). `featuredImageId` is a plain string, not a
+/// foreign key, for the same reason as `pages.featuredImageId`.
+model BlogPost {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  excerpt         String?
+  content         String
+  featuredImageId String?
+  authorId        String?
+  categoryId      String?
+  status          ContentStatus @default(DRAFT)
+  publishedAt     DateTime?
+  readingTime     Int?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  author   User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  category BlogCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tags     BlogPostTag[]
+
+  @@index([status])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([publishedAt])
+  @@map("blog_posts")
+}
+
+/// Join table between BlogPost and BlogTag. Both sides cascade — a tag
+/// assignment has no meaning once either the post or the tag is gone
+/// (same pattern as RolePermission).
+model BlogPostTag {
+  blogPostId String
+  blogTagId  String
+
+  post BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  tag  BlogTag  @relation(fields: [blogTagId], references: [id], onDelete: Cascade)
+
+  @@id([blogPostId, blogTagId])
+  @@index([blogTagId])
+  @@map("blog_post_tags")
 }

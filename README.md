@@ -208,6 +208,12 @@ airlines ──< airline_content   (1:1)
 airlines ──< flight_offers ──< flight_offer_segments >── airports
                                        │
                                        └────────────────── airlines
+
+destination_categories ──< destinations
+airports ──< routes >── airports
+
+blog_categories ──< blog_posts >── users (author)
+blog_posts ──< blog_post_tags >── blog_tags
 ```
 
 - **`users`** — `email` unique; `passwordHash` stores a hash, never a
@@ -279,6 +285,39 @@ airlines ──< flight_offers ──< flight_offer_segments >── airports
   Indexed on `(flightOfferId, sortOrder)` for the offer's ordered
   itinerary, plus `airlineId`, `originAirportId`, `destinationAirportId`,
   and `departureAt`.
+- **`destination_categories`** — simple taxonomy for grouping
+  destinations (e.g. "Beach", "City Break"). `slug` unique.
+- **`destinations`** — a city/region content entry. `slug` unique;
+  `categoryId` is nullable with `ON DELETE SET NULL` — deleting a
+  category declassifies its destinations rather than deleting them
+  (same pattern as `pages.createdBy`). `iataCode` here is a metro/city
+  code for display (e.g. `"PAR"`) and is **not** unique, unlike
+  `airports.iataCode` — it isn't a primary identifier for this model.
+  `heroImageId` is a plain string for the same reason as
+  `pages.featuredImageId`. Indexed on `city`, `country`, `countryCode`,
+  `region`, `categoryId`, `isFeatured`, and `isActive`.
+- **`routes`** — a content page for a specific origin→destination
+  airport pair (e.g. a programmatic SEO route page). `slug` unique;
+  `originAirportId`/`destinationAirportId` keep the default
+  `ON DELETE RESTRICT` — can't delete an airport still referenced by a
+  route. `description` is a short summary, `content` is the long-form
+  body. Indexed on `(originAirportId, destinationAirportId)` for pair
+  lookups, plus `isFeatured` and `isActive`.
+- **`blog_categories`** — simple taxonomy for grouping blog posts (e.g.
+  "Travel Tips", "Guides"). `slug` unique.
+- **`blog_tags`** — freeform post labels, many-to-many via
+  `blog_post_tags`. `slug` unique.
+- **`blog_posts`** — `slug` unique; `status` reuses the same
+  `ContentStatus` enum as `pages`/`services`. `authorId`/`categoryId` are
+  nullable with `ON DELETE SET NULL` — deleting the author or category
+  drops the attribution/classification, not the post (same pattern as
+  `pages.createdBy` and `destinations.categoryId`). `featuredImageId` is a
+  plain string for the same reason as `pages.featuredImageId`. Indexed
+  on `status`, `categoryId`, `authorId`, and `publishedAt`.
+- **`blog_post_tags`** — join table, composite primary key
+  `(blogPostId, blogTagId)`. Both sides `ON DELETE CASCADE` — a tag
+  assignment has no meaning once either the post or the tag is gone (same
+  pattern as `role_permissions`).
 
 Permissions are assigned to roles, never directly to users — a user's
 effective permissions are just their role's permissions.
@@ -399,12 +438,14 @@ name exactly.
 
 Per scope, this task does not include: the public website, admin
 dashboard, authentication (login, sessions, password hashing/verification,
-middleware/guards), any API routes or admin UI, flight search/pricing/
-booking logic, blog, or SEO. Those will be built on top of this
-foundation — new resources get a route handler under
+middleware/guards), any API routes or admin UI, flight/destination/route
+search, pricing, or booking logic, or SEO. Those will be built on top of
+this foundation — new resources get a route handler under
 `app/api/v1/<resource>/`, a service, a repository, and a Zod schema,
 following the pattern above. Only the `users`/`roles`/`permissions`/
 `role_permissions`/`audit_logs`/`pages`/`page_sections`/`services`/
 `airports`/`airlines`/`airline_content`/`flight_offers`/
-`flight_offer_segments` tables exist in `prisma/schema.prisma` so far;
-other domain models will be added alongside their own modules.
+`flight_offer_segments`/`destination_categories`/`destinations`/`routes`/
+`blog_categories`/`blog_tags`/`blog_posts`/`blog_post_tags` tables exist
+in `prisma/schema.prisma` so far; other domain models will be added
+alongside their own modules.
