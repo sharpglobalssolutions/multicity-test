@@ -214,6 +214,12 @@ airports ──< routes >── airports
 
 blog_categories ──< blog_posts >── users (author)
 blog_posts ──< blog_post_tags >── blog_tags
+
+media ──< reviews
+media ──< seo_metadata   (og image / twitter image)
+faqs  (standalone — optionally attached to any entity by type + id)
+seo_metadata  (standalone — one record per entity, by type + id)
+redirects  (standalone)
 ```
 
 - **`users`** — `email` unique; `passwordHash` stores a hash, never a
@@ -318,6 +324,56 @@ blog_posts ──< blog_post_tags >── blog_tags
   `(blogPostId, blogTagId)`. Both sides `ON DELETE CASCADE` — a tag
   assignment has no meaning once either the post or the tag is gone (same
   pattern as `role_permissions`).
+- **`media`** — the first real media/asset table. `url` unique — each row
+  is one distinct file, not a duplicate pointer to an existing one.
+  `width`/`height` are nullable since they only apply to image/video
+  assets. Indexed on `mimeType`.
+- **`reviews`** — a customer testimonial. `status` uses the new
+  `ReviewStatus` enum (`PENDING` / `APPROVED` / `REJECTED`, default
+  `PENDING`) — a moderation lifecycle, deliberately distinct from
+  `ContentStatus` (editorial draft/published/archived). `rating` isn't
+  constrained to 1–5 at the database level; validate that in the future
+  service/validation layer. `imageId` is a **real foreign key to
+  `media`** (`ON DELETE SET NULL`) — unlike the placeholder image fields
+  on earlier models, `Review` and `Media` were introduced in the same
+  task, so there was no reason not to wire it up properly. Indexed on
+  `status`, `sortOrder`, `rating`, and `imageId`.
+- **`faqs`** — a question/answer entry, optionally attached to a specific
+  entity via the nullable `entityType` (`FaqEntityType` enum: `PAGE` /
+  `DESTINATION` / `SERVICE` / `AIRLINE` / `FLIGHT_OFFER` / `ROUTE` /
+  `BLOG_POST`) + `entityId` pair — the same polymorphic-association shape
+  as `audit_logs.entityType`/`entityId`, but a closed enum here since the
+  set of attachable content types is small and known, rather than
+  `audit_logs`' open-ended free string. Leaving both fields `NULL` makes
+  a FAQ "general" (unattached). Indexed on
+  `(entityType, entityId, sortOrder)` for an entity's ordered FAQ list,
+  and on `isActive`.
+- **`seo_metadata`** — SEO metadata for one entity, identified
+  polymorphically by `entityType` (`SeoEntityType` enum — a separate enum
+  from `FaqEntityType`, even though the values currently match, so this
+  task didn't need to touch the `Faq` model) + `entityId`. **Both fields
+  are required** (unlike `faqs`' nullable pair) — SEO metadata only makes
+  sense attached to a specific entity. `@@unique([entityType, entityId])`
+  guarantees at most one SEO record per entity. `robotsIndex`/
+  `robotsFollow` map to the meta-robots index/follow directives.
+  `ogImageId`/`twitterImageId` are real foreign keys to `media` (nullable,
+  `ON DELETE SET NULL`) — same reasoning as `reviews.imageId`, since both
+  fields are new here and `media` already exists. `schemaData` is the
+  JSON-LD payload for `schemaType`. Indexed on `ogImageId` and
+  `twitterImageId`.
+- **`redirects`** — a URL redirect rule. `sourceUrl` unique — two rules
+  can't claim the same incoming path. `statusCode` stores the literal
+  HTTP status (301/302/307/308, default `301`) rather than an enum,
+  since it's meant to be the exact code a future redirect handler
+  responds with; validate it's a real redirect code in the future
+  validation layer. Indexed on `isActive` and `destinationUrl` (the
+  latter helps find every rule pointing at a given target, e.g. when
+  detecting redirect chains).
+
+Note: the `featuredImageId`/`heroImageId`/`logoId` placeholder fields on
+`pages`/`services`/`airlines`/`destinations` are **not** wired to `media`
+— doing so was out of scope for the task that added `media`, which
+touched only `faqs`/`reviews`/`media`. They remain plain strings for now.
 
 Permissions are assigned to roles, never directly to users — a user's
 effective permissions are just their role's permissions.
@@ -439,13 +495,14 @@ name exactly.
 Per scope, this task does not include: the public website, admin
 dashboard, authentication (login, sessions, password hashing/verification,
 middleware/guards), any API routes or admin UI, flight/destination/route
-search, pricing, or booking logic, or SEO. Those will be built on top of
-this foundation — new resources get a route handler under
-`app/api/v1/<resource>/`, a service, a repository, and a Zod schema,
-following the pattern above. Only the `users`/`roles`/`permissions`/
-`role_permissions`/`audit_logs`/`pages`/`page_sections`/`services`/
-`airports`/`airlines`/`airline_content`/`flight_offers`/
+search, pricing, or booking logic, or SEO middleware/redirect handling.
+Those will be built on top of this foundation — new resources get a route
+handler under `app/api/v1/<resource>/`, a service, a repository, and a
+Zod schema, following the pattern above. Only the `users`/`roles`/
+`permissions`/`role_permissions`/`audit_logs`/`pages`/`page_sections`/
+`services`/`airports`/`airlines`/`airline_content`/`flight_offers`/
 `flight_offer_segments`/`destination_categories`/`destinations`/`routes`/
-`blog_categories`/`blog_tags`/`blog_posts`/`blog_post_tags` tables exist
-in `prisma/schema.prisma` so far; other domain models will be added
+`blog_categories`/`blog_tags`/`blog_posts`/`blog_post_tags`/`faqs`/
+`reviews`/`media`/`seo_metadata`/`redirects` tables exist in
+`prisma/schema.prisma` so far; other domain models will be added
 alongside their own modules.

@@ -14,6 +14,16 @@
 //   reference/content data only, no search or booking logic.
 // - Blog: BlogCategory, BlogTag, BlogPost, BlogPostTag — content models
 //   only, no API routes or admin UI.
+// - Faq, Review, Media — Media is the first real media/asset model;
+//   Review.imageId relates to it directly since both are new here. The
+//   `featuredImageId`/`heroImageId`/`logoId` placeholders on earlier
+//   models are intentionally left as plain strings — wiring them to
+//   Media is out of scope for this task, which touches only these three
+//   models.
+// - SEO: SeoMetadata, Redirect — data models only, no SEO API/middleware
+//   yet. SeoMetadata's `ogImageId`/`twitterImageId` are real foreign keys
+//   to Media (both fields are new, and Media already exists by this
+//   point, unlike the older image-field placeholders above).
 //
 // Other domain models will be added in later tasks alongside their own
 // services/repositories.
@@ -511,4 +521,174 @@ model BlogPostTag {
   @@id([blogPostId, blogTagId])
   @@index([blogTagId])
   @@map("blog_post_tags")
+}
+
+/// The set of content types an FAQ entry can be attached to (polymorphic
+/// association via `entityType`/`entityId`, same pattern as
+/// AuditLog.entityType — except here the set of valid targets is small
+/// and known, so it's an enum rather than a free string). Both fields are
+/// nullable so a FAQ can also be "general" (not attached to any entity).
+enum FaqEntityType {
+  PAGE
+  DESTINATION
+  SERVICE
+  AIRLINE
+  FLIGHT_OFFER
+  ROUTE
+  BLOG_POST
+}
+
+/// A question/answer entry, optionally attached to a specific entity
+/// (e.g. the FAQs shown on one Destination's page) via the nullable
+/// `entityType`/`entityId` pair, or left unattached for a general FAQ
+/// list.
+model Faq {
+  id         String         @id @default(cuid())
+  question   String
+  answer     String
+  entityType FaqEntityType?
+  entityId   String?
+  sortOrder  Int            @default(0)
+  isActive   Boolean        @default(true)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@index([entityType, entityId, sortOrder])
+  @@index([isActive])
+  @@map("faqs")
+}
+
+/// Moderation lifecycle for a submitted testimonial — distinct from
+/// `ContentStatus` (draft/published/archived editorial content) since a
+/// review's lifecycle is about moderation, not authoring.
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+/// A customer testimonial. `rating` is expected to be 1-5 — not enforced
+/// at the database level, so validate it in the future service/validation
+/// layer. `imageId` is a real foreign key to `Media` (unlike the
+/// placeholder image fields on earlier models) since both are introduced
+/// together here; `ON DELETE SET NULL` so removing the media asset drops
+/// the reviewer's photo, not the review itself.
+model Review {
+  id        String       @id @default(cuid())
+  name      String
+  company   String?
+  rating    Int
+  content   String
+  imageId   String?
+  status    ReviewStatus @default(PENDING)
+  sortOrder Int          @default(0)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  image Media? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([sortOrder])
+  @@index([rating])
+  @@index([imageId])
+  @@map("reviews")
+}
+
+/// An uploaded media asset. `url` is unique — each row represents one
+/// distinct file, not a duplicate pointer to an existing one.
+/// `width`/`height` are nullable since they only apply to image/video
+/// assets, not e.g. documents.
+model Media {
+  id        String   @id @default(cuid())
+  filename  String
+  url       String   @unique
+  altText   String?
+  title     String?
+  caption   String?
+  width     Int?
+  height    Int?
+  mimeType  String
+  size      Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  reviews            Review[]
+  ogSeoMetadata      SeoMetadata[] @relation("SeoOgImage")
+  twitterSeoMetadata SeoMetadata[] @relation("SeoTwitterImage")
+
+  @@index([mimeType])
+  @@map("media")
+}
+
+/// The set of content types that can carry SEO metadata. A separate enum
+/// from FaqEntityType (even though the value sets currently match) so
+/// this task doesn't need to touch the Faq model at all.
+enum SeoEntityType {
+  PAGE
+  DESTINATION
+  SERVICE
+  AIRLINE
+  FLIGHT_OFFER
+  ROUTE
+  BLOG_POST
+}
+
+/// SEO metadata for one entity, identified polymorphically by
+/// `entityType`/`entityId`. Unlike Faq's polymorphic pair, both fields
+/// are required here — SEO metadata only makes sense attached to a
+/// specific entity, there's no "general" case. `@@unique([entityType,
+/// entityId])` is what guarantees at most one SEO record per entity.
+/// `robotsIndex`/`robotsFollow` map to the meta-robots "index"/"follow"
+/// directives. `ogImageId`/`twitterImageId` are real foreign keys to
+/// Media (nullable, `ON DELETE SET NULL`) since both fields are new here
+/// and Media already exists — unlike the older placeholder image fields
+/// on Page/Service/etc. `schemaData` is the JSON-LD payload for
+/// `schemaType` (e.g. `schemaType: "Article"`).
+model SeoMetadata {
+  id                 String        @id @default(cuid())
+  entityType         SeoEntityType
+  entityId           String
+  seoTitle           String?
+  metaDescription    String?
+  canonicalUrl       String?
+  robotsIndex        Boolean       @default(true)
+  robotsFollow       Boolean       @default(true)
+  ogTitle            String?
+  ogDescription      String?
+  ogImageId          String?
+  twitterTitle       String?
+  twitterDescription String?
+  twitterImageId     String?
+  schemaType         String?
+  schemaData         Json?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  ogImage      Media? @relation("SeoOgImage", fields: [ogImageId], references: [id], onDelete: SetNull)
+  twitterImage Media? @relation("SeoTwitterImage", fields: [twitterImageId], references: [id], onDelete: SetNull)
+
+  @@unique([entityType, entityId])
+  @@index([ogImageId])
+  @@index([twitterImageId])
+  @@map("seo_metadata")
+}
+
+/// A URL redirect rule. `sourceUrl` is unique — two rules can't both
+/// claim the same incoming path. `statusCode` stores the literal HTTP
+/// status (301/302/307/308, default 301) rather than an enum, since the
+/// field is meant to hold the exact code an eventual redirect handler
+/// would respond with; validate it's a real redirect code in the future
+/// validation layer.
+model Redirect {
+  id             String   @id @default(cuid())
+  sourceUrl      String   @unique
+  destinationUrl String
+  statusCode     Int      @default(301)
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([destinationUrl])
+  @@map("redirects")
 }
