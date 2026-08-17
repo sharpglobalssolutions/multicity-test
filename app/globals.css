@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   /* Brand palette — see README "Design system" for the source spec. */
@@ -15,6 +19,9 @@
 
   --font-heading: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Drives Tailwind's `font-sans` utility — used by shadcn/ui components
+     (including everything under /admin). Inter, per the admin spec. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 18px;
   --radius-btn: 10px;
@@ -29,10 +36,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    @apply font-sans;
   }
 
   body {
-    @apply bg-white text-text-dark font-body antialiased;
+    @apply font-body antialiased bg-background text-foreground;
   }
 
   h1,
@@ -40,6 +48,9 @@
   h3,
   h4 {
     @apply font-heading;
+  }
+  * {
+    @apply border-border outline-ring/50;
   }
 }
 
@@ -99,4 +110,171 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Kept matched to the marketing site's own white/dark-text body colors
+     (lib/globals `body` rule now reads bg-background/text-foreground) —
+     these are the site-wide defaults; the admin section overrides all of
+     this under `.admin-theme` below with its own brand palette instead. */
+  --background: #ffffff;
+  --foreground: #17232c;
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+/**
+ * MultiCityExperts admin brand palette. Scoped to `.admin-theme` (applied
+ * once, on the root wrapper in app/admin/layout.tsx) rather than `:root`,
+ * so shadcn/ui's semantic tokens only take on the admin's colors inside
+ * /admin — the marketing site's own design system (globals `@theme`
+ * above) is untouched.
+ *
+ * Maps the 5 given brand colors onto shadcn's semantic tokens:
+ * - #03a86b (green)     -> primary / focus ring / active nav indicator
+ * - #0a4074 (blue)      -> sidebar hover/accent surface
+ * - #041627 (dark blue) -> sidebar background
+ * - #0a0c11 (heading)   -> foreground / heading text
+ * - #7e7e7e (grey)      -> muted-foreground (secondary/help text)
+ */
+.admin-theme {
+  /* shadcn/ui components (Card/Dialog/Sheet/Empty titles, etc.) use a
+     `font-heading` utility, which by default resolves to the marketing
+     site's Montserrat (see the main `@theme` block above). The admin
+     spec calls for Inter only, so re-point it to `--font-sans` (Inter)
+     within this scope — marketing content outside `.admin-theme` is
+     unaffected. */
+  --font-heading: var(--font-sans);
+
+  --background: #ffffff;
+  --foreground: #0a0c11;
+  --card: #ffffff;
+  --card-foreground: #0a0c11;
+  --popover: #ffffff;
+  --popover-foreground: #0a0c11;
+  --primary: #03a86b;
+  --primary-foreground: #ffffff;
+  --secondary: #eef2f6;
+  --secondary-foreground: #0a4074;
+  --muted: #f5f5f5;
+  --muted-foreground: #7e7e7e;
+  --accent: #e6f6ef;
+  --accent-foreground: #03a86b;
+  --destructive: #dc2626;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #03a86b;
+  --radius: 0.625rem;
+
+  --sidebar: #041627;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #03a86b;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #0a4074;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: color-mix(in oklab, #ffffff 10%, transparent);
+  --sidebar-ring: #03a86b;
 }

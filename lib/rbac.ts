@@ -20,6 +20,21 @@ export async function requireAuth(): Promise<AuthenticatedUser> {
 }
 
 /**
+ * Non-throwing counterpart to `requireAuth`, for page/layout guards rather
+ * than API routes — those render UI and should redirect a signed-out
+ * visitor (see `app/admin/(protected)/layout.tsx`), not surface a JSON
+ * `UnauthorizedError`. Returns `null` for every "not a valid, live
+ * session" case instead of throwing.
+ */
+export async function getSessionUser(): Promise<AuthenticatedUser | null> {
+  try {
+    return await requireAuth();
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Requires the caller to be authenticated *and* hold one of `roles` (by
  * name — e.g. `"SUPER_ADMIN"`). Throws `ForbiddenError` (403) if
  * authenticated but not in an allowed role; `requireAuth` still throws
