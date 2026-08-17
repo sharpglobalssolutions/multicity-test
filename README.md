@@ -56,29 +56,72 @@ belong to any single layer.
 ```
 app/api/v1/       REST route handlers, one folder per resource
   health/
-    route.ts        GET /api/v1/health — verifies DB connectivity
+    route.ts                GET /api/v1/health — verifies DB connectivity
   auth/
-    login/route.ts   POST /api/v1/auth/login — admin login
-    me/route.ts       GET /api/v1/auth/me — current user (protected)
-    logout/route.ts   POST /api/v1/auth/logout — invalidate session
+    login/route.ts           POST /api/v1/auth/login — admin login
+    me/route.ts               GET /api/v1/auth/me — current user (protected)
+    logout/route.ts           POST /api/v1/auth/logout — invalidate session
+    forgot-password/route.ts  POST /api/v1/auth/forgot-password
+    reset-password/route.ts   POST /api/v1/auth/reset-password
+    change-password/route.ts  POST /api/v1/auth/change-password (protected)
+  pages/
+    route.ts                  POST /api/v1/pages (requires pages.create)
+    [id]/route.ts              PATCH /api/v1/pages/:id (pages.update),
+                                DELETE /api/v1/pages/:id (pages.delete)
+  airports/
+    route.ts                  POST /api/v1/airports (airports.create)
+    [id]/route.ts               PATCH /api/v1/airports/:id (airports.update)
+  airlines/
+    route.ts                  POST /api/v1/airlines (airlines.create)
+  offers/
+    route.ts                  POST /api/v1/offers (offers.create)
+  blog/
+    [id]/publish/route.ts       POST /api/v1/blog/:id/publish (blog.publish)
+  seo/
+    route.ts                  POST /api/v1/seo — upsert by (entityType, entityId) (seo.update)
 
 lib/               Framework-agnostic infrastructure
   prisma.ts          Prisma client singleton (server-only)
+  prisma-errors.ts   Prisma error-code type guards (unique/FK/not-found violations)
   api-response.ts    apiSuccess() / apiError() response builders
   errors.ts          ErrorCode enum + AppError and its typed subclasses
   handle-error.ts    Converts thrown errors into a consistent API response
-  validation.ts      Reusable Zod helpers (validateJsonBody, etc.)
+  validation.ts      Reusable Zod helpers (validateJsonBody, validateParams, idParamSchema, etc.)
+  rbac.ts            requireAuth(), requireRole(), requirePermission() — see "RBAC" below
   logger.ts          Minimal structured (JSON line) logger, server-only
   password.ts        bcrypt hash/verify (server-only)
   session.ts          Session JWT create/verify + cookie name (server-only)
+  reset-token.ts       Password reset token generate/hash (server-only)
+  rate-limit.ts        In-memory per-key rate limiter + client IP helper
+  mail.ts              SMTP send via nodemailer, with a logging fallback (server-only)
 
 services/          Business logic
-  auth.service.ts    login(), getCurrentUser(), logout()
+  auth.service.ts     login(), getCurrentUser(), logout(), forgotPassword(),
+                      resetPassword(), changePassword()
+  page.service.ts     createPageForUser(), updatePageForUser(), deletePageById()
+  airport.service.ts  createNewAirport(), updateExistingAirport()
+  airline.service.ts  createNewAirline()
+  flight-offer.service.ts createNewFlightOffer()
+  blog.service.ts     publishExistingBlogPost()
+  seo.service.ts      upsertSeoMetadataForEntity()
 repositories/       Data access via Prisma
-  user.repository.ts findUserByEmailWithRole(), findUserByIdWithRole(),
-                     updateLastLoginAt(), incrementTokenVersion()
+  user.repository.ts               findUserByEmailWithRole(), findUserByEmail(),
+                                    findUserByIdWithRole(), recordSuccessfulLogin(),
+                                    incrementTokenVersion(), incrementFailedLoginAttempts(),
+                                    lockUserUntil(), updatePasswordAndInvalidateSessions()
+  password-reset-token.repository.ts createPasswordResetToken(),
+                                    findValidPasswordResetToken(),
+                                    markPasswordResetTokenUsed(),
+                                    invalidateOtherPasswordResetTokens()
+  page.repository.ts, airport.repository.ts, airline.repository.ts,
+  flight-offer.repository.ts, blog-post.repository.ts,
+  seo-metadata.repository.ts       Thin Prisma CRUD backing the example
+                                    permission-gated endpoints above
 validations/        Zod request schemas
-  auth.validation.ts loginSchema
+  auth.validation.ts loginSchema, forgotPasswordSchema, resetPasswordSchema,
+                     changePasswordSchema
+  page.validation.ts, airport.validation.ts, airline.validation.ts,
+  offer.validation.ts, seo.validation.ts   Schemas for the example endpoints above
 types/              Shared TypeScript types
   api.ts             ApiResponse<T> / ApiSuccess<T> / ApiError envelope
 
@@ -188,12 +231,15 @@ are easy to ship to a log aggregator later.
 
 ## Endpoints
 
-| Method | Path                   | Description                                              |
-| ------ | ---------------------- | ---------------------------------------------------------- |
-| GET    | `/api/v1/health`       | Liveness check — verifies the API can reach PostgreSQL     |
-| POST   | `/api/v1/auth/login`   | Admin login — verifies email/password, issues a session    |
-| GET    | `/api/v1/auth/me`      | Returns the currently authenticated user. **Protected.**   |
-| POST   | `/api/v1/auth/logout`  | Invalidates the current session, server-side and client-side. |
+| Method | Path                            | Description                                              |
+| ------ | -------------------------------- | ---------------------------------------------------------- |
+| GET    | `/api/v1/health`                | Liveness check — verifies the API can reach PostgreSQL     |
+| POST   | `/api/v1/auth/login`            | Admin login — verifies email/password, issues a session    |
+| GET    | `/api/v1/auth/me`               | Returns the currently authenticated user. **Protected.**   |
+| POST   | `/api/v1/auth/logout`           | Invalidates the current session, server-side and client-side. |
+| POST   | `/api/v1/auth/forgot-password`  | Requests a password reset token. Never reveals whether the email exists. |
+| POST   | `/api/v1/auth/reset-password`   | Completes a reset using the token from forgot-password.    |
+| POST   | `/api/v1/auth/change-password`  | Changes the password for the current session. **Protected.** |
 
 `GET /api/v1/health` runs `SELECT 1` through Prisma. On success:
 
@@ -339,6 +385,224 @@ payload alongside `sub`: verifying a token's signature/expiry (which
 question as "is this session still alive" (which needs a fresh DB read,
 done in `services/auth.service.ts`).
 
+### `POST /api/v1/auth/forgot-password`
+
+Body: `{ "email": string }`. **Always** returns the identical 200
+response, whether or not the email is registered:
+
+```json
+{ "success": true, "data": { "message": "If an account with that email exists, a password reset link has been sent." }, "meta": {} }
+```
+
+`services/auth.service.ts#forgotPassword` silently no-ops for an unknown
+email — it never throws a distinguishing error, so there's nothing for
+the route to accidentally leak. Rate limited (5 requests / 15 min per
+IP) — not to stop guessing (the response gives nothing away either way),
+but to stop the endpoint being used to spam a target's inbox once a real
+email provider is wired up.
+
+The reset link is emailed via `lib/mail.ts#sendPasswordResetEmail`, using
+generic SMTP through `nodemailer` — configured with `SMTP_HOST`,
+`SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM` (see
+`.env.example`). **If any of those are unset, `sendMail()` falls back to
+logging the message instead of sending it** (`"SMTP not configured —
+logging email instead of sending"`, visible in server logs only, never in
+any API response), so the reset flow stays fully testable end-to-end
+before real credentials exist.
+
+A send failure (bad credentials, provider down, etc.) is caught inside
+`forgotPassword()` and logged rather than thrown — letting it propagate
+would make this endpoint return 500 only when the email is registered
+(since unregistered emails never reach the send step), which leaks exactly
+the thing this endpoint exists to hide. The response is always the
+identical 200 above regardless of whether the email actually went out.
+
+The token itself: `lib/reset-token.ts` generates 32 random bytes (256
+bits — infeasible to guess) and stores only its SHA-256 hash
+(`PasswordResetToken.tokenHash`, unique) — deliberately **not** bcrypt,
+since the token is already high-entropy random data with no low-entropy
+human-choice pattern for a slow hash to protect against. It expires after
+1 hour (`PASSWORD_RESET_TOKEN_EXPIRY_MS`).
+
+### `POST /api/v1/auth/reset-password`
+
+Body: `{ "token": string, "newPassword": string }` (8–72 characters — 72
+because that's bcrypt's effective input limit; longer is silently
+truncated by the hash, so it's rejected here instead of quietly not
+mattering).
+
+```json
+{ "success": true, "data": { "message": "Password has been reset successfully. Please log in with your new password." }, "meta": {} }
+```
+
+Failure responses:
+
+| Scenario                                                  | Status | `error.code`      |
+| ------------------------------------------------------------ | ------ | ------------------ |
+| Invalid, expired, or already-used token                       | 401    | `UNAUTHORIZED`      |
+| New password same as the current one                          | 422    | `VALIDATION_ERROR`  |
+| Missing/invalid `token`/`newPassword`                          | 422    | `VALIDATION_ERROR`  |
+| Too many requests from this IP                                | 429    | `RATE_LIMITED`      |
+| Database unreachable                                           | 503    | `DATABASE_ERROR`    |
+
+Invalid, expired, and already-used tokens all return the identical
+error — same enumeration-prevention reasoning as login. Verified by
+testing all three directly: a garbage token, a token crafted with a
+past `expiresAt`, and replaying a token a second time after it was
+already consumed — all `401`, same message.
+
+On success: hashes and stores the new password, bumps `tokenVersion`
+(invalidating **every** existing session for that user — a password
+reset is a strong enough signal to kill any session that isn't the
+legitimate owner's), clears any lockout state, marks the token used, and
+**invalidates every other outstanding reset token for that account** —
+verified by requesting two tokens, using the second one, then confirming
+the first (older, never-used) token is rejected too, not just the one
+that was actually used.
+
+### `POST /api/v1/auth/change-password` (protected)
+
+For a user who's already logged in and knows their current password.
+Body: `{ "currentPassword": string, "newPassword": string }` (same 8–72
+rule as reset). Requires a valid session, same as `/me`.
+
+```json
+{ "success": true, "data": { "message": "Password changed successfully. Please log in again." }, "meta": {} }
+```
+
+Failure responses:
+
+| Scenario                                       | Status | `error.code`      |
+| --------------------------------------------------- | ------ | ------------------ |
+| Not authenticated (no/invalid/expired session)       | 401    | `UNAUTHORIZED`      |
+| Wrong `currentPassword`                              | 401    | `UNAUTHORIZED`      |
+| New password same as current, or missing/invalid fields | 422 | `VALIDATION_ERROR`  |
+| Too many requests from this IP                       | 429    | `RATE_LIMITED`      |
+| Database unreachable                                 | 503    | `DATABASE_ERROR`    |
+
+Unlike login/reset, "current password is incorrect" is a distinct,
+specific message — presenting a valid session already proves the caller
+controls the account, so there's no enumeration value in being vague
+here the way there is at login.
+
+On success, this bumps `tokenVersion` the same way reset-password does
+— invalidating every session for that user, **including the one making
+this request** — and the route clears its own cookie in response,
+since it just made that cookie's token invalid. Verified: change the
+password, then present that same pre-change cookie to `/me` — `401`,
+even though nothing expired. Logging in again requires the new password;
+the old one no longer works.
+
+## RBAC (role-based access control)
+
+Every write endpoint beyond auth itself is gated **server-side** — the
+client never decides what it's allowed to do; it only finds out by
+trying. There's no separate "admin" build or hidden route: any request
+that reaches a protected handler without the right session/role/permission
+gets rejected before it touches a service or the database, and a frontend
+that hides a button is a UX nicety only, never the actual access control.
+
+### Roles
+
+Five fixed roles, seeded by `prisma/seed.ts` (`ROLES`/`ROLE_PERMISSIONS`):
+
+| Role              | Intent                                                               |
+| ----------------- | --------------------------------------------------------------------- |
+| `SUPER_ADMIN`     | Every permission, including `roles.update`/`permissions.update`.      |
+| `ADMIN`           | Every permission *except* the two access-control ones above.          |
+| `SEO_MANAGER`     | `seo.read`/`seo.update` plus read-only access to content modules.     |
+| `CONTENT_MANAGER` | Full pages + blog lifecycle (create/update/delete/publish), `seo.read`. |
+| `EDITOR`          | Create/edit (not publish or delete) pages and blog posts.             |
+
+### Permissions
+
+Permissions are `<module>.<action>` strings (`pages.create`,
+`seo.update`, ...) stored in the `permissions` table and attached to
+roles via `role_permissions` (see the `RolePermission` model) — **not**
+hardcoded per role in application code. Granting or revoking access to an
+action for a role is a data change (edit `ROLE_PERMISSIONS` in
+`prisma/seed.ts` and re-run the seed, or edit `role_permissions` directly),
+never a code change at each call site that checks it.
+
+### `lib/rbac.ts` — the three reusable guards
+
+```ts
+requireAuth(): Promise<AuthenticatedUser>
+```
+Resolves the caller from the session cookie via
+`services/auth.service.ts#getCurrentUser` — throws `UnauthorizedError`
+(401) for every "not a valid, live session" case. Every protected route
+goes through this, directly or via one of the two below.
+
+```ts
+requireRole(...roles: string[]): Promise<AuthenticatedUser>
+```
+`requireAuth()` plus a check that the caller's role name is one of
+`roles` — throws `ForbiddenError` (403) otherwise. Coarser-grained;
+reserved for checks that are genuinely about the role itself (e.g. access
+control management), not used by any example endpoint below since all of
+them are permission-based.
+
+```ts
+requirePermission(permission: string): Promise<AuthenticatedUser>
+```
+`requireAuth()` plus a check that `permission` is in the caller's
+resolved permission set (`AuthenticatedUser.permissions`, built in
+`getCurrentUser` from the caller's role's `role_permissions`) — throws
+`ForbiddenError` (403) otherwise. This is what every example endpoint
+below uses; a route handler is just:
+
+```ts
+export async function POST(request: Request) {
+  try {
+    const user = await requirePermission("pages.create");
+    const input = await validateJsonBody(request, createPageSchema);
+    const page = await createPageForUser(input, user.id);
+    return apiSuccess({ page }, { status: 201 });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+```
+
+The permission check runs **before** body validation, on purpose — an
+unauthorized caller learns nothing about what a valid payload looks like
+(no validation-error details leak ahead of the 403).
+
+### Example permission-gated endpoints
+
+| Endpoint                              | Permission required |
+| -------------------------------------- | -------------------- |
+| `POST /api/v1/pages`                   | `pages.create`        |
+| `PATCH /api/v1/pages/:id`              | `pages.update`        |
+| `DELETE /api/v1/pages/:id`             | `pages.delete`        |
+| `POST /api/v1/airports`                | `airports.create`     |
+| `PATCH /api/v1/airports/:id`           | `airports.update`     |
+| `POST /api/v1/airlines`                | `airlines.create`     |
+| `POST /api/v1/offers`                  | `offers.create`       |
+| `POST /api/v1/blog/:id/publish`        | `blog.publish`        |
+| `POST /api/v1/seo`                     | `seo.update`          |
+
+These are thin, real implementations (a validation schema + a
+repository/service pair each) meant to exercise the RBAC layer end to
+end, not full-featured CRUD for every field these modules will eventually
+need — `pages`/`airports` are the only two with an `update` example since
+that was enough to prove both the create and update paths through
+`requirePermission`.
+
+Verified live end to end for every endpoint above: authenticated with no
+permission → 403 `FORBIDDEN` naming the missing permission; no session at
+all → 401 `UNAUTHORIZED`; authenticated with the permission → the action
+actually succeeds (row created/updated/deleted/published in the real
+database). Confirmed with two real accounts — the seeded `ADMIN` user
+(has every permission below the access-control ones) and a temporary
+`EDITOR` account (has only `pages.create`/`pages.update`/`blog.create`/
+`blog.update` and their `.read` counterparts) — showing the same account
+succeeds on `pages.create` and is rejected on `pages.delete`,
+`airports.create`, `airlines.create`, `offers.create`, `blog.publish`,
+and `seo.update` in the same run. Test rows and the temporary account
+were deleted afterward.
+
 ## Security
 
 A summary of the hardening measures in place — most are documented in
@@ -350,10 +614,11 @@ more depth alongside the endpoint they protect, above.
 | Timing-safe login               | `services/auth.service.ts`                 | Always runs a bcrypt compare, even for a nonexistent email (against a dummy hash), so response time can't reveal whether an email is registered |
 | No user enumeration             | `services/auth.service.ts`                 | Wrong password, unknown email, and locked account all return the identical response |
 | Per-account lockout             | `User.failedLoginAttempts`/`lockedUntil`   | 5 failed attempts locks the account 15 minutes, silently — even the correct password is rejected while locked |
-| Per-IP rate limiting            | `lib/rate-limit.ts`                        | 10 login requests / 15 min per source IP, 429 + `Retry-After` |
-| Server-side session invalidation | `User.tokenVersion`, `lib/session.ts`     | Logout invalidates the token itself, not just the cookie — a copied/replayed token stops working immediately |
+| Per-IP rate limiting            | `lib/rate-limit.ts`                        | 10 login / 5 forgot-password / 10 reset-password / 10 change-password / 30 per RBAC example endpoint (pages, airports, airlines, offers, blog publish, seo) requests per 15 min per source IP, 429 + `Retry-After` |
+| Server-side session invalidation | `User.tokenVersion`, `lib/session.ts`     | Logout **and** password reset/change invalidate the token itself, not just the cookie — a copied/replayed token stops working immediately |
 | Session cookie hardening        | `app/api/v1/auth/login/route.ts`           | `HttpOnly` (no JS access), `Secure` in production (HTTPS-only), `SameSite=Lax` |
-| No secrets in response bodies   | throughout                                 | `passwordHash` never serialized; the session token is delivered only via `Set-Cookie`, never in JSON |
+| Secure password reset tokens     | `lib/reset-token.ts`, `PasswordResetToken` | 256-bit random token, only its SHA-256 hash is stored; single-use, 1-hour expiry, and using one invalidates every other outstanding token for that account |
+| No secrets in response bodies   | throughout                                 | `passwordHash` never serialized; the session token is delivered only via `Set-Cookie`, never in JSON; the raw reset token is logged server-side only, never returned in an API response |
 | Centralized, generic error handling | `lib/handle-error.ts`                  | Every unexpected error returns a generic `INTERNAL_SERVER_ERROR`/`DATABASE_ERROR` — stack traces and internals are logged server-side (`lib/logger.ts`), never returned to the client |
 | Request body size cap           | `lib/validation.ts`                        | Rejects declared bodies over 100 KB before parsing (`validateJsonBody`) |
 | HTTP security headers            | `next.config.ts`                           | `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`, a restrictive `Content-Security-Policy`, and no `X-Powered-By` |
@@ -367,6 +632,8 @@ cross-origin form-post flow would be — revisit if a separate frontend
 origin is introduced), a shared "require auth" middleware (only one route
 is protected so far; `/me` checks itself directly), and a distributed
 rate-limit store (see the per-IP limiter's caveats above).
+
+## Data model
 
 Auth/audit tables, CMS content tables, and travel master data — no auth
 logic, API routes, or admin UI exist yet, just the schema future work
@@ -404,10 +671,16 @@ form_submissions  (standalone)
 site_settings  (standalone — expected to be a single row)
 ```
 
-- **`users`** — `email` unique; `passwordHash` stores a hash, never a
-  plaintext password (nothing hashes/verifies it yet — that's auth logic,
-  out of scope for this task); `roleId` is required, so every user has
-  exactly one role.
+- **`users`** — `email` unique; `passwordHash` is a bcrypt hash
+  (`lib/password.ts`), never plaintext; `roleId` is required, so every
+  user has exactly one role. `tokenVersion`, `failedLoginAttempts`, and
+  `lockedUntil` back the auth endpoints' session-invalidation and
+  account-lockout behavior — see the Security section above.
+- **`password_reset_tokens`** — one row per outstanding/used reset
+  request. `tokenHash` unique (SHA-256 of the raw token, never the raw
+  token itself); `onDelete: Cascade` from `users` — a token has no
+  meaning without its user. See `POST /api/v1/auth/forgot-password`
+  above for the full flow.
 - **`roles`** — `name` unique. Deleting a role that still has users
   attached is blocked at the database level (`ON DELETE RESTRICT`) —
   reassign those users first.
@@ -707,21 +980,23 @@ name exactly.
 ## What's intentionally not here yet
 
 Per scope, this task does not include: the public website, admin
-dashboard, a login UI, generic route-protection middleware (`/me` protects
-itself directly via `getCurrentUser()`; there's no shared middleware yet
-for other routes to reuse the same check), user registration, password
-reset, any other business API routes, flight/destination/route search,
-pricing, or booking logic, SEO middleware/redirect handling, or
-form-submission/navigation-rendering logic. Those will be built on top of
-this foundation — new resources get a route handler under
-`app/api/v1/<resource>/`, a service, a repository, and a Zod schema,
-following the pattern above. The complete set of tables in
-`prisma/schema.prisma` so far: `users`, `roles`, `permissions`,
+dashboard, a login UI, generic route-protection middleware (each protected
+route — `/me`, `/change-password` — checks itself directly via
+`getCurrentUser()`; there's no shared middleware yet for other routes to
+reuse the same check), user registration, a real email service (password
+reset tokens are logged server-side, not emailed — see
+`POST /api/v1/auth/forgot-password` above), any other business API
+routes, flight/destination/route search, pricing, or booking logic, SEO
+middleware/redirect handling, or form-submission/navigation-rendering
+logic. Those will be built on top of this foundation — new resources get
+a route handler under `app/api/v1/<resource>/`, a service, a repository,
+and a Zod schema, following the pattern above. The complete set of tables
+in `prisma/schema.prisma` so far: `users`, `roles`, `permissions`,
 `role_permissions`, `audit_logs`, `pages`, `page_sections`, `services`,
 `airports`, `airlines`, `airline_content`, `flight_offers`,
 `flight_offer_segments`, `destination_categories`, `destinations`,
 `routes`, `blog_categories`, `blog_tags`, `blog_posts`, `blog_post_tags`,
 `faqs`, `reviews`, `media`, `seo_metadata`, `redirects`,
-`form_submissions`, `navigation`, `navigation_items`, `site_settings` —
-29 tables in total. Other domain models will be added alongside their
-own modules.
+`form_submissions`, `navigation`, `navigation_items`, `site_settings`,
+`password_reset_tokens` — 30 tables in total. Other domain models will be
+added alongside their own modules.

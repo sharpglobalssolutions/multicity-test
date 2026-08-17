@@ -36,6 +36,9 @@
 //   discarded client-side.
 // - Security hardening: `User.failedLoginAttempts`/`lockedUntil` added
 //   for silent per-account login lockout (see services/auth.service.ts).
+// - Password reset/change: PasswordResetToken added for forgot/reset
+//   password. No email service exists yet — see services/auth.service.ts
+//   for how the token is currently surfaced instead.
 //
 // Other domain models will be added in later tasks alongside their own
 // services/repositories.
@@ -76,15 +79,39 @@ model User {
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 
-  role         Role       @relation(fields: [roleId], references: [id])
-  auditLogs    AuditLog[]
-  pagesCreated Page[]     @relation("PagesCreatedBy")
-  pagesUpdated Page[]     @relation("PagesUpdatedBy")
-  blogPosts    BlogPost[]
+  role                Role                 @relation(fields: [roleId], references: [id])
+  auditLogs           AuditLog[]
+  pagesCreated        Page[]               @relation("PagesCreatedBy")
+  pagesUpdated        Page[]               @relation("PagesUpdatedBy")
+  blogPosts           BlogPost[]
+  passwordResetTokens PasswordResetToken[]
 
   @@index([roleId])
   @@index([isActive])
   @@map("users")
+}
+
+/// A single-use password reset token. `tokenHash` stores a SHA-256 digest
+/// of the raw token (`lib/reset-token.ts`) — not bcrypt, since the raw
+/// token is already a 256-bit random value with no meaningful entropy to
+/// protect against via slow hashing (unlike a user-chosen password). The
+/// raw token itself is only ever handed to the requester (currently
+/// logged, not emailed — see services/auth.service.ts) and never stored.
+/// `usedAt` enforces single-use; `onDelete: Cascade` since a token has no
+/// meaning without its user.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
 }
 
 model Role {

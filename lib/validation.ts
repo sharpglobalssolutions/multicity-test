@@ -1,6 +1,13 @@
-import type { ZodError, ZodType } from "zod";
+import { z, type ZodError, type ZodType } from "zod";
 import type { ApiErrorDetail } from "@/types/api";
 import { ValidationError } from "@/lib/errors";
+
+/** Shared shape for any dynamic route with a single `[id]` segment — pass
+ * to `validateParams` instead of redefining the same one-field schema in
+ * every resource's route file. */
+export const idParamSchema = z.object({
+  id: z.string().min(1, "id is required"),
+});
 
 /**
  * Flattens a ZodError into the { field, message } shape every API error
