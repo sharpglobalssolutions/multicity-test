@@ -27,8 +27,15 @@ export function zodIssuesToDetails(error: ZodError): ApiErrorDetail[] {
  * check. This is the single choke point every other helper in this file
  * routes through, so all validation failures — regardless of source —
  * produce the same error shape.
+ *
+ * Generic is `<S extends ZodType>` (returning `S["_output"]`) rather than
+ * the simpler `<T>(schema: ZodType<T>)`, which collapses Zod's Output and
+ * Input types into a single `T` — harmless for a schema whose Input and
+ * Output match, but wrong the moment a field has `.default()`/`.transform()`
+ * (Input is optional, Output isn't): inference would silently widen the
+ * returned type back to the optional Input shape.
  */
-export function validate<T>(schema: ZodType<T>, data: unknown): T {
+export function validate<S extends ZodType>(schema: S, data: unknown): S["_output"] {
   const result = schema.safeParse(data);
   if (!result.success) {
     throw new ValidationError("Validation failed", zodIssuesToDetails(result.error));
@@ -54,11 +61,11 @@ const DEFAULT_MAX_JSON_BODY_BYTES = 100 * 1024; // 100 KB
  * protection would mean capping the stream itself, not worth the
  * complexity while every payload here is small JSON.
  */
-export async function validateJsonBody<T>(
+export async function validateJsonBody<S extends ZodType>(
   request: Request,
-  schema: ZodType<T>,
+  schema: S,
   maxBytes: number = DEFAULT_MAX_JSON_BODY_BYTES,
-): Promise<T> {
+): Promise<S["_output"]> {
   const contentLength = request.headers.get("content-length");
   if (contentLength && Number(contentLength) > maxBytes) {
     throw new ValidationError("Request body is too large");
@@ -78,7 +85,7 @@ export async function validateJsonBody<T>(
  * string values, so schemas for numeric/boolean query params should use
  * `z.coerce` (e.g. `z.coerce.number()`).
  */
-export function validateSearchParams<T>(searchParams: URLSearchParams, schema: ZodType<T>): T {
+export function validateSearchParams<S extends ZodType>(searchParams: URLSearchParams, schema: S): S["_output"] {
   return validate(schema, Object.fromEntries(searchParams.entries()));
 }
 
@@ -86,6 +93,6 @@ export function validateSearchParams<T>(searchParams: URLSearchParams, schema: Z
  * Validates dynamic route params (the object Next.js passes as
  * `context.params` in a route handler).
  */
-export function validateParams<T>(params: unknown, schema: ZodType<T>): T {
+export function validateParams<S extends ZodType>(params: unknown, schema: S): S["_output"] {
   return validate(schema, params);
 }

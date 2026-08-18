@@ -44,6 +44,7 @@ const PERMISSIONS = [
   { key: "pages.create", description: "Create pages." },
   { key: "pages.update", description: "Edit pages." },
   { key: "pages.delete", description: "Delete pages." },
+  { key: "pages.publish", description: "Publish and unpublish pages." },
 
   // Users
   { key: "users.read", description: "View user accounts." },
@@ -112,6 +113,7 @@ const ROLE_PERMISSIONS: Record<(typeof ROLES)[number]["name"], readonly string[]
     "pages.create",
     "pages.update",
     "pages.delete",
+    "pages.publish",
     "blog.read",
     "blog.create",
     "blog.update",
