@@ -10,15 +10,17 @@ import { ADMIN_NAV_ITEMS } from "@/data/admin-nav";
 /** Derives the current breadcrumb trail from the pathname against the
  * nav item list, so every present/future admin page gets a correct
  * breadcrumb without having to pass one down manually. */
+const HOME_HREF = ADMIN_NAV_ITEMS[0]?.href ?? "/admin/dashboard";
+
 function useBreadcrumbs(): BreadcrumbSegment[] {
   const pathname = usePathname();
   const current = ADMIN_NAV_ITEMS.find((item) => item.href === pathname);
 
-  if (!current || current.href === "/admin") {
+  if (!current || current.href === HOME_HREF) {
     return [{ label: "Admin" }];
   }
 
-  return [{ label: "Admin", href: "/admin" }, { label: current.label }];
+  return [{ label: "Admin", href: HOME_HREF }, { label: current.label }];
 }
 
 /** Sticky top navigation bar: mobile/desktop sidebar toggle, breadcrumb

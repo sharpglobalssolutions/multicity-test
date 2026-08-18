@@ -1,17 +1,7 @@
-import { LayoutDashboard } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { EmptyState } from "@/components/ui/empty-state";
+import { redirect } from "next/navigation";
 
-export default function AdminOverviewPage() {
-  return (
-    <Card>
-      <CardContent>
-        <EmptyState
-          icon={LayoutDashboard}
-          title="Admin foundation ready"
-          description="The layout, navigation, and reusable component library are set up. Business modules (Pages, Airports, Airlines, Offers, Blog, SEO, Users) will be built into the sidebar items marked “Soon” in a future pass."
-        />
-      </CardContent>
-    </Card>
-  );
+/** Bare `/admin` isn't a page in its own right — it just sends signed-in
+ * visitors on to the real landing spot, `/admin/dashboard`. */
+export default function AdminIndexPage() {
+  redirect("/admin/dashboard");
 }

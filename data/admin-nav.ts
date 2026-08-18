@@ -22,7 +22,7 @@ export interface AdminNavItem {
 }
 
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
-  { label: "Overview", href: "/admin", icon: LayoutDashboard, status: "active" },
+  { label: "Overview", href: "/admin/dashboard", icon: LayoutDashboard, status: "active" },
   { label: "Pages", href: "/admin/pages", icon: Newspaper, status: "soon" },
   { label: "Airports", href: "/admin/airports", icon: Building2, status: "soon" },
   { label: "Airlines", href: "/admin/airlines", icon: Plane, status: "soon" },
