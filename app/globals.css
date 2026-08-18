@@ -17,11 +17,15 @@
   --color-text-gray: #68737a;
   --color-text-dark: #17232c;
 
-  --font-heading: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  /* Drives Tailwind's `font-sans` utility — used by shadcn/ui components
-     (including everything under /admin). Inter, per the admin spec. */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Headings: Inter. Body/description text: JUST Sans (see
+     app/fonts/just-sans/NOTICE.md) — applies site-wide, marketing and
+     admin alike. `--font-sans` drives Tailwind's `font-sans` utility
+     (the html-level default); kept equal to `--font-body` since nothing
+     in this app distinguishes the two — explicit headings opt in via the
+     `font-heading` utility instead (see `h1-h4`/shadcn titles below). */
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 18px;
   --radius-btn: 10px;
@@ -241,14 +245,6 @@
  * - #7e7e7e (grey)      -> muted-foreground (secondary/help text)
  */
 .admin-theme {
-  /* shadcn/ui components (Card/Dialog/Sheet/Empty titles, etc.) use a
-     `font-heading` utility, which by default resolves to the marketing
-     site's Montserrat (see the main `@theme` block above). The admin
-     spec calls for Inter only, so re-point it to `--font-sans` (Inter)
-     within this scope — marketing content outside `.admin-theme` is
-     unaffected. */
-  --font-heading: var(--font-sans);
-
   --background: #ffffff;
   --foreground: #0a0c11;
   --card: #ffffff;
