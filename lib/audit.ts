@@ -2,7 +2,7 @@ import "server-only";
 import { logger } from "@/lib/logger";
 import { createAuditLog } from "@/repositories/audit-log.repository";
 
-export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "PUBLISH" | "UNPUBLISH";
+export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "PUBLISH" | "UNPUBLISH" | "REORDER";
 
 interface RecordAuditLogInput {
   userId: string;

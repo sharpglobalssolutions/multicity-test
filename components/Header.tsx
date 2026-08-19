@@ -33,7 +33,7 @@ export function Header() {
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-navy-deep/95 shadow-[0_8px_30px_-12px_rgba(3,24,39,0.6)] backdrop-blur-md"
-            : "bg-transparent"
+            : "bg-white"
         }`}
       >
         <div className="content-container flex h-20 items-center justify-between">
