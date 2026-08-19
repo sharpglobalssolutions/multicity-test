@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,14 +25,20 @@ export function AdminBreadcrumbs({ items }: AdminBreadcrumbsProps) {
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <BreadcrumbItem key={item.label}>
-              {isLast || !item.href ? (
-                <BreadcrumbPage>{item.label}</BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink render={<Link href={item.href} />}>{item.label}</BreadcrumbLink>
-              )}
+            // `BreadcrumbItem` and `BreadcrumbSeparator` both render an
+            // `<li>` — they must be siblings under `BreadcrumbList`'s
+            // `<ol>`, never nested (an `<li>` inside another `<li>` is
+            // invalid HTML and causes a hydration error).
+            <Fragment key={item.label}>
+              <BreadcrumbItem>
+                {isLast || !item.href ? (
+                  <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink render={<Link href={item.href} />}>{item.label}</BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
               {!isLast && <BreadcrumbSeparator />}
-            </BreadcrumbItem>
+            </Fragment>
           );
         })}
       </BreadcrumbList>

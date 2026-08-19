@@ -12,9 +12,14 @@ import { ADMIN_NAV_ITEMS } from "@/data/admin-nav";
  * breadcrumb without having to pass one down manually. */
 const HOME_HREF = ADMIN_NAV_ITEMS[0]?.href ?? "/admin/dashboard";
 
+/** Matches by longest-prefix rather than exact equality, so a nested route
+ * like `/admin/pages/create` or `/admin/pages/[id]/edit` still resolves to
+ * the "Pages" nav item instead of falling back to a bare "Admin" crumb. */
 function useBreadcrumbs(): BreadcrumbSegment[] {
   const pathname = usePathname();
-  const current = ADMIN_NAV_ITEMS.find((item) => item.href === pathname);
+  const current = ADMIN_NAV_ITEMS.filter(
+    (item) => pathname === item.href || pathname.startsWith(`${item.href}/`),
+  ).sort((a, b) => b.href.length - a.href.length)[0];
 
   if (!current || current.href === HOME_HREF) {
     return [{ label: "Admin" }];

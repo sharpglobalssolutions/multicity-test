@@ -182,12 +182,15 @@ export async function listPagesForViewer(query: ListPagesQuery, viewer: Authenti
   };
 }
 
-/** Detail lookup by slug. A viewer without `pages.read` gets `NotFoundError`
- * (not `ForbiddenError`) for a non-published page — same enumeration
- * reasoning as auth's generic "invalid email or password": don't confirm a
- * draft page exists at all to someone who can't read it. */
-export async function getPageBySlugForViewer(slug: string, viewer: AuthenticatedUser | null) {
-  const page = await findPageBySlug(slug);
+/** Detail lookup by id *or* slug — tries `id` first (what the admin UI has,
+ * since `/admin/pages/:id/edit` only knows the id), then falls back to
+ * `slug` (what a public page-rendering caller has). A viewer without
+ * `pages.read` gets `NotFoundError` (not `ForbiddenError`) for a
+ * non-published page — same enumeration reasoning as auth's generic
+ * "invalid email or password": don't confirm a draft page exists at all to
+ * someone who can't read it. */
+export async function getPageByIdOrSlugForViewer(idOrSlug: string, viewer: AuthenticatedUser | null) {
+  const page = (await findPageById(idOrSlug)) ?? (await findPageBySlug(idOrSlug));
   if (!page || (page.status !== "PUBLISHED" && !canViewAllStatuses(viewer))) {
     throw new NotFoundError("Page not found");
   }

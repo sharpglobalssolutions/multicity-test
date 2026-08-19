@@ -33,11 +33,11 @@ export function Header() {
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled
             ? "bg-navy-deep/95 shadow-[0_8px_30px_-12px_rgba(3,24,39,0.6)] backdrop-blur-md"
-            : "bg-white"
+            : "bg-[#f0f0f0]"
         }`}
       >
         <div className="content-container flex h-20 items-center justify-between">
-          <Link href="#top" className="font-heading text-xl font-bold tracking-tight text-white sm:text-2xl">
+          <Link href="#top" className="font-heading text-xl font-bold tracking-tight text-black sm:text-2xl">
             MultiCity<span className="text-emerald">Experts</span>
           </Link>
 
@@ -46,7 +46,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-white/85 transition-colors duration-200 hover:text-emerald-bright"
+                className="text-md font-medium text-black transition-colors duration-200 hover:text-emerald-bright"
               >
                 {link.label}
               </Link>
@@ -54,16 +54,10 @@ export function Header() {
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">
-            <a
-              href="tel:+18005550142"
-              className="flex items-center gap-2 text-sm font-medium text-white/85 transition-colors duration-200 hover:text-emerald-bright"
-            >
-              <Phone size={16} className="text-emerald" aria-hidden="true" />
-              +1 (800) 555-0142
+         
+            <a href="tel:1869-504-657"  className="px-5 py-2.5 text-[13px] bg-black text-white rounded-2xl">
+             1869-504-657
             </a>
-            <Button href="#flights" variant="primary" className="px-5 py-2.5 text-[13px]">
-              Get a Quote
-            </Button>
           </div>
 
           <button

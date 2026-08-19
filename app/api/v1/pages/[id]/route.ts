@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handle-error";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { getSessionUser, requirePermission } from "@/lib/rbac";
 import { idParamSchema, validateJsonBody, validateParams } from "@/lib/validation";
-import { deletePageById, getPageBySlugForViewer, updatePageForUser } from "@/services/page.service";
+import { deletePageById, getPageByIdOrSlugForViewer, updatePageForUser } from "@/services/page.service";
 import { updatePageSchema } from "@/validations/page.validation";
 
 export const dynamic = "force-dynamic";
@@ -16,12 +16,12 @@ interface RouteContext {
   params: Promise<{ id: string }>;
 }
 
-// This route's dynamic segment holds a page *slug* here, not the numeric
-// `id` used by PATCH/DELETE below — Next.js requires every handler sharing
-// this path position to use the same param name, so `id` is reused for
-// both meanings (see `app/api/v1/pages/route.ts`'s sibling `GET` for the
-// list endpoint, and `[id]/publish`/`[id]/unpublish` for the id-keyed
-// action endpoints).
+// This route's dynamic segment accepts either the page's cuid `id` (what
+// the admin edit UI has) or its `slug` (what a public page-rendering
+// caller has) — tried in that order by `getPageByIdOrSlugForViewer`. Kept
+// as one segment named `id` since Next.js requires every handler sharing
+// this path position to use the same param name (see `[id]/publish` and
+// `[id]/unpublish` for the other id-keyed action endpoints).
 export async function GET(request: Request, context: RouteContext) {
   try {
     const ip = getClientIp(request);
@@ -30,9 +30,9 @@ export async function GET(request: Request, context: RouteContext) {
       throw new RateLimitError("Too many requests. Please try again later.", retryAfterSeconds);
     }
 
-    const { id: slug } = validateParams(await context.params, idParamSchema);
+    const { id: idOrSlug } = validateParams(await context.params, idParamSchema);
     const viewer = await getSessionUser();
-    const page = await getPageBySlugForViewer(slug, viewer);
+    const page = await getPageByIdOrSlugForViewer(idOrSlug, viewer);
     return apiSuccess({ page });
   } catch (error) {
     return handleApiError(error);

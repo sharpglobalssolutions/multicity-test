@@ -48,6 +48,11 @@ export function ConfirmDialog({
     try {
       await onConfirm();
       onOpenChange(false);
+    } catch {
+      // Swallowed here — `onConfirm` is expected to have already surfaced
+      // its own error (e.g. a toast). Not closing the dialog is the
+      // signal to the caller: rethrow from `onConfirm` to keep it open
+      // for a retry, or resolve normally to close it.
     } finally {
       setPending(false);
     }
