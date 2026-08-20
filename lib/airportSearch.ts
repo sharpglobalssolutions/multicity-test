@@ -102,6 +102,19 @@ export async function searchAirports(query: string, limit = 8): Promise<AirportS
   return scored.slice(0, limit).map(({ airport, matchField }) => ({ ...airport, matchField }));
 }
 
+/** Primary airport for each city already featured in the deals/destinations
+ * content (`data/content.ts`) — shown as suggestions before the user has
+ * typed anything, so clicking an empty From/To field isn't a dead end. */
+const POPULAR_IATA_CODES = ["JFK", "LHR", "CDG", "DXB", "SIN", "NRT", "HKG", "SYD"] as const;
+
+/** Looks up `POPULAR_IATA_CODES` in the loaded dataset, preserving that
+ * order, and silently skipping any code the dataset doesn't have. */
+export async function getPopularAirports(): Promise<Airport[]> {
+  const airports = await loadAirports();
+  const byIata = new Map(airports.map((airport) => [airport.iata, airport]));
+  return POPULAR_IATA_CODES.map((code) => byIata.get(code)).filter((airport): airport is Airport => Boolean(airport));
+}
+
 export interface TextSegment {
   text: string;
   match: boolean;

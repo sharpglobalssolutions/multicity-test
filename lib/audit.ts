@@ -5,7 +5,9 @@ import { createAuditLog } from "@/repositories/audit-log.repository";
 export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "PUBLISH" | "UNPUBLISH" | "REORDER";
 
 interface RecordAuditLogInput {
-  userId: string;
+  /** `null` for actions with no authenticated actor (e.g. a public form
+   * submission) — `AuditLog.userId` is nullable for exactly this case. */
+  userId: string | null;
   action: AuditAction;
   entityType: string;
   entityId: string;

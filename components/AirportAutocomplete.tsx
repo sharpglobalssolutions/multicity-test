@@ -1,8 +1,15 @@
 "use client";
 
 import { useEffect, useId, useState, type KeyboardEvent } from "react";
-import { MapPin } from "lucide-react";
-import { highlightSegments, loadAirports, searchAirports, type Airport, type AirportSearchResult } from "@/lib/airportSearch";
+import { MapPin, Plane } from "lucide-react";
+import {
+  getPopularAirports,
+  highlightSegments,
+  loadAirports,
+  searchAirports,
+  type Airport,
+  type AirportSearchResult,
+} from "@/lib/airportSearch";
 
 interface AirportAutocompleteProps {
   label: string;
@@ -28,18 +35,25 @@ function displayValue(airport: Airport | null): string {
 export function AirportAutocomplete({ label, placeholder = "City or airport", value, onChange }: AirportAutocompleteProps) {
   const [query, setQuery] = useState(() => displayValue(value));
   const [results, setResults] = useState<AirportSearchResult[]>([]);
+  const [popularAirports, setPopularAirports] = useState<AirportSearchResult[]>([]);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const listboxId = useId();
+  const isPopularMode = !query.trim();
 
   useEffect(() => {
     setQuery(displayValue(value));
   }, [value]);
 
   // Warms the (fetched-once, cached) airport dataset as soon as this field
-  // mounts, so the first keystroke's search doesn't have to wait on it.
+  // mounts, so the first keystroke's search doesn't have to wait on it —
+  // and loads the popular-destinations list shown when the field is
+  // focused before the user has typed anything.
   useEffect(() => {
-    loadAirports().catch(() => undefined);
+    loadAirports()
+      .then(getPopularAirports)
+      .then((popular) => setPopularAirports(popular.map((airport) => ({ ...airport, matchField: "city" }))))
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -74,23 +88,25 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
     setActiveIndex(-1);
   }
 
+  const displayedResults = isPopularMode ? popularAirports : results;
+
   function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     if (!open && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
       setOpen(true);
       return;
     }
-    if (!results.length) return;
+    if (!displayedResults.length) return;
 
     if (event.key === "ArrowDown") {
       event.preventDefault();
-      setActiveIndex((index) => (index + 1) % results.length);
+      setActiveIndex((index) => (index + 1) % displayedResults.length);
     } else if (event.key === "ArrowUp") {
       event.preventDefault();
-      setActiveIndex((index) => (index <= 0 ? results.length - 1 : index - 1));
+      setActiveIndex((index) => (index <= 0 ? displayedResults.length - 1 : index - 1));
     } else if (event.key === "Enter") {
       if (activeIndex >= 0) {
         event.preventDefault();
-        const chosen = results[activeIndex];
+        const chosen = displayedResults[activeIndex];
         if (chosen) selectAirport(chosen);
       }
     } else if (event.key === "Escape") {
@@ -99,7 +115,7 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
     }
   }
 
-  const showDropdown = open && results.length > 0;
+  const showDropdown = open && displayedResults.length > 0;
   const inputId = `${listboxId}-input`;
 
   return (
@@ -141,7 +157,12 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
           aria-label={`${label} suggestions`}
           className="absolute left-0 right-0 top-full z-30 mt-2 max-h-80 overflow-auto rounded-card border border-navy-deep/10 bg-white py-2 shadow-soft"
         >
-          {results.map((airport, index) => {
+          {isPopularMode ? (
+            <li aria-hidden="true" className="px-4 pb-1.5 pt-1 text-[11px] font-semibold uppercase tracking-wide text-text-gray">
+              Popular destinations
+            </li>
+          ) : null}
+          {displayedResults.map((airport, index) => {
             const nameSegments = highlightSegments(airport.name, query);
             const citySegments = highlightSegments(`${airport.city}, ${airport.country}`, query);
             const active = index === activeIndex;
@@ -159,20 +180,25 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
                     active ? "bg-gray-light" : "bg-white"
                   }`}
                 >
-                  <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold text-text-dark">
-                      {citySegments.map((segment, i) => (
-                        <span key={i} className={segment.match ? "text-emerald" : undefined}>
-                          {segment.text}
-                        </span>
-                      ))}
+                  <span className="flex min-w-0 items-center gap-2.5">
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-emerald/10 text-emerald">
+                      <Plane size={14} aria-hidden="true" />
                     </span>
-                    <span className="block truncate text-xs text-text-gray">
-                      {nameSegments.map((segment, i) => (
-                        <span key={i} className={segment.match ? "font-semibold text-emerald" : undefined}>
-                          {segment.text}
-                        </span>
-                      ))}
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold text-text-dark">
+                        {citySegments.map((segment, i) => (
+                          <span key={i} className={segment.match ? "text-emerald" : undefined}>
+                            {segment.text}
+                          </span>
+                        ))}
+                      </span>
+                      <span className="block truncate text-xs text-text-gray">
+                        {nameSegments.map((segment, i) => (
+                          <span key={i} className={segment.match ? "font-semibold text-emerald" : undefined}>
+                            {segment.text}
+                          </span>
+                        ))}
+                      </span>
                     </span>
                   </span>
                   <span className="shrink-0 rounded-md bg-navy-deep px-2 py-1 text-[11px] font-bold tracking-wide text-white">
