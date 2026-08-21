@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,14 +11,13 @@ import { DEALS } from "@/data/content";
 
 export function DestinationCarousel() {
   return (
-    <section id="destinations" className="bg-white py-20 sm:py-28">
+    <section id="destinations" className="bg-white py-20 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Curated Routes</span>
-          <h2 className="mt-3 text-3xl font-bold text-text-dark sm:text-4xl lg:text-[42px]">
-            Best-Selling Business Class Flight Deals
+          <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">
+           Best-Selling Business Class Flight Deals
           </h2>
-          <p className="mt-4 text-base text-text-gray sm:text-lg">Exceptional routes. Exceptional value.</p>
+          <p className="mt-2 text-base text-text-gray sm:text-lg">Save 30-70%* OFF on Business Class Flights with Multi city experts.</p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12">
@@ -28,39 +27,35 @@ export function DestinationCarousel() {
             autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
             loop
             spaceBetween={20}
-            slidesPerView={1.15}
+            slidesPerView={1}
             breakpoints={{
-              640: { slidesPerView: 2, spaceBetween: 20 },
-              1024: { slidesPerView: 3, spaceBetween: 24 },
-              1280: { slidesPerView: 4, spaceBetween: 24 },
+              640: { slidesPerView: 2, spaceBetween: 24 },
+              1280: { slidesPerView: 4, spaceBetween: 28 },
             }}
             className="overflow-hidden!"
           >
             {DEALS.map((deal) => (
-              <SwiperSlide key={deal.id}>
-                <article className="group relative h-[380px] overflow-hidden rounded-card bg-navy-deep shadow-card">
-                  <Image
-                    src={deal.image}
-                    alt={deal.alt}
-                    fill
-                    sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/15 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6">
-                    <h3 className="text-xl font-bold text-white">{deal.city}</h3>
-                    <p className="mt-1 text-sm text-white/75">{deal.route}</p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold text-emerald-bright">{deal.price}</span>
-                      <a
-                        href="#connect"
-                        className="flex items-center gap-1 text-sm font-semibold text-white transition-colors hover:text-emerald-bright"
-                      >
-                        Get Deal
-                        <ArrowRight size={14} aria-hidden="true" />
-                      </a>
-                    </div>
+              <SwiperSlide key={deal.id} className="h-auto">
+                <article className="group flex h-full flex-col items-center text-center">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-navy-deep">
+                    <Image
+                      src={deal.image}
+                      alt={deal.alt}
+                      fill
+                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 90vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
                   </div>
+                  <p className="mt-4 text-[16px] font-semibold text-left text-[#2b2b2b] ">
+                    Exclusive Deals {deal.city}
+                  </p>
+                  <p className="mt-0 text-[24px] font-semibold text-text-dark">{deal.price}</p>
+                  <a
+                    href="tel:1869-504-657"
+                    className="mt-6 inline-flex items-center justify-center rounded-full bg-navy-deep px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-dark"
+                  >
+                    Call An Expert
+                  </a>
                 </article>
               </SwiperSlide>
             ))}
@@ -69,14 +64,14 @@ export function DestinationCarousel() {
           <button
             type="button"
             aria-label="Previous destination"
-            className="deals-prev absolute left-0 top-1/2 z-10 hidden -translate-x-4 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:flex"
+            className="deals-prev absolute left-0 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:-left-4 sm:flex lg:-left-6"
           >
             <ChevronLeft size={18} aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Next destination"
-            className="deals-next absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-4 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:flex"
+            className="deals-next absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:-right-4 sm:flex lg:-right-6"
           >
             <ChevronRight size={18} aria-hidden="true" />
           </button>

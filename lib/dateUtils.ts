@@ -72,3 +72,8 @@ export function formatDisplayDate(iso: string): string {
     year: "numeric",
   });
 }
+
+/** e.g. "Mar 12" — a compact form for tight spaces like a trip-summary strip. */
+export function formatShortDate(iso: string): string {
+  return parseIsoDate(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}

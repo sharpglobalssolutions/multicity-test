@@ -2,7 +2,7 @@ import { Armchair, Headset, Route, ShieldCheck, Users } from "lucide-react";
 import { unsplash } from "@/lib/images";
 
 export const NAV_LINKS = [
-  { label: "Flights", href: "#flights" },
+  { label: "", href: "#flights" },
   { label: "Business Class", href: "#business-class" },
   { label: "First Class", href: "#services" },
   { label: "Destinations", href: "#destinations" },
@@ -357,10 +357,24 @@ export const HERO_IMAGE = {
   alt: "A warmly lit premium business class airplane cabin with lie-flat seating",
 };
 
-export const BUSINESS_CLASS_IMAGE = {
-  src: unsplash("1569154941061-e231b4725ef1"),
-  alt: "A passenger's premium business class seat and workspace in flight",
-};
+export const BUSINESS_CLASS_IMAGES = [
+  {
+    src: unsplash("1569154941061-e231b4725ef1"),
+    alt: "A passenger's premium business class seat and workspace in flight",
+  },
+  {
+    src: unsplash("1569629743817-70d8db6c323b"),
+    alt: "A wide-body aircraft on final approach against a blue sky",
+  },
+  {
+    src: unsplash("1500835556837-99ac94a94552"),
+    alt: "View from an aircraft window over clouds lit by a golden sunset",
+  },
+  {
+    src: unsplash("1488085061387-422e29b40080"),
+    alt: "An aircraft window view of a city skyline during descent at sunset",
+  },
+];
 
 export const PERSONALIZED_JOURNEY_IMAGE = {
   src: unsplash("1544198365-f5d60b6d8190"),

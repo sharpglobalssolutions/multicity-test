@@ -147,7 +147,7 @@ export function DatePicker({ id, label, value, onChange, min, placeholder = "Sel
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={id} className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-text-gray">
+      <label htmlFor={id} className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-white">
         {label}
       </label>
 
@@ -158,13 +158,11 @@ export function DatePicker({ id, label, value, onChange, min, placeholder = "Sel
         onClick={() => setOpen((current) => !current)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className="relative flex w-full items-center rounded-input border border-navy-deep/10 bg-gray-light py-3 pl-10 pr-3 text-left text-sm font-medium outline-none transition-colors focus:border-emerald focus:bg-white"
+        className="relative flex w-full items-center rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-left text-sm font-medium outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]"
       >
-        <Calendar
-          size={16}
-          className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray"
-          aria-hidden="true"
-        />
+        <span className="pointer-events-none absolute left-3 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full bg-navy-deep/5 text-navy-deep">
+          <Calendar size={14} aria-hidden="true" />
+        </span>
         <span className={value ? "text-text-dark" : "text-text-gray"}>
           {value ? formatDisplayDate(value) : placeholder}
         </span>

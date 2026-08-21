@@ -120,11 +120,13 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={inputId} className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-text-gray">
+      <label htmlFor={inputId} className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-white">
         {label}
       </label>
       <div className="relative">
-        <MapPin size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray" aria-hidden="true" />
+        <span className="pointer-events-none absolute left-3 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full bg-navy-deep/5 text-navy-deep">
+          <MapPin size={14} aria-hidden="true" />
+        </span>
         <input
           id={inputId}
           type="text"
@@ -146,7 +148,7 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
             setQuery(displayValue(value));
           }}
           onKeyDown={handleKeyDown}
-          className="w-full rounded-input border border-navy-deep/10 bg-gray-light py-3 pl-10 pr-3 text-sm font-medium text-text-dark outline-none transition-colors focus:border-emerald focus:bg-white"
+          className="w-full rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]"
         />
       </div>
 

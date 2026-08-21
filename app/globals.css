@@ -274,3 +274,7 @@
   --sidebar-border: color-mix(in oklab, #ffffff 10%, transparent);
   --sidebar-ring: #03a86b;
 }
+
+.search-field lavel{
+  color:#fff;
+}

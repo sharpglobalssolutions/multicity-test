@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Armchair,
   ArrowLeftRight,
   Check,
   ChevronDown,
@@ -10,7 +11,9 @@ import {
   Mail,
   MapPinned,
   Phone,
+  Plane,
   Search,
+  Sparkles,
   User,
   Users2,
 } from "lucide-react";
@@ -18,7 +21,7 @@ import { AirportAutocomplete } from "@/components/AirportAutocomplete";
 import { Button } from "@/components/Button";
 import { DatePicker } from "@/components/DatePicker";
 import type { Airport } from "@/lib/airportSearch";
-import { toIsoDate } from "@/lib/dateUtils";
+import { formatShortDate, toIsoDate } from "@/lib/dateUtils";
 
 type TripType = "round-trip" | "one-way" | "multi-city";
 type Step = "criteria" | "contact" | "success";
@@ -32,9 +35,17 @@ const TABS: { id: TripType; label: string }[] = [
 const CABIN_CLASSES = ["Economy", "Premium Economy", "Business", "First"];
 
 const FIELD_CLASSES =
-  "w-full appearance-none rounded-input border border-navy-deep/10 bg-gray-light py-3 pl-10 pr-3 text-sm font-medium text-text-dark outline-none transition-colors focus:border-emerald focus:bg-white";
+  "w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";
 
-const FIELD_LABEL_CLASSES = "mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-text-gray";
+const FIELD_LABEL_CLASSES = "mb-2 block text-[11px] font-bold uppercase tracking-wider text-white";
+
+// The small circular icon "chip" every field's leading icon sits in —
+// the same visual language as the airport-suggestion rows and calendar
+// day styling elsewhere in this card, applied consistently to every
+// field so the whole form reads as one considered design instead of a
+// mix of bare icons and chips.
+const FIELD_ICON_WRAP_CLASSES =
+  "pointer-events-none absolute left-3 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full bg-navy-deep/5 text-navy-deep";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -202,48 +213,56 @@ export function FlightSearch() {
   }
 
   return (
-    <div className="w-full rounded-card bg-white p-5 shadow-soft sm:p-7">
+    <div className="relative w-full overflow-hidden rounded-card bg-black/50 p-6 shadow-soft border border-white ring-1 ring-navy-deep/[0.06] sm:p-8">
+      <div className="absolute inset-x-0 top-0 h-1" aria-hidden="true" />
+
       {step !== "success" ? (
-        <div className="mb-5 flex items-center justify-center gap-2">
-          <div className="flex items-center gap-1.5">
-            <span
-              className={`flex size-6 items-center justify-center rounded-full text-[11px] font-bold ${
-                step === "criteria" ? "bg-navy-deep text-white" : "bg-emerald text-white"
-              }`}
-            >
-              {step === "criteria" ? "1" : <Check size={12} aria-hidden="true" />}
+        <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-emerald">
+        
+         
+        </div>
+      ) : null}
+
+      {step !== "success" ? (
+        <div className="mb-6">
+          <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
+            <span className={step === "criteria" ? "text-white" : "text-emerald"}>
+              {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
+              Flight Details
             </span>
-            <span className="text-xs font-semibold text-text-dark">Flight Details</span>
+            <span className={step === "contact" ? "text-white" : "text-white"}>Your Details</span>
           </div>
-          <span className="h-px w-8 bg-navy-deep/10" aria-hidden="true" />
-          <div className="flex items-center gap-1.5">
-            <span
-              className={`flex size-6 items-center justify-center rounded-full text-[11px] font-bold ${
-                step === "contact" ? "bg-navy-deep text-white" : "bg-gray-light text-text-gray"
-              }`}
-            >
-              2
-            </span>
-            <span className={`text-xs font-semibold ${step === "contact" ? "text-text-dark" : "text-text-gray"}`}>
-              Your Details
-            </span>
+          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-gray-light">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-emerald to-emerald-bright"
+              initial={false}
+              animate={{ width: step === "criteria" ? "50%" : "100%" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+            />
           </div>
         </div>
       ) : null}
 
       {step === "criteria" ? (
-        <div className="mb-5 flex gap-1 rounded-input bg-gray-light p-1">
+        <div className="relative mb-6 flex gap-1 rounded-input bg-gray-light p-1">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setTripType(tab.id)}
               aria-pressed={tripType === tab.id}
-              className={`flex-1 whitespace-nowrap rounded-[7px] px-2 py-2 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
-                tripType === tab.id ? "bg-navy-deep text-white shadow-sm" : "text-text-gray hover:text-navy-deep"
+              className={`relative flex-1 whitespace-nowrap rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
+                tripType === tab.id ? "text-white" : "text-navy-deep hover:text-navy-deep"
               }`}
             >
-              {tab.label}
+              {tripType === tab.id ? (
+                <motion.span
+                  layoutId="trip-type-pill"
+                  className="absolute inset-0 rounded-[7px] bg-[#40a8f3] shadow-sm"
+                  transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
+                />
+              ) : null}
+              <span className="relative z-10">{tab.label}</span>
             </button>
           ))}
         </div>
@@ -258,13 +277,13 @@ export function FlightSearch() {
             noValidate
             className="space-y-4"
           >
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end search-field">
               <AirportAutocomplete label="From" value={from} onChange={setFrom} placeholder="Origin city or airport" />
               <button
                 type="button"
                 onClick={swap}
                 aria-label="Swap origin and destination"
-                className="flex h-10 w-10 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-gray-light text-navy-deep transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald sm:mb-0.5 sm:self-end"
+                className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-white text-navy-deep shadow-sm transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald hover:shadow-card sm:mb-0.5 sm:self-end"
               >
                 <ArrowLeftRight size={16} aria-hidden="true" />
               </button>
@@ -305,11 +324,9 @@ export function FlightSearch() {
                   Passengers
                 </label>
                 <div className="relative">
-                  <Users2
-                    size={16}
-                    className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray"
-                    aria-hidden="true"
-                  />
+                  <span className={FIELD_ICON_WRAP_CLASSES}>
+                    <Users2 size={14} aria-hidden="true" />
+                  </span>
                   <select
                     id="passengers"
                     value={passengers}
@@ -335,11 +352,14 @@ export function FlightSearch() {
                   Class
                 </label>
                 <div className="relative">
+                  <span className={FIELD_ICON_WRAP_CLASSES}>
+                    <Armchair size={14} aria-hidden="true" />
+                  </span>
                   <select
                     id="cabin-class"
                     value={cabinClass}
                     onChange={(event) => setCabinClass(event.target.value)}
-                    className={`${FIELD_CLASSES} pl-3.5 pr-8`}
+                    className={`${FIELD_CLASSES} pr-8`}
                   >
                     {CABIN_CLASSES.map((option) => (
                       <option key={option} value={option}>
@@ -356,7 +376,7 @@ export function FlightSearch() {
               </div>
             </div>
 
-            <Button type="submit" variant="primary" className="w-full">
+            <Button type="submit" variant="primary" className="w-full py-4 text-[15px]">
               <Search size={16} aria-hidden="true" />
               Search Flights
             </Button>
@@ -369,14 +389,30 @@ export function FlightSearch() {
             noValidate
             className="space-y-4"
           >
-            <div className="rounded-input bg-gray-light px-4 py-3 text-xs text-text-gray">
-              <span className="font-semibold text-text-dark">
-                {from ? `${from.city} (${from.iata})` : "—"} <ArrowLeftRight size={11} className="mx-1 inline" aria-hidden="true" />{" "}
-                {to ? `${to.city} (${to.iata})` : "—"}
-              </span>
-              <br />
-              {departure} {tripType === "round-trip" && returnDate ? `– ${returnDate}` : ""} · {passengers}{" "}
-              {passengers === 1 ? "Passenger" : "Passengers"} · {cabinClass}
+            <div className="relative overflow-hidden rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3.5 text-white">
+              <div className="flex items-center justify-between gap-3">
+                <span className="flex min-w-0 items-center gap-1.5 text-sm font-bold">
+                  <span className="truncate">{from ? from.iata : "—"}</span>
+                  <Plane size={12} className="shrink-0 rotate-90 text-emerald-bright" aria-hidden="true" />
+                  <span className="truncate">{to ? to.iata : "—"}</span>
+                </span>
+                <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide">
+                  {cabinClass}
+                </span>
+              </div>
+              <p className="mt-1 truncate text-xs text-white">
+                {from ? from.city : "—"} to {to ? to.city : "—"}
+              </p>
+              <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-white/60">
+                <span>
+                  {departure ? formatShortDate(departure) : "—"}
+                  {tripType === "round-trip" && returnDate ? ` – ${formatShortDate(returnDate)}` : ""}
+                </span>
+                <span className="size-1 rounded-full bg-white/30" aria-hidden="true" />
+                <span>
+                  {passengers} {passengers === 1 ? "Passenger" : "Passengers"}
+                </span>
+              </div>
             </div>
 
             <div>
@@ -384,7 +420,9 @@ export function FlightSearch() {
                 Full Name
               </label>
               <div className="relative">
-                <User size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray" aria-hidden="true" />
+                <span className={FIELD_ICON_WRAP_CLASSES}>
+                  <User size={14} aria-hidden="true" />
+                </span>
                 <input
                   id="contact-name"
                   type="text"
@@ -404,7 +442,9 @@ export function FlightSearch() {
                 Email
               </label>
               <div className="relative">
-                <Mail size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray" aria-hidden="true" />
+                <span className={FIELD_ICON_WRAP_CLASSES}>
+                  <Mail size={14} aria-hidden="true" />
+                </span>
                 <input
                   id="contact-email"
                   type="email"
@@ -425,7 +465,9 @@ export function FlightSearch() {
                   Mobile
                 </label>
                 <div className="relative">
-                  <Phone size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray" aria-hidden="true" />
+                  <span className={FIELD_ICON_WRAP_CLASSES}>
+                    <Phone size={14} aria-hidden="true" />
+                  </span>
                   <input
                     id="contact-mobile"
                     type="tel"
@@ -445,7 +487,9 @@ export function FlightSearch() {
                   City
                 </label>
                 <div className="relative">
-                  <MapPinned size={16} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-gray" aria-hidden="true" />
+                  <span className={FIELD_ICON_WRAP_CLASSES}>
+                    <MapPinned size={14} aria-hidden="true" />
+                  </span>
                   <input
                     id="contact-city"
                     type="text"
@@ -468,7 +512,7 @@ export function FlightSearch() {
                 type="button"
                 onClick={() => setStep("criteria")}
                 disabled={submitting}
-                className="rounded-btn border border-navy-deep/10 px-5 py-3 text-sm font-semibold text-text-dark transition-colors hover:bg-gray-light disabled:opacity-50"
+                className="rounded-btn border border-navy-deep/10 bg-white px-5 py-3 text-sm font-semibold text-text-dark transition-colors hover:border-transparent hover:bg-[#40a8f3] hover:text-white disabled:opacity-50"
               >
                 Back
               </button>
