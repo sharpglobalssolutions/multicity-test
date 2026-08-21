@@ -15,16 +15,22 @@ export function DestinationCarousel() {
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">
-           Best-Selling Business Class Flight Deals
+            Best-Selling Business Class Flight Deals
           </h2>
-          <p className="mt-2 text-base text-text-gray sm:text-lg">Save 30-70%* OFF on Business Class Flights with Multi city experts.</p>
+          <p className="mt-2 text-base text-text-gray sm:text-lg">
+            Save 30-70%* OFF on Business Class Flights with Multi city experts.
+          </p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12">
           <Swiper
             modules={[Navigation, Autoplay]}
             navigation={{ prevEl: ".deals-prev", nextEl: ".deals-next" }}
-            autoplay={{ delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            autoplay={{
+              delay: 4500,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             loop
             spaceBetween={20}
             slidesPerView={1}
@@ -37,7 +43,7 @@ export function DestinationCarousel() {
             {DEALS.map((deal) => (
               <SwiperSlide key={deal.id} className="h-auto">
                 <article className="group flex h-full flex-col items-center text-center">
-                  <div className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-navy-deep">
+                  <div className="relative aspect-[4/5] w-full overflow-hidden  bg-navy-deep">
                     <Image
                       src={deal.image}
                       alt={deal.alt}
@@ -46,16 +52,13 @@ export function DestinationCarousel() {
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   </div>
-                  <p className="mt-4 text-[16px] font-semibold text-left text-[#2b2b2b] ">
-                    Exclusive Deals {deal.city}
-                  </p>
-                  <p className="mt-0 text-[24px] font-semibold text-text-dark">{deal.price}</p>
-                  <a
-                    href="tel:1869-504-657"
-                    className="mt-6 inline-flex items-center justify-center rounded-full bg-navy-deep px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-dark"
-                  >
-                    Call An Expert
-                  </a>
+                  <div className="exlusive-heal-content">
+                    <p>Exclusive Deals {deal.city}</p>
+                    <h3 className="mt-0 text-[24px] text-text-dark">
+                      {deal.price}
+                    </h3>
+                    <a href="tel:1869-504-657">Call An Expert</a>
+                  </div>
                 </article>
               </SwiperSlide>
             ))}

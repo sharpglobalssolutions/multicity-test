@@ -275,6 +275,38 @@
   --sidebar-ring: #03a86b;
 }
 
-.search-field lavel{
-  color:#fff;
+.exlusive-heal-content p{
+  font-size:20px;
+  font-weight: 500;
+}
+.exlusive-heal-content{
+  text-align: left;
+  width: 100%;
+  padding: 10px;
+}
+.exlusive-heal-content h3{
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.exlusive-heal-content a{
+  display: inline-block;
+  padding: 8px 15px;
+  background-color: #0a4074;
+  color: #fff;
+  font-size: 15px;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+#business-class{
+  position: relative;
+}
+#business-class::after{
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  background-color: #f4f4f4;
+  top:0;
+  left: 60px;
 }

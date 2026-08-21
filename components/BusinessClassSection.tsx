@@ -18,7 +18,7 @@ export function BusinessClassSection() {
     // clips that motion at the section boundary so it can never cause
     // page-level horizontal scroll if the reveal hasn't settled yet
     // (e.g. a fast scroll flick past the trigger point).
-    <section id="business-class" className="overflow-x-hidden bg-off-white py-20 sm:py-28">
+    <section id="business-class" className="overflow-x-hidden bg-white py-14 sm:py-16">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-80}>
           <div className="group relative h-[320px] overflow-hidden rounded-card shadow-card sm:h-[420px] lg:h-[480px]">
@@ -81,20 +81,20 @@ export function BusinessClassSection() {
         </SectionReveal>
 
         <SectionReveal x={80} delay={0.1}>
-          <span className="eyebrow">Built For Complex International Travel</span>
-          <h2 className="mt-3 text-3xl font-bold text-text-dark sm:text-4xl lg:text-[42px]">
-            Built For Complex International Travel
+          
+          <h2 className="mt-3 text-2xl  text-text-dark sm:text-4xl lg:text-[30px]">
+         Find the Right Business Class<br />Flight for Your Journey
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-text-gray sm:text-lg">
-            We specialize in the itineraries other agencies turn away — multi-city routings, mixed
-            cabins, and premium international connections. Our advisors work each request by hand,
-            sourcing fares across our full airline network so you get options built around your
-            actual trip, not a generic search result.
+          <p className="mt-5 max-w-lg text-[16px] text-text-gray">
+           Business Class should be about more than simply getting from one destination to another.
+Whether you're travelling for business, marking a special occasion or simply want greater comfort on a long-haul journey, we help you explore Business Class options that fit your journey.
+We look beyond the headline fare to consider the details that can make a significant difference to your
+experience — including airline, routing, connection times, departure and arrival airports, fare flexibility and overall journey comfort.
+Because the best Business Class itinerary isn't necessarily the most expensive one. It's the one that makes sense for you.
+
           </p>
           <div className="mt-8">
-            <Button href="#experts" variant="ghost">
-              Learn More
-            </Button>
+         
           </div>
         </SectionReveal>
       </div>
