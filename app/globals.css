@@ -6,7 +6,7 @@
 
 @theme {
   /* Brand palette — see README "Design system" for the source spec. */
-  --color-navy-deep: #031827;
+  --color-navy-deep: #041627;
   --color-navy-dark: #061d2c;
   --color-navy-secondary: #0a2638;
   --color-emerald: #00b67a;
@@ -14,8 +14,8 @@
   --color-off-white: #f7f7f3;
   --color-gray-light: #f1f3f2;
   --color-beige: #e8e1d8;
-  --color-text-gray: #68737a;
-  --color-text-dark: #17232c;
+  --color-text-gray: #7e7e7e;
+  --color-text-dark: #0a0c11;
 
   /* Headings: Inter. Body/description text: JUST Sans (see
      app/fonts/just-sans/NOTICE.md) — applies site-wide, marketing and
@@ -26,6 +26,9 @@
   --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Decorative-only (e.g. the FAQ section's background "Q") — never used
+     for real body/heading copy. */
+  --font-playfair: var(--font-playfair), serif;
 
   --radius-card: 18px;
   --radius-btn: 10px;
@@ -300,6 +303,7 @@
 }
 #business-class{
   position: relative;
+  z-index: 1;
 }
 #business-class::after{
   content: '';
@@ -308,5 +312,66 @@
   height: 100%;
   background-color: #f4f4f4;
   top:0;
-  left: 60px;
+  left: 59px;
 }
+
+.personalize-journey{
+    position: relative;
+}
+.personalize-journey::after{
+  content: '';
+  position: absolute;
+  width: 40%;
+  height: 100%;
+  background-color: #f4f4f4;
+  top:0;
+  right: 60px;
+}
+.personalize-journey::before{
+     content: '';
+    position: absolute;
+    width: 92%;
+    height: 100px;
+    background-color: #f4f4f4;
+    top: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#business-class::before{
+    content: '';
+    position: absolute;
+    width: 92%;
+    height: 65px;
+    background-color: #f4f4f4;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+.statistic-section{
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 1px 2px 2px rgba(3, 24, 39, 0.2);
+  position: relative;
+}
+
+.statistic-section::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 50px;
+    background-color: #ccc;
+    top: 25%;
+    left: 35%;
+}
+
+.statistic-section::before {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 50px;
+    background-color: #ccc;
+    top: 25%;
+    right: 35%;
+}
+

@@ -55,3 +55,13 @@ export function YoutubeIcon(props: IconProps) {
     </svg>
   );
 }
+
+/** Looked up by the `icon` key on `SOCIAL_LINKS` (`data/content.ts`), so
+ * every consumer renders the same icon set from one shared list instead of
+ * each hand-mapping label strings to components. */
+export const SOCIAL_ICON_MAP = {
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  linkedin: LinkedinIcon,
+  youtube: YoutubeIcon,
+} as const;

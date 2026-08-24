@@ -14,6 +14,11 @@ import { Statistics } from "@/components/Statistics";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { TravelInsights } from "@/components/TravelInsights";
 
+// The page is otherwise fully static, but TravelInsights reads live blog
+// posts from the database — revalidate periodically so newly published
+// posts appear without a full redeploy.
+export const revalidate = 300;
+
 export default function Home() {
   return (
     <>

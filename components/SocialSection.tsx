@@ -1,13 +1,6 @@
-import { FacebookIcon, InstagramIcon, LinkedinIcon, YoutubeIcon } from "@/components/SocialIcons";
+import { SOCIAL_ICON_MAP } from "@/components/SocialIcons";
 import { SectionReveal } from "@/components/SectionReveal";
-import { PARTNER_AIRLINES } from "@/data/content";
-
-const SOCIALS = [
-  { label: "Facebook", href: "#", Icon: FacebookIcon },
-  { label: "Instagram", href: "#", Icon: InstagramIcon },
-  { label: "LinkedIn", href: "#", Icon: LinkedinIcon },
-  { label: "YouTube", href: "#", Icon: YoutubeIcon },
-];
+import { PARTNER_AIRLINES, SOCIAL_LINKS } from "@/data/content";
 
 export function SocialSection() {
   return (
@@ -16,16 +9,19 @@ export function SocialSection() {
         <SectionReveal>
           <h2 className="text-2xl font-bold text-text-dark sm:text-3xl">Let&apos;s Stay Connected</h2>
           <div className="mt-6 flex items-center justify-center gap-4">
-            {SOCIALS.map(({ label, href, Icon }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
-              >
-                <Icon width={18} height={18} aria-hidden="true" />
-              </a>
-            ))}
+            {SOCIAL_LINKS.map(({ label, href, icon }) => {
+              const Icon = SOCIAL_ICON_MAP[icon];
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
+                >
+                  <Icon width={18} height={18} aria-hidden="true" />
+                </a>
+              );
+            })}
           </div>
         </SectionReveal>
 

@@ -258,7 +258,7 @@ export function FlightSearch() {
               {tripType === tab.id ? (
                 <motion.span
                   layoutId="trip-type-pill"
-                  className="absolute inset-0 rounded-[7px] bg-[#40a8f3] shadow-sm"
+                  className="absolute inset-0 rounded-[7px] bg-[#0a4074] shadow-sm"
                   transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
                 />
               ) : null}

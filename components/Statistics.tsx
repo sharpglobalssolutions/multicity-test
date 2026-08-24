@@ -32,19 +32,19 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
   const count = useCountUp(value, inView);
 
   return (
-    <div ref={ref} className="text-center">
-      <div className="font-heading text-4xl font-bold text-white sm:text-5xl lg:text-[52px]">
+    <div ref={ref} className="text-center border-class">
+      <div className="font-heading text-[22px] font-bold text-text-dark sm:text-5xl lg:text-[28px]">
         {count}
-        <span className="text-emerald-bright">{suffix}</span>
+        <span className="tex-[#0a0c11]">{suffix}</span>
       </div>
-      <p className="mt-2 text-sm font-medium uppercase tracking-wide text-white/70">{label}</p>
+      <p className="mt-2 text-sm font-medium uppercase tracking-wide text-text-gray">{label}</p>
     </div>
   );
 }
 
 export function Statistics() {
   return (
-    <section className="bg-navy-dark py-16 sm:py-20">
+    <section className="bg-white statistic-section py-5 sm:py-5">
       <div className="content-container grid grid-cols-1 gap-10 sm:grid-cols-3">
         {STATS.map((stat) => (
           <StatItem key={stat.id} value={stat.value} suffix={stat.suffix} label={stat.label} />

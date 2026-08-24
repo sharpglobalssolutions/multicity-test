@@ -1,50 +1,78 @@
-import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { SectionReveal } from "@/components/SectionReveal";
-import { INSIGHTS } from "@/data/content";
+import { Suspense } from "react";
+import Link from "next/link";
+import { BlogPostCard } from "@/components/BlogPostCard";
+import { listFeaturedBlogPosts } from "@/services/blog.service";
+
+const FEATURED_COUNT = 3;
+
+function InsightsGridSkeleton() {
+  return (
+    <div className="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+      {Array.from({ length: FEATURED_COUNT }).map((_, index) => (
+        <div key={index} className="animate-pulse">
+          <div className="aspect-[4/3] rounded-2xl bg-navy-deep/[0.06]" />
+          <div className="mt-5 h-5 w-4/5 rounded bg-navy-deep/[0.06]" />
+          <div className="mt-3 h-4 w-full rounded bg-navy-deep/[0.06]" />
+          <div className="mt-2 h-4 w-2/3 rounded bg-navy-deep/[0.06]" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+async function InsightsGrid() {
+  const posts = await listFeaturedBlogPosts(FEATURED_COUNT);
+
+  if (posts.length === 0) {
+    return (
+      <p className="mt-16 text-center text-sm text-text-gray">
+        New travel insights are on the way — check back soon.
+      </p>
+    );
+  }
+
+  return (
+    <div className="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => (
+        <BlogPostCard key={post.id} post={post} />
+      ))}
+    </div>
+  );
+}
 
 export function TravelInsights() {
   return (
-    <section id="insights" className="bg-white py-20 sm:py-28">
-      <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Resources</span>
-          <h2 className="mt-3 text-3xl font-bold text-text-dark sm:text-4xl lg:text-[42px]">
+    <section id="insights" className="relative overflow-hidden bg-off-white py-20 sm:py-20">
+      {/* Decorative oversized word, bottom-left — Playfair Display, purely
+          a background motif, kept behind all content. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-8 -left-2 select-none font-playfair text-[110px] font-normal leading-none text-navy-deep/[0.05] sm:-bottom-12 sm:text-[170px] lg:-bottom-16 lg:text-[220px]"
+      >
+        Insights
+      </span>
+
+      <div className="content-container relative">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl  text-text-dark sm:text-4xl lg:text-[30px]">
             Travel Insights &amp; Flight Expertise
           </h2>
-          <p className="mt-4 text-base text-text-gray sm:text-lg">
-            Useful information for smarter international travel.
+          <p className="mt-4 text-base text-text-gray sm:text-[16px]">
+            Practical guidance for premium international travel, multi-city itineraries and business class planning.
           </p>
-        </SectionReveal>
+        </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {INSIGHTS.map((article, index) => (
-            <SectionReveal key={article.id} delay={index * 0.1}>
-              <article className="group h-full overflow-hidden rounded-card border border-navy-deep/8 bg-white shadow-card">
-                <div className="relative h-56 overflow-hidden">
-                  <Image
-                    src={article.image}
-                    alt={article.alt}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="eyebrow">{article.category}</span>
-                  <h3 className="mt-2 text-lg font-bold leading-snug text-text-dark">{article.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-text-gray">{article.description}</p>
-                  <a
-                    href={article.href}
-                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald transition-colors hover:text-navy-deep"
-                  >
-                    Read More
-                    <ArrowRight size={14} aria-hidden="true" />
-                  </a>
-                </div>
-              </article>
-            </SectionReveal>
-          ))}
+        <Suspense fallback={<InsightsGridSkeleton />}>
+          <InsightsGrid />
+        </Suspense>
+
+        <div className="mt-12 flex justify-center lg:justify-end">
+          <Link
+            href="/insights"
+            className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-dark"
+          >
+            View All Articles
+          </Link>
         </div>
       </div>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Globe2, Plane } from "lucide-react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,44 +11,60 @@ import { TESTIMONIALS } from "@/data/content";
 
 export function TestimonialCarousel() {
   return (
-    <section id="testimonials" className="bg-off-white py-20 sm:py-28">
-      <div className="content-container">
+    <section id="testimonials" className="relative overflow-hidden bg-white py-20 sm:py-20">
+      {/* Decorative, low-opacity travel motif — not a stock photo, just the
+          site's own icon set (globe + plane) rendered oversized so it reads
+          as a background illustration without competing with the cards. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
+      >
+        <Globe2 size={620} strokeWidth={0.6} className="text-navy-deep" />
+        <Plane size={160} strokeWidth={0.6} className="absolute left-[60%] top-[20%] -rotate-45 text-navy-deep" />
+      </div>
+
+      <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Testimonials</span>
-          <h2 className="mt-3 text-3xl font-bold text-text-dark sm:text-4xl lg:text-[42px]">Client Experiences</h2>
-          <p className="mt-4 text-base text-text-gray sm:text-lg">Trusted by travelers worldwide.</p>
+          <h2 className="mt-3 text-3xl text-text-dark sm:text-4xl lg:text-[30px]">Client Experiences</h2>
+          <p className="mt-2 text-base text-text-gray sm:text-[16px]">Trusted by travelers worldwide.</p>
         </SectionReveal>
 
-        <SectionReveal delay={0.15} className="relative mt-12">
+        <SectionReveal delay={0.15} className="relative mx-auto mt-12 px-10 sm:px-14">
           <Swiper
             modules={[Navigation, Autoplay]}
             navigation={{ prevEl: ".testimonials-prev", nextEl: ".testimonials-next" }}
             autoplay={{ delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
             loop
-            spaceBetween={24}
+            spaceBetween={28}
             slidesPerView={1}
-            breakpoints={{ 1024: { slidesPerView: 2, spaceBetween: 28 } }}
-            className="testimonial-swiper overflow-hidden!"
+            breakpoints={{ 1024: { slidesPerView: 2, spaceBetween: 32 } }}
+            className="testimonial-swiper overflow-hidden! pt-12! sm:pt-14!"
           >
             {TESTIMONIALS.map((testimonial) => (
-              <SwiperSlide key={testimonial.id} className="h-auto">
-                <figure className="flex h-full flex-col rounded-card border border-navy-deep/8 bg-white p-8 shadow-card">
-                  <Quote className="text-emerald/30" size={40} aria-hidden="true" />
-                  <blockquote className="mt-4 flex-1 text-base leading-relaxed text-text-dark sm:text-lg">
-                    &ldquo;{testimonial.quote}&rdquo;
+              <SwiperSlide key={testimonial.id} className="h-auto relative">
+                <figure className="relative flex h-full flex-col items-center rounded-card bg-gray-light px-8 pb-10 pt-8 text-center sm:px-12 sm:pb-12 sm:pt-10">
+                  {/* The visible ink of a "“" glyph sits high in its own
+                      line-box (this font's cap-height area, not vertically
+                      centered) — a plain -50% translate centers the box, not
+                      the ink, leaving the mark almost entirely above the
+                      card. -21% is tuned to the actual glyph so the drawn
+                      mark itself straddles the card's top edge evenly. */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-0 z-50 -translate-x-1/2 -translate-y-[27%] font-heading text-7xl font-black leading-none text-text-dark sm:text-8xl"
+                  >
+                    &ldquo;
+                  </span>
+                  <blockquote className="mt-2 max-w-md text-base leading-relaxed text-text-dark sm:text-lg">
+                    {testimonial.quote}
                   </blockquote>
-                  <div className="mt-6 flex items-center gap-1" aria-label={`${testimonial.rating} out of 5 stars`}>
-                    {Array.from({ length: testimonial.rating }, (_, i) => (
-                      <Star key={i} size={14} className="fill-emerald text-emerald" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <figcaption className="mt-4 flex items-center gap-3">
-                    <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full">
+                  <figcaption className="mt-8 flex flex-col items-center gap-3">
+                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full">
                       <Image
                         src={testimonial.avatar}
                         alt={`Portrait of ${testimonial.name}`}
                         fill
-                        sizes="44px"
+                        sizes="56px"
                         className="object-cover"
                       />
                     </div>
@@ -65,16 +81,16 @@ export function TestimonialCarousel() {
           <button
             type="button"
             aria-label="Previous testimonial"
-            className="testimonials-prev absolute left-0 top-1/2 z-10 hidden -translate-x-4 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:flex"
+            className="testimonials-prev absolute left-0 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center p-2 text-text-dark transition-opacity hover:opacity-60"
           >
-            <ChevronLeft size={18} aria-hidden="true" />
+            <ChevronLeft size={30} strokeWidth={2.25} aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Next testimonial"
-            className="testimonials-next absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-4 items-center justify-center rounded-full border border-navy-deep/10 bg-white p-3 text-navy-deep shadow-card transition-colors hover:border-emerald hover:text-emerald sm:flex"
+            className="testimonials-next absolute right-0 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center p-2 text-text-dark transition-opacity hover:opacity-60"
           >
-            <ChevronRight size={18} aria-hidden="true" />
+            <ChevronRight size={30} strokeWidth={2.25} aria-hidden="true" />
           </button>
         </SectionReveal>
       </div>

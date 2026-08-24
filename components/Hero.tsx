@@ -16,6 +16,11 @@ export function Hero() {
   // element, revealing the still image underneath exactly as before.
   const [videoFailed, setVideoFailed] = useState(false);
 
+  // `<video poster>` is a plain HTML attribute — it only accepts a string
+  // URL, unlike `next/image`'s `src` (which also accepts the StaticImageData
+  // object a local `import` produces), so it needs unwrapping here.
+  const heroPosterSrc = typeof HERO_IMAGE.src === "string" ? HERO_IMAGE.src : HERO_IMAGE.src.src;
+
   return (
     <section
       id="flights"
@@ -29,7 +34,7 @@ export function Hero() {
           loop
           playsInline
           preload="auto"
-          poster={HERO_IMAGE.src}
+          poster={heroPosterSrc}
           onError={() => setVideoFailed(true)}
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
@@ -48,7 +53,7 @@ export function Hero() {
 
           <AnimatedText
             as="h1"
-            text={["Complex International Travel, Made Easier."]}
+            text={["Complex International", "Travel, Made Easier."]}
             mode="line"
             className="mt-4 text-2xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[40px]"
           />

@@ -28,3 +28,10 @@ export const createAirlineSchema = z.object({
 });
 
 export type CreateAirlineInput = z.infer<typeof createAirlineSchema>;
+
+/** Query params for `GET /airlines` (the public featured-airlines list). */
+export const listAirlinesQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).optional(),
+});
+
+export type ListAirlinesQuery = z.infer<typeof listAirlinesQuerySchema>;

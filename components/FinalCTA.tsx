@@ -1,26 +1,28 @@
-import Image from "next/image";
 import { Button } from "@/components/Button";
 import { SectionReveal } from "@/components/SectionReveal";
-import { FINAL_CTA_IMAGE } from "@/data/content";
+
+// The header's existing "call an expert" action — see components/Header.tsx.
+const CALL_EXPERT_HREF = "tel:1869-504-657";
 
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden bg-navy-deep py-24 sm:py-32">
-      <Image src={FINAL_CTA_IMAGE.src} alt={FINAL_CTA_IMAGE.alt} fill sizes="100vw" className="object-cover" />
-      <div className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/80 to-navy-deep/40" />
+    <section
+      className="relative flex min-h-[420px] items-center overflow-hidden bg-navy-deep bg-[url('/images/cta-banner.jpg')] bg-cover bg-fixed bg-no-repeat bg-[position:25%_20%] py-16 sm:min-h-[520px] sm:bg-[position:32%_25%] sm:py-20 lg:min-h-[620px] lg:bg-[position:center_30%] lg:py-0"
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/40 to-black/15" />
 
       <div className="content-container relative z-10">
-        <SectionReveal className="max-w-xl">
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-[44px]">
+        <SectionReveal className="max-w-lg">
+          <h2 className="text-3xl  leading-tight text-white sm:text-4xl lg:text-[30px]">
             Ready To Plan Your Next Journey?
           </h2>
-          <p className="mt-5 text-base leading-relaxed text-white/80 sm:text-lg">
-            Let our travel experts help you find the right premium flight for your next international
-            trip.
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
+            Complex international itineraries, business class expertise, and human support for travelers who demand
+            more.
           </p>
           <div className="mt-8">
-            <Button href="#connect" variant="primary">
-              Get Started
+            <Button href={CALL_EXPERT_HREF} variant="secondary">
+              Call an expert
             </Button>
           </div>
         </SectionReveal>

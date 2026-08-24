@@ -10,7 +10,7 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 };
 
 const BASE_CLASSES =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-btn px-6 py-3.5 text-sm font-semibold tracking-wide transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-btn px-6 py-3.5 text-[16px]  tracking-wide transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald focus-visible:ring-offset-2";
 
 interface CommonProps {
   variant?: ButtonVariant;

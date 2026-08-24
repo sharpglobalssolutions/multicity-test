@@ -10,3 +10,15 @@ export function publishBlogPost(id: string) {
     data: { status: "PUBLISHED", publishedAt: new Date() },
   });
 }
+
+export function listPublishedBlogPosts(limit?: number) {
+  return prisma.blogPost.findMany({
+    where: { status: "PUBLISHED" },
+    orderBy: { publishedAt: "desc" },
+    ...(limit ? { take: limit } : {}),
+  });
+}
+
+export function findPublishedBlogPostBySlug(slug: string) {
+  return prisma.blogPost.findFirst({ where: { slug, status: "PUBLISHED" } });
+}

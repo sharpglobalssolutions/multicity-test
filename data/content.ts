@@ -1,5 +1,6 @@
 import { Armchair, Headset, Route, ShieldCheck, Users } from "lucide-react";
 import { unsplash } from "@/lib/images";
+import heroImage from "@/public/images/landing-img.webp"
 
 export const NAV_LINKS = [
   { label: "", href: "#flights" },
@@ -108,19 +109,19 @@ export interface ServiceCard {
 
 export const SERVICES: ServiceCard[] = [
   {
-    id: "business-class",
+    id: "Business Class Flights",
     category: "Business Class",
     title: "Business Class Flights",
-    description: "Find premium business class options for international travel.",
+    description: "Explore Business Class options for long-haul and international journeys, with consideration for your preferredroutes, airlines, schedules and travel requirements.",
     image: unsplash("1544620347-c4fd4a3d5957"),
     alt: "A lie-flat business class seat in a dimly lit cabin",
     href: "#business-class",
   },
   {
     id: "first-class",
-    category: "First Class",
+    category: "First Class Flights",
     title: "First Class Flights",
-    description: "Travel in complete comfort with premium first-class experiences.",
+    description: "Explore available First Class options when greater privacy, space and a premium onboard experience are important to your journey.",
     image: unsplash("1587019158091-1a103c5dd17f"),
     alt: "Close-up detail of a first-class seat and personal suite",
     href: "#services",
@@ -128,11 +129,38 @@ export const SERVICES: ServiceCard[] = [
   {
     id: "global-deals",
     category: "Flight Deals",
-    title: "Global Flight Deals",
-    description: "Discover competitive fares across major international routes.",
+    title: "International Flights",
+    description: "Plan international journeys across North America, the UK, Europe and other major destinations with personalised travel guidance.",
     image: unsplash("1474302770737-173ee21bab63"),
     alt: "A commercial aircraft climbing into a golden evening sky",
     href: "#destinations",
+  },
+  {
+    id: "group-travel",
+    category: "Group Travel",
+    title: "Corporate Travel",
+    description: "From executive travel to frequent business journeys, we help companies and professionals plan international itineraries around schedules, premium cabin preferences and flexible travel requirements.",
+    image: unsplash("1543269865-cbf427effbad"),
+    alt: "A group of friends smiling together while planning a trip",
+    href: "#connect",
+  },
+  {
+    id: "corporate-travel",
+    category: "Corporate Travel",
+    title: "Premium Economy",
+    description: "Looking for more space and comfort without moving all the way to Business Class? Explore Premium Economy options suited to your journey and priorities.",
+    image: unsplash("1600880292203-757bb62b4baf"),
+    alt: "Two business travelers celebrating a successful meeting",
+    href: "#connect",
+  },
+  {
+    id: "leisure-travel",
+    category: "Leisure Travel",
+    title: "Flight Changes & Travel Assistance",
+    description: "Already booked and need help? We can assist with eligible travel requirements including flight changes,rebooking, schedule changes, missed flights and other post-booking needs.",
+    image: unsplash("1476514525535-07fb3b4ae5f1"),
+    alt: "A wooden boat crossing a turquoise alpine lake surrounded by mountains",
+    href: "#connect",
   },
 ];
 
@@ -147,32 +175,32 @@ export const EXPERT_FEATURES: ExpertFeature[] = [
   {
     id: "expert-assistance",
     icon: Headset,
-    title: "Expert Assistance",
-    description: "Dedicated advisors who understand premium international travel end to end.",
+    title: "International Travel Specialists",
+    description: "Our specialists understand the practical considerations behind international flight planning from airlines and routes to fare structures, cabin classes and connections.",
   },
   {
     id: "complex-itineraries",
     icon: Route,
-    title: "Complex Itineraries",
-    description: "Multi-city and stopover routings planned around how you actually want to travel.",
+    title: "Personalised Travel Guidance",
+    description: "There is no single “best” itinerary for everyone. We consider your destination, schedule, comfort preferences,flexibility requirements and budget when evaluating available options.",
   },
   {
     id: "premium-cabin-access",
     icon: Armchair,
-    title: "Premium Cabin Access",
-    description: "Business and first class inventory across the airlines that matter most to you.",
+    title: "Business & Premium Cabin Expertise",
+    description: "Our expertise includes Business Class, First Class and Premium Economy travel across major international routes.",
   },
   {
     id: "competitive-fares",
     icon: ShieldCheck,
-    title: "Competitive Fares",
-    description: "Premium travel at fares that make sense, sourced across our full airline network.",
+    title: "Complex Itinerary Specialists",
+    description: "Multi-city journeys, multiple destinations, connecting flights and less conventional routing can require more thought than a standard round trip. That's where specialist planning can add real value.",
   },
   {
     id: "support",
     icon: Users,
-    title: "24/7 Support",
-    description: "Real support around the clock, before departure and while you're on the road.",
+    title: "Human Travel Support",
+    description: "When you need assistance, you can speak with a real travel specialist rather than relying entirely on a self-service booking system.",
   },
 ];
 
@@ -269,46 +297,6 @@ export const FAQS: Faq[] = [
   },
 ];
 
-export interface InsightArticle {
-  id: string;
-  category: string;
-  title: string;
-  description: string;
-  image: string;
-  alt: string;
-  href: string;
-}
-
-export const INSIGHTS: InsightArticle[] = [
-  {
-    id: "insight-1",
-    category: "Business Travel",
-    title: "How to Book Business Class for Less Than You Think",
-    description: "The fare structures, timing, and routings that consistently uncover premium value on long-haul routes.",
-    image: unsplash("1502920514313-52581002a659"),
-    alt: "A quiet premium airport lounge with floor-to-ceiling windows",
-    href: "#",
-  },
-  {
-    id: "insight-2",
-    category: "Itinerary Planning",
-    title: "Planning a Multi-City Trip Without the Headache",
-    description: "A practical framework for sequencing stopovers so your itinerary works with you, not against you.",
-    image: unsplash("1470004914212-05527e49370b"),
-    alt: "View of clouds from an aircraft window at cruising altitude",
-    href: "#",
-  },
-  {
-    id: "insight-3",
-    category: "Travel Tips",
-    title: "What Actually Changes Between First and Business Class",
-    description: "A clear-eyed comparison of cabin, service, and fare differences to help you decide where to spend.",
-    image: unsplash("1436491865332-7a61a109cc05"),
-    alt: "An aircraft wing above the clouds during a sunset flight",
-    href: "#",
-  },
-];
-
 export interface Stat {
   id: string;
   value: number;
@@ -322,38 +310,26 @@ export const STATS: Stat[] = [
   { id: "experience", value: 20, suffix: "+", label: "Years Experience" },
 ];
 
-export const FOOTER_LINKS = {
-  services: [
-    { label: "Business Class", href: "#business-class" },
-    { label: "First Class", href: "#services" },
-    { label: "Flight Deals", href: "#destinations" },
-    { label: "Group Travel", href: "#" },
-    { label: "Multi-City Travel", href: "#flights" },
-  ],
-  company: [
-    { label: "About", href: "#faq" },
-    { label: "Contact", href: "#connect" },
-    { label: "Travel Experts", href: "#experts" },
-    { label: "Reviews", href: "#testimonials" },
-    { label: "Blog", href: "#insights" },
-  ],
-  support: [
-    { label: "FAQs", href: "#faq" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms", href: "#" },
-    { label: "Contact Support", href: "#connect" },
-  ],
-  destinations: [
-    { label: "Europe", href: "#destinations" },
-    { label: "Asia", href: "#destinations" },
-    { label: "Middle East", href: "#destinations" },
-    { label: "North America", href: "#destinations" },
-    { label: "South America", href: "#destinations" },
-  ],
-} as const;
+/** Single source of truth for the site's social profile links — used by
+ * both the footer and the homepage "Let's Stay Connected" section. No
+ * real profile URLs have been configured yet, so these are placeholders;
+ * update the `href` values here once real accounts exist and every
+ * consumer picks it up automatically. */
+export const SOCIAL_LINKS = [
+  { label: "Facebook", href: "#", icon: "facebook" },
+  { label: "Instagram", href: "#", icon: "instagram" },
+  { label: "LinkedIn", href: "#", icon: "linkedin" },
+  { label: "YouTube", href: "#", icon: "youtube" },
+] as const;
+
+/** Payment/trust badges shown in the footer. No official brand logo
+ * assets exist in the project yet, so these render as plain grayscale
+ * wordmarks rather than fabricated logo graphics — swap in real SVGs
+ * under `public/images/payments/` and reference them here once available. */
+export const TRUST_BADGES = ["Visa", "Mastercard", "American Express", "Norton", "Discover", "Diners Club"] as const;
 
 export const HERO_IMAGE = {
-  src: unsplash("1540339832862-474599807836"),
+  src: heroImage,
   alt: "A warmly lit premium business class airplane cabin with lie-flat seating",
 };
 
@@ -376,17 +352,23 @@ export const BUSINESS_CLASS_IMAGES = [
   },
 ];
 
-export const PERSONALIZED_JOURNEY_IMAGE = {
-  src: unsplash("1544198365-f5d60b6d8190"),
-  alt: "A luxurious first class aircraft seat and suite",
-};
+export const PERSONALIZED_JOURNEY_IMAGES = [
+  {
+    src: unsplash("1544198365-f5d60b6d8190"),
+    alt: "A luxurious first class aircraft seat and suite",
+  },
+  {
+    src: unsplash("1524661135-423995f22d0b"),
+    alt: "A pinned world map showing routes across countries and continents",
+  },
+  {
+    src: unsplash("1488646953014-85cb44e25828"),
+    alt: "A map, camera, and travel backpack laid out while planning a trip",
+  },
+];
 
 export const EXPERTS_BACKGROUND_IMAGE = {
-  src: unsplash("1526772662000-3f88f10405ff"),
-  alt: "The interior of a premium wide-body aircraft cabin",
+  src: "/images/plan-img.webp",
+  alt: "A commercial aircraft taking off head-on at sunset",
 };
 
-export const FINAL_CTA_IMAGE = {
-  src: unsplash("1517400508447-f8dd518b86db"),
-  alt: "A relaxed passenger enjoying a premium aircraft cabin",
-};

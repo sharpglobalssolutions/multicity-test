@@ -18,10 +18,10 @@ export function BusinessClassSection() {
     // clips that motion at the section boundary so it can never cause
     // page-level horizontal scroll if the reveal hasn't settled yet
     // (e.g. a fast scroll flick past the trigger point).
-    <section id="business-class" className="overflow-x-hidden bg-white py-14 sm:py-16">
+    <section id="business-class" className="overflow-x-hidden bg-white py-14 sm:py-16 mt-10">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-80}>
-          <div className="group relative h-[320px] overflow-hidden rounded-card shadow-card sm:h-[420px] lg:h-[480px]">
+          <div className="relative h-[320px] overflow-hidden shadow-card sm:h-[420px] lg:h-[480px]">
             <Swiper
               modules={[Autoplay, EffectFade, Navigation, Pagination]}
               effect="fade"
@@ -63,34 +63,36 @@ export function BusinessClassSection() {
               }
             />
 
-            <button
-              type="button"
-              aria-label="Previous image"
-              className="business-class-prev absolute left-3 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-white/80 p-2 text-navy-deep opacity-0 shadow-card transition-opacity duration-200 hover:bg-white group-hover:opacity-100"
-            >
-              <ChevronLeft size={16} aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              aria-label="Next image"
-              className="business-class-next absolute right-3 top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full bg-white/80 p-2 text-navy-deep opacity-0 shadow-card transition-opacity duration-200 hover:bg-white group-hover:opacity-100"
-            >
-              <ChevronRight size={16} aria-hidden="true" />
-            </button>
+            <div className="absolute right-0 top-0 z-20 w-20 h-20 flex items-center gap-0  bg-[#f4f4f4] p-1 shadow-card">
+              <button
+                type="button"
+                aria-label="Previous image"
+                className="business-class-prev flex items-center justify-center  text-navy-deep transition-colors hover:bg-gray-light"
+              >
+                <ChevronLeft size={30} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                className="business-class-next flex  items-center justify-center  text-navy-deep transition-colors hover:bg-gray-light"
+              >
+                <ChevronRight size={30} aria-hidden="true" />
+              </button>
+            </div>
           </div>
         </SectionReveal>
 
         <SectionReveal x={80} delay={0.1}>
           
-          <h2 className="mt-3 text-2xl  text-text-dark sm:text-4xl lg:text-[30px]">
+          <h2 className="mt-3 text-2xl  text-[#0a0c11] sm:text-4xl lg:text-[30px]">
          Find the Right Business Class<br />Flight for Your Journey
           </h2>
-          <p className="mt-5 max-w-lg text-[16px] text-text-gray">
+          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]">
            Business Class should be about more than simply getting from one destination to another.
-Whether you're travelling for business, marking a special occasion or simply want greater comfort on a long-haul journey, we help you explore Business Class options that fit your journey.
+Whether you&apos;re travelling for business, marking a special occasion or simply want greater comfort on a long-haul journey, we help you explore Business Class options that fit your journey.
 We look beyond the headline fare to consider the details that can make a significant difference to your
 experience — including airline, routing, connection times, departure and arrival airports, fare flexibility and overall journey comfort.
-Because the best Business Class itinerary isn't necessarily the most expensive one. It's the one that makes sense for you.
+Because the best Business Class itinerary isn&apos;t necessarily the most expensive one. It&apos;s the one that makes sense for you.
 
           </p>
           <div className="mt-8">

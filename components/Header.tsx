@@ -78,7 +78,7 @@ export function Header() {
 
           <div className="hidden items-center gap-4 lg:flex">
          
-            <a href="tel:1869-504-657"  className="px-5 py-2.5 text-[16px] bg-black text-white rounded-4xl transition hover:bg-[#03a86b]">
+            <a href="tel:1869-504-657"  className="px-5 py-2.5 text-[16px] font-semibold bg-black text-white rounded-4xl transition hover:bg-[#0a4074]">
              1869-504-657
             </a>
           </div>
