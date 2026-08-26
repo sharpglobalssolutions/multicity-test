@@ -328,6 +328,44 @@ export const SOCIAL_LINKS = [
  * under `public/images/payments/` and reference them here once available. */
 export const TRUST_BADGES = ["Visa", "Mastercard", "American Express", "Norton", "Discover", "Diners Club"] as const;
 
+/** Nav columns for the dark footer band. Real destination pages for these
+ * don't exist yet, so most hrefs point at the closest matching on-page
+ * anchor or "#" — same placeholder approach already used elsewhere on the
+ * site for links with no page to point to yet. */
+export const DARK_FOOTER_LINKS = {
+  services: [
+    { label: "Multi-City Flights", href: "#flights" },
+    { label: "Business Class", href: "#business-class" },
+    { label: "Flight Changes & Rebooking", href: "#connect" },
+    { label: "Cruise Flights", href: "#" },
+    { label: "Open-Jaw Routing", href: "#" },
+    { label: "Concierge Service", href: "#connect" },
+  ],
+  insights: [
+    { label: "All Articles", href: "/insights" },
+    { label: "Multi-City Flights", href: "#flights" },
+    { label: "Business Class", href: "#business-class" },
+    { label: "Route Planning", href: "#destinations" },
+    { label: "Travel Guides", href: "/insights" },
+    { label: "FAQ", href: "#faq" },
+  ],
+  company: [
+    { label: "About Our Service", href: "#experts" },
+    { label: "Our Process", href: "#experts" },
+    { label: "Contact", href: "#connect" },
+    { label: "Sitemap", href: "#" },
+  ],
+  legal: [
+    { label: "Terms of Use", href: "#" },
+    { label: "Privacy Policy", href: "#" },
+    { label: "Refund Policy", href: "#" },
+    { label: "Chargeback Policy", href: "#" },
+    { label: "Cookie Policy", href: "#" },
+    { label: "Data Processing", href: "#" },
+    { label: "Disclaimer", href: "#" },
+  ],
+} as const;
+
 export const HERO_IMAGE = {
   src: heroImage,
   alt: "A warmly lit premium business class airplane cabin with lie-flat seating",
@@ -371,4 +409,73 @@ export const EXPERTS_BACKGROUND_IMAGE = {
   src: "/images/plan-img.webp",
   alt: "A commercial aircraft taking off head-on at sunset",
 };
+
+export const TRAVEL_ADVISOR_IMAGE = {
+  src: unsplash("1573497491208-6b1acb260507"),
+  alt: "A professional travel advisor smiling while assisting a client over a headset",
+};
+
+export const SUPPORT_SPECIALIST_IMAGE = {
+  src: unsplash("1714079761488-e0c9b9ac4138"),
+  alt: "A friendly travel support specialist wearing a headset",
+};
+
+export const SUPPORT_ITEMS = [
+  ["Flight changes", "Date changes", "Rebooking", "Schedule changes"],
+  ["Missed flights", "Missed connections", "Cancellations", "Urgent travel requirements"],
+] as const;
+
+export interface RouteDeal {
+  id: string;
+  image: string;
+  alt: string;
+  originCity: string;
+  destinationCity: string;
+  multiCityRoute: string[];
+  price: string;
+  href: string;
+}
+
+export const ROUTE_DEALS: RouteDeal[] = [
+  {
+    id: "paris",
+    image: unsplash("1502602898657-3e91760cbb34"),
+    alt: "The Eiffel Tower rising above the rooftops of Paris",
+    originCity: "New York",
+    destinationCity: "Paris",
+    multiCityRoute: ["New York", "London", "Paris"],
+    price: "$1,899",
+    href: "#",
+  },
+  {
+    id: "rome",
+    image: unsplash("1515542483964-5e8c63d7d89b"),
+    alt: "The Colosseum in Rome",
+    originCity: "Chicago",
+    destinationCity: "Rome",
+    multiCityRoute: ["Chicago", "Frankfurt", "Rome"],
+    price: "$2,199",
+    href: "#",
+  },
+  {
+    id: "tokyo",
+    image: unsplash("1540959733332-eab4deabeeaf"),
+    alt: "The Tokyo skyline glowing at twilight",
+    originCity: "Boston",
+    destinationCity: "Tokyo",
+    multiCityRoute: ["Boston", "San Francisco", "Tokyo"],
+    price: "$3,099",
+    href: "#",
+  },
+  {
+    id: "dubai",
+    image: unsplash("1512453979798-5ea266f8880c"),
+    alt: "The Dubai skyline with the Burj Khalifa at sunset",
+    originCity: "Los Angeles",
+    destinationCity: "Dubai",
+    multiCityRoute: ["Los Angeles", "Doha", "Dubai"],
+    price: "$3,299",
+    href: "#",
+  },
+];
 

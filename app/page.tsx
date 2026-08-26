@@ -8,10 +8,13 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { PartnerStrip } from "@/components/PartnerStrip";
 import { PersonalizedJourney } from "@/components/PersonalizedJourney";
+import { RoutesCarousel } from "@/components/RoutesCarousel";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
 import { SocialSection } from "@/components/SocialSection";
 import { Statistics } from "@/components/Statistics";
+import { SupportSection } from "@/components/SupportSection";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
+import { TravelAdvisorSection } from "@/components/TravelAdvisorSection";
 import { TravelInsights } from "@/components/TravelInsights";
 
 // The page is otherwise fully static, but TravelInsights reads live blog
@@ -30,13 +33,15 @@ export default function Home() {
         <BusinessClassSection />
         <PersonalizedJourney />
         <Statistics />
+        <TravelAdvisorSection />
         <ServicesCarousel />
+        <SupportSection />
         <ExpertsSection />
         <TestimonialCarousel />
         <FAQ />
         <TravelInsights />
+        <RoutesCarousel />
         <FinalCTA />
-        <SocialSection />
       </main>
       <Footer />
     </>

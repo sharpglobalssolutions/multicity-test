@@ -70,7 +70,7 @@ export function ServicesCarousel() {
                   <div className="p-6">
            
                     <h3 className="mt-2 text-[18px] font-semibold text-text-dark">{service.title}</h3>
-                    <p className="mt-2 text-[15px] leading-normal text-text-gray">{service.description}</p>
+                    <p className="mt-2 line-clamp-3 text-[15px] leading-normal text-text-gray">{service.description}</p>
                     <a
                       href={service.href}
                       className="mt-5 inline-flex items-center gap-1.5 text-[16px]  text-emerald transition-colors hover:text-navy-deep"

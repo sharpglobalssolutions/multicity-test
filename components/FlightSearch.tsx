@@ -213,7 +213,7 @@ export function FlightSearch() {
   }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-card bg-black/50 p-6 shadow-soft border border-white ring-1 ring-navy-deep/[0.06] sm:p-8">
+    <div className="relative w-full overflow-hidden rounded-[7px] bg-black/50 p-6 shadow-soft border border-white ring-1 ring-navy-deep/[0.06] sm:p-8">
       <div className="absolute inset-x-0 top-0 h-1" aria-hidden="true" />
 
       {step !== "success" ? (
@@ -244,21 +244,21 @@ export function FlightSearch() {
       ) : null}
 
       {step === "criteria" ? (
-        <div className="relative mb-6 flex gap-1 rounded-input bg-gray-light p-1">
+        <div className="relative mb-6 flex gap-5 rounded-input p-1">
           {TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
               onClick={() => setTripType(tab.id)}
               aria-pressed={tripType === tab.id}
-              className={`relative flex-1 whitespace-nowrap rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
-                tripType === tab.id ? "text-white" : "text-navy-deep hover:text-navy-deep"
+              className={`relative flex-1 whitespace-nowrap border border-white hover:bg-[#0a4074] rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
+                tripType === tab.id ? "text-white" : "text-white hover:text-white"
               }`}
             >
               {tripType === tab.id ? (
                 <motion.span
                   layoutId="trip-type-pill"
-                  className="absolute inset-0 rounded-[7px] bg-[#0a4074] shadow-sm"
+                  className="absolute inset-0 rounded-[7px] border border-[#0a4074] bg-[#0a4074] shadow-sm"
                   transition={{ type: "spring", duration: 0.4, bounce: 0.15 }}
                 />
               ) : null}

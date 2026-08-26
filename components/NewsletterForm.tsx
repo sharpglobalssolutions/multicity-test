@@ -63,7 +63,7 @@ export function NewsletterForm() {
           value={countryCode}
           onChange={(event) => setCountryCode(event.target.value)}
           aria-label="Country code"
-          className="rounded-full border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors focus:border-navy-deep/40 sm:w-24"
+          className=" border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors focus:border-navy-deep/40 sm:w-24"
         >
           {COUNTRY_CODES.map((code) => (
             <option key={code} value={code}>
@@ -77,7 +77,7 @@ export function NewsletterForm() {
           onChange={(event) => setPhone(event.target.value)}
           placeholder="Phone number"
           aria-label="Phone number"
-          className="min-w-0 flex-1 rounded-full border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors placeholder:text-text-gray focus:border-navy-deep/40"
+          className="min-w-0 flex-1  border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors placeholder:text-text-gray focus:border-navy-deep/40"
         />
         <input
           type="email"
@@ -86,12 +86,12 @@ export function NewsletterForm() {
           placeholder="Email address"
           aria-label="Email address"
           required
-          className="min-w-0 flex-[1.5] rounded-full border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors placeholder:text-text-gray focus:border-navy-deep/40"
+          className="min-w-0 flex-[1.5]   border border-navy-deep/15 bg-white px-4 py-3 text-sm text-text-dark outline-none transition-colors placeholder:text-text-gray focus:border-navy-deep/40"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="whitespace-nowrap rounded-full bg-navy-deep px-7 py-3 text-sm font-semibold uppercase tracking-wide text-emerald-bright transition-colors hover:bg-navy-dark disabled:opacity-60"
+          className="whitespace-nowrap  bg-navy-deep px-7 py-3 text-[15px] uppercase  text-emerald-bright transition-colors hover:bg-navy-dark disabled:opacity-60"
         >
           {status === "submitting" ? "Subscribing…" : "Subscribe"}
         </button>
