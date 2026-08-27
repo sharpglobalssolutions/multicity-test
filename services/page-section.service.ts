@@ -19,12 +19,27 @@ import type {
 
 const ENTITY_TYPE = "PageSection";
 
+/** Active sections for a page, in display order — what any public renderer
+ * shows (an inactive section is soft-hidden without deleting it). */
+export async function listActiveSectionsForPage(pageId: string) {
+  const sections = await findSectionsByPageId(pageId);
+  return sections.filter((section) => section.isActive);
+}
+
 async function getPageOr404(pageId: string) {
   const page = await findPageById(pageId);
   if (!page) {
     throw new NotFoundError("Page not found");
   }
   return page;
+}
+
+/** Every section for a page (active and inactive), in display order —
+ * what the admin section editor shows, as opposed to `listActiveSectionsForPage`
+ * (what the public renderer shows). */
+export async function listSectionsForPage(pageId: string) {
+  await getPageOr404(pageId);
+  return findSectionsByPageId(pageId);
 }
 
 /** Fetches a section and confirms it belongs to `pageId`. A section that

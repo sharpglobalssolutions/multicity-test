@@ -81,6 +81,11 @@ const PERMISSIONS = [
   { key: "blog.delete", description: "Delete blog posts." },
   { key: "blog.publish", description: "Publish blog posts." },
 
+  // Media (Cloudinary-backed uploads)
+  { key: "media.read", description: "View uploaded media." },
+  { key: "media.create", description: "Upload media." },
+  { key: "media.delete", description: "Delete media." },
+
   // Access control (reserved for SUPER_ADMIN — see ROLE_PERMISSIONS below)
   { key: "roles.read", description: "View roles." },
   { key: "roles.update", description: "Create, edit, and assign roles." },
@@ -120,8 +125,21 @@ const ROLE_PERMISSIONS: Record<(typeof ROLES)[number]["name"], readonly string[]
     "blog.delete",
     "blog.publish",
     "seo.read",
+    "seo.update",
+    "media.read",
+    "media.create",
+    "media.delete",
   ],
-  EDITOR: ["pages.read", "pages.create", "pages.update", "blog.read", "blog.create", "blog.update"],
+  EDITOR: [
+    "pages.read",
+    "pages.create",
+    "pages.update",
+    "blog.read",
+    "blog.create",
+    "blog.update",
+    "media.read",
+    "media.create",
+  ],
 };
 
 async function main() {

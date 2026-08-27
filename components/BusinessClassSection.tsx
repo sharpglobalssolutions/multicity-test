@@ -12,7 +12,31 @@ import { Button } from "@/components/Button";
 import { SectionReveal } from "@/components/SectionReveal";
 import { BUSINESS_CLASS_IMAGES } from "@/data/content";
 
-export function BusinessClassSection() {
+const DEFAULT_HEADING = "Find the Right Business Class Flight for Your Journey";
+const DEFAULT_BODY =
+  "Business Class should be about more than simply getting from one destination to another. " +
+  "Whether you're travelling for business, marking a special occasion or simply want greater comfort on a " +
+  "long-haul journey, we help you explore Business Class options that fit your journey. We look beyond the " +
+  "headline fare to consider the details that can make a significant difference to your experience — " +
+  "including airline, routing, connection times, departure and arrival airports, fare flexibility and overall " +
+  "journey comfort. Because the best Business Class itinerary isn't necessarily the most expensive one. It's " +
+  "the one that makes sense for you.";
+
+export interface BusinessClassSectionProps {
+  heading?: string;
+  body?: string;
+  images?: { src: string; alt: string }[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. The heading previously forced a manual line
+ * break after "Class" — dropped so the text stays freely editable; natural
+ * wrapping still gives ~2 lines at this width. */
+export function BusinessClassSection({
+  heading = DEFAULT_HEADING,
+  body = DEFAULT_BODY,
+  images = BUSINESS_CLASS_IMAGES,
+}: BusinessClassSectionProps = {}) {
   return (
     // `overflow-x-hidden`: the image/text below slide in via translateX —
     // clips that motion at the section boundary so it can never cause
@@ -32,7 +56,7 @@ export function BusinessClassSection() {
               loop
               className="h-full w-full"
             >
-              {BUSINESS_CLASS_IMAGES.map((image) => (
+              {images.map((image) => (
                 <SwiperSlide key={image.src}>
                   <div className="relative h-full w-full">
                     <Image
@@ -83,21 +107,9 @@ export function BusinessClassSection() {
         </SectionReveal>
 
         <SectionReveal x={80} delay={0.1}>
-          
-          <h2 className="mt-3 text-2xl  text-[#0a0c11] sm:text-4xl lg:text-[30px]">
-         Find the Right Business Class<br />Flight for Your Journey
-          </h2>
-          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]">
-           Business Class should be about more than simply getting from one destination to another.
-Whether you&apos;re travelling for business, marking a special occasion or simply want greater comfort on a long-haul journey, we help you explore Business Class options that fit your journey.
-We look beyond the headline fare to consider the details that can make a significant difference to your
-experience — including airline, routing, connection times, departure and arrival airports, fare flexibility and overall journey comfort.
-Because the best Business Class itinerary isn&apos;t necessarily the most expensive one. It&apos;s the one that makes sense for you.
-
-          </p>
-          <div className="mt-8">
-         
-          </div>
+          <h2 className="mt-3 text-2xl text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]">{body}</p>
+          <div className="mt-8" />
         </SectionReveal>
       </div>
     </section>

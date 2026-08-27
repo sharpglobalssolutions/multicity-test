@@ -40,7 +40,18 @@ async function InsightsGrid() {
   );
 }
 
-export function TravelInsights() {
+export interface TravelInsightsProps {
+  heading?: string;
+  subheading?: string;
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. The article list itself stays blog-driven
+ * (unrelated to this — it always reflects the live `BlogPost` table). */
+export function TravelInsights({
+  heading = "Travel Insights & Flight Expertise",
+  subheading = "Practical guidance for premium international travel, multi-city itineraries and business class planning.",
+}: TravelInsightsProps = {}) {
   return (
     <section id="insights" className="relative overflow-hidden bg-off-white py-20 sm:py-20">
       {/* Decorative oversized word, bottom-left — Playfair Display, purely
@@ -54,12 +65,8 @@ export function TravelInsights() {
 
       <div className="content-container relative">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl  text-text-dark sm:text-4xl lg:text-[30px]">
-            Travel Insights &amp; Flight Expertise
-          </h2>
-          <p className="mt-4 text-base text-text-gray sm:text-[16px]">
-            Practical guidance for premium international travel, multi-city itineraries and business class planning.
-          </p>
+          <h2 className="text-3xl  text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-4 text-base text-text-gray sm:text-[16px]">{subheading}</p>
         </div>
 
         <Suspense fallback={<InsightsGridSkeleton />}>

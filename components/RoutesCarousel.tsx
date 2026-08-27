@@ -10,21 +10,27 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { SectionReveal } from "@/components/SectionReveal";
-import { ROUTE_DEALS } from "@/data/content";
+import { ROUTE_DEALS, type RouteDeal } from "@/data/content";
 
-export function RoutesCarousel() {
+export interface RoutesCarouselProps {
+  heading?: string;
+  subheading?: string;
+  routes?: RouteDeal[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function RoutesCarousel({
+  heading = "Expert International Flight Planning Across Key Global Routes",
+  subheading = "Whether you're travelling between major business centres, visiting family overseas, planning a multi-city holiday, or putting together a more complex itinerary, our specialists can help you evaluate the journey around your priorities.",
+  routes = ROUTE_DEALS,
+}: RoutesCarouselProps = {}) {
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-5xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">
-            Expert International Flight Planning Across Key Global Routes
-          </h2>
-          <p className="mt-4 text-base text-text-gray sm:text-[16px]">
-            Whether you&apos;re travelling between major business centres, visiting family overseas, planning a
-            multi-city holiday, or putting together a more complex itinerary, our specialists can help you evaluate
-            the journey around your priorities.
-          </p>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-4 text-base text-text-gray sm:text-[16px]">{subheading}</p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="mt-12">
@@ -42,7 +48,7 @@ export function RoutesCarousel() {
               }}
               className="overflow-hidden!"
             >
-              {ROUTE_DEALS.map((route) => (
+              {routes.map((route) => (
                 <SwiperSlide key={route.id} className="h-auto">
                   <article className="flex h-full min-h-[260px] overflow-hidden rounded-card border border-navy-deep/10 bg-white sm:min-h-[300px]">
                     <div className="relative w-2/5 shrink-0 sm:w-[38%]">

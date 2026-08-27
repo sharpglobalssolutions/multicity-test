@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
-import { STATS } from "@/data/content";
+import { STATS, type Stat } from "@/data/content";
 
 function useCountUp(target: number, active: boolean, duration = 1600) {
   const [value, setValue] = useState(0);
@@ -42,11 +42,17 @@ function StatItem({ value, suffix, label }: { value: number; suffix: string; lab
   );
 }
 
-export function Statistics() {
+export interface StatisticsProps {
+  stats?: Stat[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function Statistics({ stats = STATS }: StatisticsProps = {}) {
   return (
     <section className="bg-white statistic-section py-5 sm:py-5">
       <div className="content-container grid grid-cols-1 gap-10 sm:grid-cols-3">
-        {STATS.map((stat) => (
+        {stats.map((stat) => (
           <StatItem key={stat.id} value={stat.value} suffix={stat.suffix} label={stat.label} />
         ))}
       </div>

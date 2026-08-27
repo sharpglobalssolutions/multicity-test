@@ -25,7 +25,7 @@ export function AdminSidebar() {
       <SidebarHeader>
         <Link
           href="/admin"
-          className="flex items-center gap-2 rounded-md px-2 py-1.5 text-base font-bold text-sidebar-foreground group-data-[collapsible=icon]:justify-center"
+          className="flex items-center gap-2 rounded-md px-2 py-1.5 font-heading text-base font-bold text-sidebar-foreground group-data-[collapsible=icon]:justify-center"
         >
           <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
             MC

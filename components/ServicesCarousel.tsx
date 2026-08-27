@@ -7,16 +7,26 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { SectionReveal } from "@/components/SectionReveal";
-import { SERVICES } from "@/data/content";
+import { SERVICES, type ServiceCard } from "@/data/content";
+
+export interface ServicesCarouselProps {
+  heading?: string;
+  subheading?: string;
+  services?: ServiceCard[];
+}
 
 /**
- * Six services now (up from the original three) specifically so `loop`
- * can be enabled below — Swiper needs roughly double the visible count
- * (3 per view on desktop) to loop cleanly without duplicate-slide
- * artifacts, which the original three-service, show-all-at-once layout
- * couldn't satisfy.
+ * Six services by default (up from an original three) specifically so
+ * `loop` can be enabled below — Swiper needs roughly double the visible
+ * count (3 per view on desktop) to loop cleanly without duplicate-slide
+ * artifacts. All props optional, falling back to this default — see
+ * `Hero.tsx` for the rationale.
  */
-export function ServicesCarousel() {
+export function ServicesCarousel({
+  heading = "International Flight Services for Every Kind of Journey",
+  subheading = "Every traveller has different priorities. That's why our services are designed to accommodate different types of international travel — from premium cabin journeys to complex multi-destination itineraries.",
+  services = SERVICES,
+}: ServicesCarouselProps = {}) {
   return (
     <section id="services" className="relative overflow-hidden bg-white py-20 sm:py-20">
       <div
@@ -32,12 +42,8 @@ export function ServicesCarousel() {
 
       <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl text-text-dark sm:text-4xl lg:text-[30px]">
-            International Flight Services for Every Kind of Journey
-          </h2>
-          <p className="mt-2 text-base text-text-gray sm:text-[16px]">
-            Every traveller has different priorities. That&apos;s why our services are designed to accommodate different types of international travel — from premium cabin journeys to complex multi-destination itineraries.
-          </p>
+          <h2 className="text-3xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-2 text-base text-text-gray sm:text-[16px]">{subheading}</p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12">
@@ -55,7 +61,7 @@ export function ServicesCarousel() {
             }}
             className="overflow-hidden!"
           >
-            {SERVICES.map((service) => (
+            {services.map((service) => (
               <SwiperSlide key={service.id}>
                 <article className="group h-full rounded-card border border-navy-deep/8 bg-white shadow-card transition-transform duration-300 hover:-translate-y-1.5">
                   <div className="relative h-56 overflow-hidden rounded-t-card">

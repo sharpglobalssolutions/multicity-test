@@ -123,6 +123,7 @@ export function LoginForm() {
               disabled={submitting}
               aria-invalid={Boolean(fieldErrors.email)}
               aria-describedby={fieldErrors.email ? "email-error" : undefined}
+              className="h-10 focus:outline-0 login-input rounded-[5px]"
             />
             {fieldErrors.email ? (
               <p id="email-error" role="alert" className="text-xs text-destructive">
@@ -150,7 +151,7 @@ export function LoginForm() {
                 disabled={submitting}
                 aria-invalid={Boolean(fieldErrors.password)}
                 aria-describedby={fieldErrors.password ? "password-error" : undefined}
-                className="pr-9"
+                className="pr-9 h-10 focus:outline-0 login-input rounded-[5px]"
               />
               <button
                 type="button"
@@ -176,7 +177,7 @@ export function LoginForm() {
             </p>
           ) : null}
 
-          <Button type="submit" className="w-full" disabled={submitting}>
+          <Button type="submit" className="w-full py-5  pointer-coarse login-btn" disabled={submitting}>
             {submitting ? (
               <>
                 <Loader2 className="animate-spin" />

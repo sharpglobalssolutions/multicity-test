@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handle-error";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { requirePermission } from "@/lib/rbac";
 import { idParamSchema, validateJsonBody, validateParams } from "@/lib/validation";
-import { createSectionForPage } from "@/services/page-section.service";
+import { createSectionForPage, listSectionsForPage } from "@/services/page-section.service";
 import { createPageSectionSchema } from "@/validations/page-section.validation";
 
 export const dynamic = "force-dynamic";
@@ -14,6 +14,27 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 
 interface RouteContext {
   params: Promise<{ id: string }>;
+}
+
+export async function GET(request: Request, context: RouteContext) {
+  try {
+    const ip = getClientIp(request);
+    const { allowed, retryAfterSeconds } = checkRateLimit(
+      `pages:sections:list:${ip}`,
+      RATE_LIMIT,
+      RATE_LIMIT_WINDOW_MS,
+    );
+    if (!allowed) {
+      throw new RateLimitError("Too many requests. Please try again later.", retryAfterSeconds);
+    }
+
+    await requirePermission("pages.read");
+    const { id: pageId } = validateParams(await context.params, idParamSchema);
+    const sections = await listSectionsForPage(pageId);
+    return apiSuccess({ sections });
+  } catch (error) {
+    return handleApiError(error);
+  }
 }
 
 export async function POST(request: Request, context: RouteContext) {

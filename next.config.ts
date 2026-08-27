@@ -8,12 +8,13 @@ const isDev = process.env.NODE_ENV !== "production";
  * Router streams inline hydration data and Next injects some inline
  * styles, and wiring per-request nonces through static `headers()` isn't
  * straightforward. Every other directive stays locked to `'self'` (plus
- * the one external image host the site actually uses). */
+ * the external image hosts the site actually uses — Unsplash for stock
+ * photography, Cloudinary for admin-uploaded page-section images). */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://images.unsplash.com",
+  "img-src 'self' data: https://images.unsplash.com https://res.cloudinary.com",
   "font-src 'self' data:",
   "connect-src 'self'",
   "frame-ancestors 'none'",
@@ -48,6 +49,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
       },
     ],
   },

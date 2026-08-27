@@ -12,25 +12,36 @@ import { Button } from "@/components/Button";
 import { SectionReveal } from "@/components/SectionReveal";
 import { PERSONALIZED_JOURNEY_IMAGES } from "@/data/content";
 
-export function PersonalizedJourney() {
+const DEFAULT_HEADING = "Get Expert Help With Complex International Itineraries";
+const DEFAULT_BODY =
+  "Some journeys are straightforward. Others require a little more thought. Multiple destinations. " +
+  "Long-haul connections. Premium cabins. Different departure airports. Tight schedules. Flexible travel " +
+  "dates. Open-jaw or multi-city itineraries. When there are more moving parts, finding the right " +
+  "combination can become considerably more difficult than simply searching for a flight. That's where a " +
+  "travel specialist can make a difference. At MultiCity Experts, we provide personalised assistance for " +
+  "complex international travel, helping you evaluate the options that best fit your journey.";
+
+export interface PersonalizedJourneyProps {
+  heading?: string;
+  body?: string;
+  images?: { src: string; alt: string }[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function PersonalizedJourney({
+  heading = DEFAULT_HEADING,
+  body = DEFAULT_BODY,
+  images = PERSONALIZED_JOURNEY_IMAGES,
+}: PersonalizedJourneyProps = {}) {
   return (
     // overflow-x-hidden: see BusinessClassSection — clips the image's
     // translateX reveal so it can never cause page-level horizontal scroll.
     <section className="overflow-x-hidden bg-white py-14 sm:py-16 personalize-journey">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal y={24}>
-   
-         <h2 className="mt-3 text-2xl  text-[#0a0c11] sm:text-4xl lg:text-[30px]">
-        Get Expert Help With Complex International Itineraries
-          </h2>
-          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]">
-           Some journeys are straightforward. Others require a little more thought.
-Multiple destinations. Long-haul connections. Premium cabins. Different departure airports. Tight schedules.Flexible travel dates. Open-jaw or multi-city itineraries.
-When there are more moving parts, finding the right combination can become considerably more difficult than simply searching for a flight.
-That&apos;s where a travel specialist can make a difference.
-At MultiCity Experts, we provide personalised assistance for complex international travel, helping you evaluate the options that best fit your journey.
-          </p>
-       
+          <h2 className="mt-3 text-2xl text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]">{body}</p>
         </SectionReveal>
 
         <SectionReveal x={80} delay={0.1}>
@@ -45,7 +56,7 @@ At MultiCity Experts, we provide personalised assistance for complex internation
               loop
               className="h-full w-full"
             >
-              {PERSONALIZED_JOURNEY_IMAGES.map((image) => (
+              {images.map((image) => (
                 <SwiperSlide key={image.src}>
                   <div className="relative h-full w-full">
                     <Image

@@ -4,20 +4,28 @@ import { z } from "zod";
  * enum rather than a Prisma enum — `PageSection.sectionType` stays a plain
  * string column (see prisma/schema.prisma), matching this project's
  * convention of validating closed content vocabularies at the Zod layer
- * instead of migrating the database every time the set changes. */
+ * instead of migrating the database every time the set changes.
+ *
+ * One value per homepage component, in the order `app/page.tsx` renders
+ * them: DEALS = DestinationCarousel, ROUTES = RoutesCarousel, INSIGHTS =
+ * TravelInsights, CTA = FinalCTA. */
 export const SECTION_TYPES = [
   "HERO",
-  "TEXT",
-  "IMAGE_TEXT",
-  "FEATURES",
-  "CTA",
-  "FAQ",
-  "REVIEWS",
+  "PARTNER_STRIP",
   "DEALS",
-  "DESTINATIONS",
+  "BUSINESS_CLASS",
+  "PERSONALIZED_JOURNEY",
+  "STATISTICS",
+  "TRAVEL_ADVISOR",
+  "SERVICES",
+  "SUPPORT",
+  "EXPERTS",
+  "TESTIMONIALS",
+  "FAQ",
+  "INSIGHTS",
   "ROUTES",
-  "AIRLINES",
-  "BLOG",
+  "CTA",
+  "SOCIAL",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

@@ -22,6 +22,8 @@ import {
   unpublishPage,
   updatePage,
 } from "@/lib/pages-api";
+import { PageSectionsPanel } from "@/components/admin/pages/PageSectionsPanel";
+import { PageSeoCard } from "@/components/admin/pages/PageSeoCard";
 import { PageStatusBadge } from "@/components/admin/pages/PageStatusBadge";
 
 interface PageFormProps {
@@ -377,6 +379,13 @@ export function PageForm({ mode, pageId }: PageFormProps) {
         destructive={pendingAction === "delete"}
         onConfirm={handleLifecycleAction}
       />
+
+      {mode === "edit" && pageId ? (
+        <>
+          <PageSectionsPanel pageId={pageId} />
+          <PageSeoCard pageId={pageId} />
+        </>
+      ) : null}
     </div>
   );
 }

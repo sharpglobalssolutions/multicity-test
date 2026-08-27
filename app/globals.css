@@ -241,7 +241,7 @@
  * above) is untouched.
  *
  * Maps the 5 given brand colors onto shadcn's semantic tokens:
- * - #03a86b (green)     -> primary / focus ring / active nav indicator
+ * - #00b67a (green)     -> primary / focus ring / active nav indicator
  * - #0a4074 (blue)      -> sidebar hover/accent surface
  * - #041627 (dark blue) -> sidebar background
  * - #0a0c11 (heading)   -> foreground / heading text
@@ -254,28 +254,28 @@
   --card-foreground: #0a0c11;
   --popover: #ffffff;
   --popover-foreground: #0a0c11;
-  --primary: #03a86b;
+  --primary: #00b67a;
   --primary-foreground: #ffffff;
   --secondary: #eef2f6;
   --secondary-foreground: #0a4074;
   --muted: #f5f5f5;
   --muted-foreground: #7e7e7e;
   --accent: #e6f6ef;
-  --accent-foreground: #03a86b;
+  --accent-foreground: #00b67a;
   --destructive: #dc2626;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #03a86b;
+  --ring: #00b67a;
   --radius: 0.625rem;
 
   --sidebar: #041627;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #03a86b;
+  --sidebar-primary: #00b67a;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #0a4074;
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: color-mix(in oklab, #ffffff 10%, transparent);
-  --sidebar-ring: #03a86b;
+  --sidebar-ring: #00b67a;
 }
 
 .exlusive-heal-content p{
@@ -375,3 +375,11 @@
     right: 35%;
 }
 
+
+.login-input:focus{
+  outline: none;
+  box-shadow: none;
+}
+.login-btn{
+  cursor: pointer;
+}

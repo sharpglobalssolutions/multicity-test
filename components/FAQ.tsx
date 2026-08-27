@@ -4,9 +4,21 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
-import { FAQS } from "@/data/content";
+import { FAQS, type Faq } from "@/data/content";
 
-export function FAQ() {
+export interface FAQProps {
+  eyebrow?: string;
+  heading?: string;
+  faqs?: Faq[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function FAQ({
+  eyebrow = "Common Questions",
+  heading = "Everything You Need to Know",
+  faqs = FAQS,
+}: FAQProps = {}) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
@@ -25,10 +37,8 @@ export function FAQ() {
 
       <div className="content-container relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr]  lg:gap-16">
         <SectionReveal x={-30}>
-          <span className="text-white text-[20px]">Common Questions</span>
-          <h2 className="mt-3 text-3xl leading-tight text-white sm:text-4xl lg:text-[30px]">
-            Everything You Need to Know
-          </h2>
+          <span className="text-white text-[20px]">{eyebrow}</span>
+          <h2 className="mt-3 text-3xl leading-tight text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "4rem" }}
@@ -40,7 +50,7 @@ export function FAQ() {
 
         <SectionReveal x={30} delay={0.1} className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6 lg:p-8">
           <div className="space-y-4">
-            {FAQS.map((faq, index) => {
+            {faqs.map((faq, index) => {
               const isOpen = openId === faq.id;
               const panelId = `${faq.id}-panel`;
               const triggerId = `${faq.id}-trigger`;

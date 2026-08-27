@@ -4,9 +4,11 @@
  * browser's origin, and relies on the browser sending the session cookie
  * automatically for same-origin requests).
  */
-import type { ContentStatus, Page } from "@prisma/client";
+import type { ContentStatus, Page, PageSection, SeoMetadata } from "@prisma/client";
 import type { ApiErrorDetail, ApiMeta, ApiResponse } from "@/types/api";
+import type { CreatePageSectionInput, UpdatePageSectionInput } from "@/validations/page-section.validation";
 import type { CreatePageInput, UpdatePageInput } from "@/validations/page.validation";
+import type { UpdateSeoMetadataInput } from "@/validations/seo-metadata.validation";
 
 /** Thrown for any non-success API response — carries the same code/message/
  * field-details shape the server sends, so callers can show a generic
@@ -115,4 +117,95 @@ export async function unpublishPage(id: string): Promise<Page> {
     method: "POST",
   });
   return data.page;
+}
+
+// --- Sections ---
+
+export async function fetchSections(pageId: string): Promise<PageSection[]> {
+  const { data } = await request<{ sections: PageSection[] }>(
+    `/api/v1/pages/${encodeURIComponent(pageId)}/sections`,
+  );
+  return data.sections;
+}
+
+export async function createSection(pageId: string, input: CreatePageSectionInput): Promise<PageSection> {
+  const { data } = await request<{ section: PageSection }>(
+    `/api/v1/pages/${encodeURIComponent(pageId)}/sections`,
+    { method: "POST", body: JSON.stringify(input) },
+  );
+  return data.section;
+}
+
+export async function updateSection(
+  pageId: string,
+  sectionId: string,
+  input: UpdatePageSectionInput,
+): Promise<PageSection> {
+  const { data } = await request<{ section: PageSection }>(
+    `/api/v1/pages/${encodeURIComponent(pageId)}/sections/${encodeURIComponent(sectionId)}`,
+    { method: "PATCH", body: JSON.stringify(input) },
+  );
+  return data.section;
+}
+
+export async function deleteSection(pageId: string, sectionId: string): Promise<void> {
+  await request<{ message: string }>(
+    `/api/v1/pages/${encodeURIComponent(pageId)}/sections/${encodeURIComponent(sectionId)}`,
+    { method: "DELETE" },
+  );
+}
+
+export async function reorderSections(pageId: string, sectionIds: string[]): Promise<PageSection[]> {
+  const { data } = await request<{ sections: PageSection[] }>(
+    `/api/v1/pages/${encodeURIComponent(pageId)}/sections/reorder`,
+    { method: "POST", body: JSON.stringify({ sectionIds }) },
+  );
+  return data.sections;
+}
+
+// --- SEO ---
+
+export async function fetchPageSeo(pageId: string): Promise<SeoMetadata | null> {
+  const { data } = await request<{ seo: SeoMetadata | null }>(`/api/v1/pages/${encodeURIComponent(pageId)}/seo`);
+  return data.seo;
+}
+
+export async function updatePageSeo(pageId: string, input: UpdateSeoMetadataInput): Promise<SeoMetadata> {
+  const { data } = await request<{ seo: SeoMetadata }>(`/api/v1/pages/${encodeURIComponent(pageId)}/seo`, {
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+  return data.seo;
+}
+
+// --- Media ---
+
+export interface UploadedMedia {
+  id: string;
+  url: string;
+  width: number | null;
+  height: number | null;
+}
+
+/** Multipart upload — deliberately does not go through `request()`, which
+ * always sets `Content-Type: application/json`; the browser needs to set
+ * its own multipart boundary header for `FormData`. */
+export async function uploadMedia(file: File): Promise<UploadedMedia> {
+  const formData = new FormData();
+  formData.set("file", file);
+
+  const response = await fetch("/api/v1/media/upload", { method: "POST", body: formData });
+  const body = (await response.json().catch(() => null)) as ApiResponse<{ media: UploadedMedia }> | null;
+
+  if (!body || !body.success) {
+    const error = body && !body.success ? body.error : null;
+    throw new ApiRequestError(
+      error?.message ?? "Upload failed. Please try again.",
+      response.status,
+      error?.code ?? "UNKNOWN_ERROR",
+      error?.details ?? [],
+    );
+  }
+
+  return body.data.media;
 }

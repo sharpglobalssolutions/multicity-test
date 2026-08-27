@@ -7,19 +7,27 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { SectionReveal } from "@/components/SectionReveal";
-import { DEALS } from "@/data/content";
+import { DEALS, type Deal } from "@/data/content";
 
-export function DestinationCarousel() {
+export interface DestinationCarouselProps {
+  heading?: string;
+  subheading?: string;
+  deals?: Deal[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function DestinationCarousel({
+  heading = "Best-Selling Business Class Flight Deals",
+  subheading = "Save 30-70%* OFF on Business Class Flights with Multi city experts.",
+  deals = DEALS,
+}: DestinationCarouselProps = {}) {
   return (
     <section id="destinations" className="bg-white py-20 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">
-            Best-Selling Business Class Flight Deals
-          </h2>
-          <p className="mt-2 text-base text-text-gray sm:text-lg">
-            Save 30-70%* OFF on Business Class Flights with Multi city experts.
-          </p>
+          <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-2 text-base text-text-gray sm:text-lg">{subheading}</p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12">
@@ -40,7 +48,7 @@ export function DestinationCarousel() {
             }}
             className="overflow-hidden!"
           >
-            {DEALS.map((deal) => (
+            {deals.map((deal) => (
               <SwiperSlide key={deal.id} className="h-auto">
                 <article className="group flex h-full flex-col items-center text-center">
                   <div className="relative aspect-[4/5] w-full overflow-hidden  bg-navy-deep">

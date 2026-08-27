@@ -78,7 +78,7 @@ export function Header() {
 
           <div className="hidden items-center gap-4 lg:flex">
          
-            <a href="tel:1869-504-657"  className="px-5 py-2.5 text-[16px] font-semibold bg-black text-white rounded-4xl transition hover:bg-[#0a4074]">
+            <a href="tel:1869-504-657"  className="px-5 py-2.5 text-[16px] font-semibold bg-[#0a4074] text-white rounded-4xl transition hover:text-[#0a4074] hover:bg-emerald-bright">
              1869-504-657
             </a>
           </div>
@@ -88,7 +88,7 @@ export function Header() {
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
             aria-expanded={mobileOpen}
-            className="flex items-center justify-center rounded-btn border border-white/20 p-2.5 text-white  lg:hidden"
+            className="flex items-center justify-center rounded-btn border border-white/20 p-2.5 text-[#0a4074]  lg:hidden"
           >
             <Menu size={22} aria-hidden="true" />
           </button>

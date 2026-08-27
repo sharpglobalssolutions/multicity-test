@@ -7,9 +7,21 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { SectionReveal } from "@/components/SectionReveal";
-import { TESTIMONIALS } from "@/data/content";
+import { TESTIMONIALS, type Testimonial } from "@/data/content";
 
-export function TestimonialCarousel() {
+export interface TestimonialCarouselProps {
+  heading?: string;
+  subheading?: string;
+  testimonials?: Testimonial[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function TestimonialCarousel({
+  heading = "Client Experiences",
+  subheading = "Trusted by travelers worldwide.",
+  testimonials = TESTIMONIALS,
+}: TestimonialCarouselProps = {}) {
   return (
     <section id="testimonials" className="relative overflow-hidden bg-white py-20 sm:py-20">
       {/* Decorative, low-opacity travel motif — not a stock photo, just the
@@ -25,8 +37,8 @@ export function TestimonialCarousel() {
 
       <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mt-3 text-3xl text-text-dark sm:text-4xl lg:text-[30px]">Client Experiences</h2>
-          <p className="mt-2 text-base text-text-gray sm:text-[16px]">Trusted by travelers worldwide.</p>
+          <h2 className="mt-3 text-3xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <p className="mt-2 text-base text-text-gray sm:text-[16px]">{subheading}</p>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mx-auto mt-12 px-10 sm:px-14">
@@ -40,7 +52,7 @@ export function TestimonialCarousel() {
             breakpoints={{ 1024: { slidesPerView: 2, spaceBetween: 32 } }}
             className="testimonial-swiper overflow-hidden! pt-12! sm:pt-14!"
           >
-            {TESTIMONIALS.map((testimonial) => (
+            {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id} className="h-auto relative">
                 <figure className="relative flex h-full flex-col items-center rounded-card bg-gray-light px-8 pb-10 pt-8 text-center sm:px-12 sm:pb-12 sm:pt-10">
                   {/* The visible ink of a "“" glyph sits high in its own
