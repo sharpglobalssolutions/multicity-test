@@ -32,7 +32,7 @@ export function AboutWhoWeHelp() {
           >
             {WHO_WE_HELP_CARDS.map((card) => (
               <SwiperSlide key={card.id}>
-                <article className="group">
+                <article className="group text-center transition-transform duration-300 hover:-translate-y-1.5">
                   <div className="relative aspect-[4/5] w-full overflow-hidden rounded-card">
                     <Image
                       src={card.image}
@@ -42,8 +42,11 @@ export function AboutWhoWeHelp() {
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 90vw"
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
-                  <h3 className="mt-4 text-center text-lg font-semibold text-text-dark">{card.title}</h3>
+                  <h3 className="relative mt-4 inline-block text-center text-lg font-semibold text-text-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-emerald after:transition-all after:duration-300 group-hover:after:w-full">
+                    {card.title}
+                  </h3>
                 </article>
               </SwiperSlide>
             ))}

@@ -16,7 +16,7 @@ import {
   type ListFieldSchema,
   type ScalarFieldSchema,
 } from "@/lib/section-field-schemas";
-import { ApiRequestError, updateSection } from "@/lib/pages-api";
+import { ApiRequestError, createSection, updateSection } from "@/lib/pages-api";
 import type { SectionType } from "@/types/page-sections";
 
 type FormData = Record<string, unknown>;
@@ -24,6 +24,9 @@ type FormData = Record<string, unknown>;
 interface SectionEditorDialogProps {
   pageId: string;
   section: PageSection | null;
+  /** Set (instead of `section`) to open the dialog in "create a new
+   * section of this type" mode rather than "edit this existing one". */
+  createType?: SectionType | null;
   onOpenChange: (open: boolean) => void;
   onSaved: () => void;
 }
@@ -41,7 +44,14 @@ function ScalarInput({
     return <ImageUploadField value={value} onChange={onChange} />;
   }
   if (field.kind === "textarea") {
-    return <Textarea value={value} onChange={(event) => onChange(event.target.value)} rows={4} />;
+    return (
+      <Textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        rows={field.rows ?? 4}
+        className={field.rows && field.rows > 8 ? "font-mono text-xs" : undefined}
+      />
+    );
   }
   return <Input value={value} onChange={(event) => onChange(event.target.value)} />;
 }
@@ -154,20 +164,21 @@ function SupportItemsEditor({
 }
 
 /** One generic dialog, driven by `SECTION_FIELD_SCHEMAS`, instead of a
- * bespoke form per section type. */
-export function SectionEditorDialog({ pageId, section, onOpenChange, onSaved }: SectionEditorDialogProps) {
+ * bespoke form per section type. Doubles as the "create a new section"
+ * dialog when `createType` is set instead of `section` — same fields,
+ * just posts to `createSection` instead of `updateSection` on save. */
+export function SectionEditorDialog({ pageId, section, createType, onOpenChange, onSaved }: SectionEditorDialogProps) {
   const [formData, setFormData] = useState<FormData>({});
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    if (section) {
-      setFormData((section.data as FormData | null) ?? {});
-    }
-  }, [section]);
+    setFormData((section?.data as FormData | null) ?? {});
+  }, [section, createType]);
 
-  if (!section) return null;
+  const isCreating = !section && Boolean(createType);
+  if (!section && !createType) return null;
 
-  const sectionType = section.sectionType as SectionType;
+  const sectionType = (section?.sectionType as SectionType) ?? createType!;
   const schema: FieldSchema[] = SECTION_FIELD_SCHEMAS[sectionType] ?? [];
 
   function setField(key: string, value: unknown) {
@@ -177,8 +188,13 @@ export function SectionEditorDialog({ pageId, section, onOpenChange, onSaved }: 
   async function handleSave() {
     setSaving(true);
     try {
-      await updateSection(pageId, section!.id, { data: formData });
-      toast.success("Section updated.");
+      if (section) {
+        await updateSection(pageId, section.id, { data: formData });
+        toast.success("Section updated.");
+      } else {
+        await createSection(pageId, { sectionType, data: formData });
+        toast.success("Section added.");
+      }
       onSaved();
       onOpenChange(false);
     } catch (error) {
@@ -192,7 +208,9 @@ export function SectionEditorDialog({ pageId, section, onOpenChange, onSaved }: 
     <Dialog open onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit {sectionType.replaceAll("_", " ").toLowerCase()} section</DialogTitle>
+          <DialogTitle>
+            {isCreating ? "Add" : "Edit"} {sectionType.replaceAll("_", " ").toLowerCase()} section
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-5">
@@ -236,7 +254,7 @@ export function SectionEditorDialog({ pageId, section, onOpenChange, onSaved }: 
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={saving}>
-            {saving ? "Saving…" : "Save changes"}
+            {saving ? "Saving…" : isCreating ? "Add section" : "Save changes"}
           </Button>
         </DialogFooter>
       </DialogContent>

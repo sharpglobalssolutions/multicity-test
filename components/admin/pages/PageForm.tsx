@@ -12,6 +12,7 @@ import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { ErrorState } from "@/components/ui/error-state";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   ApiRequestError,
@@ -50,6 +51,19 @@ function slugify(value: string): string {
 }
 
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/** `Page.template` stays a plain string column (see prisma/schema.prisma) —
+ * this is just the curated set of known values the admin can pick from.
+ * "policy" is the reusable Policy Page template (`PolicyPageTemplate`):
+ * selecting it and adding one "Policy Content" section (via the sections
+ * panel below) is all a new Terms of Use / Privacy Policy / etc. page
+ * needs — no code change per page. */
+const TEMPLATE_OPTIONS: { value: string; label: string }[] = [
+  { value: "default", label: "Default" },
+  { value: "home", label: "Home" },
+  { value: "policy", label: "Policy Page" },
+];
+const TEMPLATE_LABELS = Object.fromEntries(TEMPLATE_OPTIONS.map((option) => [option.value, option.label]));
 
 type LifecycleAction = "delete" | "publish" | "unpublish";
 
@@ -319,14 +333,28 @@ export function PageForm({ mode, pageId }: PageFormProps) {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="template">Template</Label>
-                <Input
-                  id="template"
+                <Select
                   value={template}
-                  onChange={(event) => setTemplate(event.target.value)}
+                  onValueChange={(value) => setTemplate(value as string)}
+                  items={TEMPLATE_LABELS}
                   disabled={submitting}
-                  aria-invalid={Boolean(fieldErrors.template)}
-                  placeholder="e.g. default"
-                />
+                >
+                  <SelectTrigger id="template" className="w-full" aria-invalid={Boolean(fieldErrors.template)}>
+                    <SelectValue placeholder="e.g. default" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {TEMPLATE_OPTIONS.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {template === "policy" ? (
+                  <p className="text-xs text-muted-foreground">
+                    Add a &quot;Policy Content&quot; section below with the page&apos;s markdown content.
+                  </p>
+                ) : null}
                 {fieldErrors.template ? (
                   <p className="text-xs text-destructive">{fieldErrors.template}</p>
                 ) : null}

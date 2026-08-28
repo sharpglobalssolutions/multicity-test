@@ -26,6 +26,12 @@ export const SECTION_TYPES = [
   "ROUTES",
   "CTA",
   "SOCIAL",
+  /** A single markdown content block for the "Policy Page" template (see
+   * `components/PolicyPageTemplate.tsx`) — `subtitle` holds the hero
+   * category/breadcrumb text (e.g. "Legal · MultiCityExperts"), `content`
+   * holds the raw markdown body the TOC and main content are both
+   * derived from. */
+  "POLICY_CONTENT",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

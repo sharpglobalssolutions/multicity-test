@@ -12,10 +12,21 @@ import {
   unpublishPage,
   updatePage,
 } from "@/repositories/page.repository";
+import { createSectionForPage } from "@/services/page-section.service";
 import type { AuthenticatedUser } from "@/services/auth.service";
 import type { CreatePageInput, ListPagesQuery, UpdatePageInput } from "@/validations/page.validation";
+import type { CreatePageSectionInput } from "@/validations/page-section.validation";
 
 const ENTITY_TYPE = "Page";
+
+/** Templates that need exactly one starter section the moment the page
+ * exists — without this, a page can sit published with zero content and
+ * 404 on the public site with no obvious reason why (the bug this exists
+ * to prevent). Extend this map if another template gains the same
+ * "always needs a matching section" shape. */
+const STARTER_SECTION_BY_TEMPLATE: Record<string, Pick<CreatePageSectionInput, "sectionType" | "data">> = {
+  policy: { sectionType: "POLICY_CONTENT", data: { subtitle: "", content: "" } },
+};
 
 export async function createPageForUser(input: CreatePageInput, userId: string, ip: string) {
   let page;
@@ -36,6 +47,11 @@ export async function createPageForUser(input: CreatePageInput, userId: string, 
     newData: page,
     ipAddress: ip,
   });
+
+  const starterSection = STARTER_SECTION_BY_TEMPLATE[input.template];
+  if (starterSection) {
+    await createSectionForPage(page.id, starterSection, userId, ip);
+  }
 
   return page;
 }

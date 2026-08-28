@@ -2,11 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { PageSection } from "@prisma/client";
-import { ChevronDown, ChevronUp, Pencil, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SectionEditorDialog } from "@/components/admin/pages/SectionEditorDialog";
 import {
@@ -15,16 +16,22 @@ import {
   fetchSections,
   reorderSections,
 } from "@/lib/pages-api";
+import { SECTION_TYPES } from "@/validations/page-section.validation";
+import type { SectionType } from "@/types/page-sections";
 
 interface PageSectionsPanelProps {
   pageId: string;
 }
+
+const NEW_SECTION_TYPE_LABELS = Object.fromEntries(SECTION_TYPES.map((type) => [type, type.replaceAll("_", " ")]));
 
 export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
   const [sections, setSections] = useState<PageSection[]>([]);
   const [loadState, setLoadState] = useState<"loading" | "loaded" | "error">("loading");
   const [editingSection, setEditingSection] = useState<PageSection | null>(null);
   const [deletingSection, setDeletingSection] = useState<PageSection | null>(null);
+  const [newSectionType, setNewSectionType] = useState<SectionType | "">("");
+  const [creatingType, setCreatingType] = useState<SectionType | null>(null);
 
   const load = useCallback(async () => {
     setLoadState("loading");
@@ -107,8 +114,35 @@ export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
   return (
     <>
       <Card>
-        <CardHeader>
+        <CardHeader className="flex-row items-center justify-between">
           <CardTitle>Sections</CardTitle>
+          <div className="flex items-center gap-2">
+            <Select
+              value={newSectionType}
+              onValueChange={(value) => setNewSectionType(value as SectionType)}
+              items={NEW_SECTION_TYPE_LABELS}
+            >
+              <SelectTrigger className="w-48" aria-label="Section type to add">
+                <SelectValue placeholder="Section type…" />
+              </SelectTrigger>
+              <SelectContent>
+                {SECTION_TYPES.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type.replaceAll("_", " ")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button
+              size="sm"
+              disabled={!newSectionType}
+              onClick={() => {
+                if (newSectionType) setCreatingType(newSectionType);
+              }}
+            >
+              <Plus /> Add section
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-2">
           {sections.length === 0 ? (
@@ -166,10 +200,17 @@ export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
       <SectionEditorDialog
         pageId={pageId}
         section={editingSection}
+        createType={creatingType}
         onOpenChange={(open) => {
-          if (!open) setEditingSection(null);
+          if (!open) {
+            setEditingSection(null);
+            setCreatingType(null);
+          }
         }}
-        onSaved={load}
+        onSaved={() => {
+          setNewSectionType("");
+          load();
+        }}
       />
 
       <ConfirmDialog

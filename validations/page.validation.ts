@@ -1,11 +1,19 @@
 import { ContentStatus } from "@prisma/client";
 import { z } from "zod";
 
+/** Top-level static routes a page's slug must never collide with — the
+ * public renderer at `app/[slug]/page.tsx` is a catch-all, so any of these
+ * would otherwise shadow (or be shadowed by) a real route. */
+const RESERVED_SLUGS = ["admin", "api", "insights", "about", "top"];
+
 const slugSchema = z
   .string()
   .trim()
   .min(1, "Slug is required")
-  .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase, alphanumeric words separated by hyphens");
+  .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase, alphanumeric words separated by hyphens")
+  .refine((slug) => !RESERVED_SLUGS.includes(slug), {
+    message: "This slug is reserved and can't be used for a page",
+  });
 
 export const createPageSchema = z.object({
   title: z.string().trim().min(1, "Title is required"),

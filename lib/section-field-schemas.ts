@@ -9,6 +9,8 @@ export interface ScalarFieldSchema {
   key: string;
   label: string;
   kind: ScalarFieldKind;
+  /** `"textarea"` only — visible row count. Defaults to 4 when omitted. */
+  rows?: number;
 }
 
 /** An array-of-objects field (e.g. `deals`, `testimonials`) — rendered as
@@ -26,7 +28,12 @@ export interface ListFieldSchema {
 export type FieldSchema = ScalarFieldSchema | ListFieldSchema;
 
 const text = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "text" });
-const textarea = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "textarea" });
+const textarea = (key: string, label: string, rows?: number): ScalarFieldSchema => ({
+  key,
+  label,
+  kind: "textarea",
+  rows,
+});
 const image = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "image" });
 const stringList = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "string-list" });
 
@@ -194,4 +201,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     image("backgroundImage", "Background image"),
   ],
   SOCIAL: [text("heading", "Heading")],
+  POLICY_CONTENT: [
+    text("subtitle", "Category / breadcrumb (e.g. \"Legal · MultiCityExperts\")"),
+    textarea("content", "Content (Markdown — ## / ### headings become the table of contents)", 22),
+  ],
 };

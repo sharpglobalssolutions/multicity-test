@@ -106,6 +106,16 @@ export interface SocialSectionData {
   heading: string;
 }
 
+/** The single content block behind the "Policy Page" template (see
+ * `components/PolicyPageTemplate.tsx`) — `subtitle` is the hero
+ * category/breadcrumb (e.g. "Legal · MultiCityExperts"); `content` is
+ * raw markdown, the single source both the table of contents and the
+ * rendered body are derived from. */
+export interface PolicyContentSectionData {
+  subtitle: string;
+  content: string;
+}
+
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
  * admin section editor's field-schema config and by the homepage renderer
  * to type each section's `data` before spreading it as props. */
@@ -126,6 +136,7 @@ export interface SectionDataByType {
   ROUTES: RoutesSectionData;
   CTA: CtaSectionData;
   SOCIAL: SocialSectionData;
+  POLICY_CONTENT: PolicyContentSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;
