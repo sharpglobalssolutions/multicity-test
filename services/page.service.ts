@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { isRecordNotFoundError, isUniqueConstraintError } from "@/lib/prisma-errors";
+import { revalidatePageBySlug } from "@/lib/revalidate";
 import {
   createPage,
   deletePage,
@@ -85,6 +86,11 @@ export async function updatePageForUser(id: string, input: UpdatePageInput, user
     ipAddress: ip,
   });
 
+  revalidatePageBySlug(before.slug);
+  if (page.slug !== before.slug) {
+    revalidatePageBySlug(page.slug);
+  }
+
   return page;
 }
 
@@ -111,6 +117,8 @@ export async function deletePageById(id: string, userId: string, ip: string) {
     oldData: before,
     ipAddress: ip,
   });
+
+  revalidatePageBySlug(before.slug);
 }
 
 export async function publishPageById(id: string, userId: string, ip: string) {
@@ -130,6 +138,8 @@ export async function publishPageById(id: string, userId: string, ip: string) {
     newData: page,
     ipAddress: ip,
   });
+
+  revalidatePageBySlug(page.slug);
 
   return page;
 }
@@ -151,6 +161,8 @@ export async function unpublishPageById(id: string, userId: string, ip: string) 
     newData: page,
     ipAddress: ip,
   });
+
+  revalidatePageBySlug(page.slug);
 
   return page;
 }

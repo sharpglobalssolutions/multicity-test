@@ -68,7 +68,12 @@ export default async function DynamicPage({ params }: PageProps) {
     <>
       <Header />
       <main id="top">
-        <PolicyPageTemplate title={page.title} subtitle={data.subtitle} content={data.content ?? ""} />
+        <PolicyPageTemplate
+          title={page.title}
+          subtitle={data.subtitle}
+          bannerImage={data.bannerImage}
+          content={data.content ?? ""}
+        />
       </main>
       <Footer />
     </>

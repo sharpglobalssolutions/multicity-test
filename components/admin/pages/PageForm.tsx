@@ -408,9 +408,9 @@ export function PageForm({ mode, pageId }: PageFormProps) {
         onConfirm={handleLifecycleAction}
       />
 
-      {mode === "edit" && pageId ? (
+      {mode === "edit" && pageId && existingPage ? (
         <>
-          <PageSectionsPanel pageId={pageId} />
+          <PageSectionsPanel pageId={pageId} template={existingPage.template} />
           <PageSeoCard pageId={pageId} />
         </>
       ) : null}

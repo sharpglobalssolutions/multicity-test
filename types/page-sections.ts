@@ -108,11 +108,13 @@ export interface SocialSectionData {
 
 /** The single content block behind the "Policy Page" template (see
  * `components/PolicyPageTemplate.tsx`) — `subtitle` is the hero
- * category/breadcrumb (e.g. "Legal · MultiCityExperts"); `content` is
- * raw markdown, the single source both the table of contents and the
- * rendered body are derived from. */
+ * category/breadcrumb (e.g. "Legal · MultiCityExperts"); `bannerImage` is
+ * the hero background (falls back to a default when unset); `content` is
+ * HTML from the admin's rich-text editor, the single source both the
+ * table of contents and the rendered body are derived from. */
 export interface PolicyContentSectionData {
   subtitle: string;
+  bannerImage: string;
   content: string;
 }
 

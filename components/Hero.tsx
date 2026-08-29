@@ -85,7 +85,10 @@ export function Hero({
           />
 
           <SectionReveal delay={0.3}>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">{subheading}</p>
+            <p
+              className="mt-6 max-w-md text-base leading-relaxed text-white/80 sm:text-lg"
+              dangerouslySetInnerHTML={{ __html: subheading }}
+            />
           </SectionReveal>
 
           <SectionReveal delay={0.45}>

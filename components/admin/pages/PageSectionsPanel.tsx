@@ -21,11 +21,23 @@ import type { SectionType } from "@/types/page-sections";
 
 interface PageSectionsPanelProps {
   pageId: string;
+  /** The page's `template` — restricts which section types can be added.
+   * A "policy" page only ever renders its one `POLICY_CONTENT` section
+   * (see `app/[slug]/page.tsx`); offering the full homepage section
+   * catalog there let an admin add e.g. a `HERO` section that looks
+   * editable but the public page silently ignores — that's the bug this
+   * restriction exists to prevent. Any other template keeps today's
+   * behavior (every section type available). */
+  template: string;
 }
 
-const NEW_SECTION_TYPE_LABELS = Object.fromEntries(SECTION_TYPES.map((type) => [type, type.replaceAll("_", " ")]));
+const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> = {
+  policy: ["POLICY_CONTENT"],
+};
 
-export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
+export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {
+  const allowedTypes = ALLOWED_SECTION_TYPES_BY_TEMPLATE[template] ?? SECTION_TYPES;
+  const sectionTypeLabels = Object.fromEntries(allowedTypes.map((type) => [type, type.replaceAll("_", " ")]));
   const [sections, setSections] = useState<PageSection[]>([]);
   const [loadState, setLoadState] = useState<"loading" | "loaded" | "error">("loading");
   const [editingSection, setEditingSection] = useState<PageSection | null>(null);
@@ -111,22 +123,30 @@ export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
     );
   }
 
+  // A type already present isn't offered again — most non-homepage
+  // templates (currently just "policy") only ever want exactly one
+  // section of their single allowed type, so once it exists there's
+  // nothing left to add.
+  const presentTypes = new Set(sections.map((section) => section.sectionType));
+  const addableTypes = allowedTypes.filter((type) => !presentTypes.has(type));
+
   return (
     <>
       <Card>
         <CardHeader className="flex-row items-center justify-between">
           <CardTitle>Sections</CardTitle>
+          {addableTypes.length > 0 ? (
           <div className="flex items-center gap-2">
             <Select
               value={newSectionType}
               onValueChange={(value) => setNewSectionType(value as SectionType)}
-              items={NEW_SECTION_TYPE_LABELS}
+              items={sectionTypeLabels}
             >
               <SelectTrigger className="w-48" aria-label="Section type to add">
                 <SelectValue placeholder="Section type…" />
               </SelectTrigger>
               <SelectContent>
-                {SECTION_TYPES.map((type) => (
+                {addableTypes.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type.replaceAll("_", " ")}
                   </SelectItem>
@@ -143,6 +163,7 @@ export function PageSectionsPanel({ pageId }: PageSectionsPanelProps) {
               <Plus /> Add section
             </Button>
           </div>
+          ) : null}
         </CardHeader>
         <CardContent className="space-y-2">
           {sections.length === 0 ? (

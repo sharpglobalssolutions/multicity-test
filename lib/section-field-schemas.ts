@@ -3,7 +3,7 @@ import type { SectionType } from "@/types/page-sections";
 /** A single scalar input. `"string-list"` is an array of plain strings
  * (e.g. `airlines`), editable as an add/remove/reorder list of one-line
  * text fields — distinct from `"list"`, an array of objects. */
-export type ScalarFieldKind = "text" | "textarea" | "image" | "string-list";
+export type ScalarFieldKind = "text" | "textarea" | "image" | "string-list" | "richtext";
 
 export interface ScalarFieldSchema {
   key: string;
@@ -36,6 +36,7 @@ const textarea = (key: string, label: string, rows?: number): ScalarFieldSchema 
 });
 const image = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "image" });
 const stringList = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "string-list" });
+const richtext = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "richtext" });
 
 /** One field-schema list per `SECTION_TYPE` — drives the single generic
  * `SectionEditorDialog` instead of 16 bespoke forms. `SUPPORT`'s two-column
@@ -45,7 +46,7 @@ const stringList = (key: string, label: string): ScalarFieldSchema => ({ key, la
 export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   HERO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     image("imageSrc", "Background image"),
     text("primaryButtonLabel", "Primary button label"),
     text("primaryButtonHref", "Primary button link"),
@@ -55,7 +56,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   PARTNER_STRIP: [stringList("airlines", "Airline names")],
   DEALS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "deals",
       label: "Deals",
@@ -66,7 +67,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BUSINESS_CLASS: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -77,7 +78,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   PERSONALIZED_JOURNEY: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -104,7 +105,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SERVICES: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "services",
       label: "Services",
@@ -129,7 +130,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   EXPERTS: [
     text("heading", "Heading"),
     text("subtitle1", "Subtitle (bold line)"),
-    textarea("subtitle2", "Subtitle (regular line)"),
+    richtext("subtitle2", "Subtitle (regular line)"),
     image("backgroundImage", "Background image"),
     {
       key: "features",
@@ -146,7 +147,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   TESTIMONIALS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "testimonials",
       label: "Testimonials",
@@ -173,10 +174,10 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
-  INSIGHTS: [text("heading", "Heading"), textarea("subheading", "Subheading")],
+  INSIGHTS: [text("heading", "Heading"), richtext("subheading", "Subheading")],
   ROUTES: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "routes",
       label: "Routes",
@@ -195,7 +196,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CTA: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
     image("backgroundImage", "Background image"),
@@ -203,6 +204,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   SOCIAL: [text("heading", "Heading")],
   POLICY_CONTENT: [
     text("subtitle", "Category / breadcrumb (e.g. \"Legal · MultiCityExperts\")"),
-    textarea("content", "Content (Markdown — ## / ### headings become the table of contents)", 22),
+    image("bannerImage", "Hero banner image"),
+    richtext("content", "Content (headings become the table of contents automatically)"),
   ],
 };

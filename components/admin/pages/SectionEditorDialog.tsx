@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import {
   SECTION_FIELD_SCHEMAS,
   type FieldSchema,
@@ -42,6 +43,9 @@ function ScalarInput({
 }) {
   if (field.kind === "image") {
     return <ImageUploadField value={value} onChange={onChange} />;
+  }
+  if (field.kind === "richtext") {
+    return <RichTextEditor value={value} onChange={onChange} />;
   }
   if (field.kind === "textarea") {
     return (

@@ -66,7 +66,7 @@ export function TravelInsights({
       <div className="content-container relative">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl  text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p className="mt-4 text-base text-text-gray sm:text-[16px]">{subheading}</p>
+          <p className="mt-4 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
         </div>
 
         <Suspense fallback={<InsightsGridSkeleton />}>

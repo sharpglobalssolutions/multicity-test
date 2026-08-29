@@ -30,7 +30,7 @@ export function RoutesCarousel({
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-5xl text-center">
           <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p className="mt-4 text-base text-text-gray sm:text-[16px]">{subheading}</p>
+          <p className="mt-4 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="mt-12">

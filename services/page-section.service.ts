@@ -1,6 +1,7 @@
 import { recordAuditLog } from "@/lib/audit";
 import { NotFoundError, ValidationError } from "@/lib/errors";
 import { isRecordNotFoundError } from "@/lib/prisma-errors";
+import { revalidatePageBySlug } from "@/lib/revalidate";
 import {
   createSection,
   deleteSection,
@@ -62,7 +63,7 @@ export async function createSectionForPage(
   userId: string,
   ip: string,
 ) {
-  await getPageOr404(pageId);
+  const page = await getPageOr404(pageId);
 
   const sortOrder = input.sortOrder ?? (await getNextSortOrder(pageId));
   const section = await createSection(pageId, { ...input, sortOrder });
@@ -76,6 +77,8 @@ export async function createSectionForPage(
     ipAddress: ip,
   });
 
+  revalidatePageBySlug(page.slug);
+
   return section;
 }
 
@@ -86,6 +89,7 @@ export async function updateSectionForPage(
   userId: string,
   ip: string,
 ) {
+  const page = await getPageOr404(pageId);
   const before = await getOwnedSectionOr404(pageId, sectionId);
 
   let section;
@@ -108,10 +112,13 @@ export async function updateSectionForPage(
     ipAddress: ip,
   });
 
+  revalidatePageBySlug(page.slug);
+
   return section;
 }
 
 export async function deleteSectionForPage(pageId: string, sectionId: string, userId: string, ip: string) {
+  const page = await getPageOr404(pageId);
   const before = await getOwnedSectionOr404(pageId, sectionId);
 
   try {
@@ -131,6 +138,8 @@ export async function deleteSectionForPage(pageId: string, sectionId: string, us
     oldData: before,
     ipAddress: ip,
   });
+
+  revalidatePageBySlug(page.slug);
 }
 
 export async function reorderSectionsForPage(
@@ -139,7 +148,7 @@ export async function reorderSectionsForPage(
   userId: string,
   ip: string,
 ) {
-  await getPageOr404(pageId);
+  const page = await getPageOr404(pageId);
 
   const existing = await findSectionsByPageId(pageId);
   const existingIds = new Set(existing.map((section) => section.id));
@@ -165,6 +174,8 @@ export async function reorderSectionsForPage(
     newData: after,
     ipAddress: ip,
   });
+
+  revalidatePageBySlug(page.slug);
 
   return findSectionsByPageId(pageId);
 }
