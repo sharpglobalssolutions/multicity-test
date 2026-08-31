@@ -31,6 +31,11 @@ interface DatePickerProps {
    * for one on the right, so the popup expands toward the side that
    * actually has room instead of centering and risking a viewport edge. */
   align?: "start" | "end";
+  /** Overrides the label's text color — defaults to white, which is only
+   * legible on the dark/translucent card this was built for (see
+   * `FlightSearch.tsx`). A light-card usage (e.g. `QuoteForm.tsx`) passes
+   * a dark variant instead. */
+  labelClassName?: string;
 }
 
 interface Position {
@@ -59,7 +64,16 @@ const PAGE_EDGE_MARGIN = 8; // never let the popup touch the very edge of the pa
  * no ancestor's overflow can clip it regardless of how tall the page
  * layout around it is.
  */
-export function DatePicker({ id, label, value, onChange, min, placeholder = "Select date", align = "start" }: DatePickerProps) {
+export function DatePicker({
+  id,
+  label,
+  value,
+  onChange,
+  min,
+  placeholder = "Select date",
+  align = "start",
+  labelClassName = "text-white",
+}: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<Position | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -147,7 +161,7 @@ export function DatePicker({ id, label, value, onChange, min, placeholder = "Sel
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={id} className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-white">
+      <label htmlFor={id} className={`mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}>
         {label}
       </label>
 

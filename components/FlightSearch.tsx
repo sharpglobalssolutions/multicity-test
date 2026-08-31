@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -13,7 +14,6 @@ import {
   Phone,
   Plane,
   Search,
-  Sparkles,
   User,
   Users2,
 } from "lucide-react";
@@ -22,17 +22,10 @@ import { Button } from "@/components/Button";
 import { DatePicker } from "@/components/DatePicker";
 import type { Airport } from "@/lib/airportSearch";
 import { formatShortDate, toIsoDate } from "@/lib/dateUtils";
+import { CABIN_CLASSES, TRIP_TYPE_TABS, type TripType } from "@/lib/flightSearchTypes";
+import { buildQuoteQueryString } from "@/lib/quoteQuery";
 
-type TripType = "round-trip" | "one-way" | "multi-city";
-type Step = "criteria" | "contact" | "success";
-
-const TABS: { id: TripType; label: string }[] = [
-  { id: "round-trip", label: "Round Trip" },
-  { id: "one-way", label: "One Way" },
-  { id: "multi-city", label: "Multi City" },
-];
-
-const CABIN_CLASSES = ["Economy", "Premium Economy", "Business", "First"];
+type Step = "criteria" | "contact";
 
 const FIELD_CLASSES =
   "w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";
@@ -77,6 +70,7 @@ const STEP_TRANSITION = {
  * behind this, but the lead itself is real, not a no-op.
  */
 export function FlightSearch() {
+  const router = useRouter();
   const [step, setStep] = useState<Step>("criteria");
 
   const [tripType, setTripType] = useState<TripType>("round-trip");
@@ -187,65 +181,39 @@ export function FlightSearch() {
         throw new Error(body?.error?.message ?? "Something went wrong. Please try again.");
       }
 
-      setStep("success");
+      const query = buildQuoteQueryString({ tripType, from, to, departure, returnDate, passengers, cabinClass });
+      router.push(`/quote?${query}`);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : "Something went wrong. Please try again.");
-    } finally {
       setSubmitting(false);
     }
-  }
-
-  function resetAll() {
-    setStep("criteria");
-    setTripType("round-trip");
-    setFrom(null);
-    setTo(null);
-    setDeparture("");
-    setReturnDate("");
-    setPassengers(1);
-    setCabinClass("Business");
-    setName("");
-    setEmail("");
-    setMobile("");
-    setCity("");
-    setContactErrors({});
-    setSubmitError("");
   }
 
   return (
     <div className="relative w-full overflow-hidden rounded-[7px] bg-black/50 p-6 shadow-soft border border-white ring-1 ring-navy-deep/[0.06] sm:p-8">
       <div className="absolute inset-x-0 top-0 h-1" aria-hidden="true" />
 
-      {step !== "success" ? (
-        <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-emerald">
-        
-         
+      <div className="mb-6">
+        <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
+          <span className={step === "criteria" ? "text-white" : "text-emerald"}>
+            {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
+            Flight Details
+          </span>
+          <span className="text-white">Your Details</span>
         </div>
-      ) : null}
-
-      {step !== "success" ? (
-        <div className="mb-6">
-          <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
-            <span className={step === "criteria" ? "text-white" : "text-emerald"}>
-              {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
-              Flight Details
-            </span>
-            <span className={step === "contact" ? "text-white" : "text-white"}>Your Details</span>
-          </div>
-          <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-gray-light">
-            <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-emerald to-emerald-bright"
-              initial={false}
-              animate={{ width: step === "criteria" ? "50%" : "100%" }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-            />
-          </div>
+        <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-gray-light">
+          <motion.div
+            className="h-full rounded-full bg-gradient-to-r from-emerald to-emerald-bright"
+            initial={false}
+            animate={{ width: step === "criteria" ? "50%" : "100%" }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          />
         </div>
-      ) : null}
+      </div>
 
       {step === "criteria" ? (
         <div className="relative mb-6 flex gap-5 rounded-input p-1">
-          {TABS.map((tab) => (
+          {TRIP_TYPE_TABS.map((tab) => (
             <button
               key={tab.id}
               type="button"
@@ -381,7 +349,7 @@ export function FlightSearch() {
               Search Flights
             </Button>
           </motion.form>
-        ) : step === "contact" ? (
+        ) : (
           <motion.form
             key="contact"
             {...STEP_TRANSITION}
@@ -528,24 +496,6 @@ export function FlightSearch() {
               </Button>
             </div>
           </motion.form>
-        ) : (
-          <motion.div key="success" {...STEP_TRANSITION} className="flex flex-col items-center gap-3 py-6 text-center">
-            <span className="flex size-14 items-center justify-center rounded-full bg-emerald/10 text-emerald">
-              <Check size={28} aria-hidden="true" />
-            </span>
-            <h3 className="font-heading text-lg font-bold text-text-dark">Request Received!</h3>
-            <p className="max-w-xs text-sm text-text-gray">
-              Thanks, {name.split(" ")[0] || "there"} — one of our travel experts will reach out to{" "}
-              {email || "your email"} shortly with the best fares for your trip.
-            </p>
-            <button
-              type="button"
-              onClick={resetAll}
-              className="mt-2 text-sm font-semibold text-emerald transition-colors hover:text-emerald-bright"
-            >
-              Search Another Flight
-            </button>
-          </motion.div>
         )}
       </AnimatePresence>
     </div>

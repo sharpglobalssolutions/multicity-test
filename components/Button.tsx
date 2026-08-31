@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "gold";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: "bg-emerald text-white shadow-card hover:bg-emerald-bright hover:shadow-[0_16px_36px_-10px_rgba(0,201,130,0.55)]",
   secondary: "bg-transparent text-white border border-white/35 hover:border-white hover:bg-white/10",
   ghost: "bg-transparent text-navy-deep border border-navy-deep/15 hover:border-navy-deep/40 hover:bg-navy-deep/5",
+  gold: "bg-gold text-white shadow-card hover:bg-gold-bright hover:shadow-[0_16px_36px_-10px_rgba(217,154,43,0.55)]",
 };
 
 const BASE_CLASSES =

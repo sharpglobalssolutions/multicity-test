@@ -16,6 +16,11 @@ interface AirportAutocompleteProps {
   placeholder?: string;
   value: Airport | null;
   onChange: (airport: Airport | null) => void;
+  /** Overrides the label's text color — defaults to white, which is only
+   * legible on the dark/translucent card this was built for (see
+   * `FlightSearch.tsx`). A light-card usage (e.g. `QuoteForm.tsx`) passes
+   * a dark variant instead. */
+  labelClassName?: string;
 }
 
 function displayValue(airport: Airport | null): string {
@@ -32,7 +37,13 @@ function displayValue(airport: Airport | null): string {
  * selected — so what's shown always corresponds to a real airport once
  * the field isn't focused.
  */
-export function AirportAutocomplete({ label, placeholder = "City or airport", value, onChange }: AirportAutocompleteProps) {
+export function AirportAutocomplete({
+  label,
+  placeholder = "City or airport",
+  value,
+  onChange,
+  labelClassName = "text-white",
+}: AirportAutocompleteProps) {
   const [query, setQuery] = useState(() => displayValue(value));
   const [results, setResults] = useState<AirportSearchResult[]>([]);
   const [popularAirports, setPopularAirports] = useState<AirportSearchResult[]>([]);
@@ -120,7 +131,7 @@ export function AirportAutocomplete({ label, placeholder = "City or airport", va
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={inputId} className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-white">
+      <label htmlFor={inputId} className={`mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}>
         {label}
       </label>
       <div className="relative">
