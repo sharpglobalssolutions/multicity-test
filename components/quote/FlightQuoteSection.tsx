@@ -8,7 +8,7 @@ export interface FlightQuoteSectionProps {
 
 export function FlightQuoteSection({ criteria }: FlightQuoteSectionProps) {
   return (
-    <section className="bg-gray-light py-16 sm:py-20">
+    <section className="bg-gray-light py-16 sm:py-26">
       <div className="content-container grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[1.7fr_1fr] lg:gap-10">
         <FlightSummaryCard
           fromCity={criteria.from.city}

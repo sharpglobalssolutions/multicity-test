@@ -1,6 +1,7 @@
 import {
   Building2,
   Globe2,
+  Inbox,
   LayoutDashboard,
   Newspaper,
   Plane,
@@ -24,6 +25,7 @@ export interface AdminNavItem {
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { label: "Overview", href: "/admin/dashboard", icon: LayoutDashboard, status: "active" },
   { label: "Pages", href: "/admin/pages", icon: Newspaper, status: "active" },
+  { label: "Form Submissions", href: "/admin/form-submissions", icon: Inbox, status: "active" },
   { label: "Airports", href: "/admin/airports", icon: Building2, status: "soon" },
   { label: "Airlines", href: "/admin/airlines", icon: Plane, status: "soon" },
   { label: "Flight Offers", href: "/admin/offers", icon: Tag, status: "soon" },

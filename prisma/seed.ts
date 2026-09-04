@@ -86,6 +86,10 @@ const PERMISSIONS = [
   { key: "media.create", description: "Upload media." },
   { key: "media.delete", description: "Delete media." },
 
+  // Form Submissions (leads captured from the marketing site's forms)
+  { key: "form-submissions.read", description: "View form submissions." },
+  { key: "form-submissions.update", description: "Update a form submission's status." },
+
   // Access control (reserved for SUPER_ADMIN — see ROLE_PERMISSIONS below)
   { key: "roles.read", description: "View roles." },
   { key: "roles.update", description: "Create, edit, and assign roles." },

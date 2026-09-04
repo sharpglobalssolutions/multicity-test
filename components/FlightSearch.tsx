@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Armchair,
@@ -72,6 +72,12 @@ const STEP_TRANSITION = {
 export function FlightSearch() {
   const router = useRouter();
   const [step, setStep] = useState<Step>("criteria");
+  // Set the moment Step 1 is submitted, so a visitor who never reaches (or
+  // abandons) Step 2 is still captured as a lead — see `captureCriteria`
+  // and `handleContactSubmit`, which completes this same record with
+  // contact details rather than creating a second one. A ref (not state)
+  // since resolving it should never itself trigger a re-render.
+  const submissionPromiseRef = useRef<Promise<string | null> | null>(null);
 
   const [tripType, setTripType] = useState<TripType>("round-trip");
   const [from, setFrom] = useState<Airport | null>(null);
@@ -114,6 +120,34 @@ export function FlightSearch() {
     setDateError("");
   }
 
+  /** Captures Step 1's criteria as its own lead the moment it's submitted
+   * — before any contact info exists — so an abandoned Step 2 still leaves
+   * a record in the admin panel. Resolves to the created submission's id,
+   * or `null` on any failure (never blocks/breaks the search flow itself;
+   * `handleContactSubmit` falls back to a fresh submission if this comes
+   * back empty). */
+  function captureCriteria(): Promise<string | null> {
+    return fetch("/api/v1/form-submissions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        formType: "flight_quote_request",
+        payload: {
+          tripType,
+          from,
+          to,
+          departure,
+          returnDate: tripType === "round-trip" ? returnDate : null,
+          passengers,
+          cabinClass,
+        },
+      }),
+    })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((body: { data?: { id?: string } } | null) => body?.data?.id ?? null)
+      .catch(() => null);
+  }
+
   function handleCriteriaSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -129,6 +163,7 @@ export function FlightSearch() {
       return;
     }
     setDateError("");
+    submissionPromiseRef.current = captureCriteria();
     setStep("contact");
   }
 
@@ -153,26 +188,33 @@ export function FlightSearch() {
 
     setSubmitting(true);
     try {
-      const response = await fetch("/api/v1/form-submissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formType: "flight_quote_request",
-          name: name.trim(),
-          email: email.trim(),
-          phone: mobile.trim(),
-          payload: {
-            tripType,
-            from,
-            to,
-            departure,
-            returnDate: tripType === "round-trip" ? returnDate : null,
-            passengers,
-            cabinClass,
-            contactCity: city.trim(),
-          },
-        }),
-      });
+      const payload = {
+        tripType,
+        from,
+        to,
+        departure,
+        returnDate: tripType === "round-trip" ? returnDate : null,
+        passengers,
+        cabinClass,
+        contactCity: city.trim(),
+      };
+      const contact = { name: name.trim(), email: email.trim(), phone: mobile.trim() };
+
+      // Complete the record Step 1 already created rather than creating a
+      // second one — falls back to a fresh submission only if that
+      // background capture never resolved to an id (e.g. it failed).
+      const submissionId = await (submissionPromiseRef.current ?? Promise.resolve(null));
+      const response = submissionId
+        ? await fetch(`/api/v1/form-submissions/${submissionId}/complete`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...contact, payload }),
+          })
+        : await fetch("/api/v1/form-submissions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ formType: "flight_quote_request", ...contact, payload }),
+          });
 
       if (!response.ok) {
         const body = (await response.json().catch(() => null)) as

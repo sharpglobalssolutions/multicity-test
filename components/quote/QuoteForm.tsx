@@ -138,7 +138,7 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
 
   if (submitted) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 rounded-card border border-navy-deep/10 bg-white p-8 text-center">
+      <div className="flex h-full flex-col items-center justify-center gap-3 border border-navy-deep/10 bg-white p-8 text-center">
         <span className="flex size-14 items-center justify-center rounded-full bg-emerald/10 text-emerald">
           <Check size={28} aria-hidden="true" />
         </span>
