@@ -118,6 +118,36 @@ export interface PolicyContentSectionData {
   content: string;
 }
 
+/** Site-wide header chrome — lives on the singleton "chrome" page (see
+ * `services/chrome.service.ts`), not any real content page. Mirrors
+ * `HeaderClient`'s optional props exactly. */
+export interface HeaderSectionData {
+  logoImageSrc: string;
+  phone: string;
+  navLinks: { label: string; href: string }[];
+}
+
+/** Site-wide footer chrome — same singleton page as `HeaderSectionData`.
+ * `footerNavColumns` is a fixed set of 4 columns (Services/Insights/
+ * Company/Legal today) — the admin editor special-cases it the same way
+ * `SUPPORT.items` is special-cased, since a list-of-objects-containing-a-
+ * list doesn't fit the generic field-schema model. The Top Countries/
+ * Cities/Airlines columns and the Get in Touch / newsletter forms are
+ * NOT part of this — they stay DB-driven/functional, not chrome content. */
+export interface FooterSectionData {
+  connectHeading: string;
+  socialLinks: { label: string; href: string; icon: string }[];
+  trustBadges: string[];
+  newsletterHeading: string;
+  darkHeadingLines: string[];
+  logoImageSrc: string;
+  tagline: string;
+  footerNavColumns: { title: string; links: { label: string; href: string }[] }[];
+  copyrightText: string;
+  privacyPolicyHref: string;
+  termsHref: string;
+}
+
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
  * admin section editor's field-schema config and by the homepage renderer
  * to type each section's `data` before spreading it as props. */
@@ -139,6 +169,8 @@ export interface SectionDataByType {
   CTA: CtaSectionData;
   SOCIAL: SocialSectionData;
   POLICY_CONTENT: PolicyContentSectionData;
+  HEADER: HeaderSectionData;
+  FOOTER: FooterSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

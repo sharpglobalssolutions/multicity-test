@@ -32,6 +32,12 @@ export const SECTION_TYPES = [
    * holds the raw markdown body the TOC and main content are both
    * derived from. */
   "POLICY_CONTENT",
+  /** Site-wide chrome, not homepage content — these two live on the one
+   * hidden singleton "chrome" page (`services/chrome.service.ts`) instead
+   * of any real content page, and render on every route via `Header`/
+   * `Footer` rather than a specific page's `<main>`. */
+  "HEADER",
+  "FOOTER",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

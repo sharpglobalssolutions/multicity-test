@@ -167,6 +167,64 @@ function SupportItemsEditor({
   );
 }
 
+const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {
+  key: "links",
+  label: "Links",
+  kind: "list",
+  itemFields: [
+    { key: "label", label: "Label", kind: "text" },
+    { key: "href", label: "Link", kind: "text" },
+  ],
+  emptyItem: { label: "", href: "" },
+};
+
+interface FooterNavColumn {
+  title: string;
+  links: Record<string, string>[];
+}
+
+/** FOOTER.footerNavColumns (a fixed set of columns, each itself containing
+ * a list of links) doesn't fit the generic scalar/list model — same
+ * reasoning as `SupportItemsEditor` — so it's handled here: a title input
+ * per column plus the existing generic `ListEditor` for that column's
+ * links, rather than a schema entry. */
+function FooterNavColumnsEditor({
+  columns,
+  onChange,
+}: {
+  columns: FooterNavColumn[];
+  onChange: (columns: FooterNavColumn[]) => void;
+}) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      {columns.map((column, columnIndex) => (
+        <div key={columnIndex} className="space-y-3 rounded-lg border border-border p-3">
+          <div className="space-y-1.5">
+            <Label className="text-xs">Column title</Label>
+            <Input
+              value={column.title}
+              onChange={(event) => {
+                const next = [...columns];
+                next[columnIndex] = { ...column, title: event.target.value };
+                onChange(next);
+              }}
+            />
+          </div>
+          <ListEditor
+            schema={FOOTER_COLUMN_LINKS_SCHEMA}
+            items={column.links}
+            onChange={(links) => {
+              const next = [...columns];
+              next[columnIndex] = { ...column, links };
+              onChange(next);
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /** One generic dialog, driven by `SECTION_FIELD_SCHEMAS`, instead of a
  * bespoke form per section type. Doubles as the "create a new section"
  * dialog when `createType` is set instead of `section` — same fields,
@@ -210,7 +268,11 @@ export function SectionEditorDialog({ pageId, section, createType, onOpenChange,
 
   return (
     <Dialog open onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+      {/* The base `DialogContent` sets `sm:max-w-sm` — an unprefixed
+          override loses that cascade fight at any real screen width, so
+          this has to override at the same `sm:` breakpoint to actually
+          take effect (this had been silently stuck at 384px). */}
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>
             {isCreating ? "Add" : "Edit"} {sectionType.replaceAll("_", " ").toLowerCase()} section
@@ -248,6 +310,23 @@ export function SectionEditorDialog({ pageId, section, createType, onOpenChange,
               <SupportItemsEditor
                 items={(formData.items as string[][] | undefined) ?? [[], []]}
                 onChange={(items) => setField("items", items)}
+              />
+            </div>
+          ) : null}
+
+          {sectionType === "FOOTER" ? (
+            <div className="space-y-1.5">
+              <Label>Nav columns</Label>
+              <FooterNavColumnsEditor
+                columns={
+                  (formData.footerNavColumns as { title: string; links: Record<string, string>[] }[] | undefined) ?? [
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                  ]
+                }
+                onChange={(columns) => setField("footerNavColumns", columns)}
               />
             </div>
           ) : null}

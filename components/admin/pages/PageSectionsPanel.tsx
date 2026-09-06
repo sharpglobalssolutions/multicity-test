@@ -33,6 +33,7 @@ interface PageSectionsPanelProps {
 
 const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> = {
   policy: ["POLICY_CONTENT"],
+  chrome: ["HEADER", "FOOTER"],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

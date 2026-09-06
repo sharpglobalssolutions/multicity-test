@@ -86,6 +86,15 @@ export function PageForm({ mode, pageId }: PageFormProps) {
 
   const [pendingAction, setPendingAction] = useState<LifecycleAction | null>(null);
 
+  // The singleton site-wide chrome page (Header/Footer content, see
+  // `services/chrome.service.ts`) isn't "a page" in the normal sense —
+  // deleting or unpublishing it breaks the header/footer everywhere, and
+  // renaming its slug silently breaks the fixed lookup that finds it. It's
+  // reached directly via a dedicated admin nav link, never through the
+  // normal Pages list (which excludes it), so these guards are the only
+  // thing standing between an admin and breaking the site chrome.
+  const isChrome = existingPage?.template === "chrome";
+
   useEffect(() => {
     if (mode !== "edit" || !pageId) return;
 
@@ -153,7 +162,10 @@ export function PageForm({ mode, pageId }: PageFormProps) {
         const created = await createPage(input);
         toast.success(`"${created.title}" was created.`);
       } else {
-        const updated = await updatePage(pageId!, input);
+        // `existingPage.id`, not the raw `pageId` prop — see the comment
+        // by `PageSectionsPanel` below; the update endpoint only accepts
+        // the real id, not a slug.
+        const updated = await updatePage(existingPage!.id, input);
         toast.success(`"${updated.title}" was updated.`);
       }
       router.push("/admin/pages");
@@ -182,15 +194,16 @@ export function PageForm({ mode, pageId }: PageFormProps) {
   }
 
   async function handleLifecycleAction() {
-    if (!pendingAction || !pageId) return;
+    if (!pendingAction || !existingPage) return;
     try {
       if (pendingAction === "delete") {
-        await deletePage(pageId);
+        await deletePage(existingPage.id);
         toast.success("Page deleted.");
         router.push("/admin/pages");
         return;
       }
-      const updated = pendingAction === "publish" ? await publishPage(pageId) : await unpublishPage(pageId);
+      const updated =
+        pendingAction === "publish" ? await publishPage(existingPage.id) : await unpublishPage(existingPage.id);
       setExistingPage(updated);
       toast.success(pendingAction === "publish" ? "Page published." : "Page unpublished.");
     } catch (error) {
@@ -251,7 +264,7 @@ export function PageForm({ mode, pageId }: PageFormProps) {
       </div>
 
       <Card>
-        {existingPage ? (
+        {existingPage && !isChrome ? (
           <CardHeader className="flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-base">
               <PageStatusBadge status={existingPage.status} />
@@ -279,6 +292,14 @@ export function PageForm({ mode, pageId }: PageFormProps) {
               </Button>
             </div>
           </CardHeader>
+        ) : existingPage ? (
+          <CardHeader>
+            <CardTitle className="text-base">Site header &amp; footer</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              This is the site-wide header and footer content, not a regular page — it can&apos;t be published,
+              unpublished, or deleted here.
+            </p>
+          </CardHeader>
         ) : null}
 
         <form onSubmit={handleSubmit} noValidate>
@@ -305,12 +326,14 @@ export function PageForm({ mode, pageId }: PageFormProps) {
                   setSlugTouched(true);
                   setSlug(event.target.value.toLowerCase());
                 }}
-                disabled={submitting}
+                disabled={submitting || isChrome}
                 aria-invalid={Boolean(fieldErrors.slug)}
                 placeholder="e.g. about-us"
               />
               {fieldErrors.slug ? (
                 <p className="text-xs text-destructive">{fieldErrors.slug}</p>
+              ) : isChrome ? (
+                <p className="text-xs text-muted-foreground">Fixed — changing this would break the site chrome.</p>
               ) : (
                 <p className="text-xs text-muted-foreground">Lowercase words separated by hyphens.</p>
               )}
@@ -333,23 +356,27 @@ export function PageForm({ mode, pageId }: PageFormProps) {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="template">Template</Label>
-                <Select
-                  value={template}
-                  onValueChange={(value) => setTemplate(value as string)}
-                  items={TEMPLATE_LABELS}
-                  disabled={submitting}
-                >
-                  <SelectTrigger id="template" className="w-full" aria-invalid={Boolean(fieldErrors.template)}>
-                    <SelectValue placeholder="e.g. default" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TEMPLATE_OPTIONS.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                {isChrome ? (
+                  <Input id="template" value="chrome" disabled />
+                ) : (
+                  <Select
+                    value={template}
+                    onValueChange={(value) => setTemplate(value as string)}
+                    items={TEMPLATE_LABELS}
+                    disabled={submitting}
+                  >
+                    <SelectTrigger id="template" className="w-full" aria-invalid={Boolean(fieldErrors.template)}>
+                      <SelectValue placeholder="e.g. default" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TEMPLATE_OPTIONS.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
                 {template === "policy" ? (
                   <p className="text-xs text-muted-foreground">
                     Add a &quot;Policy Content&quot; section below with the page&apos;s markdown content.
@@ -410,8 +437,15 @@ export function PageForm({ mode, pageId }: PageFormProps) {
 
       {mode === "edit" && pageId && existingPage ? (
         <>
-          <PageSectionsPanel pageId={pageId} template={existingPage.template} />
-          <PageSeoCard pageId={pageId} />
+          {/* `existingPage.id` — not the `pageId` prop — since that prop is
+              the raw URL segment, which can be a slug (the "Header &
+              Footer" nav link points at `/admin/pages/site-chrome/edit`).
+              `fetchPageById` above resolves id-or-slug, but the sections/SEO
+              endpoints only accept the real id — passing the slug through
+              404s every section fetch, which is exactly what broke editing
+              the chrome page entirely. */}
+          <PageSectionsPanel pageId={existingPage.id} template={existingPage.template} />
+          {!isChrome ? <PageSeoCard pageId={existingPage.id} /> : null}
         </>
       ) : null}
     </div>

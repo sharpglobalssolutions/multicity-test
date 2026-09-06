@@ -34,7 +34,7 @@ export function FinalCTA({
       <div className="content-container relative z-10">
         <SectionReveal className="max-w-lg">
           <h2 className="text-3xl  leading-tight text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p
+          <div
             className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg"
             dangerouslySetInnerHTML={{ __html: body }}
           />

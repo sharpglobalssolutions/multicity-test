@@ -181,6 +181,12 @@ export async function listPagesForViewer(query: ListPagesQuery, viewer: Authenti
   const statusFilter = canViewAll ? query.status : "PUBLISHED";
 
   const where: Prisma.PageWhereInput = {
+    // The singleton site-wide chrome page (Header/Footer content) isn't
+    // "a page" in the sense this list is for — it's reached directly via
+    // its own admin nav link, never through here (see `PageForm.tsx`'s
+    // `isChrome` guards for why it shouldn't be delete/publish-able from
+    // a generic row menu either).
+    template: { not: "chrome" },
     ...(statusFilter ? { status: statusFilter } : {}),
     ...(query.search
       ? {

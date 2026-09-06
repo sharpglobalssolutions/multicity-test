@@ -108,7 +108,7 @@ export function BusinessClassSection({
 
         <SectionReveal x={80} delay={0.1}>
           <h2 className="mt-3 text-2xl text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]" dangerouslySetInnerHTML={{ __html: body }} />
+          <div className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]" dangerouslySetInnerHTML={{ __html: body }} />
           <div className="mt-8" />
         </SectionReveal>
       </div>

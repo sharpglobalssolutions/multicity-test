@@ -4,6 +4,7 @@ import {
   Inbox,
   LayoutDashboard,
   Newspaper,
+  PanelTop,
   Plane,
   Search,
   Settings,
@@ -25,6 +26,7 @@ export interface AdminNavItem {
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { label: "Overview", href: "/admin/dashboard", icon: LayoutDashboard, status: "active" },
   { label: "Pages", href: "/admin/pages", icon: Newspaper, status: "active" },
+  { label: "Header & Footer", href: "/admin/pages/site-chrome/edit", icon: PanelTop, status: "active" },
   { label: "Form Submissions", href: "/admin/form-submissions", icon: Inbox, status: "active" },
   { label: "Airports", href: "/admin/airports", icon: Building2, status: "soon" },
   { label: "Airlines", href: "/admin/airlines", icon: Plane, status: "soon" },

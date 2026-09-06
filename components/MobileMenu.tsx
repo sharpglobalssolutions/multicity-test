@@ -10,9 +10,22 @@ import { NAV_LINKS } from "@/data/content";
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
+  navLinks?: { label: string; href: string }[];
+  phone?: string;
 }
 
-export function MobileMenu({ open, onClose }: MobileMenuProps) {
+/** `navLinks`/`phone` default to the values below only when the caller
+ * omits them entirely — `HeaderClient` always passes its own already-
+ * resolved values (CMS or hardcoded fallback), so these defaults only
+ * matter if `MobileMenu` is ever rendered standalone. Previously this
+ * hardcoded a *different* phone number than the header bar's own
+ * `1869-504-657` — now both read from the same source. */
+export function MobileMenu({
+  open,
+  onClose,
+  navLinks = [...NAV_LINKS],
+  phone = "1869-504-657",
+}: MobileMenuProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -62,7 +75,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             </div>
 
             <nav aria-label="Mobile primary" className="mt-10 flex flex-col gap-1">
-              {NAV_LINKS.map((link) => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -75,12 +88,9 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             </nav>
 
             <div className="mt-auto flex flex-col gap-4 border-t border-white/10 pt-6">
-              <a
-                href="tel:+18005550142"
-                className="flex items-center gap-2 text-sm font-medium text-white/85"
-              >
+              <a href={`tel:${phone}`} className="flex items-center gap-2 text-sm font-medium text-white/85">
                 <Phone size={16} className="text-emerald" aria-hidden="true" />
-                +1 (800) 555-0142
+                {phone}
               </a>
               <Button href="#flights" variant="primary" onClick={onClose} className="w-full">
                 Get a Quote

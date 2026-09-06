@@ -207,4 +207,41 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     image("bannerImage", "Hero banner image"),
     richtext("content", "Content (headings become the table of contents automatically)"),
   ],
+  HEADER: [
+    image("logoImageSrc", "Logo"),
+    text("phone", "Phone number"),
+    {
+      key: "navLinks",
+      label: "Nav links",
+      kind: "list",
+      itemFields: [text("label", "Label"), text("href", "Link")],
+      emptyItem: { label: "", href: "" },
+    },
+  ],
+  // `footerNavColumns` isn't listed here — like `SUPPORT.items`, it's a
+  // shape (a list of columns, each itself containing a list of links)
+  // the generic field-schema model doesn't cover, so `SectionEditorDialog`
+  // special-cases it directly (see `FooterNavColumnsEditor`).
+  FOOTER: [
+    text("connectHeading", "\"Stay connected\" heading"),
+    {
+      key: "socialLinks",
+      label: "Social links",
+      kind: "list",
+      itemFields: [
+        text("label", "Platform name"),
+        text("href", "Link"),
+        text("icon", "Icon key (facebook, instagram, linkedin, youtube)"),
+      ],
+      emptyItem: { label: "", href: "", icon: "facebook" },
+    },
+    stringList("trustBadges", "Trust badges"),
+    text("newsletterHeading", "Newsletter heading"),
+    { key: "darkHeadingLines", label: "Dark section heading (one line per entry)", kind: "string-list" },
+    image("logoImageSrc", "Dark section logo (reversed/white)"),
+    textarea("tagline", "Tagline"),
+    text("copyrightText", "Copyright line"),
+    text("privacyPolicyHref", "Privacy Policy link"),
+    text("termsHref", "Terms & Conditions link"),
+  ],
 };
