@@ -21,6 +21,16 @@ interface AirportAutocompleteProps {
    * `FlightSearch.tsx`). A light-card usage (e.g. `QuoteForm.tsx`) passes
    * a dark variant instead. */
   labelClassName?: string;
+  /** Keeps the label in the DOM (still the input's accessible name via
+   * `htmlFor`) but visually hidden — for a "fields only, no visible
+   * labels" layout (see `QuoteForm.tsx`) without losing the a11y name
+   * every other caller relies on the visible text for. */
+  hideLabel?: boolean;
+  /** Overrides the input's own (typed/selected) text color — defaults to
+   * the site's standard `text-text-dark`. Doesn't touch the placeholder
+   * color, which stays the browser/Tailwind default so the empty vs.
+   * filled distinction is never lost. */
+  valueClassName?: string;
 }
 
 function displayValue(airport: Airport | null): string {
@@ -43,6 +53,8 @@ export function AirportAutocomplete({
   value,
   onChange,
   labelClassName = "text-white",
+  hideLabel = false,
+  valueClassName = "text-text-dark",
 }: AirportAutocompleteProps) {
   const [query, setQuery] = useState(() => displayValue(value));
   const [results, setResults] = useState<AirportSearchResult[]>([]);
@@ -131,7 +143,10 @@ export function AirportAutocomplete({
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={inputId} className={`mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}>
+      <label
+        htmlFor={inputId}
+        className={hideLabel ? "sr-only" : `mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}
+      >
         {label}
       </label>
       <div className="relative">
@@ -159,7 +174,7 @@ export function AirportAutocomplete({
             setQuery(displayValue(value));
           }}
           onKeyDown={handleKeyDown}
-          className="w-full rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]"
+          className={`w-full rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium placeholder:text-text-gray placeholder:font-normal outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)] ${valueClassName}`}
         />
       </div>
 

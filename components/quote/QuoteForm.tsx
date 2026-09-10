@@ -13,10 +13,22 @@ import type { QuoteCriteria } from "@/lib/quoteQuery";
 const CONTACT_PHONE_HREF = "tel:1869-504-657";
 const CONTACT_PHONE_LABEL = "1869-504-657";
 
-const FIELD_CLASSES =
-  "w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";
+// A brighter value color than the site's plain `text-text-dark` — reuses
+// the same secondary brand blue already used for the header's CTA and
+// `FlightSearch.tsx`'s active trip-type pill, rather than introducing a
+// new color, so filled-in fields read as a bit more "alive" instead of
+// flat near-black.
+const FIELD_VALUE_COLOR = "text-[#0a4074]";
 
-const FIELD_LABEL_CLASSES = "mb-2 block text-[11px] font-bold uppercase tracking-wider text-text-dark";
+// `::placeholder` inherits an input's `color` at reduced opacity by
+// default — pinned to `text-text-gray` explicitly so a brighter value
+// color never tints the empty-state placeholder too.
+const FIELD_CLASSES = `w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-[15px] font-medium ${FIELD_VALUE_COLOR} placeholder:text-text-gray placeholder:font-normal outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]`;
+
+// Visually hidden, not removed — the `<label htmlFor>` association is
+// still every one of these fields' accessible name. Fields-only is a
+// presentational choice; screen-reader users still need a name.
+const FIELD_LABEL_CLASSES = "sr-only";
 
 const FIELD_ICON_WRAP_CLASSES =
   "pointer-events-none absolute left-3 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full bg-navy-deep/5 text-navy-deep";
@@ -28,8 +40,7 @@ const FIELD_ICON_WRAP_CLASSES =
 // of width matters here (this field is already sharing a row), so the
 // leading icon skips the circular-chip treatment other fields use and the
 // horizontal padding stays as tight as still-comfortable tap targets allow.
-const GROUPED_SELECT_CLASSES =
-  "w-full appearance-none bg-transparent py-3.5 pl-7 pr-5 text-[13px] font-medium text-text-dark outline-none";
+const GROUPED_SELECT_CLASSES = `w-full appearance-none bg-transparent py-3.5 pl-7 pr-5 text-[14px] font-medium ${FIELD_VALUE_COLOR} outline-none`;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -52,6 +63,13 @@ interface FormErrors {
 
 export interface QuoteFormProps {
   criteria: QuoteCriteria;
+  /** `/quote`'s own spec asked for a green phone bar; the Business Class
+   * hero (`BusinessClassHero.tsx`) asked for the same dark navy used
+   * elsewhere in the brand, with the phone icon in a white circular badge
+   * instead of bare on the green fill — this is the one part of the form
+   * two pages disagreed on, so it's the one thing made a prop rather than
+   * hardcoded either way. */
+  phoneBarVariant?: "green" | "navy";
 }
 
 /** The lead-capture form on `/quote` — pre-filled from the criteria the
@@ -59,7 +77,7 @@ export interface QuoteFormProps {
  * editable. Submits to the same `/api/v1/form-submissions` endpoint (same
  * `formType`/`payload` shape) that used to be reached from `FlightSearch`'s
  * inline "contact" step. */
-export function QuoteForm({ criteria }: QuoteFormProps) {
+export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProps) {
   const [tripType, setTripType] = useState<TripType>(criteria.tripType);
   const [from, setFrom] = useState<Airport | null>(criteria.from);
   const [to, setTo] = useState<Airport | null>(criteria.to);
@@ -152,16 +170,28 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
   }
 
   return (
-    <div className="rounded-card border border-navy-deep/10 bg-white p-6 sm:p-8">
-      <a
-        href={CONTACT_PHONE_HREF}
-        className="flex items-center justify-center gap-2 rounded-input bg-emerald px-6 py-4 text-center text-lg font-bold text-white transition-colors hover:bg-emerald-bright sm:text-xl"
-      >
-        <Phone size={20} aria-hidden="true" />
-        {CONTACT_PHONE_LABEL}
-      </a>
+    <div className="border border-navy-deep/10 bg-white p-6 sm:p-8">
+      {phoneBarVariant === "navy" ? (
+        <a
+          href={CONTACT_PHONE_HREF}
+          className="flex h-[70px] items-center justify-center gap-3 rounded-input bg-navy-deep px-6 text-center text-lg font-bold text-white transition-colors hover:bg-navy-dark sm:text-xl"
+        >
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white text-navy-deep">
+            <Phone size={16} aria-hidden="true" />
+          </span>
+          {CONTACT_PHONE_LABEL}
+        </a>
+      ) : (
+        <a
+          href={CONTACT_PHONE_HREF}
+          className="flex h-[70px] items-center justify-center gap-2 rounded-input bg-emerald px-6 text-center text-lg font-bold text-white transition-colors hover:bg-emerald-bright sm:text-xl"
+        >
+          <Phone size={20} aria-hidden="true" />
+          {CONTACT_PHONE_LABEL}
+        </a>
+      )}
 
-      <form onSubmit={handleSubmit} noValidate className="mt-6 space-y-4">
+      <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-2">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1.3fr]">
           <div>
             <label className={FIELD_LABEL_CLASSES} htmlFor="quote-trip-type">
@@ -252,15 +282,17 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
             label="From"
             value={from}
             onChange={setFrom}
-            placeholder="Origin city or airport"
-            labelClassName="text-text-dark"
+            placeholder="From"
+            hideLabel
+            valueClassName={FIELD_VALUE_COLOR}
           />
           <AirportAutocomplete
             label="To"
             value={to}
             onChange={setTo}
-            placeholder="Destination city or airport"
-            labelClassName="text-text-dark"
+            placeholder="To"
+            hideLabel
+            valueClassName={FIELD_VALUE_COLOR}
           />
         </div>
 
@@ -271,9 +303,10 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
             value={departure}
             onChange={handleDepartureChange}
             min={todayIso}
-            placeholder="Select date"
+            placeholder="Departure date"
             align="start"
-            labelClassName="text-text-dark"
+            hideLabel
+            valueClassName={FIELD_VALUE_COLOR}
           />
           {tripType === "round-trip" ? (
             <DatePicker
@@ -282,9 +315,10 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
               value={returnDate}
               onChange={setReturnDate}
               min={departure || todayIso}
-              placeholder="Select date"
+              placeholder="Return date"
               align="end"
-              labelClassName="text-text-dark"
+              hideLabel
+              valueClassName={FIELD_VALUE_COLOR}
             />
           ) : null}
         </div>
@@ -359,7 +393,7 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
 
         {submitError ? <p className="text-xs font-medium text-red-500">{submitError}</p> : null}
 
-        <Button type="submit" variant="gold" className="w-full py-4 text-[15px] uppercase" disabled={submitting}>
+        <Button type="submit" variant="gold" className="h-[58px] w-full text-base uppercase" disabled={submitting}>
           {submitting ? (
             <>
               <Loader2 size={16} className="animate-spin" aria-hidden="true" />
@@ -370,11 +404,11 @@ export function QuoteForm({ criteria }: QuoteFormProps) {
           )}
         </Button>
 
-        <div className="grid grid-cols-3 divide-x divide-navy-deep/10 pt-2 text-center">
+        <div className="grid grid-cols-3 divide-x divide-navy-deep/10 pt-4 text-center">
           {TRUST_ITEMS.map((item) => (
             <div key={item.label}>
-              <p className="text-lg font-bold text-navy-deep sm:text-xl">{item.value}</p>
-              <p className="mt-1 text-[10px] font-semibold uppercase leading-tight tracking-wide text-text-gray sm:text-[11px]">
+              <p className="text-lg text-navy-deep sm:text-[22px]">{item.value}</p>
+              <p className="mt-1 text-[9px]  uppercase leading-tight tracking-wide text-text-gray sm:text-[14px]">
                 {item.label}
               </p>
             </div>

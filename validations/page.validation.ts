@@ -4,7 +4,7 @@ import { z } from "zod";
 /** Top-level static routes a page's slug must never collide with — the
  * public renderer at `app/[slug]/page.tsx` is a catch-all, so any of these
  * would otherwise shadow (or be shadowed by) a real route. */
-const RESERVED_SLUGS = ["admin", "api", "insights", "about", "top", "quote", "site-chrome"];
+const RESERVED_SLUGS = ["admin", "api", "insights", "about", "top", "quote", "site-chrome", "business-class"];
 
 const slugSchema = z
   .string()

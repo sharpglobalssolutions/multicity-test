@@ -36,6 +36,16 @@ interface DatePickerProps {
    * `FlightSearch.tsx`). A light-card usage (e.g. `QuoteForm.tsx`) passes
    * a dark variant instead. */
   labelClassName?: string;
+  /** Keeps the label in the DOM (still the trigger's accessible name via
+   * `htmlFor`) but visually hidden — for a "fields only, no visible
+   * labels" layout (see `QuoteForm.tsx`) without losing the a11y name
+   * every other caller relies on the visible text for. */
+  hideLabel?: boolean;
+  /** Overrides the selected-date text color — defaults to the site's
+   * standard `text-text-dark`. The unselected placeholder stays
+   * `text-text-gray` regardless, so the empty vs. filled distinction is
+   * never lost. */
+  valueClassName?: string;
 }
 
 interface Position {
@@ -73,6 +83,8 @@ export function DatePicker({
   placeholder = "Select date",
   align = "start",
   labelClassName = "text-white",
+  hideLabel = false,
+  valueClassName = "text-text-dark",
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const [position, setPosition] = useState<Position | null>(null);
@@ -161,7 +173,10 @@ export function DatePicker({
 
   return (
     <div className="relative flex-1">
-      <label htmlFor={id} className={`mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}>
+      <label
+        htmlFor={id}
+        className={hideLabel ? "sr-only" : `mb-2 block text-[11px] font-bold uppercase tracking-wider ${labelClassName}`}
+      >
         {label}
       </label>
 
@@ -177,7 +192,7 @@ export function DatePicker({
         <span className="pointer-events-none absolute left-3 top-1/2 flex size-7 -translate-y-1/2 items-center justify-center rounded-full bg-navy-deep/5 text-navy-deep">
           <Calendar size={14} aria-hidden="true" />
         </span>
-        <span className={value ? "text-text-dark" : "text-text-gray"}>
+        <span className={value ? valueClassName : "text-text-gray"}>
           {value ? formatDisplayDate(value) : placeholder}
         </span>
       </button>
