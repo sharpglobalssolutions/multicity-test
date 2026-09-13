@@ -1,39 +1,84 @@
-import { Check } from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
-import { BEYOND_PRICE_BENEFITS } from "@/data/business-class-content";
 
-export function BeyondPrice() {
+export interface BeyondPriceBenefit {
+  id: string;
+  title: string;
+  description: string;
+}
+
+const DEFAULT_BENEFITS: BeyondPriceBenefit[] = [
+  {
+    id: "flight-options",
+    title: "Better Flight Options",
+    description: "We compare multiple airlines, routes, and fare types to find the best overall value.",
+  },
+  {
+    id: "premium-cabin",
+    title: "Premium Cabin Access",
+    description: "Get access to exclusive fares, upgrades, and premium cabin inventory.",
+  },
+  {
+    id: "flexible-routing",
+    title: "Flexible Routing",
+    description: "We explore alternative routes and connections to maximize savings and comfort.",
+  },
+  {
+    id: "expert-recommendations",
+    title: "Expert Recommendations",
+    description: "Our specialists provide personalized advice based on your travel goals.",
+  },
+  {
+    id: "peace-of-mind",
+    title: "Peace of Mind",
+    description: "Transparent guidance, no hidden fees, and full support from start to finish.",
+  },
+  {
+    id: "dedicated-support",
+    title: "Dedicated Support",
+    description: "Our team is here to assist you before, during, and after your trip.",
+  },
+];
+
+export interface BeyondPriceProps {
+  eyebrow?: string;
+  heading?: string[];
+  benefits?: BeyondPriceBenefit[];
+}
+
+/** All props optional, falling back to the current hardcoded default — see
+ * `Hero.tsx` for the rationale. */
+export function BeyondPrice({
+  eyebrow = "Our Approach",
+  heading = ["We Look Beyond", "the Price."],
+  benefits = DEFAULT_BENEFITS,
+}: BeyondPriceProps = {}) {
   return (
-    <section className="bg-navy-deep py-16 text-white sm:py-20">
-      <div className="content-container grid grid-cols-1 gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+    <section className="bg-[#102B4C] py-10 text-white sm:py-12">
+      <div className="content-container grid grid-cols-1 gap-8 lg:grid-cols-[1fr_2fr] lg:items-center lg:gap-10">
         <SectionReveal x={-30}>
-          <p className="eyebrow text-white/70">Our Approach</p>
-          <h2 className="mt-3 text-3xl leading-tight text-white sm:text-4xl lg:text-[30px]">
-            We Look Beyond
-            <br />
-            the Price.
+          <p className="text-[22px] font-medium text-[#B59655] sm:text-[24px]">{eyebrow}</p>
+          <h2 className="mt-3 text-[32px] font-normal leading-[1.15] text-white sm:text-[38px] lg:text-[42px]">
+            {heading.map((line, index) => (
+              <span key={index} className="block">
+                {line}
+              </span>
+            ))}
           </h2>
-          <p className="mt-6 max-w-md text-[16px] leading-relaxed text-white/70">
-            Choosing a Business Class flight is rarely just about finding the lowest fare. Routing, airline, cabin
-            experience and how much flexibility you have if plans change all shape whether a fare is actually the
-            right fit for your journey.
-          </p>
+          <div className="mt-5 h-[3px] w-20 bg-white/80" />
         </SectionReveal>
 
-        <SectionReveal x={30} delay={0.1} className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-2 sm:divide-y-0">
-          {BEYOND_PRICE_BENEFITS.map((benefit, index) => (
-            <div
-              key={benefit}
-              className={`flex items-center gap-3 py-5 sm:px-6 sm:py-8 ${
-                index % 2 === 0 ? "sm:border-r sm:border-white/10" : ""
-              } ${index < BEYOND_PRICE_BENEFITS.length - 2 ? "sm:border-b sm:border-white/10" : ""}`}
-            >
-              <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-emerald-bright">
-                <Check size={16} aria-hidden="true" />
-              </span>
-              <span className="text-[16px] font-medium text-white">{benefit}</span>
-            </div>
-          ))}
+        <SectionReveal x={30} delay={0.1}>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((benefit) => (
+              <div
+                key={benefit.id}
+                className="flex h-full flex-col gap-2 rounded-sm border border-[rgba(255,255,255,0.65)] p-4"
+              >
+                <h3 className="text-[17px] font-medium leading-snug text-white">{benefit.title}</h3>
+                <p className="text-[14px] leading-snug text-[#B8C4D3]">{benefit.description}</p>
+              </div>
+            ))}
+          </div>
         </SectionReveal>
       </div>
     </section>

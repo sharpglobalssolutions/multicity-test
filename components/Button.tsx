@@ -1,13 +1,20 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "gold";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "gold" | "navy";
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: "bg-emerald text-white shadow-card hover:bg-emerald-bright hover:shadow-[0_16px_36px_-10px_rgba(0,201,130,0.55)]",
   secondary: "bg-transparent text-white border border-white/35 hover:border-white hover:bg-white/10",
   ghost: "bg-transparent text-navy-deep border border-navy-deep/15 hover:border-navy-deep/40 hover:bg-navy-deep/5",
   gold: "bg-gold text-white shadow-card hover:bg-gold-bright hover:shadow-[0_16px_36px_-10px_rgba(217,154,43,0.55)]",
+  // #041627 (== --color-navy-deep) background, green on hover — the
+  // Business Class page's `ImageTextBlock` CTA specifically asked for this
+  // pairing, distinct enough from the other variants to earn its own
+  // entry rather than a className override (which risks the exact
+  // cascade-order ambiguity a `className` string tacked onto another
+  // variant's own bg/hover classes has bitten this codebase with before).
+  navy: "bg-navy-deep text-white shadow-card hover:bg-emerald hover:shadow-[0_16px_36px_-10px_rgba(0,182,122,0.55)]",
 };
 
 const BASE_CLASSES =

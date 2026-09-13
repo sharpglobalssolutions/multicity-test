@@ -62,6 +62,7 @@ const TEMPLATE_OPTIONS: { value: string; label: string }[] = [
   { value: "default", label: "Default" },
   { value: "home", label: "Home" },
   { value: "policy", label: "Policy Page" },
+  { value: "business-class", label: "Business Class" },
 ];
 const TEMPLATE_LABELS = Object.fromEntries(TEMPLATE_OPTIONS.map((option) => [option.value, option.label]));
 

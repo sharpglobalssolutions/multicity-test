@@ -34,6 +34,23 @@ interface PageSectionsPanelProps {
 const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> = {
   policy: ["POLICY_CONTENT"],
   chrome: ["HEADER", "FOOTER"],
+  "business-class": [
+    "BC_HERO",
+    "BC_QUICK_CONSULT",
+    "BC_STATS",
+    "BC_OPTIONS",
+    "BC_OPTIONS_ONE_WAY",
+    "BC_OPTIONS_MULTI_CITY",
+    "BC_FARE_COMPLEXITY",
+    "BC_BEYOND_PRICE",
+    "BC_HOW_IT_WORKS",
+    "BC_JOURNEY",
+    "BC_SERVICES",
+    "BC_EXPERTISE",
+    "CTA",
+    "TESTIMONIALS",
+    "FAQ",
+  ],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

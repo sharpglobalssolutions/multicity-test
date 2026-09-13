@@ -53,7 +53,7 @@ export function BusinessClassSection({
               autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
               pagination={{ el: ".business-class-pagination", clickable: true }}
               navigation={{ prevEl: ".business-class-prev", nextEl: ".business-class-next" }}
-              loop
+              loop={images.length > 1}
               className="h-full w-full"
             >
               {images.map((image) => (

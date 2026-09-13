@@ -351,10 +351,42 @@
     transform: translateX(-50%);
     z-index: -1;
 }
+.statistic-section{
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 1px 2px 2px rgba(3, 24, 39, 0.2);
+  position: relative;
+}
+
+.statistic-section::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 50px;
+    background-color: #ccc;
+    top: 25%;
+    left: 35%;
+}
+
+.statistic-section::before {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 50px;
+    background-color: #ccc;
+    top: 25%;
+    right: 35%;
+}
+
 .login-input:focus{
   outline: none;
   box-shadow: none;
 }
 .login-btn{
   cursor: pointer;
+}
+.statistic-section-2{
+  z-index: 1;
+  box-shadow: 0 1px 2px 2px rgba(3, 24, 39, 0.2);
+  position: relative;
 }

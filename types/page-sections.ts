@@ -1,4 +1,9 @@
 import type { ExpertFeatureInput } from "@/components/ExpertsSection";
+import type { BusinessClassServiceItem } from "@/components/business-class/BusinessClassServices";
+import type { ExpertiseDestinationImage, ExpertiseRoute } from "@/components/business-class/BusinessClassExpertise";
+import type { FareComplexityItem } from "@/components/business-class/FareComplexity";
+import type { HowItWorksStep } from "@/components/business-class/HowItWorks";
+import type { JourneySlide } from "@/components/business-class/JourneyCarousel";
 import type { Deal, RouteDeal, ServiceCard, Stat, Testimonial } from "@/data/content";
 
 /** One `data` shape per `SECTION_TYPE` (see `validations/page-section.validation.ts`) —
@@ -148,6 +153,76 @@ export interface FooterSectionData {
   termsHref: string;
 }
 
+/** Business Class landing page (`business-class` template) — one
+ * interface per component, in the order `app/business-class/page.tsx`
+ * renders them. `titleLines`/`descriptionLines`/`factors` below are
+ * newline-separated strings, not arrays — the admin field-schema list
+ * editor only supports scalar item fields, so a list item's own
+ * multi-line text is stored as one string and split by the consuming
+ * component at render time (the same reasoning `subheading` above is
+ * stored as one HTML string rather than structured data). */
+export interface BcHeroSectionData {
+  headingLines: string[];
+  description: string;
+  backgroundImage: string;
+}
+
+export interface BcQuickConsultSectionData {
+  heading: string;
+  subheading: string;
+  deals: { id: string; city: string; airline: string; price: string; image: string; alt: string }[];
+}
+
+export interface BcStatsSectionData {
+  stats: { id: string; value: number; suffix: string; label: string; displayValue?: string }[];
+}
+
+export interface BcOptionsSectionData {
+  heading: string;
+  subheading: string;
+}
+
+export interface BcOptionsBlockSectionData {
+  eyebrowLines: string[];
+  body: string;
+  images: { src: string; alt: string }[];
+  buttonLabel: string;
+  buttonHref: string;
+}
+
+export interface BcFareComplexitySectionData {
+  heading: string;
+  subheading: string;
+  items: FareComplexityItem[];
+}
+
+export interface BcBeyondPriceSectionData {
+  eyebrow: string;
+  heading: string[];
+  benefits: { id: string; title: string; description: string }[];
+}
+
+export interface BcHowItWorksSectionData {
+  heading: string;
+  subheading: string;
+  steps: HowItWorksStep[];
+}
+
+export interface BcJourneySectionData {
+  slides: JourneySlide[];
+}
+
+export interface BcServicesSectionData {
+  heading: string;
+  services: BusinessClassServiceItem[];
+}
+
+export interface BcExpertiseSectionData {
+  heading: string[];
+  images: ExpertiseDestinationImage[];
+  routes: ExpertiseRoute[];
+}
+
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
  * admin section editor's field-schema config and by the homepage renderer
  * to type each section's `data` before spreading it as props. */
@@ -171,6 +246,18 @@ export interface SectionDataByType {
   POLICY_CONTENT: PolicyContentSectionData;
   HEADER: HeaderSectionData;
   FOOTER: FooterSectionData;
+  BC_HERO: BcHeroSectionData;
+  BC_QUICK_CONSULT: BcQuickConsultSectionData;
+  BC_STATS: BcStatsSectionData;
+  BC_OPTIONS: BcOptionsSectionData;
+  BC_OPTIONS_ONE_WAY: BcOptionsBlockSectionData;
+  BC_OPTIONS_MULTI_CITY: BcOptionsBlockSectionData;
+  BC_FARE_COMPLEXITY: BcFareComplexitySectionData;
+  BC_BEYOND_PRICE: BcBeyondPriceSectionData;
+  BC_HOW_IT_WORKS: BcHowItWorksSectionData;
+  BC_JOURNEY: BcJourneySectionData;
+  BC_SERVICES: BcServicesSectionData;
+  BC_EXPERTISE: BcExpertiseSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

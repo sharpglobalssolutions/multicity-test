@@ -38,6 +38,25 @@ export const SECTION_TYPES = [
    * `Footer` rather than a specific page's `<main>`. */
   "HEADER",
   "FOOTER",
+  /** The Business Class landing page (`business-class` template) — one
+   * value per component, in the order `app/business-class/page.tsx`
+   * renders them. `BC_OPTIONS` is just the shared heading above the two
+   * `ImageTextBlock` instances (`BC_OPTIONS_ONE_WAY`/`BC_OPTIONS_MULTI_CITY`).
+   * `CTA`/`TESTIMONIALS`/`FAQ` above are reused here too — sections are
+   * scoped by `pageId`, so a fresh instance of those types on this page's
+   * `Page` row is independent of the homepage's own. */
+  "BC_HERO",
+  "BC_QUICK_CONSULT",
+  "BC_STATS",
+  "BC_OPTIONS",
+  "BC_OPTIONS_ONE_WAY",
+  "BC_OPTIONS_MULTI_CITY",
+  "BC_FARE_COMPLEXITY",
+  "BC_BEYOND_PRICE",
+  "BC_HOW_IT_WORKS",
+  "BC_JOURNEY",
+  "BC_SERVICES",
+  "BC_EXPERTISE",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

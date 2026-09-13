@@ -53,7 +53,7 @@ export function PersonalizedJourney({
               autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
               pagination={{ el: ".personalized-journey-pagination", clickable: true }}
               navigation={{ prevEl: ".personalized-journey-prev", nextEl: ".personalized-journey-next" }}
-              loop
+              loop={images.length > 1}
               className="h-full w-full"
             >
               {images.map((image) => (

@@ -302,12 +302,6 @@ export interface Stat {
   value: number;
   suffix: string;
   label: string;
-  /** Overrides the animated `value`+`suffix` count-up with plain text —
-   * for a stat that isn't a number at all (e.g. "One-Way" / "Multi-City"
-   * on the Business Class page's stats bar). `value`/`suffix` are still
-   * required to keep this a plain additive field, but are ignored when
-   * this is set. */
-  displayValue?: string;
 }
 
 export const STATS: Stat[] = [
