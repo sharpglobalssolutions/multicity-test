@@ -125,11 +125,19 @@ export interface PolicyContentSectionData {
 
 /** Site-wide header chrome — lives on the singleton "chrome" page (see
  * `services/chrome.service.ts`), not any real content page. Mirrors
- * `HeaderClient`'s optional props exactly. */
+ * `HeaderClient`'s optional props exactly. A nav link's `children` (a
+ * dropdown submenu, e.g. under "Services") is optional and only present
+ * on links that have one. */
+export interface HeaderNavLink {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
 export interface HeaderSectionData {
   logoImageSrc: string;
   phone: string;
-  navLinks: { label: string; href: string }[];
+  navLinks: HeaderNavLink[];
 }
 
 /** Site-wide footer chrome — same singleton page as `HeaderSectionData`.

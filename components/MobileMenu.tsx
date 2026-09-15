@@ -1,16 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Phone, X } from "lucide-react";
+import { ChevronDown, Phone, X } from "lucide-react";
 import { Button } from "@/components/Button";
 import { NAV_LINKS } from "@/data/content";
+
+interface MobileNavLink {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
 
 interface MobileMenuProps {
   open: boolean;
   onClose: () => void;
-  navLinks?: { label: string; href: string }[];
+  navLinks?: MobileNavLink[];
   phone?: string;
 }
 
@@ -26,6 +32,8 @@ export function MobileMenu({
   navLinks = [...NAV_LINKS],
   phone = "1869-504-657",
 }: MobileMenuProps) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
@@ -75,16 +83,57 @@ export function MobileMenu({
             </div>
 
             <nav aria-label="Mobile primary" className="mt-10 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={onClose}
-                  className="rounded-btn px-3 py-3.5 text-base font-medium text-white/90 transition-colors duration-200 hover:bg-white/5 hover:text-emerald-bright"
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link, linkIndex) =>
+                link.children && link.children.length > 0 ? (
+                  <div key={`${link.href}-${linkIndex}`}>
+                    <div className="flex items-center">
+                      <Link
+                        href={link.href}
+                        onClick={onClose}
+                        className="flex-1 rounded-btn px-3 py-3.5 text-base font-medium text-white/90 transition-colors duration-200 hover:bg-white/5 hover:text-emerald-bright"
+                      >
+                        {link.label}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedIndex((current) => (current === linkIndex ? null : linkIndex))}
+                        aria-label={`Toggle ${link.label} submenu`}
+                        aria-expanded={expandedIndex === linkIndex}
+                        className="p-3.5 text-white/70"
+                      >
+                        <ChevronDown
+                          size={18}
+                          aria-hidden="true"
+                          className={`transition-transform ${expandedIndex === linkIndex ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    </div>
+                    {expandedIndex === linkIndex ? (
+                      <div className="ml-3 flex flex-col gap-1 border-l border-white/10 pl-3">
+                        {link.children.map((child, childIndex) => (
+                          <Link
+                            key={`${child.href}-${childIndex}`}
+                            href={child.href}
+                            onClick={onClose}
+                            className="rounded-btn px-3 py-2.5 text-sm font-medium text-white/75 transition-colors duration-200 hover:bg-white/5 hover:text-emerald-bright"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <Link
+                    key={`${link.href}-${linkIndex}`}
+                    href={link.href}
+                    onClick={onClose}
+                    className="rounded-btn px-3 py-3.5 text-base font-medium text-white/90 transition-colors duration-200 hover:bg-white/5 hover:text-emerald-bright"
+                  >
+                    {link.label}
+                  </Link>
+                ),
+              )}
             </nav>
 
             <div className="mt-auto flex flex-col gap-4 border-t border-white/10 pt-6">

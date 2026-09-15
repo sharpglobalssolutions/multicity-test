@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu } from "lucide-react";
+import { ChevronDown, Menu } from "lucide-react";
 import { MobileMenu } from "@/components/MobileMenu";
 import { NAV_LINKS } from "@/data/content";
 
@@ -17,10 +17,18 @@ const SCROLL_THRESHOLD = 40;
  * Cloudinary URL either exists or the field wouldn't have been saved. */
 const LOGO_SOURCES = ["/logo/logo.svg", "/logo/logo.png"];
 
+export interface HeaderNavLink {
+  label: string;
+  href: string;
+  /** An optional dropdown of child links (e.g. under "Services") — a nav
+   * link with no `children` renders as a plain link, same as before. */
+  children?: { label: string; href: string }[];
+}
+
 export interface HeaderClientProps {
   logoImageSrc?: string;
   phone?: string;
-  navLinks?: { label: string; href: string }[];
+  navLinks?: HeaderNavLink[];
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -78,15 +86,38 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-md font-medium text-black transition-colors duration-200 hover:text-emerald-bright"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link, linkIndex) =>
+              link.children && link.children.length > 0 ? (
+                <div key={`${link.href}-${linkIndex}`} className="group relative">
+                  <Link
+                    href={link.href}
+                    className="flex items-center gap-1 text-md font-medium text-black transition-colors duration-200 hover:text-emerald-bright"
+                  >
+                    {link.label}
+                    <ChevronDown size={14} aria-hidden="true" className="transition-transform group-hover:rotate-180" />
+                  </Link>
+                  <div className="invisible absolute left-0 top-full z-10 min-w-[220px] rounded-input border border-navy-deep/10 bg-white py-2 opacity-0 shadow-card transition-all duration-150 group-hover:visible group-hover:opacity-100">
+                    {link.children.map((child, childIndex) => (
+                      <Link
+                        key={`${child.href}-${childIndex}`}
+                        href={child.href}
+                        className="block px-4 py-2.5 text-sm font-medium text-text-dark transition-colors hover:bg-gray-light hover:text-emerald-bright"
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={`${link.href}-${linkIndex}`}
+                  href={link.href}
+                  className="text-md font-medium text-black transition-colors duration-200 hover:text-emerald-bright"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </nav>
 
           <div className="hidden items-center gap-4 lg:flex">

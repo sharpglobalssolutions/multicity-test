@@ -2,14 +2,30 @@ import { Armchair, Headset, Route, ShieldCheck, Users } from "lucide-react";
 import { unsplash } from "@/lib/images";
 import heroImage from "@/public/images/landing-img.webp"
 
-export const NAV_LINKS = [
+export interface NavLinkConfig {
+  label: string;
+  href: string;
+  children?: { label: string; href: string }[];
+}
+
+export const NAV_LINKS: NavLinkConfig[] = [
   { label: "", href: "#flights" },
   { label: "Business Class", href: "#business-class" },
   { label: "First Class", href: "#services" },
+  {
+    label: "Services",
+    href: "#",
+    // Placeholder dropdown — real service pages/links to be added later.
+    children: [
+      { label: "Service One", href: "#" },
+      { label: "Service Two", href: "#" },
+      { label: "Service Three", href: "#" },
+    ],
+  },
   { label: "Destinations", href: "#destinations" },
   { label: "Travel Insights", href: "#insights" },
   { label: "About Us", href: "#faq" },
-] as const;
+];
 
 export const PARTNER_AIRLINES = [
   "American Airlines",

@@ -207,17 +207,11 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     image("bannerImage", "Hero banner image"),
     richtext("content", "Content (headings become the table of contents automatically)"),
   ],
-  HEADER: [
-    image("logoImageSrc", "Logo"),
-    text("phone", "Phone number"),
-    {
-      key: "navLinks",
-      label: "Nav links",
-      kind: "list",
-      itemFields: [text("label", "Label"), text("href", "Link")],
-      emptyItem: { label: "", href: "" },
-    },
-  ],
+  // `navLinks` isn't listed here — like `FOOTER.footerNavColumns`, a nav
+  // link can optionally carry its own dropdown (`children`, a nested list
+  // of links), a shape the generic field-schema model doesn't cover, so
+  // `SectionEditorDialog` special-cases it (see `NavLinksEditor`).
+  HEADER: [image("logoImageSrc", "Logo"), text("phone", "Phone number")],
   // `footerNavColumns` isn't listed here — like `SUPPORT.items`, it's a
   // shape (a list of columns, each itself containing a list of links)
   // the generic field-schema model doesn't cover, so `SectionEditorDialog`

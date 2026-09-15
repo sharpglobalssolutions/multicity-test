@@ -225,6 +225,90 @@ function FooterNavColumnsEditor({
   );
 }
 
+const NAV_CHILD_LINKS_SCHEMA: ListFieldSchema = {
+  key: "children",
+  label: "Dropdown links",
+  kind: "list",
+  itemFields: [
+    { key: "label", label: "Label", kind: "text" },
+    { key: "href", label: "Link", kind: "text" },
+  ],
+  emptyItem: { label: "", href: "" },
+};
+
+interface NavLink {
+  label: string;
+  href: string;
+  children?: Record<string, string>[];
+}
+
+/** HEADER.navLinks (a variable-length list where any link can optionally
+ * carry its own dropdown of child links) doesn't fit the generic
+ * scalar/list model — same reasoning as `FooterNavColumnsEditor` — so it's
+ * handled here: label/href inputs per link, plus the existing generic
+ * `ListEditor` for that link's dropdown children, with its own add/remove
+ * for both the top-level links and each dropdown's children. */
+function NavLinksEditor({ links, onChange }: { links: NavLink[]; onChange: (links: NavLink[]) => void }) {
+  return (
+    <div className="space-y-4">
+      {links.map((link, linkIndex) => (
+        <div key={linkIndex} className="space-y-3 rounded-lg border border-border p-3">
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-medium text-muted-foreground">Link {linkIndex + 1}</p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-sm"
+              onClick={() => onChange(links.filter((_, i) => i !== linkIndex))}
+            >
+              <Trash2 />
+            </Button>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label className="text-xs">Label</Label>
+              <Input
+                value={link.label}
+                onChange={(event) => {
+                  const next = [...links];
+                  next[linkIndex] = { ...link, label: event.target.value };
+                  onChange(next);
+                }}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label className="text-xs">Link</Label>
+              <Input
+                value={link.href}
+                onChange={(event) => {
+                  const next = [...links];
+                  next[linkIndex] = { ...link, href: event.target.value };
+                  onChange(next);
+                }}
+              />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label className="text-xs">Dropdown (optional — leave empty for a plain link)</Label>
+            <ListEditor
+              schema={NAV_CHILD_LINKS_SCHEMA}
+              items={link.children ?? []}
+              onChange={(children) => {
+                const next = [...links];
+                next[linkIndex] = { ...link, children };
+                onChange(next);
+              }}
+            />
+          </div>
+        </div>
+      ))}
+      <Button type="button" variant="outline" size="sm" onClick={() => onChange([...links, { label: "", href: "" }])}>
+        <Plus /> Add link
+      </Button>
+    </div>
+  );
+}
+
 /** One generic dialog, driven by `SECTION_FIELD_SCHEMAS`, instead of a
  * bespoke form per section type. Doubles as the "create a new section"
  * dialog when `createType` is set instead of `section` — same fields,
@@ -310,6 +394,16 @@ export function SectionEditorDialog({ pageId, section, createType, onOpenChange,
               <SupportItemsEditor
                 items={(formData.items as string[][] | undefined) ?? [[], []]}
                 onChange={(items) => setField("items", items)}
+              />
+            </div>
+          ) : null}
+
+          {sectionType === "HEADER" ? (
+            <div className="space-y-1.5">
+              <Label>Nav links</Label>
+              <NavLinksEditor
+                links={(formData.navLinks as NavLink[] | undefined) ?? []}
+                onChange={(links) => setField("navLinks", links)}
               />
             </div>
           ) : null}
