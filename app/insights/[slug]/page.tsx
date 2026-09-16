@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { BlogDetailTemplate } from "@/components/blog/BlogDetailTemplate";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { NotFoundError } from "@/lib/errors";
-import { getPublishedBlogPostBySlug } from "@/services/blog.service";
+import { getBlogPostPageData, getBlogPostSeo, getPublishedBlogPostBySlug } from "@/services/blog.service";
 
 export const dynamic = "force-dynamic";
 
@@ -14,24 +12,47 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getPostOr404(slug: string) {
-  try {
-    return await getPublishedBlogPostBySlug(slug);
-  } catch (error) {
-    if (error instanceof NotFoundError) {
-      notFound();
-    }
-    throw error;
-  }
+function siteUrl(path: string): string {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+  return `${base}${path}`;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   try {
     const post = await getPublishedBlogPostBySlug(slug);
+    const seo = await getBlogPostSeo(post.id);
+
+    const title = seo?.seoTitle || `${post.title} — MultiCityExperts`;
+    const description = seo?.metaDescription || post.excerpt || undefined;
+    const ogTitle = seo?.ogTitle || title;
+    const ogDescription = seo?.ogDescription || description;
+    const ogImage = seo?.ogImage?.url || post.featured_image || undefined;
+    const twitterTitle = seo?.twitterTitle || ogTitle;
+    const twitterDescription = seo?.twitterDescription || ogDescription;
+    const twitterImage = seo?.twitterImage?.url || ogImage;
+
     return {
-      title: `${post.title} — MultiCityExperts`,
-      description: post.excerpt ?? undefined,
+      title,
+      description,
+      alternates: { canonical: seo?.canonicalUrl || siteUrl(post.url) },
+      robots:
+        seo && (!seo.robotsIndex || !seo.robotsFollow)
+          ? { index: seo.robotsIndex, follow: seo.robotsFollow }
+          : undefined,
+      openGraph: {
+        type: "article",
+        title: ogTitle,
+        description: ogDescription,
+        url: siteUrl(post.url),
+        images: ogImage ? [{ url: ogImage }] : undefined,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: twitterTitle,
+        description: twitterDescription,
+        images: twitterImage ? [twitterImage] : undefined,
+      },
     };
   } catch {
     return { title: "Travel Insights — MultiCityExperts" };
@@ -40,42 +61,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function InsightArticlePage({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPostOr404(slug);
 
-  const publishedDate = post.published_at
-    ? new Date(post.published_at).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
-    : null;
+  let data: Awaited<ReturnType<typeof getBlogPostPageData>>;
+  try {
+    data = await getBlogPostPageData(slug);
+  } catch (error) {
+    if (error instanceof NotFoundError) {
+      notFound();
+    }
+    throw error;
+  }
 
   return (
     <>
       <Header />
       <main id="top">
-        <article className="bg-off-white py-16 sm:py-20">
-          <div className="content-container max-w-3xl">
-            <Link
-              href="/insights"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-navy-deep transition-colors hover:text-emerald"
-            >
-              <ChevronLeft size={16} aria-hidden="true" />
-              All Articles
-            </Link>
-
-            <h1 className="mt-6 text-3xl font-semibold leading-tight text-text-dark sm:text-4xl lg:text-[38px]">
-              {post.title}
-            </h1>
-            {publishedDate ? <p className="mt-3 text-sm text-text-gray">{publishedDate}</p> : null}
-
-            {post.featured_image ? (
-              <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl bg-gray-light">
-                <Image src={post.featured_image} alt={post.title} fill sizes="(min-width: 768px) 768px, 100vw" className="object-cover" />
-              </div>
-            ) : null}
-
-            <div className="mt-10 whitespace-pre-wrap text-base leading-relaxed text-text-dark/90">
-              {post.content}
-            </div>
-          </div>
-        </article>
+        <BlogDetailTemplate post={data.post} relatedPosts={data.relatedPosts} faqs={data.faqs} />
       </main>
       <Footer />
     </>

@@ -86,6 +86,36 @@
     @apply text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-emerald;
   }
 
+  /* Blog article body (see components/blog/BlogDetailTemplate.tsx): each
+     H2 gets an automatic numbered circular marker via a CSS counter —
+     derived purely from however many H2s the admin's rich-text content
+     actually contains, never hardcoded. H3s stay plain sub-headings. */
+  .blog-article {
+    counter-reset: blog-section;
+  }
+
+  .blog-article h2 {
+    counter-increment: blog-section;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .blog-article h2::before {
+    content: counter(blog-section);
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background-color: var(--color-navy-deep);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

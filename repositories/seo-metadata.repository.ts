@@ -6,6 +6,18 @@ export function findByEntity(entityType: SeoEntityType, entityId: string) {
   return prisma.seoMetadata.findUnique({ where: { entityType_entityId: { entityType, entityId } } });
 }
 
+/** Same lookup as `findByEntity`, but also resolves `ogImage`/
+ * `twitterImage` (both `Media` foreign keys) to their actual URLs — for a
+ * detail page's `generateMetadata`, which needs a real image URL, not
+ * just the id. Kept separate so `findByEntity`'s existing callers (which
+ * don't need the join) are unaffected. */
+export function findByEntityWithImages(entityType: SeoEntityType, entityId: string) {
+  return prisma.seoMetadata.findUnique({
+    where: { entityType_entityId: { entityType, entityId } },
+    include: { ogImage: true, twitterImage: true },
+  });
+}
+
 /** General upsert covering every `SeoMetadata` field — pre-existing
  * scaffold (`services/seo.service.ts`) built for a future full SEO editor,
  * never wired to a route until now. `schemaData` is Zod-validated as a
