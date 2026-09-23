@@ -29,3 +29,16 @@ export function revalidatePageBySlug(slug: string) {
   }
   revalidatePath(slug === "home" ? "/" : `/${slug}`);
 }
+
+/** Same reasoning as `revalidatePageBySlug`, for blog posts — invalidates
+ * both the `/insights` listing (its featured grid can include this post)
+ * and the post's own `/insights/[slug]` detail page. `previousSlug` is
+ * passed when an update changes the slug, so the old URL stops serving
+ * stale cached content too. */
+export function revalidateBlogPostBySlug(slug: string, previousSlug?: string) {
+  revalidatePath("/insights");
+  revalidatePath(`/insights/${slug}`);
+  if (previousSlug && previousSlug !== slug) {
+    revalidatePath(`/insights/${previousSlug}`);
+  }
+}

@@ -4,7 +4,7 @@ import { handleApiError } from "@/lib/handle-error";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { requirePermission } from "@/lib/rbac";
 import { idParamSchema, validateParams } from "@/lib/validation";
-import { publishExistingBlogPost } from "@/services/blog.service";
+import { unpublishBlogPostById } from "@/services/blog.service";
 
 export const dynamic = "force-dynamic";
 
@@ -18,14 +18,14 @@ interface RouteContext {
 export async function POST(request: Request, context: RouteContext) {
   try {
     const ip = getClientIp(request);
-    const { allowed, retryAfterSeconds } = checkRateLimit(`blog:publish:${ip}`, RATE_LIMIT, RATE_LIMIT_WINDOW_MS);
+    const { allowed, retryAfterSeconds } = checkRateLimit(`blog:unpublish:${ip}`, RATE_LIMIT, RATE_LIMIT_WINDOW_MS);
     if (!allowed) {
       throw new RateLimitError("Too many requests. Please try again later.", retryAfterSeconds);
     }
 
     const user = await requirePermission("blog.publish");
     const { id } = validateParams(await context.params, idParamSchema);
-    const post = await publishExistingBlogPost(id, user.id, ip);
+    const post = await unpublishBlogPostById(id, user.id, ip);
     return apiSuccess({ post });
   } catch (error) {
     return handleApiError(error);
