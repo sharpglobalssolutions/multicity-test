@@ -12,6 +12,10 @@ export interface HeroProps {
   headingLines?: string[];
   subheading?: string;
   imageSrc?: string;
+  /** Optional — set from the admin's Hero section editor. When present,
+   * plays instead of the image; when absent (the default — no hardcoded
+   * fallback video ships with the project), only the image renders. */
+  videoSrc?: string;
   primaryButtonLabel?: string;
   primaryButtonHref?: string;
   secondaryButtonLabel?: string;
@@ -26,16 +30,17 @@ export function Hero({
   headingLines = ["Complex International", "Travel, Made Easier."],
   subheading = "Business Class, First Class, Premium Economy, and complex multi-city journeys, planned around the way you travel.",
   imageSrc,
+  videoSrc,
   primaryButtonLabel = "Speak With a Travel Specialist",
   primaryButtonHref = "#destinations",
   secondaryButtonLabel = "Submit a Travel Enquiry",
   secondaryButtonHref = "#connect",
 }: HeroProps = {}) {
   // The image always renders as the base layer — instant paint, and the
-  // permanent fallback if `public/video/hero.mp4` hasn't been added yet
-  // (or fails to load). The video, when present, plays on top of it and
+  // permanent fallback when there's no admin-set video, or it fails to
+  // load. The video, when the admin has set one, plays on top of it and
   // is removed from the DOM on error rather than left as a broken/black
-  // element, revealing the still image underneath exactly as before.
+  // element, revealing the still image underneath.
   const [videoFailed, setVideoFailed] = useState(false);
 
   // A DB-provided `imageSrc` is always a plain string; the built-in default
@@ -53,8 +58,9 @@ export function Hero({
       className="relative flex min-h-[650px] items-center overflow-hidden bg-navy-deep pb-16 pt-32 sm:min-h-[700px] lg:min-h-[750px] lg:pt-24"
     >
       <Image src={resolvedImageSrc} alt={HERO_IMAGE.alt} fill priority sizes="100vw" className="object-cover" />
-      {!videoFailed ? (
+      {videoSrc && !videoFailed ? (
         <video
+          key={videoSrc}
           autoPlay
           muted
           loop
@@ -65,7 +71,11 @@ export function Hero({
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source src="/video/hero.mp4" type="video/mp4" />
+          {/* No `type` attribute — an admin-uploaded video can be MP4,
+              WebM, or MOV (see the upload route's allow-list), and a
+              wrong hint here would make some browsers skip a file they'd
+              otherwise happily play. */}
+          <source src={videoSrc} />
         </video>
       ) : null}
       <div className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/40 to-navy-deep/30" />

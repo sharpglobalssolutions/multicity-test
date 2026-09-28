@@ -4,15 +4,20 @@ import { createMedia } from "@/repositories/media.repository";
 
 /** Uploads a file buffer to Cloudinary and records it as a `Media` row.
  * `folder` groups uploads by feature (e.g. "page-sections") so they're
- * browsable in the Cloudinary dashboard, not required by anything here. */
+ * browsable in the Cloudinary dashboard, not required by anything here.
+ * `resource_type` must be `"video"` for a video file — uploading one as
+ * `"image"` (Cloudinary's default) fails outright, so it's derived from
+ * the upload's own mime type rather than assumed. */
 export async function uploadAndCreateMedia(buffer: Buffer, filename: string, mimeType: string, folder = "page-sections") {
+  const resourceType = mimeType.startsWith("video/") ? "video" : "image";
+
   const result = await new Promise<{ secure_url: string; width?: number; height?: number; bytes: number }>(
     (resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream({ folder, resource_type: "image" }, (error, uploadResult) => {
+      const stream = cloudinary.uploader.upload_stream({ folder, resource_type: resourceType }, (error, uploadResult) => {
         if (error || !uploadResult) {
           reject(
             new AppError(
-              error?.message ?? "Image upload failed",
+              error?.message ?? "Upload failed",
               502,
               ErrorCode.INTERNAL_SERVER_ERROR,
             ),

@@ -9,8 +9,14 @@ export const dynamic = "force-dynamic";
 
 const RATE_LIMIT = 20;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const MAX_FILE_SIZE_BYTES = 8 * 1024 * 1024;
-const ALLOWED_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
+
+const MAX_IMAGE_SIZE_BYTES = 8 * 1024 * 1024;
+// A background/hero video needs far more headroom than a still image —
+// even a well-compressed few-seconds loop easily runs 20-40MB.
+const MAX_VIDEO_SIZE_BYTES = 60 * 1024 * 1024;
+
+const ALLOWED_IMAGE_MIME_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
+const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"];
 
 export async function POST(request: Request) {
   try {
@@ -27,13 +33,26 @@ export async function POST(request: Request) {
     if (!(file instanceof File)) {
       throw new ValidationError("A file is required", [{ field: "file", message: "A file is required" }]);
     }
-    if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+
+    const isVideo = ALLOWED_VIDEO_MIME_TYPES.includes(file.type);
+    const isImage = ALLOWED_IMAGE_MIME_TYPES.includes(file.type);
+    if (!isVideo && !isImage) {
       throw new ValidationError("Unsupported file type", [
-        { field: "file", message: "Only JPEG, PNG, WebP, GIF, and AVIF images are supported" },
+        {
+          field: "file",
+          message: "Only JPEG, PNG, WebP, GIF, AVIF images or MP4, WebM, MOV videos are supported",
+        },
       ]);
     }
-    if (file.size > MAX_FILE_SIZE_BYTES) {
-      throw new ValidationError("File too large", [{ field: "file", message: "Images must be 8MB or smaller" }]);
+
+    const maxSize = isVideo ? MAX_VIDEO_SIZE_BYTES : MAX_IMAGE_SIZE_BYTES;
+    if (file.size > maxSize) {
+      throw new ValidationError("File too large", [
+        {
+          field: "file",
+          message: isVideo ? "Videos must be 60MB or smaller" : "Images must be 8MB or smaller",
+        },
+      ]);
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());

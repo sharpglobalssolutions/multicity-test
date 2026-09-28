@@ -3,7 +3,7 @@ import type { SectionType } from "@/types/page-sections";
 /** A single scalar input. `"string-list"` is an array of plain strings
  * (e.g. `airlines`), editable as an add/remove/reorder list of one-line
  * text fields — distinct from `"list"`, an array of objects. */
-export type ScalarFieldKind = "text" | "textarea" | "image" | "string-list" | "richtext";
+export type ScalarFieldKind = "text" | "textarea" | "image" | "video" | "string-list" | "richtext";
 
 export interface ScalarFieldSchema {
   key: string;
@@ -35,6 +35,7 @@ const textarea = (key: string, label: string, rows?: number): ScalarFieldSchema 
   rows,
 });
 const image = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "image" });
+const video = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "video" });
 const stringList = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "string-list" });
 const richtext = (key: string, label: string): ScalarFieldSchema => ({ key, label, kind: "richtext" });
 
@@ -48,6 +49,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
     richtext("subheading", "Subheading"),
     image("imageSrc", "Background image"),
+    video("videoSrc", "Background video (optional — if set, plays instead of the image above; leave empty to use just the image)"),
     text("primaryButtonLabel", "Primary button label"),
     text("primaryButtonHref", "Primary button link"),
     text("secondaryButtonLabel", "Secondary button label"),

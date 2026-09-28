@@ -15,6 +15,12 @@ const CONTENT_SECURITY_POLICY = [
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://images.unsplash.com https://res.cloudinary.com",
+  // Without this, `media-src` falls back to `default-src 'self'` — which
+  // silently blocks an admin-uploaded Cloudinary video from ever loading
+  // in the Hero section (the browser reports `NETWORK_NO_SOURCE`, not a
+  // CSP violation, so it looks like a broken upload rather than a policy
+  // block unless you check the console for the CSP report).
+  "media-src 'self' https://res.cloudinary.com",
   "font-src 'self' data:",
   "connect-src 'self'",
   "frame-ancestors 'none'",

@@ -15,6 +15,11 @@ export interface HeroSectionData {
   headingLines: string[];
   subheading: string;
   imageSrc: string;
+  /** Optional — when set, plays instead of `imageSrc` (which still renders
+   * underneath, as the poster frame and the fallback if the video fails to
+   * load). Empty/unset means image-only, same as before this field
+   * existed. */
+  videoSrc?: string;
   primaryButtonLabel: string;
   primaryButtonHref: string;
   secondaryButtonLabel: string;
