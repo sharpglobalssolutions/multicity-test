@@ -51,6 +51,23 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "TESTIMONIALS",
     "FAQ",
   ],
+  "multi-city-flights": [
+    "MC_HERO",
+    "MC_EXPERT_GUIDANCE",
+    "MC_FLIGHT_OPTIONS",
+    "MC_COMPLEXITY",
+    "MC_PLANNING_FACTORS",
+    "MC_HOW_IT_WORKS",
+    "MC_WORK_AROUND_YOU",
+    "MC_FEATURED_ONE",
+    "MC_FEATURED_TWO",
+    "MC_ROUTES",
+    "MC_EXPLORE_EUROPE",
+    "MC_WHY_CHOOSE",
+    "MC_PLANNING_CTA",
+    "CTA",
+    "FAQ",
+  ],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

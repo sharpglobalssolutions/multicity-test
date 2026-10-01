@@ -30,7 +30,10 @@ type Step = "criteria" | "contact";
 const FIELD_CLASSES =
   "w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";
 
-const FIELD_LABEL_CLASSES = "mb-2 block text-[11px] font-bold uppercase tracking-wider text-white";
+const FIELD_LABEL_CLASSES_BY_VARIANT = {
+  dark: "mb-2 block text-[11px] font-bold uppercase tracking-wider text-white",
+  light: "mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-deep",
+};
 
 // The small circular icon "chip" every field's leading icon sits in —
 // the same visual language as the airport-suggestion rows and calendar
@@ -69,7 +72,22 @@ const STEP_TRANSITION = {
  * by the `FormSubmission` model) — there's still no live fare inventory
  * behind this, but the lead itself is real, not a no-op.
  */
-export function FlightSearch() {
+export interface FlightSearchProps {
+  /** "dark" (default) is the original translucent-black card meant to sit
+   * over a photo hero — unchanged behavior for every existing caller.
+   * "light" drops its own card chrome entirely (no background/border/
+   * shadow/padding) and switches to dark labels and a gold submit button —
+   * meant to be embedded inside a caller-supplied white card (see
+   * `MultiCityHero`'s quote card, which wraps it together with a phone
+   * header bar and a trust-stats row as one seamless card) rather than
+   * used standalone. Only styling changes between variants — the two-step
+   * criteria/contact flow and its submission logic are identical either way. */
+  variant?: "dark" | "light";
+}
+
+export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
+  const fieldLabelClasses = FIELD_LABEL_CLASSES_BY_VARIANT[variant];
+  const submitButtonVariant = variant === "light" ? "gold" : "primary";
   const router = useRouter();
   const [step, setStep] = useState<Step>("criteria");
   // Set the moment Step 1 is submitted, so a visitor who never reaches (or
@@ -231,17 +249,25 @@ export function FlightSearch() {
     }
   }
 
+  const nonActiveLabelClass = variant === "light" ? "text-navy-deep/70" : "text-white";
+
   return (
-    <div className="relative w-full overflow-hidden rounded-[7px] bg-black/50 p-6 shadow-soft border border-white ring-1 ring-navy-deep/[0.06] sm:p-8">
+    <div
+      className={
+        variant === "light"
+          ? "relative w-full"
+          : "relative w-full overflow-hidden rounded-[7px] border border-white bg-black/50 p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8"
+      }
+    >
       <div className="absolute inset-x-0 top-0 h-1" aria-hidden="true" />
 
       <div className="mb-6">
         <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
-          <span className={step === "criteria" ? "text-white" : "text-emerald"}>
+          <span className={step === "criteria" ? nonActiveLabelClass : "text-emerald"}>
             {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
             Flight Details
           </span>
-          <span className="text-white">Your Details</span>
+          <span className={nonActiveLabelClass}>Your Details</span>
         </div>
         <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-gray-light">
           <motion.div
@@ -261,9 +287,11 @@ export function FlightSearch() {
               type="button"
               onClick={() => setTripType(tab.id)}
               aria-pressed={tripType === tab.id}
-              className={`relative flex-1 whitespace-nowrap border border-white hover:bg-[#0a4074] rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
-                tripType === tab.id ? "text-white" : "text-white hover:text-white"
-              }`}
+              className={`relative flex-1 whitespace-nowrap rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
+                variant === "light"
+                  ? "border border-navy-deep/15 hover:bg-navy-deep/5"
+                  : "border border-white hover:bg-[#0a4074]"
+              } ${tripType === tab.id ? "text-white" : nonActiveLabelClass}`}
             >
               {tripType === tab.id ? (
                 <motion.span
@@ -330,7 +358,7 @@ export function FlightSearch() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={FIELD_LABEL_CLASSES} htmlFor="passengers">
+                <label className={fieldLabelClasses} htmlFor="passengers">
                   Passengers
                 </label>
                 <div className="relative">
@@ -358,7 +386,7 @@ export function FlightSearch() {
               </div>
 
               <div>
-                <label className={FIELD_LABEL_CLASSES} htmlFor="cabin-class">
+                <label className={fieldLabelClasses} htmlFor="cabin-class">
                   Class
                 </label>
                 <div className="relative">
@@ -386,7 +414,7 @@ export function FlightSearch() {
               </div>
             </div>
 
-            <Button type="submit" variant="primary" className="w-full py-4 text-[15px]">
+            <Button type="submit" variant={submitButtonVariant} className="w-full py-4 text-[15px]">
               <Search size={16} aria-hidden="true" />
               Search Flights
             </Button>
@@ -426,7 +454,7 @@ export function FlightSearch() {
             </div>
 
             <div>
-              <label className={FIELD_LABEL_CLASSES} htmlFor="contact-name">
+              <label className={fieldLabelClasses} htmlFor="contact-name">
                 Full Name
               </label>
               <div className="relative">
@@ -448,7 +476,7 @@ export function FlightSearch() {
             </div>
 
             <div>
-              <label className={FIELD_LABEL_CLASSES} htmlFor="contact-email">
+              <label className={fieldLabelClasses} htmlFor="contact-email">
                 Email
               </label>
               <div className="relative">
@@ -471,7 +499,7 @@ export function FlightSearch() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={FIELD_LABEL_CLASSES} htmlFor="contact-mobile">
+                <label className={fieldLabelClasses} htmlFor="contact-mobile">
                   Mobile
                 </label>
                 <div className="relative">
@@ -493,7 +521,7 @@ export function FlightSearch() {
               </div>
 
               <div>
-                <label className={FIELD_LABEL_CLASSES} htmlFor="contact-city">
+                <label className={fieldLabelClasses} htmlFor="contact-city">
                   City
                 </label>
                 <div className="relative">
@@ -526,7 +554,7 @@ export function FlightSearch() {
               >
                 Back
               </button>
-              <Button type="submit" variant="primary" className="flex-1" disabled={submitting}>
+              <Button type="submit" variant={submitButtonVariant} className="flex-1" disabled={submitting}>
                 {submitting ? (
                   <>
                     <Loader2 size={16} className="animate-spin" aria-hidden="true" />

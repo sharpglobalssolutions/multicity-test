@@ -18,6 +18,12 @@ export interface ImageTextBlockProps {
   images: { src: string; alt: string }[];
   imagePosition?: "left" | "right";
   benefits?: string[];
+  /** A plain two-column list (no checkmark bullets) — an alternative to
+   * `benefits` (a single checkmarked column) for content that reads as two
+   * side-by-side columns of short phrases in the reference design (e.g.
+   * "Flexible fares" / "Mixed-cabin itineraries"). At most one of
+   * `benefits`/`twoColumnItems` is expected to be set at a time. */
+  twoColumnItems?: string[][];
   buttonLabel?: string;
   buttonHref?: string;
 }
@@ -38,6 +44,7 @@ export function ImageTextBlock({
   images,
   imagePosition = "left",
   benefits,
+  twoColumnItems,
   buttonLabel,
   buttonHref,
 }: ImageTextBlockProps) {
@@ -45,6 +52,11 @@ export function ImageTextBlock({
   const prevClass = `image-text-block-prev-${instanceId}`;
   const nextClass = `image-text-block-next-${instanceId}`;
   const paginationClass = `image-text-block-pagination-${instanceId}`;
+  // A single static image (e.g. the "planning CTA" block, which never had
+  // more than one photo in the reference design) shows no carousel chrome
+  // at all — the arrow box and pagination dots only make sense once
+  // there's something to navigate between.
+  const isCarousel = images.length > 1;
 
   const imageBlock = (
     <SectionReveal x={imagePosition === "left" ? -60 : 60}>
@@ -53,9 +65,9 @@ export function ImageTextBlock({
           modules={[Autoplay, EffectFade, Navigation, Pagination]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-          pagination={{ el: `.${paginationClass}`, clickable: true }}
-          navigation={{ prevEl: `.${prevClass}`, nextEl: `.${nextClass}` }}
+          autoplay={isCarousel ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
+          pagination={isCarousel ? { el: `.${paginationClass}`, clickable: true } : false}
+          navigation={isCarousel ? { prevEl: `.${prevClass}`, nextEl: `.${nextClass}` } : false}
           loop={images.length > 1}
           className="h-full w-full"
         >
@@ -74,37 +86,41 @@ export function ImageTextBlock({
           ))}
         </Swiper>
 
-        <div
-          className={`${paginationClass} absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-1.5 [&_.swiper-pagination-bullet]:h-1.5 [&_.swiper-pagination-bullet]:w-1.5 [&_.swiper-pagination-bullet]:rounded-full [&_.swiper-pagination-bullet]:transition-all [&_.swiper-pagination-bullet-active]:w-5`}
-          style={
-            {
-              "--swiper-pagination-color": "#ffffff",
-              "--swiper-pagination-bullet-inactive-color": "#ffffff",
-              "--swiper-pagination-bullet-inactive-opacity": "0.5",
-            } as CSSProperties
-          }
-        />
+        {isCarousel ? (
+          <>
+            <div
+              className={`${paginationClass} absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-1.5 [&_.swiper-pagination-bullet]:h-1.5 [&_.swiper-pagination-bullet]:w-1.5 [&_.swiper-pagination-bullet]:rounded-full [&_.swiper-pagination-bullet]:transition-all [&_.swiper-pagination-bullet-active]:w-5`}
+              style={
+                {
+                  "--swiper-pagination-color": "#ffffff",
+                  "--swiper-pagination-bullet-inactive-color": "#ffffff",
+                  "--swiper-pagination-bullet-inactive-opacity": "0.5",
+                } as CSSProperties
+              }
+            />
 
-        <div
-          className={`absolute bottom-0 z-20 flex h-20 w-20 items-center gap-0 bg-[#f4f4f4] p-1 shadow-card ${
-            imagePosition === "left" ? "right-0" : "left-0"
-          }`}
-        >
-          <button
-            type="button"
-            aria-label="Previous image"
-            className={`${prevClass} flex items-center justify-center text-navy-deep transition-colors hover:bg-gray-light`}
-          >
-            <ChevronLeft size={30} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            aria-label="Next image"
-            className={`${nextClass} flex items-center justify-center text-navy-deep transition-colors hover:bg-gray-light`}
-          >
-            <ChevronRight size={30} aria-hidden="true" />
-          </button>
-        </div>
+            <div
+              className={`absolute bottom-0 z-20 flex h-20 w-20 items-center gap-0 bg-[#f4f4f4] p-1 shadow-card ${
+                imagePosition === "left" ? "right-0" : "left-0"
+              }`}
+            >
+              <button
+                type="button"
+                aria-label="Previous image"
+                className={`${prevClass} flex items-center justify-center text-navy-deep transition-colors hover:bg-gray-light`}
+              >
+                <ChevronLeft size={30} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                aria-label="Next image"
+                className={`${nextClass} flex items-center justify-center text-navy-deep transition-colors hover:bg-gray-light`}
+              >
+                <ChevronRight size={30} aria-hidden="true" />
+              </button>
+            </div>
+          </>
+        ) : null}
       </div>
     </SectionReveal>
   );
@@ -129,6 +145,20 @@ export function ImageTextBlock({
             </li>
           ))}
         </ul>
+      ) : null}
+
+      {twoColumnItems && twoColumnItems.length > 0 ? (
+        <div className="mt-6 grid max-w-lg grid-cols-2 gap-x-8 gap-y-2.5">
+          {twoColumnItems.map((column, columnIndex) => (
+            <ul key={columnIndex} className="space-y-2.5">
+              {column.map((item) => (
+                <li key={item} className="text-[15px] text-text-dark">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
       ) : null}
 
       {buttonLabel && buttonHref ? (

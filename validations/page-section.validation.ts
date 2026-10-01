@@ -57,6 +57,23 @@ export const SECTION_TYPES = [
   "BC_JOURNEY",
   "BC_SERVICES",
   "BC_EXPERTISE",
+  /** The Multi-City Flights landing page (`multi-city-flights` template) —
+   * one value per component, in the order `app/multi-city-flights/page.tsx`
+   * renders them. `CTA`/`FAQ` above are reused here too, scoped to this
+   * page's own `Page` row same as the Business Class page does. */
+  "MC_HERO",
+  "MC_EXPERT_GUIDANCE",
+  "MC_FLIGHT_OPTIONS",
+  "MC_COMPLEXITY",
+  "MC_PLANNING_FACTORS",
+  "MC_HOW_IT_WORKS",
+  "MC_WORK_AROUND_YOU",
+  "MC_FEATURED_ONE",
+  "MC_FEATURED_TWO",
+  "MC_ROUTES",
+  "MC_EXPLORE_EUROPE",
+  "MC_WHY_CHOOSE",
+  "MC_PLANNING_CTA",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

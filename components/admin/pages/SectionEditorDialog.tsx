@@ -141,10 +141,12 @@ function ListEditor({
   );
 }
 
-/** SUPPORT.items (`string[][]`, two fixed columns) doesn't fit the generic
- * scalar/list model — the only section shaped that way — so it's handled
- * here as two `string-list` sub-fields instead of a schema entry. */
-function SupportItemsEditor({
+/** A `string[][]` field — two fixed columns — doesn't fit the generic
+ * scalar/list model, so it's handled here as two `string-list` sub-fields
+ * instead of a schema entry. Shared by `SUPPORT.items`, `MC_COMPLEXITY.items`,
+ * and `twoColumnItems` on the three `ImageTextBlock`-shaped MC sections (see
+ * `TWO_COLUMN_LIST_FIELDS_BY_SECTION` below). */
+function TwoColumnListEditor({
   items,
   onChange,
 }: {
@@ -170,6 +172,16 @@ function SupportItemsEditor({
     </div>
   );
 }
+
+/** Which section types have a `string[][]` field, and under which key/label
+ * — drives `TwoColumnListEditor` below instead of a per-type `if` chain. */
+const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: string; label: string }>> = {
+  SUPPORT: { key: "items", label: "Support items" },
+  MC_COMPLEXITY: { key: "items", label: "Considerations" },
+  MC_FEATURED_ONE: { key: "twoColumnItems", label: "Two-column list" },
+  MC_FEATURED_TWO: { key: "twoColumnItems", label: "Two-column list" },
+  MC_PLANNING_CTA: { key: "twoColumnItems", label: "Two-column list" },
+};
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {
   key: "links",
@@ -392,12 +404,12 @@ export function SectionEditorDialog({ pageId, section, createType, onOpenChange,
             </div>
           ))}
 
-          {sectionType === "SUPPORT" ? (
+          {TWO_COLUMN_LIST_FIELDS_BY_SECTION[sectionType] ? (
             <div className="space-y-1.5">
-              <Label>Support items</Label>
-              <SupportItemsEditor
-                items={(formData.items as string[][] | undefined) ?? [[], []]}
-                onChange={(items) => setField("items", items)}
+              <Label>{TWO_COLUMN_LIST_FIELDS_BY_SECTION[sectionType]!.label}</Label>
+              <TwoColumnListEditor
+                items={(formData[TWO_COLUMN_LIST_FIELDS_BY_SECTION[sectionType]!.key] as string[][] | undefined) ?? [[], []]}
+                onChange={(items) => setField(TWO_COLUMN_LIST_FIELDS_BY_SECTION[sectionType]!.key, items)}
               />
             </div>
           ) : null}

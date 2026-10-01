@@ -236,6 +236,97 @@ export interface BcExpertiseSectionData {
   routes: ExpertiseRoute[];
 }
 
+/** Multi-City Flights landing page (`multi-city-flights` template) — one
+ * interface per component, in the order `app/multi-city-flights/page.tsx`
+ * renders them. */
+export interface McHeroSectionData {
+  headingLines: string[];
+  paragraphs: string[];
+  backgroundImage: string;
+  buttonLabel: string;
+  buttonHref: string;
+  phoneNumber: string;
+  phoneHeaderImage: string;
+  trustStats: { id: string; value: string; label: string }[];
+}
+
+export interface McExpertGuidanceSectionData {
+  heading: string;
+  paragraphs: string[];
+  tags: string[];
+  buttonLabel: string;
+  buttonHref: string;
+  imageSrc: string;
+}
+
+export interface McFlightOptionsSectionData {
+  heading: string;
+  subheading: string;
+  cards: { id: string; title: string; description: string; image: string; alt: string }[];
+}
+
+/** `items` mirrors `SupportSectionData.items` (`string[][]`, two fixed
+ * columns) exactly — same admin editor special case, different visual
+ * treatment (full-bleed background image instead of image-beside-text). */
+export interface McComplexitySectionData {
+  heading: string;
+  subheading: string;
+  items: string[][];
+  backgroundImage: string;
+}
+
+export interface McPlanningFactorsSectionData {
+  heading: string;
+  subheading: string;
+  items: { id: string; label: string; description: string }[];
+}
+
+export interface McWorkAroundYouSectionData {
+  headingLines: string[];
+  paragraphs: string[];
+  backgroundImage: string;
+}
+
+/** Shared shape behind the two alternating "featured" blocks and the
+ * planning CTA block — all three are `ImageTextBlock` instances (see
+ * `components/business-class/ImageTextBlock.tsx`), differing only in
+ * `imagePosition` and image count, which the page passes literally rather
+ * than storing in the data (same convention `BC_OPTIONS_ONE_WAY`/
+ * `BC_OPTIONS_MULTI_CITY` already use). `twoColumnItems` mirrors
+ * `McComplexitySectionData.items`'s two-fixed-columns shape. */
+export interface McImageTextSectionData {
+  headingLines: string[];
+  body: string;
+  images: { src: string; alt: string }[];
+  twoColumnItems: string[][];
+  buttonLabel: string;
+  buttonHref: string;
+}
+
+export interface McRoutesSectionData {
+  heading: string;
+  subheading: string;
+  routes: { id: string; number: string; tag: string; stops: string }[];
+  noticeText: string;
+  buttonLabel: string;
+  buttonHref: string;
+}
+
+export interface McExploreEuropeSectionData {
+  headingLines: string[];
+  subheading: string;
+  buttonLabel: string;
+  buttonHref: string;
+  backgroundImage: string;
+  rightHeading: string;
+  rightBody: string;
+}
+
+export interface McWhyChooseSectionData {
+  heading: string;
+  features: { id: string; title: string; description: string }[];
+}
+
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
  * admin section editor's field-schema config and by the homepage renderer
  * to type each section's `data` before spreading it as props. */
@@ -271,6 +362,19 @@ export interface SectionDataByType {
   BC_JOURNEY: BcJourneySectionData;
   BC_SERVICES: BcServicesSectionData;
   BC_EXPERTISE: BcExpertiseSectionData;
+  MC_HERO: McHeroSectionData;
+  MC_EXPERT_GUIDANCE: McExpertGuidanceSectionData;
+  MC_FLIGHT_OPTIONS: McFlightOptionsSectionData;
+  MC_COMPLEXITY: McComplexitySectionData;
+  MC_PLANNING_FACTORS: McPlanningFactorsSectionData;
+  MC_HOW_IT_WORKS: BcHowItWorksSectionData;
+  MC_WORK_AROUND_YOU: McWorkAroundYouSectionData;
+  MC_FEATURED_ONE: McImageTextSectionData;
+  MC_FEATURED_TWO: McImageTextSectionData;
+  MC_ROUTES: McRoutesSectionData;
+  MC_EXPLORE_EUROPE: McExploreEuropeSectionData;
+  MC_WHY_CHOOSE: McWhyChooseSectionData;
+  MC_PLANNING_CTA: McImageTextSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;
