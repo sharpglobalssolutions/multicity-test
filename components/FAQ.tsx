@@ -22,7 +22,7 @@ export function FAQ({
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section id="faq" className="relative overflow-hidden bg-navy-deep py-20 sm:py-28">
+    <section id="faq" className="relative overflow-hidden bg-navy-deep py-14 sm:py-20">
       {/* Decorative abstract circles, bottom-left — low-contrast, purely
           ornamental, kept behind all content. */}
     

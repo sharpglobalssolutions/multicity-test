@@ -37,7 +37,7 @@ export function PersonalizedJourney({
   return (
     // overflow-x-hidden: see BusinessClassSection — clips the image's
     // translateX reveal so it can never cause page-level horizontal scroll.
-    <section className="overflow-x-hidden bg-white py-14 sm:py-16 personalize-journey">
+    <section className="overflow-x-hidden bg-white py-10 sm:py-12 personalize-journey">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal y={24}>
           <h2 className="mt-3 text-2xl text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>

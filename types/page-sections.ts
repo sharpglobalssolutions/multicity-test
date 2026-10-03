@@ -293,14 +293,20 @@ export interface McWorkAroundYouSectionData {
  * `imagePosition` and image count, which the page passes literally rather
  * than storing in the data (same convention `BC_OPTIONS_ONE_WAY`/
  * `BC_OPTIONS_MULTI_CITY` already use). `twoColumnItems` mirrors
- * `McComplexitySectionData.items`'s two-fixed-columns shape. */
+ * `McComplexitySectionData.items`'s two-fixed-columns shape. Also reused
+ * by the First Class page's own `ImageTextBlock` instances (`FC_*`) — see
+ * that page's section types below — which is why `benefits` (the other of
+ * `ImageTextBlock`'s two optional list styles) and `buttonVariant` are
+ * included even though no `MC_*` section currently sets them. */
 export interface McImageTextSectionData {
   headingLines: string[];
   body: string;
   images: { src: string; alt: string }[];
-  twoColumnItems: string[][];
-  buttonLabel: string;
-  buttonHref: string;
+  benefits?: string[];
+  twoColumnItems?: string[][];
+  buttonLabel?: string;
+  buttonHref?: string;
+  buttonVariant?: "navy" | "gold";
 }
 
 export interface McRoutesSectionData {
@@ -325,6 +331,90 @@ export interface McExploreEuropeSectionData {
 export interface McWhyChooseSectionData {
   heading: string;
   features: { id: string; title: string; description: string }[];
+}
+
+/** First Class landing page (`first-class` template) — one interface per
+ * component, in the order `app/first-class/page.tsx` renders them.
+ * `FC_HERO` reuses `McHeroSectionData` (same `MultiCityHero` component),
+ * `FC_EXPERT_GUIDANCE` reuses `McExpertGuidanceSectionData`, `FC_WHAT_MATTERS`/
+ * `FC_PLANNING` reuse `McPlanningFactorsSectionData`, `FC_OPTIONS` reuses
+ * `McFlightOptionsSectionData`, `FC_HOW_IT_WORKS` reuses
+ * `BcHowItWorksSectionData`, `FC_WHY_CHOOSE` reuses `McWhyChooseSectionData`,
+ * and `FC_FLIGHT_SEARCH_CHALLENGE`/`FC_BEFORE_BOOKING`/
+ * `FC_BOARDING_EXPERIENCE`/`FC_JOURNEY_PREFERENCES` reuse
+ * `McImageTextSectionData` — none of those get their own interface below. */
+export interface FcComparisonSectionData {
+  headingLines: string[];
+  subheading: string;
+  body: string;
+  backgroundImage: string;
+  columnLabels: [string, string];
+  rows: { id: string; label: string; businessClass: string; firstClass: string }[];
+}
+
+export interface FcAirlinesSectionData {
+  heading: string;
+  subheading: string;
+  airlines: { id: string; title: string; description: string; image: string; alt: string; linkLabel: string; linkHref: string }[];
+}
+
+export interface FcCabinSectionData {
+  heading: string;
+  body: string;
+  subheading: string;
+  twoColumnItems: string[][];
+  image: string;
+  imageAlt: string;
+}
+
+export interface FcAircraftSectionData {
+  headingLines: string[];
+  leftParagraphs: string[];
+  rightParagraphs: string[];
+  backgroundImage: string;
+}
+
+export interface FcFareSectionData {
+  heading: string;
+  body: string;
+  buttonLabel: string;
+  buttonHref: string;
+  backgroundImage: string;
+  subheading: string;
+  twoColumnItems: string[][];
+}
+
+/** Deliberately not `RouteDeal` (whose `multiCityRoute` is a real `string[]`
+ * of stops) — this page's route cards show one descriptive sentence under
+ * the origin/destination instead, so `multiCityRoute` here is a plain
+ * `string`. `app/first-class/page.tsx` wraps it in a single-element array
+ * when handing routes to the reused `RoutesCarousel` (whose `.join(" → ")`
+ * on a one-element array just renders that sentence unchanged, with no
+ * arrow). `tagline` is the small italic line under the price — the one
+ * field these cards have that `RoutesCarousel`'s normal cards don't. */
+export interface FcRouteDeal {
+  id: string;
+  originCity: string;
+  destinationCity: string;
+  multiCityRoute: string;
+  price: string;
+  image: string;
+  alt: string;
+  href: string;
+  tagline?: string;
+}
+
+export interface FcRoutesSectionData {
+  heading: string;
+  subheading: string;
+  routes: FcRouteDeal[];
+}
+
+export interface FcPlanCtaSectionData {
+  heading: string;
+  subheading: string;
+  buttonLabel: string;
+  buttonHref: string;
 }
 
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
@@ -375,6 +465,25 @@ export interface SectionDataByType {
   MC_EXPLORE_EUROPE: McExploreEuropeSectionData;
   MC_WHY_CHOOSE: McWhyChooseSectionData;
   MC_PLANNING_CTA: McImageTextSectionData;
+  FC_HERO: McHeroSectionData;
+  FC_EXPERT_GUIDANCE: McExpertGuidanceSectionData;
+  FC_WHAT_MATTERS: McPlanningFactorsSectionData;
+  FC_FLIGHT_SEARCH_CHALLENGE: McImageTextSectionData;
+  FC_OPTIONS: McFlightOptionsSectionData;
+  FC_COMPARISON: FcComparisonSectionData;
+  FC_AIRLINES: FcAirlinesSectionData;
+  FC_CABIN: FcCabinSectionData;
+  FC_HOW_IT_WORKS: BcHowItWorksSectionData;
+  FC_AIRCRAFT: FcAircraftSectionData;
+  FC_BEFORE_BOOKING: McImageTextSectionData;
+  FC_BOARDING_EXPERIENCE: McImageTextSectionData;
+  FC_FARE: FcFareSectionData;
+  FC_ROUTES: FcRoutesSectionData;
+  FC_PLANNING: McPlanningFactorsSectionData;
+  FC_WHY_CHOOSE: McWhyChooseSectionData;
+  FC_JOURNEY_PREFERENCES: McImageTextSectionData;
+  FC_PLAN_CTA: FcPlanCtaSectionData;
+  FC_FAQ: FaqSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

@@ -28,7 +28,7 @@ export function ServicesCarousel({
   services = SERVICES,
 }: ServicesCarouselProps = {}) {
   return (
-    <section id="services" className="relative overflow-hidden bg-white py-20 sm:py-20">
+    <section id="services" className="relative overflow-hidden bg-white py-14 sm:py-14">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.05]"

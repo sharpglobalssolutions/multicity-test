@@ -23,7 +23,7 @@ export function TestimonialCarousel({
   testimonials = TESTIMONIALS,
 }: TestimonialCarouselProps = {}) {
   return (
-    <section id="testimonials" className="relative overflow-hidden bg-white py-20 sm:py-20">
+    <section id="testimonials" className="relative overflow-hidden bg-white py-14 sm:py-14">
       {/* Decorative, low-opacity travel motif — not a stock photo, just the
           site's own icon set (globe + plane) rendered oversized so it reads
           as a background illustration without competing with the cards. */}

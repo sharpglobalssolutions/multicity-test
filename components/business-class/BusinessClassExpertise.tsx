@@ -50,7 +50,7 @@ export function BusinessClassExpertise({
   routes = DEFAULT_ROUTES,
 }: BusinessClassExpertiseProps = {}) {
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-24">
+    <section className="relative overflow-hidden bg-white py-14 sm:py-16">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.05]"

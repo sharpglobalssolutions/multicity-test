@@ -9,7 +9,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function AboutStory() {
   return (
-    <section className="overflow-x-hidden bg-white py-16 sm:py-24">
+    <section className="overflow-x-hidden bg-white py-10 sm:py-16">
       <div className="content-container grid grid-cols-1 gap-20 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
         {/* Left: large portrait with a smaller, older portrait overlapping its bottom-left */}
         <div className="relative">

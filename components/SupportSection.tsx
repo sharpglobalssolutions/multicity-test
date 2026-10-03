@@ -25,7 +25,7 @@ export function SupportSection({
   return (
     // overflow-x-hidden: see BusinessClassSection — clips the SectionReveal
     // x-offset slide-in so it can never cause page-level horizontal scroll.
-    <section className="overflow-x-hidden bg-white py-16 sm:py-14">
+    <section className="overflow-x-hidden bg-white py-10 sm:py-12">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-60} className="lg:order-1">
           <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>

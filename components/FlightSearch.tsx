@@ -261,7 +261,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
     >
       <div className="absolute inset-x-0 top-0 h-1" aria-hidden="true" />
 
-      <div className="mb-6">
+      <div className="mb-4">
         <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
           <span className={step === "criteria" ? nonActiveLabelClass : "text-emerald"}>
             {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
@@ -280,7 +280,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
       </div>
 
       {step === "criteria" ? (
-        <div className="relative mb-6 flex gap-5 rounded-input p-1">
+        <div className="relative mb-4 flex gap-5 rounded-input p-1">
           {TRIP_TYPE_TABS.map((tab) => (
             <button
               key={tab.id}
@@ -313,19 +313,31 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
             {...STEP_TRANSITION}
             onSubmit={handleCriteriaSubmit}
             noValidate
-            className="space-y-4"
+            className="space-y-3"
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end search-field">
-              <AirportAutocomplete label="From" value={from} onChange={setFrom} placeholder="Origin city or airport" />
+              <AirportAutocomplete
+                label="From"
+                value={from}
+                onChange={setFrom}
+                placeholder="Origin city or airport"
+                hideLabel
+              />
               <button
                 type="button"
                 onClick={swap}
                 aria-label="Swap origin and destination"
-                className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-white text-navy-deep shadow-sm transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald hover:shadow-card sm:mb-0.5 sm:self-end"
+                className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-white text-navy-deep shadow-sm transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald hover:shadow-card sm:self-center"
               >
                 <ArrowLeftRight size={16} aria-hidden="true" />
               </button>
-              <AirportAutocomplete label="To" value={to} onChange={setTo} placeholder="Destination city or airport" />
+              <AirportAutocomplete
+                label="To"
+                value={to}
+                onChange={setTo}
+                placeholder="Destination city or airport"
+                hideLabel
+              />
             </div>
 
             <div
@@ -337,8 +349,9 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                 value={departure}
                 onChange={handleDepartureChange}
                 min={todayIso}
-                placeholder="Select date"
+                placeholder="Departure date"
                 align="start"
+                hideLabel
               />
 
               {tripType === "round-trip" ? (
@@ -348,8 +361,9 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                   value={returnDate}
                   onChange={handleReturnChange}
                   min={departure || todayIso}
-                  placeholder="Select date"
+                  placeholder="Return date"
                   align="end"
+                  hideLabel
                 />
               ) : null}
             </div>
@@ -358,7 +372,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={fieldLabelClasses} htmlFor="passengers">
+                <label className="sr-only" htmlFor="passengers">
                   Passengers
                 </label>
                 <div className="relative">
@@ -386,7 +400,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               </div>
 
               <div>
-                <label className={fieldLabelClasses} htmlFor="cabin-class">
+                <label className="sr-only" htmlFor="cabin-class">
                   Class
                 </label>
                 <div className="relative">
@@ -425,7 +439,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
             {...STEP_TRANSITION}
             onSubmit={handleContactSubmit}
             noValidate
-            className="space-y-4"
+            className="space-y-3"
           >
             <div className="relative overflow-hidden rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3.5 text-white">
               <div className="flex items-center justify-between gap-3">

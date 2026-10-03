@@ -62,7 +62,7 @@ export function MultiCityHero({
       <div className="absolute inset-0 bg-gradient-to-r from-navy-deep via-navy-deep/50 to-navy-deep/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-transparent to-transparent" />
 
-      <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+      <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-10">
         <div>
           <h1 className="text-2xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
             {headingLines.map((line, index) => (

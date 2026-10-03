@@ -44,6 +44,10 @@ const DEFAULT_FEATURES: WhyChooseFeature[] = [
 export interface WhyChooseSectionProps {
   heading?: string;
   features?: WhyChooseFeature[];
+  /** Defaults to "light" (every existing caller's current white-background
+   * look). The First Class page's own instance of this section sits on a
+   * solid black background instead — see that page's `FC_WHY_CHOOSE`. */
+  variant?: "light" | "dark";
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -51,12 +55,17 @@ export interface WhyChooseSectionProps {
 export function WhyChooseSection({
   heading = "Why Travellers Choose MultiCity Experts",
   features = DEFAULT_FEATURES,
+  variant = "light",
 }: WhyChooseSectionProps = {}) {
+  const isDark = variant === "dark";
+
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className={isDark ? "bg-navy-deep py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className={`text-2xl sm:text-4xl lg:text-[30px] ${isDark ? "text-white" : "text-text-dark"}`}>
+            {heading}
+          </h2>
         </SectionReveal>
 
         <SectionReveal delay={0.1} className="relative mt-12 px-10 sm:px-12">
@@ -70,8 +79,10 @@ export function WhyChooseSection({
             {features.map((feature) => (
               <SwiperSlide key={feature.id} className="h-auto">
                 <div className="h-full text-center sm:text-left">
-                  <h3 className="text-lg text-navy-deep">{feature.title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-text-gray">{feature.description}</p>
+                  <h3 className={`text-lg ${isDark ? "text-white" : "text-navy-deep"}`}>{feature.title}</h3>
+                  <p className={`mt-3 text-[15px] leading-relaxed ${isDark ? "text-white/70" : "text-text-gray"}`}>
+                    {feature.description}
+                  </p>
                 </div>
               </SwiperSlide>
             ))}
@@ -80,14 +91,18 @@ export function WhyChooseSection({
           <button
             type="button"
             aria-label="Previous"
-            className="why-choose-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
+            className={`why-choose-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
+              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+            }`}
           >
             <ChevronLeft size={18} aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Next"
-            className="why-choose-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
+            className={`why-choose-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
+              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+            }`}
           >
             <ChevronRight size={18} aria-hidden="true" />
           </button>

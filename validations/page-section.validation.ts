@@ -74,6 +74,31 @@ export const SECTION_TYPES = [
   "MC_EXPLORE_EUROPE",
   "MC_WHY_CHOOSE",
   "MC_PLANNING_CTA",
+  /** The First Class landing page (`first-class` template) — one value per
+   * component, in the order `app/first-class/page.tsx` renders them.
+   * `FC_HERO` reuses `MC_HERO`'s exact data shape (rendered by the same
+   * `MultiCityHero` component — see that component's doc comment) and
+   * several other FC_* types reuse MC_* and BC_* shapes the same way;
+   * `CTA` above is reused too, scoped to this page's own `Page` row. */
+  "FC_HERO",
+  "FC_EXPERT_GUIDANCE",
+  "FC_WHAT_MATTERS",
+  "FC_FLIGHT_SEARCH_CHALLENGE",
+  "FC_OPTIONS",
+  "FC_COMPARISON",
+  "FC_AIRLINES",
+  "FC_CABIN",
+  "FC_HOW_IT_WORKS",
+  "FC_AIRCRAFT",
+  "FC_BEFORE_BOOKING",
+  "FC_BOARDING_EXPERIENCE",
+  "FC_FARE",
+  "FC_ROUTES",
+  "FC_PLANNING",
+  "FC_WHY_CHOOSE",
+  "FC_JOURNEY_PREFERENCES",
+  "FC_PLAN_CTA",
+  "FC_FAQ",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

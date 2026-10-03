@@ -7,7 +7,7 @@ const CALL_EXPERT_HREF = "tel:1869-504-657";
 
 export function AboutHowWeHelp() {
   return (
-    <section className="overflow-x-hidden bg-white py-16 sm:py-20">
+    <section className="overflow-x-hidden bg-white py-10 sm:py-14">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-60} className="group relative aspect-[4/3] w-full overflow-hidden rounded-card sm:aspect-[16/11]">
           <Image

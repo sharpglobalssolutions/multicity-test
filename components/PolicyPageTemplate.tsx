@@ -39,7 +39,7 @@ export function PolicyPageTemplate({ title, subtitle, bannerImage, content }: Po
       </section>
 
       {/* Content */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-white py-10 sm:py-14">
         <div className="content-container grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_2.2fr] lg:gap-16">
           <PolicyToc items={toc} />
 

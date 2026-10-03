@@ -4,12 +4,12 @@ import { ExpertGuidanceSection } from "@/components/multi-city/ExpertGuidanceSec
 import { ExploreEuropeSection } from "@/components/multi-city/ExploreEuropeSection";
 import { FeaturedBlockSection } from "@/components/multi-city/FeaturedBlockSection";
 import { FlightOptionCards } from "@/components/multi-city/FlightOptionCards";
+import { HowItWorksCarousel } from "@/components/multi-city/HowItWorksCarousel";
 import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsSection";
 import { PopularRoutesSection } from "@/components/multi-city/PopularRoutesSection";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { WorkAroundYouSection } from "@/components/multi-city/WorkAroundYouSection";
-import { HowItWorks } from "@/components/business-class/HowItWorks";
 import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -97,24 +97,7 @@ export default async function MultiCityFlightsPage() {
         <FlightOptionCards {...sections.MC_FLIGHT_OPTIONS} />
         <ComplexitySection {...sections.MC_COMPLEXITY} />
         <PlanningFactorsSection {...sections.MC_PLANNING_FACTORS} />
-        <HowItWorks
-          heading="How Our Multi-City Flight Planning Works"
-          subheading="A Better Way to Plan Your European Journey."
-          steps={[
-            { id: "tell-us", titleLines: "Tell Us Your\nJourney", descriptionLines: "Route, dates & preferences." },
-            {
-              id: "we-explore",
-              titleLines: "We Explore Possible\nItineraries",
-              descriptionLines: "Our specialists evaluate available\nroutes and connections.",
-            },
-            {
-              id: "compare-routes",
-              titleLines: "Compare Routes\n& Flight Options",
-              descriptionLines: "We present the options.\nYou decide.",
-            },
-          ]}
-          {...sections.MC_HOW_IT_WORKS}
-        />
+        <HowItWorksCarousel {...sections.MC_HOW_IT_WORKS} />
         <WorkAroundYouSection {...sections.MC_WORK_AROUND_YOU} />
         <FeaturedBlockSection
           headingLines={featuredOne?.headingLines ?? ["Business Class", "Multi-City Travel"]}
@@ -168,6 +151,10 @@ export default async function MultiCityFlightsPage() {
               {
                 src: unsplash("1573497491208-6b1acb260507"),
                 alt: "A professional travel advisor smiling while assisting a client over a headset",
+              },
+              {
+                src: unsplash("1714079761488-e0c9b9ac4138"),
+                alt: "A friendly travel support specialist wearing a headset",
               },
             ]
           }

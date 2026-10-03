@@ -76,7 +76,7 @@ export function JourneyCarousel({ slides = DEFAULT_SLIDES }: JourneyCarouselProp
   const slide = slides[activeIndex] ?? slides[0]!;
 
   return (
-    <section className="bg-white py-20 sm:py-24">
+    <section className="bg-white py-14 sm:py-16">
       <div className="content-container grid grid-cols-1 items-center gap-11 md:grid-cols-[58%_1fr] md:gap-10 lg:gap-14">
         <SectionReveal x={-40}>
           <div className="relative h-[280px] w-full overflow-hidden sm:h-[360px] lg:h-[430px]">

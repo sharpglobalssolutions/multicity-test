@@ -23,7 +23,7 @@ export function DestinationCarousel({
   deals = DEALS,
 }: DestinationCarouselProps = {}) {
   return (
-    <section id="destinations" className="bg-white py-20 sm:py-14">
+    <section id="destinations" className="bg-white py-10 sm:py-16">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>

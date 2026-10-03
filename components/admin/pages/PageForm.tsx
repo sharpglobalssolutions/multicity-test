@@ -64,6 +64,7 @@ const TEMPLATE_OPTIONS: { value: string; label: string }[] = [
   { value: "policy", label: "Policy Page" },
   { value: "business-class", label: "Business Class" },
   { value: "multi-city-flights", label: "Multi-City Flights" },
+  { value: "first-class", label: "First Class" },
 ];
 const TEMPLATE_LABELS = Object.fromEntries(TEMPLATE_OPTIONS.map((option) => [option.value, option.label]));
 

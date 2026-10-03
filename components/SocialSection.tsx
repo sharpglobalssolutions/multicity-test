@@ -11,7 +11,7 @@ export interface SocialSectionProps {
  * not per-section content. */
 export function SocialSection({ heading = "Let's Stay Connected" }: SocialSectionProps = {}) {
   return (
-    <section id="connect" className="bg-white py-16 sm:py-20">
+    <section id="connect" className="bg-white py-10 sm:py-14">
       <div className="content-container text-center">
         <SectionReveal>
           <h2 className="text-2xl font-bold text-text-dark sm:text-3xl">{heading}</h2>

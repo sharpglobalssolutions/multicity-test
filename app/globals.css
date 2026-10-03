@@ -420,3 +420,24 @@
   box-shadow: 0 1px 2px 2px rgba(3, 24, 39, 0.2);
   position: relative;
 }
+
+@media(max-width:768px){
+  #business-class::after {
+    content: '';
+    position: absolute;
+    width: 69%;
+    height: 40%;
+    background-color: #f4f4f4;
+    top: 28px;
+    left: 8px;
+}
+#business-class::before{
+  display: none;
+}
+.personalize-journey::before{
+  display: none;
+}
+.personalize-journey::after{
+  display: none;
+}
+}

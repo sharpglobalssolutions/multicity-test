@@ -53,7 +53,7 @@ export function TravelInsights({
   subheading = "Practical guidance for premium international travel, multi-city itineraries and business class planning.",
 }: TravelInsightsProps = {}) {
   return (
-    <section id="insights" className="relative overflow-hidden bg-off-white py-20 sm:py-20">
+    <section id="insights" className="relative overflow-hidden bg-off-white py-14 sm:py-14">
       {/* Decorative oversized word, bottom-left — Playfair Display, purely
           a background motif, kept behind all content. */}
       <span

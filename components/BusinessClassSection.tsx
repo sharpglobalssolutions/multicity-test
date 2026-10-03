@@ -42,7 +42,7 @@ export function BusinessClassSection({
     // clips that motion at the section boundary so it can never cause
     // page-level horizontal scroll if the reveal hasn't settled yet
     // (e.g. a fast scroll flick past the trigger point).
-    <section id="business-class" className="overflow-x-hidden bg-white py-14 sm:py-16 mt-10">
+    <section id="business-class" className="overflow-x-hidden bg-white py-10 sm:py-12 mt-10">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-80}>
           <div className="relative h-[320px] overflow-hidden shadow-card sm:h-[420px] lg:h-[480px]">

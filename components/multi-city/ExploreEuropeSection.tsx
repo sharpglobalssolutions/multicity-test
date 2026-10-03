@@ -27,7 +27,7 @@ export function ExploreEuropeSection({
   rightBody = "Departures may include New York, Chicago, Miami, Los Angeles, Toronto, Vancouver or Montreal, depending on your requirements and available flight options.",
 }: ExploreEuropeSectionProps = {}) {
   return (
-    <section className="relative flex min-h-[420px] items-center overflow-hidden bg-navy-deep py-16 sm:min-h-[520px] sm:py-20">
+    <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
       <Image src={backgroundImage} alt="A European city skyline at dusk" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 

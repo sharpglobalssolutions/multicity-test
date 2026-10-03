@@ -56,7 +56,7 @@ export function BlogDetailTemplate({ post, relatedPosts, faqs }: BlogDetailTempl
       </section>
 
       {/* Content + sidebar */}
-      <section className="bg-white py-16 sm:py-20">
+      <section className="bg-white py-10 sm:py-14">
         <div className="content-container grid grid-cols-1 gap-12 lg:grid-cols-[70%_1fr] lg:gap-14">
           <article
             className="blog-article prose prose-neutral max-w-none prose-headings:font-heading prose-headings:font-semibold prose-headings:text-text-dark prose-h2:mt-12 prose-h2:text-xl prose-h3:mt-8 prose-h3:text-lg prose-p:leading-[1.7] prose-p:text-[#666666] prose-a:text-navy-deep prose-a:underline-offset-4 prose-strong:text-text-dark prose-li:text-[#666666] prose-table:text-sm first:prose-h2:mt-0"

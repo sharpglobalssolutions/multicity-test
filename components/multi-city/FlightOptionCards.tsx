@@ -43,7 +43,7 @@ export function FlightOptionCards({
   cards = DEFAULT_CARDS,
 }: FlightOptionCardsProps = {}) {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl leading-tight text-text-dark sm:text-4xl lg:text-[30px]">
@@ -59,7 +59,7 @@ export function FlightOptionCards({
                 <div className="relative aspect-[16/11] w-full">
                   <Image src={card.image} alt={card.alt} fill sizes="(min-width: 640px) 45vw, 90vw" className="object-cover" />
                 </div>
-                <div className="bg-gray-light p-6">
+                <div className="bg-[#ececec] p-6">
                   <h3 className="text-xl text-text-dark">{card.title}</h3>
                   <p className="mt-3 text-[15px] leading-relaxed text-text-gray">{card.description}</p>
                 </div>

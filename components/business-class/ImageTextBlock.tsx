@@ -26,6 +26,11 @@ export interface ImageTextBlockProps {
   twoColumnItems?: string[][];
   buttonLabel?: string;
   buttonHref?: string;
+  /** Defaults to "navy" (every existing caller's current look). The First
+   * Class page's "Tell Us What You Want" block uses "gold" instead, to
+   * match a CTA that reads as more of a primary action there than the
+   * navy buttons elsewhere on that same page. */
+  buttonVariant?: "navy" | "gold";
 }
 
 /** Shared "large image + text" layout behind both One-Way/Multi-City
@@ -47,6 +52,7 @@ export function ImageTextBlock({
   twoColumnItems,
   buttonLabel,
   buttonHref,
+  buttonVariant = "navy",
 }: ImageTextBlockProps) {
   const instanceId = useId().replace(/:/g, "");
   const prevClass = `image-text-block-prev-${instanceId}`;
@@ -163,7 +169,7 @@ export function ImageTextBlock({
 
       {buttonLabel && buttonHref ? (
         <div className="mt-8">
-          <Button href={buttonHref} variant="navy">
+          <Button href={buttonHref} variant={buttonVariant}>
             {buttonLabel}
           </Button>
         </div>

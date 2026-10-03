@@ -17,6 +17,10 @@ export interface ExpertGuidanceSectionProps {
   buttonLabel?: string;
   buttonHref?: string;
   imageSrc?: string;
+  /** Defaults to "right" (Multi-City Flights' current layout, unchanged).
+   * The First Class page's reference design mirrors this — image on the
+   * left, text on the right — so it passes "left" instead. */
+  imagePosition?: "left" | "right";
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -28,48 +32,64 @@ export function ExpertGuidanceSection({
   buttonLabel = "Speak With a Multi-City Specialist",
   buttonHref = "#connect",
   imageSrc = unsplash("1714079761488-e0c9b9ac4138"),
+  imagePosition = "right",
 }: ExpertGuidanceSectionProps = {}) {
-  return (
-    <section className="overflow-x-hidden bg-white py-16 sm:py-20">
-      <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <SectionReveal x={-60}>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
-          {paragraphs.map((paragraph, index) => (
-            <p
-              key={index}
-              className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
-            >
-              {paragraph}
-            </p>
+  const textBlock = (
+    <SectionReveal x={imagePosition === "right" ? -60 : 60}>
+      <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+      {paragraphs.map((paragraph, index) => (
+        <p key={index} className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}>
+          {paragraph}
+        </p>
+      ))}
+
+      {tags.length > 0 ? (
+        <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-gray">
+          {tags.map((tag, index) => (
+            <span key={tag} className="flex items-center gap-2">
+              {index > 0 ? <span className="size-1 rounded-full bg-text-gray/50" aria-hidden="true" /> : null}
+              {tag}
+            </span>
           ))}
+        </p>
+      ) : null}
 
-          <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-gray">
-            {tags.map((tag, index) => (
-              <span key={tag} className="flex items-center gap-2">
-                {index > 0 ? <span className="size-1 rounded-full bg-text-gray/50" aria-hidden="true" /> : null}
-                {tag}
-              </span>
-            ))}
-          </p>
+      <div className="mt-8">
+        <Button href={buttonHref} variant="navy">
+          {buttonLabel}
+        </Button>
+      </div>
+    </SectionReveal>
+  );
 
-          <div className="mt-8">
-            <Button href={buttonHref} variant="navy">
-              {buttonLabel}
-            </Button>
-          </div>
-        </SectionReveal>
+  const imageBlock = (
+    <SectionReveal x={imagePosition === "right" ? 60 : -60} delay={0.1}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/11]">
+        <Image
+          src={imageSrc}
+          alt="A travel specialist assisting a client over a headset"
+          fill
+          sizes="(min-width: 1024px) 45vw, 90vw"
+          className="object-cover rounded rounded-4xl"
+        />
+      </div>
+    </SectionReveal>
+  );
 
-        <SectionReveal x={60} delay={0.1}>
-          <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/11]">
-            <Image
-              src={imageSrc}
-              alt="A travel specialist assisting a client over a headset"
-              fill
-              sizes="(min-width: 1024px) 45vw, 90vw"
-              className="object-cover"
-            />
-          </div>
-        </SectionReveal>
+  return (
+    <section className="overflow-x-hidden bg-white py-10 sm:py-14">
+      <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        {imagePosition === "right" ? (
+          <>
+            {textBlock}
+            {imageBlock}
+          </>
+        ) : (
+          <>
+            {imageBlock}
+            {textBlock}
+          </>
+        )}
       </div>
     </section>
   );

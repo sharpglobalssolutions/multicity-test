@@ -181,6 +181,11 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   MC_FEATURED_ONE: { key: "twoColumnItems", label: "Two-column list" },
   MC_FEATURED_TWO: { key: "twoColumnItems", label: "Two-column list" },
   MC_PLANNING_CTA: { key: "twoColumnItems", label: "Two-column list" },
+  FC_CABIN: { key: "twoColumnItems", label: "Two-column list" },
+  FC_BEFORE_BOOKING: { key: "twoColumnItems", label: "Two-column list" },
+  FC_BOARDING_EXPERIENCE: { key: "twoColumnItems", label: "Two-column list" },
+  FC_FARE: { key: "twoColumnItems", label: "Two-column list" },
+  FC_JOURNEY_PREFERENCES: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {

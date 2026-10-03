@@ -26,7 +26,7 @@ export function WorkAroundYouSection({
   backgroundImage = unsplash("1474302770737-173ee21bab63"),
 }: WorkAroundYouSectionProps = {}) {
   return (
-    <section className="relative flex min-h-[420px] items-center overflow-hidden bg-navy-deep py-16 sm:min-h-[520px] sm:py-20">
+    <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
       <Image src={backgroundImage} alt="A commercial aircraft climbing into a golden evening sky" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
 

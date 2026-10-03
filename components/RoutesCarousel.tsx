@@ -15,7 +15,12 @@ import { ROUTE_DEALS, type RouteDeal } from "@/data/content";
 export interface RoutesCarouselProps {
   heading?: string;
   subheading?: string;
-  routes?: RouteDeal[];
+  routes?: (RouteDeal & { tagline?: string })[];
+  /** Defaults to "Business Class" (every existing caller's current copy).
+   * The First Class page passes "First Class" instead, rather than this
+   * component hardcoding a cabin name that isn't true for every page it's
+   * reused on. */
+  cabinLabel?: string;
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -24,9 +29,10 @@ export function RoutesCarousel({
   heading = "Expert International Flight Planning Across Key Global Routes",
   subheading = "Whether you're travelling between major business centres, visiting family overseas, planning a multi-city holiday, or putting together a more complex itinerary, our specialists can help you evaluate the journey around your priorities.",
   routes = ROUTE_DEALS,
+  cabinLabel = "Business Class",
 }: RoutesCarouselProps = {}) {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-5xl text-center">
           <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
@@ -71,7 +77,7 @@ export function RoutesCarousel({
                         <ArrowUpRight size={16} aria-hidden="true" />
                       </Link>
 
-                      <span className="">Business Class</span>
+                      <span className="">{cabinLabel}</span>
 
                       <p className="flex items-center gap-2 text-[18px]  text-navy-deep">
                         {route.originCity}
@@ -84,6 +90,8 @@ export function RoutesCarousel({
                       <p className="mt-1 text-[16px] text-text-gray">
                         Starting from <span className="text-[20px] ms-4 text-navy-deep">{route.price}</span>
                       </p>
+
+                      {route.tagline ? <p className="text-xs italic text-text-gray/80">{route.tagline}</p> : null}
                     </div>
                   </article>
                 </SwiperSlide>

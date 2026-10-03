@@ -4,9 +4,11 @@ export interface FeaturedBlockSectionProps {
   headingLines: string[];
   body: string;
   images: { src: string; alt: string }[];
+  benefits?: string[];
   twoColumnItems?: string[][];
   buttonLabel?: string;
   buttonHref?: string;
+  buttonVariant?: "navy" | "gold";
   imagePosition?: "left" | "right";
 }
 
@@ -20,21 +22,25 @@ export function FeaturedBlockSection({
   headingLines,
   body,
   images,
+  benefits,
   twoColumnItems,
   buttonLabel,
   buttonHref,
+  buttonVariant,
   imagePosition = "left",
 }: FeaturedBlockSectionProps) {
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <ImageTextBlock
           eyebrowLines={headingLines}
           body={body}
           images={images}
+          benefits={benefits}
           twoColumnItems={twoColumnItems}
           buttonLabel={buttonLabel}
           buttonHref={buttonHref}
+          buttonVariant={buttonVariant}
           imagePosition={imagePosition}
         />
       </div>

@@ -6,7 +6,7 @@ import { CORE_VALUES } from "@/data/about-content";
 
 export function AboutCoreValues() {
   return (
-    <section className="bg-gray-light py-16 sm:py-20">
+    <section className="bg-gray-light py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">Our Core Values</h2>

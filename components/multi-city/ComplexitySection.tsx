@@ -26,7 +26,7 @@ export function ComplexitySection({
   const columns = items.length === 2 ? items : [items[0] ?? [], items[1] ?? []];
 
   return (
-    <section className="relative flex min-h-[350px] items-center overflow-hidden bg-navy-deep py-16 sm:min-h-[420px] sm:py-20">
+    <section className="relative flex min-h-[300px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[360px] sm:py-14">
       <Image src={backgroundImage} alt="A traveler with luggage walking through an airport terminal" fill sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/35" />
 

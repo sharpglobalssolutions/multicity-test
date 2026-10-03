@@ -68,6 +68,28 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "CTA",
     "FAQ",
   ],
+  "first-class": [
+    "FC_HERO",
+    "FC_EXPERT_GUIDANCE",
+    "FC_WHAT_MATTERS",
+    "FC_FLIGHT_SEARCH_CHALLENGE",
+    "FC_OPTIONS",
+    "FC_COMPARISON",
+    "FC_AIRLINES",
+    "FC_CABIN",
+    "FC_HOW_IT_WORKS",
+    "FC_AIRCRAFT",
+    "FC_BEFORE_BOOKING",
+    "FC_BOARDING_EXPERIENCE",
+    "FC_FARE",
+    "FC_ROUTES",
+    "FC_PLANNING",
+    "FC_WHY_CHOOSE",
+    "FC_JOURNEY_PREFERENCES",
+    "FC_PLAN_CTA",
+    "FC_FAQ",
+    "CTA",
+  ],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

@@ -69,7 +69,7 @@ export function ExpertsSection({
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section id="experts" ref={sectionRef} className="relative overflow-hidden bg-navy-deep py-16 sm:py-20">
+    <section id="experts" ref={sectionRef} className="relative overflow-hidden bg-navy-deep py-10 sm:py-14">
       <motion.div style={{ y }} className="absolute inset-0 scale-110">
         <Image src={backgroundImage} alt={EXPERTS_BACKGROUND_IMAGE.alt} fill sizes="100vw" className="object-cover" />
       </motion.div>
