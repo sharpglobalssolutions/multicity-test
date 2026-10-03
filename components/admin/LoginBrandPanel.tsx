@@ -27,8 +27,8 @@ export function LoginBrandPanel() {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#041627] via-[#041627]/70 to-[#041627]/30" />
       <div className="relative flex h-full min-h-svh flex-col justify-between p-10 xl:p-14">
-        <span className="font-heading text-xl font-semibold text-white">
-          MultiCity<span className="text-primary">Experts</span>
+        <span className="relative block h-10 w-[220px]">
+          <Image src="/logo/logo-white.webp" alt="MultiCityExperts" fill sizes="220px" className="object-contain object-left" />
         </span>
 
         <div className="max-w-md space-y-6">

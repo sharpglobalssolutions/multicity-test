@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -25,13 +26,19 @@ export function AdminSidebar() {
       <SidebarHeader>
         <Link
           href="/admin"
-          className="flex items-center gap-2 rounded-md px-2 py-1.5 font-heading text-base font-bold text-sidebar-foreground group-data-[collapsible=icon]:justify-center"
+          className="flex items-center gap-2 rounded-md px-2 py-1.5 group-data-[collapsible=icon]:justify-center"
         >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
+          {/* The square "MC" mark is the icon-only fallback for the
+              collapsed sidebar — the site has no separate compact mark, so
+              this stays a stylized monogram rather than squeezing the real
+              (wide, wordmark-shaped) logo into that narrow space. Shown only
+              when collapsed, so the expanded header isn't showing both a
+              monogram and the real logo side by side. */}
+          <span className="hidden size-7 shrink-0 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground group-data-[collapsible=icon]:flex">
             MC
           </span>
-          <span className="truncate group-data-[collapsible=icon]:hidden">
-            MultiCity<span className="text-primary">Experts</span>
+          <span className="relative h-7 w-[130px] shrink-0 group-data-[collapsible=icon]:hidden">
+            <Image src="/logo/logo-white.webp" alt="MultiCityExperts" fill sizes="130px" className="object-contain object-left" />
           </span>
         </Link>
       </SidebarHeader>
