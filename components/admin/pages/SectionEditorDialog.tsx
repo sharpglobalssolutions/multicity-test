@@ -186,6 +186,16 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   FC_BOARDING_EXPERIENCE: { key: "twoColumnItems", label: "Two-column list" },
   FC_FARE: { key: "twoColumnItems", label: "Two-column list" },
   FC_JOURNEY_PREFERENCES: { key: "twoColumnItems", label: "Two-column list" },
+  CNX_INTRO: { key: "twoColumnItems", label: "Two-column list" },
+  CNX_ENTIRE_BOOKING: { key: "twoColumnItems", label: "Two-column list" },
+  CNX_PREMIUM_CABIN: { key: "twoColumnItems", label: "Two-column list" },
+  CNX_REFUND_BLOCK: { key: "twoColumnItems", label: "Two-column list" },
+  CNX_CREDIT_BLOCK: { key: "twoColumnItems", label: "Two-column list" },
+  FCH_OPTIONS_CHANGE: { key: "twoColumnItems", label: "Two-column list" },
+  FCH_EXPERTS_HELP: { key: "twoColumnItems", label: "Two-column list" },
+  FCH_BUSINESS_CLASS_CHANGES: { key: "twoColumnItems", label: "Two-column list" },
+  FCH_MULTICITY_CHANGE: { key: "twoColumnItems", label: "Two-column list" },
+  FCH_REVIEW_INFO: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {

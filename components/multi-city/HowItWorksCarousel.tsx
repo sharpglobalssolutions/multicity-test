@@ -42,7 +42,15 @@ const DEFAULT_STEPS: HowItWorksStep[] = [
 export interface HowItWorksCarouselProps {
   heading?: string;
   subheading?: string;
+  /** An optional extra paragraph below `subheading` — added for the Flight
+   * Change page's dark "Expert Guidance" instance. Every existing caller
+   * omits it. */
+  paragraph?: string;
   steps?: HowItWorksStep[];
+  /** Defaults to "light" (every existing caller's current white-background
+   * look). The Flight Change page's "Expert Guidance" instance passes
+   * "dark" instead, to match that page's reference design. */
+  variant?: "light" | "dark";
 }
 
 /** A carousel variant of the Business Class page's static `HowItWorks`
@@ -57,16 +65,31 @@ export interface HowItWorksCarouselProps {
 export function HowItWorksCarousel({
   heading = "How Our Multi-City Flight Planning Works",
   subheading = "A Better Way to Plan Your European Journey.",
+  paragraph,
   steps = DEFAULT_STEPS,
+  variant = "light",
 }: HowItWorksCarouselProps = {}) {
+  const isDark = variant === "dark";
+
   return (
-    <section className="bg-white py-10 sm:py-14">
+    <section className={isDark ? "bg-black py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-[28px] font-medium uppercase tracking-[0.04em] text-[#07111F] sm:text-[32px]">
+          <h2
+            className={`text-[28px] font-medium uppercase tracking-[0.04em] sm:text-[32px] ${
+              isDark ? "text-white" : "text-[#07111F]"
+            }`}
+          >
             {heading}
           </h2>
-          <p className="mt-2.5 text-[20px] font-normal text-[#9A9A9A] sm:text-[23px]">{subheading}</p>
+          <p className={`mt-2.5 text-[20px] font-normal sm:text-[23px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}>
+            {subheading}
+          </p>
+          {paragraph ? (
+            <p className={`mt-4 text-[15px] leading-relaxed ${isDark ? "text-white/70" : "text-text-gray"}`}>
+              {paragraph}
+            </p>
+          ) : null}
         </SectionReveal>
 
         <SectionReveal delay={0.1} className="relative mt-12 px-10 sm:mt-[52px] sm:px-12">
@@ -81,14 +104,18 @@ export function HowItWorksCarousel({
               <SwiperSlide key={step.id} className="h-auto">
                 <div className="relative h-full text-center">
                   <FileText size={36} strokeWidth={1.5} className="mx-auto text-[#B59655]" aria-hidden="true" />
-                  <h3 className="mt-[27px] text-[21px] font-medium leading-snug text-[#07111F]">
+                  <h3
+                    className={`mt-[27px] text-[21px] font-medium leading-snug ${
+                      isDark ? "text-white" : "text-[#07111F]"
+                    }`}
+                  >
                     {step.titleLines.split("\n").map((line, lineIndex) => (
                       <span key={lineIndex} className="block">
                         {line}
                       </span>
                     ))}
                   </h3>
-                  <p className="mt-4 text-base leading-relaxed text-[#9A9A9A]">
+                  <p className={`mt-4 text-base leading-relaxed ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}>
                     {step.descriptionLines.split("\n").map((line, lineIndex) => (
                       <span key={lineIndex} className="block">
                         {line}
@@ -104,7 +131,9 @@ export function HowItWorksCarousel({
                   {index < steps.length - 1 ? (
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute top-1/2 hidden h-[115px] w-px -translate-y-1/2 bg-[#1A2430]/15 sm:block"
+                      className={`pointer-events-none absolute top-1/2 hidden h-[115px] w-px -translate-y-1/2 sm:block ${
+                        isDark ? "bg-white/15" : "bg-[#1A2430]/15"
+                      }`}
                       style={{ right: -(SLIDE_GAP / 2) }}
                     />
                   ) : null}
@@ -116,14 +145,18 @@ export function HowItWorksCarousel({
           <button
             type="button"
             aria-label="Previous"
-            className="how-it-works-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
+            className={`how-it-works-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
+              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+            }`}
           >
             <ChevronLeft size={18} aria-hidden="true" />
           </button>
           <button
             type="button"
             aria-label="Next"
-            className="how-it-works-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-navy-deep/10 text-navy-deep transition-colors hover:border-emerald hover:text-emerald"
+            className={`how-it-works-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
+              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+            }`}
           >
             <ChevronRight size={18} aria-hidden="true" />
           </button>

@@ -43,6 +43,12 @@ export interface PlanningFactorsSectionProps {
   heading?: string;
   subheading?: string;
   items?: PlanningFactor[];
+  /** Defaults to 3 (every existing caller's current grid). The Flight
+   * Cancellation page's own instances of this section pass 4 instead, to
+   * match that page's reference design's wider, shallower grids. Passed
+   * literally by the page (like `imagePosition` elsewhere), not stored in
+   * `data`. */
+  columns?: 3 | 4;
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -51,6 +57,7 @@ export function PlanningFactorsSection({
   heading = "What We Consider When Planning Your Route",
   subheading = "We look beyond individual flights to understand how the complete journey fits together.",
   items = DEFAULT_ITEMS,
+  columns = 3,
 }: PlanningFactorsSectionProps = {}) {
   return (
     <section className="bg-white py-10 sm:py-14">
@@ -60,7 +67,11 @@ export function PlanningFactorsSection({
           <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
         </SectionReveal>
 
-        <div className="mt-14 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-3">
+        <div
+          className={`mt-14 grid grid-cols-1 gap-x-10 gap-y-10 ${
+            columns === 4 ? "sm:grid-cols-2 lg:grid-cols-4" : "sm:grid-cols-3"
+          }`}
+        >
           {items.map((item, index) => (
             <SectionReveal key={item.id} delay={index * 0.05}>
               <h3 className="text-lg text-navy-deep">{item.label}</h3>

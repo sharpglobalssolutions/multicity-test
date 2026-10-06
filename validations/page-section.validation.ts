@@ -99,6 +99,54 @@ export const SECTION_TYPES = [
   "FC_JOURNEY_PREFERENCES",
   "FC_PLAN_CTA",
   "FC_FAQ",
+  /** The Flight Cancellation Assistance landing page (`flight-cancellation`
+   * template) — one value per component, in the order
+   * `app/flight-cancellation/page.tsx` renders them. Several reuse MC_* and
+   * BC_* shapes the same way the FC_* block above does; `CTA` is reused
+   * here too, scoped to this page's own `Page` row. */
+  "CNX_HERO",
+  "CNX_INTRO",
+  "CNX_WHY_CANCEL",
+  "CNX_CHECK_OPTIONS",
+  "CNX_CANCEL_VS_REBOOK",
+  "CNX_REFUND_VS_CREDIT",
+  "CNX_REFUND_BLOCK",
+  "CNX_CREDIT_BLOCK",
+  "CNX_CREDIT_BANNER",
+  "CNX_SCHEDULE_CHANGE",
+  "CNX_ENTIRE_BOOKING",
+  "CNX_BEFORE_CANCELLING",
+  "CNX_FARE_WARNING",
+  "CNX_PREMIUM_CABIN",
+  "CNX_HOW_IT_WORKS",
+  "CNX_NOT_SURE",
+  "CNX_WHY_CHOOSE",
+  "CNX_NOT_ONLY_OPTION",
+  "CNX_REVIEW_INFO",
+  "CNX_REVIEW_STEPS",
+  "CNX_PLAN_CTA",
+  "CNX_FAQ",
+  /** The Flight Change Assistance landing page (`flight-change` template) —
+   * one value per component, in the order `app/flight-change/page.tsx`
+   * renders them. Almost entirely reuses MC_*, BC_* and CNX_* shapes the
+   * same way the CNX_* block above reuses MC_* and BC_* ones; `CTA` is
+   * reused here too, scoped to this page's own `Page` row. */
+  "FCH_HERO",
+  "FCH_EXPERT_GUIDANCE",
+  "FCH_OPTIONS_CHANGE",
+  "FCH_BEFORE_CHANGE",
+  "FCH_HOW_WE_HELP",
+  "FCH_SCENARIOS",
+  "FCH_FARE_OPTIONS",
+  "FCH_PROCESS",
+  "FCH_EXPERTS_HELP",
+  "FCH_NOT_SURE_BANNER",
+  "FCH_BUSINESS_CLASS_CHANGES",
+  "FCH_MULTICITY_CHANGE",
+  "FCH_WHY_CHOOSE",
+  "FCH_CINEMATIC_CTA",
+  "FCH_REVIEW_INFO",
+  "FCH_FAQ",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

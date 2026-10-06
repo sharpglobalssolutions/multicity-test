@@ -13,6 +13,12 @@ export interface ServicesCarouselProps {
   heading?: string;
   subheading?: string;
   services?: ServiceCard[];
+  /** Defaults to "Explore Business Class" (every existing caller's current
+   * link text). The Flight Cancellation page's instance passes something
+   * topic-appropriate instead, since every one of its cards would
+   * otherwise show "Explore Business Class" regardless of what the card is
+   * actually about. */
+  linkLabel?: string;
 }
 
 /**
@@ -26,6 +32,7 @@ export function ServicesCarousel({
   heading = "International Flight Services for Every Kind of Journey",
   subheading = "Every traveller has different priorities. That's why our services are designed to accommodate different types of international travel — from premium cabin journeys to complex multi-destination itineraries.",
   services = SERVICES,
+  linkLabel = "Explore Business Class",
 }: ServicesCarouselProps = {}) {
   return (
     <section id="services" className="relative overflow-hidden bg-white py-14 sm:py-14">
@@ -81,7 +88,7 @@ export function ServicesCarousel({
                       href={service.href}
                       className="mt-5 inline-flex items-center gap-1.5 text-[16px]  text-emerald transition-colors hover:text-navy-deep"
                     >
-                      Explore Business Class
+                      {linkLabel}
                       <ArrowRight size={14} aria-hidden="true" />
                     </a>
                   </div>

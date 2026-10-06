@@ -24,6 +24,13 @@ export interface ImageTextBlockProps {
    * "Flexible fares" / "Mixed-cabin itineraries"). At most one of
    * `benefits`/`twoColumnItems` is expected to be set at a time. */
   twoColumnItems?: string[][];
+  /** A third, richer list style alongside `benefits`/`twoColumnItems` — a
+   * two-column grid of title+description pairs rather than plain bullet
+   * phrases, for content that reads as a short set of labelled process
+   * steps (e.g. the Flight Change page's "How Our Flight Change Assistance
+   * Works"). At most one of the three list props is expected to be set at
+   * a time. */
+  titledItems?: { title: string; description: string }[];
   buttonLabel?: string;
   buttonHref?: string;
   /** Defaults to "navy" (every existing caller's current look). The First
@@ -50,6 +57,7 @@ export function ImageTextBlock({
   imagePosition = "left",
   benefits,
   twoColumnItems,
+  titledItems,
   buttonLabel,
   buttonHref,
   buttonVariant = "navy",
@@ -163,6 +171,17 @@ export function ImageTextBlock({
                 </li>
               ))}
             </ul>
+          ))}
+        </div>
+      ) : null}
+
+      {titledItems && titledItems.length > 0 ? (
+        <div className="mt-6 grid max-w-lg grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+          {titledItems.map((item) => (
+            <div key={item.title}>
+              <h4 className="text-[16px] font-semibold text-text-dark">{item.title}</h4>
+              <p className="mt-1.5 text-[14px] leading-relaxed text-text-gray">{item.description}</p>
+            </div>
           ))}
         </div>
       ) : null}

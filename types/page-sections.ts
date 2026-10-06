@@ -215,9 +215,13 @@ export interface BcBeyondPriceSectionData {
   benefits: { id: string; title: string; description: string }[];
 }
 
+/** `paragraph` is optional (added for the Flight Change page's dark
+ * "Expert Guidance" instance, which has an extra descriptive paragraph
+ * between `subheading` and the steps) — every existing caller omits it. */
 export interface BcHowItWorksSectionData {
   heading: string;
   subheading: string;
+  paragraph?: string;
   steps: HowItWorksStep[];
 }
 
@@ -239,8 +243,12 @@ export interface BcExpertiseSectionData {
 /** Multi-City Flights landing page (`multi-city-flights` template) — one
  * interface per component, in the order `app/multi-city-flights/page.tsx`
  * renders them. */
+/** `subheading` is optional (added for the Flight Change page's hero,
+ * whose reference design has a second, smaller heading line between
+ * `headingLines` and `paragraphs`) — every existing caller omits it. */
 export interface McHeroSectionData {
   headingLines: string[];
+  subheading?: string;
   paragraphs: string[];
   backgroundImage: string;
   buttonLabel: string;
@@ -267,12 +275,15 @@ export interface McFlightOptionsSectionData {
 
 /** `items` mirrors `SupportSectionData.items` (`string[][]`, two fixed
  * columns) exactly — same admin editor special case, different visual
- * treatment (full-bleed background image instead of image-beside-text). */
+ * treatment (full-bleed background image instead of image-beside-text).
+ * `listIntro` is optional (added for `CNX_NOT_SURE`'s "Simply tell us what
+ * changed:" label above the list) — every existing caller omits it. */
 export interface McComplexitySectionData {
   heading: string;
   subheading: string;
   items: string[][];
   backgroundImage: string;
+  listIntro?: string;
 }
 
 export interface McPlanningFactorsSectionData {
@@ -298,12 +309,23 @@ export interface McWorkAroundYouSectionData {
  * that page's section types below — which is why `benefits` (the other of
  * `ImageTextBlock`'s two optional list styles) and `buttonVariant` are
  * included even though no `MC_*` section currently sets them. */
+export interface McImageTextTitledItem {
+  title: string;
+  description: string;
+}
+
 export interface McImageTextSectionData {
   headingLines: string[];
   body: string;
   images: { src: string; alt: string }[];
   benefits?: string[];
   twoColumnItems?: string[][];
+  /** A third, richer list style alongside `benefits`/`twoColumnItems` — a
+   * two-column grid of title+description pairs rather than plain bullet
+   * phrases. Added for the Flight Change page's "How Our Flight Change
+   * Assistance Works" process steps; at most one of the three list props
+   * is expected to be set at a time. */
+  titledItems?: McImageTextTitledItem[];
   buttonLabel?: string;
   buttonHref?: string;
   buttonVariant?: "navy" | "gold";
@@ -417,6 +439,103 @@ export interface FcPlanCtaSectionData {
   buttonHref: string;
 }
 
+/** Flight Cancellation Assistance landing page (`flight-cancellation`
+ * template) — one interface per component, in the order
+ * `app/flight-cancellation/page.tsx` renders them. `CNX_INTRO`/
+ * `CNX_ENTIRE_BOOKING`/`CNX_PREMIUM_CABIN`/`CNX_REFUND_BLOCK`/
+ * `CNX_CREDIT_BLOCK` reuse `McImageTextSectionData`, `CNX_WHY_CANCEL`/
+ * `CNX_BEFORE_CANCELLING`/`CNX_WHY_CHOOSE` reuse `McPlanningFactorsSectionData`
+ * (the page passes a literal `columns` prop, not stored in `data`, for the
+ * two 4-column instances), `CNX_CHECK_OPTIONS` reuses `McWhyChooseSectionData`
+ * (rendered with `cardStyle="bordered"`), `CNX_NOT_SURE` reuses
+ * `McComplexitySectionData` (rendered with an empty `backgroundImage` for a
+ * flat black section, and `align="center"`), `CNX_HOW_IT_WORKS` reuses
+ * `BcHowItWorksSectionData`, `CNX_NOT_ONLY_OPTION` reuses `ServicesSectionData`,
+ * and `CNX_FAQ` reuses `FaqSectionData` — none of those get their own
+ * interface below. `CTA` (shared with every other page) supplies the final
+ * cinematic banner. */
+/** Deliberately its own shape, not a reuse of `McHeroSectionData` — this
+ * page's hero (`CancellationHero`) has no quote-form card, phone header or
+ * trust stats, just a cinematic photo with left-aligned text and a single
+ * button (see that component's doc comment). */
+export interface CnxHeroSectionData {
+  headingLines: string[];
+  subheading: string;
+  paragraph: string;
+  buttonLabel: string;
+  buttonHref: string;
+  backgroundImage: string;
+}
+
+export interface CnxComparisonSectionData {
+  heading: string;
+  subheading: string;
+  groupOneHeading: string;
+  /** Optional short intro line under the group heading — set on
+   * `CNX_CANCEL_VS_REBOOK`, omitted on `CNX_REVIEW_INFO` (whose two groups
+   * are a plain "Booking Details" / "What Changed?" heading pair with no
+   * intro line). */
+  groupOneIntro?: string;
+  /** Newline-separated — same convention as `HowItWorksStep.titleLines`
+   * (see `components/multi-city/HowItWorksCarousel.tsx`): the admin list
+   * editor only models scalar fields, so a plain bullet column is stored
+   * as one string and split at render time. */
+  groupOneColumnA: string;
+  groupOneColumnB: string;
+  groupTwoHeading: string;
+  groupTwoIntro?: string;
+  groupTwoColumnA: string;
+  groupTwoColumnB: string;
+}
+
+export interface CnxRefundVsCreditSectionData {
+  heading: string;
+  subheading: string;
+}
+
+export interface CnxInfoBannerSectionData {
+  heading: string;
+  body: string;
+  /** Both optional — unset on `CNX_FARE_WARNING`, which is a plain
+   * statement with no action to take. */
+  buttonLabel?: string;
+  buttonHref?: string;
+}
+
+export interface CnxScheduleChangeSectionData {
+  headingLines: string[];
+  body: string;
+  rightHeading: string;
+  /** Newline-separated, same convention as `CnxComparisonSectionData`'s
+   * columns. */
+  rightColumnA: string;
+  rightColumnB: string;
+  flowLabel: string;
+  flowSteps: string[];
+  backgroundImage: string;
+}
+
+export interface CnxStepsCarouselStep {
+  id: string;
+  stepLabel: string;
+  /** Newline-separated, same convention as `CnxComparisonSectionData`'s
+   * columns. */
+  items: string;
+}
+
+export interface CnxStepsCarouselSectionData {
+  heading: string;
+  subheading: string;
+  steps: CnxStepsCarouselStep[];
+}
+
+export interface CnxCenteredCtaSectionData {
+  heading: string;
+  subheading: string;
+  buttonLabel: string;
+  buttonHref: string;
+}
+
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
  * admin section editor's field-schema config and by the homepage renderer
  * to type each section's `data` before spreading it as props. */
@@ -484,6 +603,44 @@ export interface SectionDataByType {
   FC_JOURNEY_PREFERENCES: McImageTextSectionData;
   FC_PLAN_CTA: FcPlanCtaSectionData;
   FC_FAQ: FaqSectionData;
+  CNX_HERO: CnxHeroSectionData;
+  CNX_INTRO: McImageTextSectionData;
+  CNX_WHY_CANCEL: McPlanningFactorsSectionData;
+  CNX_CHECK_OPTIONS: McWhyChooseSectionData;
+  CNX_CANCEL_VS_REBOOK: CnxComparisonSectionData;
+  CNX_REFUND_VS_CREDIT: CnxRefundVsCreditSectionData;
+  CNX_REFUND_BLOCK: McImageTextSectionData;
+  CNX_CREDIT_BLOCK: McImageTextSectionData;
+  CNX_CREDIT_BANNER: CnxInfoBannerSectionData;
+  CNX_SCHEDULE_CHANGE: CnxScheduleChangeSectionData;
+  CNX_ENTIRE_BOOKING: McImageTextSectionData;
+  CNX_BEFORE_CANCELLING: McPlanningFactorsSectionData;
+  CNX_FARE_WARNING: CnxInfoBannerSectionData;
+  CNX_PREMIUM_CABIN: McImageTextSectionData;
+  CNX_HOW_IT_WORKS: BcHowItWorksSectionData;
+  CNX_NOT_SURE: McComplexitySectionData;
+  CNX_WHY_CHOOSE: McPlanningFactorsSectionData;
+  CNX_NOT_ONLY_OPTION: ServicesSectionData;
+  CNX_REVIEW_INFO: CnxComparisonSectionData;
+  CNX_REVIEW_STEPS: CnxStepsCarouselSectionData;
+  CNX_PLAN_CTA: CnxCenteredCtaSectionData;
+  CNX_FAQ: FaqSectionData;
+  FCH_HERO: McHeroSectionData;
+  FCH_EXPERT_GUIDANCE: BcHowItWorksSectionData;
+  FCH_OPTIONS_CHANGE: McImageTextSectionData;
+  FCH_BEFORE_CHANGE: McPlanningFactorsSectionData;
+  FCH_HOW_WE_HELP: BcHowItWorksSectionData;
+  FCH_SCENARIOS: McPlanningFactorsSectionData;
+  FCH_FARE_OPTIONS: McWhyChooseSectionData;
+  FCH_PROCESS: McImageTextSectionData;
+  FCH_EXPERTS_HELP: McImageTextSectionData;
+  FCH_NOT_SURE_BANNER: CnxInfoBannerSectionData;
+  FCH_BUSINESS_CLASS_CHANGES: McImageTextSectionData;
+  FCH_MULTICITY_CHANGE: McImageTextSectionData;
+  FCH_WHY_CHOOSE: McPlanningFactorsSectionData;
+  FCH_CINEMATIC_CTA: CtaSectionData;
+  FCH_REVIEW_INFO: McImageTextSectionData;
+  FCH_FAQ: FaqSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

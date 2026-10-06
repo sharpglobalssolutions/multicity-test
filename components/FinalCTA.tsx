@@ -11,6 +11,11 @@ export interface FinalCTAProps {
   buttonLabel?: string;
   buttonHref?: string;
   backgroundImage?: string;
+  /** Defaults to "secondary" (every existing caller's current white
+   * outlined button). The Flight Cancellation page's cinematic CTAs pass
+   * "gold" instead, to match that page's reference design. Passed
+   * literally by the page, not stored in `data`. */
+  buttonVariant?: "primary" | "secondary" | "ghost" | "gold" | "navy";
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -23,6 +28,7 @@ export function FinalCTA({
   buttonLabel = "Call an expert",
   buttonHref = CALL_EXPERT_HREF,
   backgroundImage = DEFAULT_BACKGROUND_IMAGE,
+  buttonVariant = "secondary",
 }: FinalCTAProps = {}) {
   return (
     <section
@@ -39,7 +45,7 @@ export function FinalCTA({
             dangerouslySetInnerHTML={{ __html: body }}
           />
           <div className="mt-8">
-            <Button href={buttonHref} variant="secondary">
+            <Button href={buttonHref} variant={buttonVariant}>
               {buttonLabel}
             </Button>
           </div>

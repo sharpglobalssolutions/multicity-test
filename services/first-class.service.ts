@@ -1,4 +1,5 @@
 import "server-only";
+import { NotFoundError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { findByEntity } from "@/repositories/seo-metadata.repository";
 import { listActiveSectionsForPage } from "@/services/page-section.service";
@@ -31,7 +32,12 @@ export async function getFirstClassSectionsSafely(): Promise<FirstClassSections>
     }
     return result as FirstClassSections;
   } catch (error) {
-    logger.error("Failed to load First Class page sections — falling back to built-in defaults", {
+    // A missing `Page` row (this template hasn't been created in the admin
+    // yet) is expected, not a failure — logged at `warn` so it doesn't trip
+    // Next.js dev's `console.error`-triggered red overlay. Anything else
+    // (a real DB error, etc.) stays at `error`.
+    const log = error instanceof NotFoundError ? logger.warn : logger.error;
+    log("Failed to load First Class page sections — falling back to built-in defaults", {
       error: error instanceof Error ? error.message : String(error),
     });
     return {};

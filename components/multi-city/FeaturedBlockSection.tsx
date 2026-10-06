@@ -6,10 +6,15 @@ export interface FeaturedBlockSectionProps {
   images: { src: string; alt: string }[];
   benefits?: string[];
   twoColumnItems?: string[][];
+  titledItems?: { title: string; description: string }[];
   buttonLabel?: string;
   buttonHref?: string;
   buttonVariant?: "navy" | "gold";
   imagePosition?: "left" | "right";
+  /** Defaults to "white" (every existing caller's current background). The
+   * Flight Change page's "When Can MultiCity Experts Help?" instance
+   * passes "gray" instead, to match that page's reference design. */
+  background?: "white" | "gray";
 }
 
 /** Thin section/container wrapper around the Business Class page's shared
@@ -24,13 +29,15 @@ export function FeaturedBlockSection({
   images,
   benefits,
   twoColumnItems,
+  titledItems,
   buttonLabel,
   buttonHref,
   buttonVariant,
   imagePosition = "left",
+  background = "white",
 }: FeaturedBlockSectionProps) {
   return (
-    <section className="bg-white py-10 sm:py-14">
+    <section className={background === "gray" ? "bg-gray-light py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
       <div className="content-container">
         <ImageTextBlock
           eyebrowLines={headingLines}
@@ -38,6 +45,7 @@ export function FeaturedBlockSection({
           images={images}
           benefits={benefits}
           twoColumnItems={twoColumnItems}
+          titledItems={titledItems}
           buttonLabel={buttonLabel}
           buttonHref={buttonHref}
           buttonVariant={buttonVariant}

@@ -25,6 +25,11 @@ const DEFAULT_TRUST_STATS: MultiCityHeroTrustStat[] = [
 
 export interface MultiCityHeroProps {
   headingLines?: string[];
+  /** An optional second, smaller heading line between `headingLines` and
+   * `paragraphs` — added for the Flight Change page's hero ("Need to
+   * Change Your Flight? We're Here to Help."). Every existing caller
+   * omits it. */
+  subheading?: string;
   paragraphs?: string[];
   backgroundImage?: string;
   buttonLabel?: string;
@@ -41,6 +46,7 @@ export interface MultiCityHeroProps {
  * row are added around it here, not a re-implementation of the form. */
 export function MultiCityHero({
   headingLines = DEFAULT_HEADING_LINES,
+  subheading,
   paragraphs = DEFAULT_PARAGRAPHS,
   backgroundImage = unsplash("1502602898657-3e91760cbb34"),
   buttonLabel = "Plan My Europe Journey",
@@ -71,6 +77,10 @@ export function MultiCityHero({
               </span>
             ))}
           </h1>
+
+          {subheading ? (
+            <p className="mt-4 text-xl text-white/90 sm:text-2xl">{subheading}</p>
+          ) : null}
 
           <SectionReveal delay={0.3}>
             {paragraphs.map((paragraph, index) => (
