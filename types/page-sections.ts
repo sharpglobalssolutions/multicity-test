@@ -4,6 +4,7 @@ import type { ExpertiseDestinationImage, ExpertiseRoute } from "@/components/bus
 import type { FareComplexityItem } from "@/components/business-class/FareComplexity";
 import type { HowItWorksStep } from "@/components/business-class/HowItWorks";
 import type { JourneySlide } from "@/components/business-class/JourneyCarousel";
+import type { TravelAdvisorItem } from "@/components/TravelAdvisorSection";
 import type { Deal, RouteDeal, ServiceCard, Stat, Testimonial } from "@/data/content";
 
 /** One `data` shape per `SECTION_TYPE` (see `validations/page-section.validation.ts`) —
@@ -52,9 +53,13 @@ export interface StatisticsSectionData {
   stats: Stat[];
 }
 
+/** `items` is optional (added for the homepage's expanded "Why Expert
+ * Travel Advice" copy — a labelled list of ways a specialist adds value
+ * beyond `paragraphs`'s intro text) — every prior caller omits it. */
 export interface TravelAdvisorSectionData {
   heading: string;
   paragraphs: string[];
+  items?: TravelAdvisorItem[];
   imageSrc: string;
   buttonLabel: string;
   buttonHref: string;
@@ -292,9 +297,14 @@ export interface McPlanningFactorsSectionData {
   items: { id: string; label: string; description: string }[];
 }
 
+/** `rightParagraphs` is optional (added for the International Flight
+ * Booking page's "International Travel Planning Beyond a Standard Flight
+ * Search" instance, whose reference design splits into two text columns)
+ * — every existing caller omits it. */
 export interface McWorkAroundYouSectionData {
   headingLines: string[];
   paragraphs: string[];
+  rightParagraphs?: string[];
   backgroundImage: string;
 }
 
@@ -502,6 +512,11 @@ export interface CnxInfoBannerSectionData {
   buttonHref?: string;
 }
 
+/** `rightNote` is optional (a closing line below the two-column list —
+ * added for the International Flight Booking page's "Popular North
+ * Atlantic Routes" instance). `flowLabel`/`flowSteps` are also optional
+ * (that same instance has no step sequence, unlike every prior caller,
+ * which sets both). */
 export interface CnxScheduleChangeSectionData {
   headingLines: string[];
   body: string;
@@ -510,8 +525,9 @@ export interface CnxScheduleChangeSectionData {
    * columns. */
   rightColumnA: string;
   rightColumnB: string;
-  flowLabel: string;
-  flowSteps: string[];
+  rightNote?: string;
+  flowLabel?: string;
+  flowSteps?: string[];
   backgroundImage: string;
 }
 
@@ -641,6 +657,20 @@ export interface SectionDataByType {
   FCH_CINEMATIC_CTA: CtaSectionData;
   FCH_REVIEW_INFO: McImageTextSectionData;
   FCH_FAQ: FaqSectionData;
+  IFB_HERO: McHeroSectionData;
+  IFB_EXPERT_GUIDANCE: McPlanningFactorsSectionData;
+  IFB_FLIGHT_PRICE: McWhyChooseSectionData;
+  IFB_JOURNEY_TYPES: ServicesSectionData;
+  IFB_ROUTES: CnxScheduleChangeSectionData;
+  IFB_AIRLINES: McPlanningFactorsSectionData;
+  IFB_FARE_GUIDANCE: McImageTextSectionData;
+  IFB_BEFORE_CONFIRM: McPlanningFactorsSectionData;
+  IFB_PERSONAL_PROCESS: BcHowItWorksSectionData;
+  IFB_WHO_WE_HELP: McImageTextSectionData;
+  IFB_WHY_CHOOSE: McPlanningFactorsSectionData;
+  IFB_BEYOND_SEARCH: McWorkAroundYouSectionData;
+  IFB_REVIEW_INFO: McImageTextSectionData;
+  IFB_FAQ: FaqSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

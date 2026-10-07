@@ -23,6 +23,14 @@ export interface ScheduleChangeSectionProps {
    * one string rather than a real array. */
   rightColumnA?: string;
   rightColumnB?: string;
+  /** An optional closing line below the two-column list — added for the
+   * International Flight Booking page's "Popular North Atlantic Routes"
+   * instance. Every existing caller omits it. */
+  rightNote?: string;
+  /** Both optional (unset skips the flow-chain footer entirely) — added
+   * for the International Flight Booking page's "Popular North Atlantic
+   * Routes" instance, which has no step sequence. Every existing caller
+   * sets both. */
   flowLabel?: string;
   flowSteps?: string[];
   backgroundImage?: string;
@@ -40,6 +48,7 @@ export function ScheduleChangeSection({
   rightHeading = "You may be able to consider:",
   rightColumnA = "Accepting the new schedule\nRequesting another flight\nReviewing alternative routing",
   rightColumnB = "Checking refund eligibility\nChanging connection points\nAdjusting related itinerary segments",
+  rightNote,
   flowLabel = "Your Options May Include",
   flowSteps = DEFAULT_FLOW_STEPS,
   backgroundImage = unsplash("1436491865332-7a61a109cc05"),
@@ -83,22 +92,25 @@ export function ScheduleChangeSection({
                 ))}
               </ul>
             </div>
+            {rightNote ? <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/80">{rightNote}</p> : null}
           </SectionReveal>
         </div>
 
-        <SectionReveal delay={0.2} className="mt-14 border-t border-white/15 pt-8">
-          <p className="text-lg text-white">{flowLabel}</p>
-          <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3 text-[15px] font-medium text-white/90">
-            {flowSteps.map((step, index) => (
-              <span key={step} className="flex items-center gap-2">
-                {step}
-                {index < flowSteps.length - 1 ? (
-                  <ArrowRight size={14} className="text-gold" aria-hidden="true" />
-                ) : null}
-              </span>
-            ))}
-          </div>
-        </SectionReveal>
+        {flowSteps.length > 0 ? (
+          <SectionReveal delay={0.2} className="mt-14 border-t border-white/15 pt-8">
+            <p className="text-lg text-white">{flowLabel}</p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3 text-[15px] font-medium text-white/90">
+              {flowSteps.map((step, index) => (
+                <span key={step} className="flex items-center gap-2">
+                  {step}
+                  {index < flowSteps.length - 1 ? (
+                    <ArrowRight size={14} className="text-gold" aria-hidden="true" />
+                  ) : null}
+                </span>
+              ))}
+            </div>
+          </SectionReveal>
+        ) : null}
       </div>
     </section>
   );

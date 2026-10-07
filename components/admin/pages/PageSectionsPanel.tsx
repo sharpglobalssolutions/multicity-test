@@ -134,6 +134,23 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "FCH_FAQ",
     "CTA",
   ],
+  "international-flight-booking": [
+    "IFB_HERO",
+    "IFB_EXPERT_GUIDANCE",
+    "IFB_FLIGHT_PRICE",
+    "IFB_JOURNEY_TYPES",
+    "IFB_ROUTES",
+    "IFB_AIRLINES",
+    "IFB_FARE_GUIDANCE",
+    "IFB_BEFORE_CONFIRM",
+    "IFB_PERSONAL_PROCESS",
+    "IFB_WHO_WE_HELP",
+    "IFB_WHY_CHOOSE",
+    "IFB_BEYOND_SEARCH",
+    "IFB_REVIEW_INFO",
+    "IFB_FAQ",
+    "CTA",
+  ],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

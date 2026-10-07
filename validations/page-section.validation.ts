@@ -147,6 +147,26 @@ export const SECTION_TYPES = [
   "FCH_CINEMATIC_CTA",
   "FCH_REVIEW_INFO",
   "FCH_FAQ",
+  /** The International Flight Booking Assistance landing page
+   * (`international-flight-booking` template) — one value per component,
+   * in the order `app/international-flight-booking/page.tsx` renders
+   * them. Almost entirely reuses MC_*, BC_* and CNX_* shapes the same way
+   * the FCH_* block above does; `CTA` is reused here too, scoped to this
+   * page's own `Page` row. */
+  "IFB_HERO",
+  "IFB_EXPERT_GUIDANCE",
+  "IFB_FLIGHT_PRICE",
+  "IFB_JOURNEY_TYPES",
+  "IFB_ROUTES",
+  "IFB_AIRLINES",
+  "IFB_FARE_GUIDANCE",
+  "IFB_BEFORE_CONFIRM",
+  "IFB_PERSONAL_PROCESS",
+  "IFB_WHO_WE_HELP",
+  "IFB_WHY_CHOOSE",
+  "IFB_BEYOND_SEARCH",
+  "IFB_REVIEW_INFO",
+  "IFB_FAQ",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

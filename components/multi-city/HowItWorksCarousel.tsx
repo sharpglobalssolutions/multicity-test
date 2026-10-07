@@ -49,8 +49,11 @@ export interface HowItWorksCarouselProps {
   steps?: HowItWorksStep[];
   /** Defaults to "light" (every existing caller's current white-background
    * look). The Flight Change page's "Expert Guidance" instance passes
-   * "dark" instead, to match that page's reference design. */
-  variant?: "light" | "dark";
+   * "dark" instead, and the International Flight Booking page's "A More
+   * Personal Way to Book" instance passes "gray" (light-gray background,
+   * same text colors as "light") — both to match those pages' reference
+   * designs. */
+  variant?: "light" | "dark" | "gray";
 }
 
 /** A carousel variant of the Business Class page's static `HowItWorks`
@@ -70,9 +73,10 @@ export function HowItWorksCarousel({
   variant = "light",
 }: HowItWorksCarouselProps = {}) {
   const isDark = variant === "dark";
+  const sectionBgClass = variant === "dark" ? "bg-black" : variant === "gray" ? "bg-gray-light" : "bg-white";
 
   return (
-    <section className={isDark ? "bg-black py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
+    <section className={`${sectionBgClass} py-10 sm:py-14`}>
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2

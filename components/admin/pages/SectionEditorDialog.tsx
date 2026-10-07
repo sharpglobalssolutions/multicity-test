@@ -196,6 +196,9 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   FCH_BUSINESS_CLASS_CHANGES: { key: "twoColumnItems", label: "Two-column list" },
   FCH_MULTICITY_CHANGE: { key: "twoColumnItems", label: "Two-column list" },
   FCH_REVIEW_INFO: { key: "twoColumnItems", label: "Two-column list" },
+  IFB_FARE_GUIDANCE: { key: "twoColumnItems", label: "Two-column list" },
+  IFB_WHO_WE_HELP: { key: "twoColumnItems", label: "Two-column list" },
+  IFB_REVIEW_INFO: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {

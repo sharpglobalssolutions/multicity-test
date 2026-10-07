@@ -4,13 +4,49 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { TRAVEL_ADVISOR_IMAGE } from "@/data/content";
 
 const DEFAULT_PARAGRAPHS = [
-  "Online flight searches can give you thousands of combinations in seconds. But more choice doesn't always mean a better choice. The real challenge is knowing which itinerary actually works for your journey.",
-  "A travel specialist can help you look beyond the obvious option and consider the details that may otherwise be overlooked.",
+  "Online flight searches can give you thousands of combinations in seconds. But more choice doesn't always mean a better choice. The real challenge is knowing which itinerary actually works for your journey. A travel specialist can help you look beyond the obvious option and consider the details that may otherwise be overlooked.",
+];
+
+export interface TravelAdvisorItem {
+  label: string;
+  description: string;
+}
+
+const DEFAULT_ITEMS: TravelAdvisorItem[] = [
+  {
+    label: "Explore Alternative Routes",
+    description: "A different routing could offer a more convenient schedule, shorter connection or better overall journey.",
+  },
+  {
+    label: "Consider Nearby Airports",
+    description: "Depending on where you're travelling from or to, an alternative airport may open up additional routing and flight options.",
+  },
+  {
+    label: "Choose the Right Cabin",
+    description: "Compare Economy, Premium Economy, Business Class and First Class according to your priorities, rather than simply choosing based on price.",
+  },
+  {
+    label: "Understand Fare Flexibility",
+    description: "Different fares come with different conditions. Understanding your available flexibility before booking can help you make a more informed decision.",
+  },
+  {
+    label: "Navigate Complex Itineraries",
+    description: "Multi-city, open-jaw and multiple-destination journeys often require more careful planning than a standard return flight.",
+  },
+  {
+    label: "Build Around Your Schedule",
+    description: "Your preferred departure time, arrival time, connection preferences and other practical requirements all matter.",
+  },
 ];
 
 export interface TravelAdvisorSectionProps {
   heading?: string;
   paragraphs?: string[];
+  /** Optional — a labelled list below `paragraphs` (e.g. "Explore
+   * Alternative Routes: ..."), each rendered as a bold label with a
+   * description underneath. Unset renders no list, same as before this
+   * field existed. */
+  items?: TravelAdvisorItem[];
   imageSrc?: string;
   buttonLabel?: string;
   buttonHref?: string;
@@ -21,6 +57,7 @@ export interface TravelAdvisorSectionProps {
 export function TravelAdvisorSection({
   heading = "Why Expert Travel Advice Can Make Your Journey Easier",
   paragraphs = DEFAULT_PARAGRAPHS,
+  items = DEFAULT_ITEMS,
   imageSrc = TRAVEL_ADVISOR_IMAGE.src,
   buttonLabel = "Connect With Travel Specialist",
   buttonHref = "#connect",
@@ -46,6 +83,18 @@ export function TravelAdvisorSection({
               {paragraph}
             </p>
           ))}
+
+          {items.length > 0 ? (
+            <ul className="mt-6 max-w-lg space-y-4">
+              {items.map((item) => (
+                <li key={item.label}>
+                  <p className="text-[16px] font-semibold text-text-dark">{item.label}</p>
+                  <p className="mt-1 text-[15px] leading-relaxed text-text-gray">{item.description}</p>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+
           <div className="mt-8">
             <Link
               href={buttonHref}
