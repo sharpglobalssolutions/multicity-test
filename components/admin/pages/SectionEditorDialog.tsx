@@ -214,6 +214,12 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   SC_WHAT_MEANS: { key: "twoColumnItems", label: "Two-column list" },
   SC_URGENT_HELP: { key: "items", label: "Considerations" },
   SC_INFO_NEEDED: { key: "twoColumnItems", label: "Two-column list" },
+  NC_INTERNATIONAL: { key: "items", label: "Considerations" },
+  NC_TIPS: { key: "items", label: "Considerations" },
+  NC_INFO_NEEDED: { key: "twoColumnItems", label: "Two-column list" },
+  BP_WHO_WE_SUPPORT: { key: "twoColumnItems", label: "Two-column list" },
+  BP_FITS_WORKFLOW: { key: "items", label: "Considerations" },
+  BP_MORE_THAN_FARE: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {

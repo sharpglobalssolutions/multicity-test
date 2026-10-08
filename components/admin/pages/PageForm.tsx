@@ -72,6 +72,8 @@ const TEMPLATE_OPTIONS: { value: string; label: string }[] = [
   { value: "last-minute-flights", label: "Last-Minute Flights" },
   { value: "date-change-assistance", label: "Date Change Assistance" },
   { value: "schedule-changes", label: "Schedule Changes" },
+  { value: "name-correction", label: "Name Correction" },
+  { value: "business-partnerships", label: "Business Partnerships" },
 ];
 const TEMPLATE_LABELS = Object.fromEntries(TEMPLATE_OPTIONS.map((option) => [option.value, option.label]));
 

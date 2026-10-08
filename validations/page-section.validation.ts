@@ -241,6 +241,53 @@ export const SECTION_TYPES = [
   "SC_INFO_NEEDED",
   "SC_REVIEW_CTA",
   "SC_FAQ",
+  /** The Flight Name Correction Assistance landing page
+   * (`name-correction` template) — one value per component, in the order
+   * `app/name-correction/page.tsx` renders them. Entirely reuses MC_*,
+   * BC_* and CNX_* shapes the same way the SC_* block above does; `CTA`
+   * is reused here too, scoped to this page's own `Page` row. */
+  "NC_HERO",
+  "NC_INTRO",
+  "NC_HOW_WE_HELP",
+  "NC_BEFORE_REQUEST",
+  "NC_SCENARIOS",
+  "NC_POLICIES_TABLE",
+  "NC_CORRECTION_VS_CHANGE",
+  "NC_INTERNATIONAL",
+  "NC_BUSINESS_CLASS",
+  "NC_MULTI_CITY",
+  "NC_HOW_IT_WORKS",
+  "NC_URGENT",
+  "NC_BOOKED_ELSEWHERE",
+  "NC_TIPS",
+  "NC_WHY_CHOOSE",
+  "NC_INFO_NEEDED",
+  "NC_REQUEST_FORM",
+  "NC_FAQ",
+  /** The Business Travel Partnerships (B2B) landing page
+   * (`business-partnerships` template) — one value per component, in the
+   * order `app/business-partnerships/page.tsx` renders them. Entirely
+   * reuses MC_*, BC_* and CNX_* shapes the same way the NC_* block above
+   * does; `CTA` is reused here too, scoped to this page's own `Page` row.
+   * Unlike every other service page, its hero (`BP_HERO`) reuses
+   * `CancellationHero` rather than `MultiCityHero` — this page is a B2B
+   * partnership enquiry, not an individual flight search, so the quote
+   * form doesn't apply. */
+  "BP_HERO",
+  "BP_INTRO",
+  "BP_VALUE",
+  "BP_WHO_WE_SUPPORT",
+  "BP_FITS_WORKFLOW",
+  "BP_MODELS",
+  "BP_EXPERIENCE",
+  "BP_ITINERARIES",
+  "BP_MORE_THAN_FARE",
+  "BP_HOW_IT_WORKS",
+  "BP_STRENGTHS",
+  "BP_WHY_CHOOSE",
+  "BP_MID_CTA",
+  "BP_FAQ",
+  "BP_DISCLAIMER",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);
