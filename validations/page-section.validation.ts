@@ -167,6 +167,80 @@ export const SECTION_TYPES = [
   "IFB_BEYOND_SEARCH",
   "IFB_REVIEW_INFO",
   "IFB_FAQ",
+  /** The Missed Flight Assistance landing page (`missed-flight-assistance`
+   * template) — one value per component, in the order
+   * `app/missed-flight-assistance/page.tsx` renders them. Entirely reuses
+   * MC_*, BC_* and CNX_* shapes the same way the IFB_* block above does;
+   * `CTA` is reused here too, scoped to this page's own `Page` row. */
+  "MF_HERO",
+  "MF_INTRO",
+  "MF_HELP_WITH",
+  "MF_BEFORE_BOOK",
+  "MF_WHY_MISS",
+  "MF_OPTIONS",
+  "MF_BUSINESS_CLASS",
+  "MF_MULTI_CITY",
+  "MF_HOW_WE_HELP",
+  "MF_URGENT_HELP",
+  "MF_WHY_CHOOSE",
+  "MF_INFO_READY",
+  "MF_REVIEW_CTA",
+  "MF_FAQ",
+  /** The Last-Minute Flights landing page (`last-minute-flights` template)
+   * — one value per component, in the order
+   * `app/last-minute-flights/page.tsx` renders them. Entirely reuses
+   * MC_*, BC_* and CNX_* shapes the same way the MF_* block above does;
+   * `CTA` is reused here too, scoped to this page's own `Page` row. */
+  "LMF_HERO",
+  "LMF_INTRO",
+  "LMF_HELP_WITH",
+  "LMF_OPTIONS",
+  "LMF_WHY_SPECIALIST",
+  "LMF_BUSINESS_CLASS",
+  "LMF_WHY_CHOOSE",
+  "LMF_FAQ",
+  /** The Date Change Assistance landing page (`date-change-assistance`
+   * template) — one value per component, in the order
+   * `app/date-change-assistance/page.tsx` renders them. Entirely reuses
+   * MC_*, BC_* and CNX_* shapes the same way the LMF_* block above does,
+   * aside from `DC_REQUEST_FORM`'s own shape; `CTA` is reused here too,
+   * scoped to this page's own `Page` row. */
+  "DC_HERO",
+  "DC_EXPERT_GUIDANCE",
+  "DC_UNDERSTANDING_OPTIONS",
+  "DC_BEFORE_CHANGE",
+  "DC_COMMON_REASONS",
+  "DC_FARE_RULES",
+  "DC_WHY_DATE_MATTERS",
+  "DC_BUSINESS_CLASS",
+  "DC_MULTI_CITY",
+  "DC_URGENT_HELP",
+  "DC_HOW_IT_WORKS",
+  "DC_WHY_CHOOSE",
+  "DC_INFO_NEEDED",
+  "DC_REQUEST_FORM",
+  "DC_FAQ",
+  /** The Airline Schedule Change Assistance landing page
+   * (`schedule-changes` template) — one value per component, in the order
+   * `app/schedule-changes/page.tsx` renders them. Entirely reuses MC_*,
+   * BC_* and CNX_* shapes the same way the DC_* block above does; `CTA`
+   * is reused here too, scoped to this page's own `Page` row. */
+  "SC_HERO",
+  "SC_WHAT_MEANS",
+  "SC_TYPES",
+  "SC_BEFORE_ACCEPT",
+  "SC_HOW_WE_HELP",
+  "SC_SCENARIOS",
+  "SC_OPTIONS",
+  "SC_MULTI_CITY",
+  "SC_BUSINESS_CLASS",
+  "SC_ONE_WAY",
+  "SC_URGENT_HELP",
+  "SC_HOW_IT_WORKS",
+  "SC_WHY_CHOOSE",
+  "SC_INFO_NEEDED",
+  "SC_REVIEW_CTA",
+  "SC_FAQ",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

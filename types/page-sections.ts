@@ -468,12 +468,19 @@ export interface FcPlanCtaSectionData {
  * page's hero (`CancellationHero`) has no quote-form card, phone header or
  * trust stats, just a cinematic photo with left-aligned text and a single
  * button (see that component's doc comment). */
+/** `secondaryButtonLabel`/`secondaryButtonHref`/`trustLine` are optional —
+ * added for the Missed Flight Assistance page's hero (a primary + secondary
+ * CTA plus a small trust line). The Flight Cancellation page's own
+ * instance omits all three. */
 export interface CnxHeroSectionData {
   headingLines: string[];
   subheading: string;
   paragraph: string;
   buttonLabel: string;
   buttonHref: string;
+  secondaryButtonLabel?: string;
+  secondaryButtonHref?: string;
+  trustLine?: string;
   backgroundImage: string;
 }
 
@@ -550,6 +557,19 @@ export interface CnxCenteredCtaSectionData {
   subheading: string;
   buttonLabel: string;
   buttonHref: string;
+}
+
+/** The Date Change Assistance page's centered CTA (`DateChangeCenteredCta`)
+ * whose button opens `DateChangeRequestModal` — `heading`/`subheading`/
+ * `buttonLabel` drive the CTA banner itself, `disclaimer` is passed through
+ * to the modal. The modal's own form fields (airline, from/to, dates,
+ * passengers, cabin, flexible dates, additional requirements) aren't
+ * CMS-editable, same as `FlightSearch`'s fields aren't. */
+export interface DcRequestFormSectionData {
+  heading: string;
+  subheading: string;
+  buttonLabel: string;
+  disclaimer: string;
 }
 
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
@@ -671,6 +691,59 @@ export interface SectionDataByType {
   IFB_BEYOND_SEARCH: McWorkAroundYouSectionData;
   IFB_REVIEW_INFO: McImageTextSectionData;
   IFB_FAQ: FaqSectionData;
+  MF_HERO: McHeroSectionData;
+  MF_INTRO: McImageTextSectionData;
+  MF_HELP_WITH: McPlanningFactorsSectionData;
+  MF_BEFORE_BOOK: McPlanningFactorsSectionData;
+  MF_WHY_MISS: McComplexitySectionData;
+  MF_OPTIONS: McWhyChooseSectionData;
+  MF_BUSINESS_CLASS: McImageTextSectionData;
+  MF_MULTI_CITY: McImageTextSectionData;
+  MF_HOW_WE_HELP: BcHowItWorksSectionData;
+  MF_URGENT_HELP: McComplexitySectionData;
+  MF_WHY_CHOOSE: McPlanningFactorsSectionData;
+  MF_INFO_READY: McImageTextSectionData;
+  MF_REVIEW_CTA: CnxCenteredCtaSectionData;
+  MF_FAQ: FaqSectionData;
+  LMF_HERO: McHeroSectionData;
+  LMF_INTRO: McImageTextSectionData;
+  LMF_HELP_WITH: McPlanningFactorsSectionData;
+  LMF_OPTIONS: McWhyChooseSectionData;
+  LMF_WHY_SPECIALIST: McComplexitySectionData;
+  LMF_BUSINESS_CLASS: McImageTextSectionData;
+  LMF_WHY_CHOOSE: McPlanningFactorsSectionData;
+  LMF_FAQ: FaqSectionData;
+  DC_HERO: McHeroSectionData;
+  DC_EXPERT_GUIDANCE: McPlanningFactorsSectionData;
+  DC_UNDERSTANDING_OPTIONS: McPlanningFactorsSectionData;
+  DC_BEFORE_CHANGE: McPlanningFactorsSectionData;
+  DC_COMMON_REASONS: McWhyChooseSectionData;
+  DC_FARE_RULES: McPlanningFactorsSectionData;
+  DC_WHY_DATE_MATTERS: McComplexitySectionData;
+  DC_BUSINESS_CLASS: McImageTextSectionData;
+  DC_MULTI_CITY: McImageTextSectionData;
+  DC_URGENT_HELP: McComplexitySectionData;
+  DC_HOW_IT_WORKS: BcHowItWorksSectionData;
+  DC_WHY_CHOOSE: McPlanningFactorsSectionData;
+  DC_INFO_NEEDED: McImageTextSectionData;
+  DC_REQUEST_FORM: DcRequestFormSectionData;
+  DC_FAQ: FaqSectionData;
+  SC_HERO: McHeroSectionData;
+  SC_WHAT_MEANS: McImageTextSectionData;
+  SC_TYPES: McPlanningFactorsSectionData;
+  SC_BEFORE_ACCEPT: McPlanningFactorsSectionData;
+  SC_HOW_WE_HELP: McWhyChooseSectionData;
+  SC_SCENARIOS: McPlanningFactorsSectionData;
+  SC_OPTIONS: McWhyChooseSectionData;
+  SC_MULTI_CITY: McImageTextSectionData;
+  SC_BUSINESS_CLASS: McImageTextSectionData;
+  SC_ONE_WAY: McImageTextSectionData;
+  SC_URGENT_HELP: McComplexitySectionData;
+  SC_HOW_IT_WORKS: BcHowItWorksSectionData;
+  SC_WHY_CHOOSE: McPlanningFactorsSectionData;
+  SC_INFO_NEEDED: McImageTextSectionData;
+  SC_REVIEW_CTA: CnxCenteredCtaSectionData;
+  SC_FAQ: FaqSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

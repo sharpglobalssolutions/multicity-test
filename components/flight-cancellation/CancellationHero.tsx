@@ -17,6 +17,16 @@ export interface CancellationHeroProps {
   paragraph?: string;
   buttonLabel?: string;
   buttonHref?: string;
+  /** Both optional — unset on every existing caller. Added for the Missed
+   * Flight Assistance page's hero, whose reference copy pairs a primary
+   * and secondary CTA. */
+  secondaryButtonLabel?: string;
+  secondaryButtonHref?: string;
+  /** Optional small trust line below the button(s) (e.g. "Emergency travel
+   * assistance • International flight specialists • Post-booking
+   * support") — added for the Missed Flight Assistance page. Every
+   * existing caller omits it. */
+  trustLine?: string;
   backgroundImage?: string;
 }
 
@@ -26,6 +36,9 @@ export function CancellationHero({
   paragraph = "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
   buttonLabel = "Speak With a Travel Specialist",
   buttonHref = "#connect",
+  secondaryButtonLabel,
+  secondaryButtonHref,
+  trustLine,
   backgroundImage = unsplash("1573497491208-6b1acb260507"),
 }: CancellationHeroProps = {}) {
   return (
@@ -50,13 +63,19 @@ export function CancellationHero({
               </span>
             ))}
           </h1>
-          <p className="mt-4 text-xl text-white/90 sm:text-2xl">{subheading}</p>
+          {subheading ? <p className="mt-4 text-xl text-white/90 sm:text-2xl">{subheading}</p> : null}
           <p className="mt-6 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">{paragraph}</p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}
             </Button>
+            {secondaryButtonLabel && secondaryButtonHref ? (
+              <Button href={secondaryButtonHref} variant="secondary">
+                {secondaryButtonLabel}
+              </Button>
+            ) : null}
           </div>
+          {trustLine ? <p className="mt-6 text-sm text-white/70">{trustLine}</p> : null}
         </SectionReveal>
       </div>
     </section>

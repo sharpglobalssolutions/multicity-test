@@ -19,6 +19,11 @@ export interface ServicesCarouselProps {
    * otherwise show "Explore Business Class" regardless of what the card is
    * actually about. */
   linkLabel?: string;
+  /** Defaults to 3 (every existing caller's current desktop layout). The
+   * International Flight Booking page's "journey types" instance passes 4
+   * instead, since it only ever has 4 cards and the reference design shows
+   * all of them in one row on desktop. */
+  desktopSlidesPerView?: number;
 }
 
 /**
@@ -33,6 +38,7 @@ export function ServicesCarousel({
   subheading = "Every traveller has different priorities. That's why our services are designed to accommodate different types of international travel — from premium cabin journeys to complex multi-destination itineraries.",
   services = SERVICES,
   linkLabel = "Explore Business Class",
+  desktopSlidesPerView = 3,
 }: ServicesCarouselProps = {}) {
   return (
     <section id="services" className="relative overflow-hidden bg-white py-14 sm:py-14">
@@ -64,7 +70,7 @@ export function ServicesCarousel({
             slidesPerView={1.1}
             breakpoints={{
               640: { slidesPerView: 2, spaceBetween: 24 },
-              1024: { slidesPerView: 3, spaceBetween: 28 },
+              1024: { slidesPerView: desktopSlidesPerView, spaceBetween: 28 },
             }}
             className="overflow-hidden!"
           >

@@ -66,44 +66,48 @@ export function TravelAdvisorSection({
     // overflow-x-hidden: see BusinessClassSection — clips the SectionReveal
     // x-offset slide-in so it can never cause page-level horizontal scroll.
     <section className="overflow-x-hidden bg-white py-10 sm:py-14">
-      <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <SectionReveal x={-60}>
-          <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/11]">
-            <Image src={imageSrc} alt={TRAVEL_ADVISOR_IMAGE.alt} fill sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
-          </div>
-        </SectionReveal>
-
-        <SectionReveal x={60} delay={0.1}>
+      <div className="content-container">
+        <SectionReveal className="mx-auto max-w-4xl text-center">
           <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+              className={`text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
             >
               {paragraph}
             </p>
           ))}
-
-          {items.length > 0 ? (
-            <ul className="mt-6 max-w-lg space-y-4">
-              {items.map((item) => (
-                <li key={item.label}>
-                  <p className="text-[16px] font-semibold text-text-dark">{item.label}</p>
-                  <p className="mt-1 text-[15px] leading-relaxed text-text-gray">{item.description}</p>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-
-          <div className="mt-8">
-            <Link
-              href={buttonHref}
-              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
-            >
-              {buttonLabel}
-            </Link>
-          </div>
         </SectionReveal>
+
+        <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <SectionReveal x={-60}>
+            <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/11]">
+              <Image src={imageSrc} alt={TRAVEL_ADVISOR_IMAGE.alt} fill sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
+            </div>
+          </SectionReveal>
+
+          <SectionReveal x={60} delay={0.1}>
+            {items.length > 0 ? (
+              <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+                {items.map((item) => (
+                  <div key={item.label}>
+                    <p className="text-[16px] font-semibold text-text-dark">{item.label}</p>
+                    <p className="mt-1.5 text-[14px] leading-relaxed text-text-gray">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            <div className="mt-8">
+              <Link
+                href={buttonHref}
+                className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
+              >
+                {buttonLabel}
+              </Link>
+            </div>
+          </SectionReveal>
+        </div>
       </div>
     </section>
   );

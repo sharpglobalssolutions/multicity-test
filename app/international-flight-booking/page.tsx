@@ -201,6 +201,7 @@ export default async function InternationalFlightBookingPage() {
           subheading="Tell us what kind of trip you're planning, and we'll help you explore suitable flight options."
           services={journeyTypes}
           linkLabel="Learn More"
+          desktopSlidesPerView={4}
         />
 
         <ScheduleChangeSection

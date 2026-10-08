@@ -68,6 +68,10 @@ const TEMPLATE_OPTIONS: { value: string; label: string }[] = [
   { value: "flight-cancellation", label: "Flight Cancellation" },
   { value: "flight-change", label: "Flight Change" },
   { value: "international-flight-booking", label: "International Flight Booking" },
+  { value: "missed-flight-assistance", label: "Missed Flight Assistance" },
+  { value: "last-minute-flights", label: "Last-Minute Flights" },
+  { value: "date-change-assistance", label: "Date Change Assistance" },
+  { value: "schedule-changes", label: "Schedule Changes" },
 ];
 const TEMPLATE_LABELS = Object.fromEntries(TEMPLATE_OPTIONS.map((option) => [option.value, option.label]));
 

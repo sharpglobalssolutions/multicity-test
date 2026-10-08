@@ -87,6 +87,10 @@ export interface FlightSearchProps {
 
 export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
   const fieldLabelClasses = FIELD_LABEL_CLASSES_BY_VARIANT[variant];
+  // Visible field labels only for the homepage hero's own "dark" card
+  // (the only caller of that variant) — "light" (every other page's
+  // `MultiCityHero` quote card) keeps labels hidden, its existing look.
+  const hideCriteriaLabels = variant !== "dark";
   const submitButtonVariant = variant === "light" ? "gold" : "primary";
   const router = useRouter();
   const [step, setStep] = useState<Step>("criteria");
@@ -321,7 +325,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                 value={from}
                 onChange={setFrom}
                 placeholder="Origin city or airport"
-                hideLabel
+                hideLabel={hideCriteriaLabels}
               />
               <button
                 type="button"
@@ -336,7 +340,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                 value={to}
                 onChange={setTo}
                 placeholder="Destination city or airport"
-                hideLabel
+                hideLabel={hideCriteriaLabels}
               />
             </div>
 
@@ -351,7 +355,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                 min={todayIso}
                 placeholder="Departure date"
                 align="start"
-                hideLabel
+                hideLabel={hideCriteriaLabels}
               />
 
               {tripType === "round-trip" ? (
@@ -363,7 +367,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                   min={departure || todayIso}
                   placeholder="Return date"
                   align="end"
-                  hideLabel
+                  hideLabel={hideCriteriaLabels}
                 />
               ) : null}
             </div>

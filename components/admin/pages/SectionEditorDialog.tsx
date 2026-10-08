@@ -199,6 +199,21 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   IFB_FARE_GUIDANCE: { key: "twoColumnItems", label: "Two-column list" },
   IFB_WHO_WE_HELP: { key: "twoColumnItems", label: "Two-column list" },
   IFB_REVIEW_INFO: { key: "twoColumnItems", label: "Two-column list" },
+  // Not admin-editable when first added (an oversight — `MC_COMPLEXITY`
+  // above was always the intended precedent); filled in now alongside the
+  // Missed Flight Assistance page's own two `items` fields below.
+  CNX_NOT_SURE: { key: "items", label: "Considerations" },
+  MF_WHY_MISS: { key: "items", label: "Considerations" },
+  MF_URGENT_HELP: { key: "items", label: "Considerations" },
+  MF_INFO_READY: { key: "twoColumnItems", label: "Two-column list" },
+  LMF_INTRO: { key: "twoColumnItems", label: "Two-column list" },
+  LMF_WHY_SPECIALIST: { key: "items", label: "Considerations" },
+  DC_WHY_DATE_MATTERS: { key: "items", label: "Considerations" },
+  DC_URGENT_HELP: { key: "items", label: "Considerations" },
+  DC_INFO_NEEDED: { key: "twoColumnItems", label: "Two-column list" },
+  SC_WHAT_MEANS: { key: "twoColumnItems", label: "Two-column list" },
+  SC_URGENT_HELP: { key: "items", label: "Considerations" },
+  SC_INFO_NEEDED: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {
