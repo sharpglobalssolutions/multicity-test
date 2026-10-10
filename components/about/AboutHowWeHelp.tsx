@@ -21,7 +21,7 @@ export function AboutHowWeHelp() {
         </SectionReveal>
 
         <SectionReveal x={60} delay={0.1}>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">How We Help Travellers</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">How We Help Travellers</h2>
           <p className="mt-6 text-lg font-semibold text-navy-deep">Contact a Travel Specialist</p>
           <p className="mt-2 max-w-lg text-[16px] leading-relaxed text-text-gray">Call us or submit an enquiry.</p>
           <div className="mt-8">

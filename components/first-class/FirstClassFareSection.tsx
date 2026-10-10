@@ -42,7 +42,7 @@ export function FirstClassFareSection({
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[32px]">{heading}</h2>
+          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-white/80">{body}</p>
           <div className="mt-7">
             <Button href={buttonHref} variant="gold">

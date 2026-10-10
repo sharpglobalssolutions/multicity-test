@@ -68,7 +68,7 @@ export function LightFaqSection({
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container mx-auto max-w-3xl">
         <SectionReveal>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
         </SectionReveal>
 
         <div className="mt-8 divide-y divide-navy-deep/10 border-t border-navy-deep/10">

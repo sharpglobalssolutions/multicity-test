@@ -33,7 +33,7 @@ export function ExploreEuropeSection({
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-3xl leading-tight text-white sm:text-4xl lg:text-[34px]">
+          <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}

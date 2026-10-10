@@ -33,7 +33,7 @@ export function PolicyPageTemplate({ title, subtitle, bannerImage, content }: Po
         <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/20 via-navy-deep/20 to-navy-deep/20" />
 
         <div className="content-container relative z-10 text-center">
-          <h1 className="text-3xl font-semibold text-white sm:text-3xl">{title}</h1>
+          <h1 className="text-2xl font-semibold text-white sm:text-5xl lg:text-[40px]">{title}</h1>
           {subtitle ? <p className="mt-3 text-sm font-medium uppercase tracking-[0.14em] text-white/70">{subtitle}</p> : null}
         </div>
       </section>

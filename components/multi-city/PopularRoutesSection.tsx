@@ -74,7 +74,7 @@ export function PopularRoutesSection({
     <section className="bg-gray-light py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
         </SectionReveal>
 
@@ -89,7 +89,7 @@ export function PopularRoutesSection({
                     <span>{route.tag}</span>
                   </div>
 
-                  <div className="mt-4 grid grid-cols-5 gap-2 sm:gap-3">
+                  <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5 sm:gap-3">
                     {stops.map((stop, stopIndex) => (
                       <div key={`${stop.city}-${stopIndex}`} className="text-center">
                         <div className="aspect-square w-full rounded-lg bg-navy-deep" aria-hidden="true" />

@@ -64,7 +64,7 @@ export function BusinessClassExpertise({
 
       <div className="content-container relative grid grid-cols-1 gap-14 md:grid-cols-2 md:gap-10 lg:gap-20">
         <SectionReveal x={-30} className="min-w-0">
-          <h2 className="text-[30px] uppercase leading-tight text-[#07111F] sm:text-[32px] lg:text-[34px]">
+          <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold uppercase leading-tight text-[#07111F]">
             {heading.map((line, index) => (
               <span key={index} className="block">
                 {line}

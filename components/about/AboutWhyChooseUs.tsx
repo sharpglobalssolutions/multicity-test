@@ -19,7 +19,7 @@ export function AboutWhyChooseUs() {
         </SectionReveal>
 
         <SectionReveal x={60} delay={0.1}>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">Why Travellers Choose Multicity Experts</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">Why Travellers Choose Multicity Experts</h2>
 
           <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
             {WHY_CHOOSE_ITEMS.map((item, index) => (

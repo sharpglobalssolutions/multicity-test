@@ -90,7 +90,7 @@ export function FirstClassAirlinesCarousel({
 
       <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
         </SectionReveal>
 

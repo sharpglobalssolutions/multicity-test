@@ -37,7 +37,7 @@ export function TestimonialCarousel({
 
       <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mt-3 text-3xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <div className="mt-2 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
         </SectionReveal>
 

@@ -55,7 +55,7 @@ export function ComplexitySection({
 
       <div className="content-container relative z-10">
         <SectionReveal className={isCentered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-          <h2 className="text-2xl text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-4 text-base leading-relaxed text-white/80 sm:text-lg">{subheading}</p>
           {listIntro ? <p className="mt-6 text-base font-semibold text-white">{listIntro}</p> : null}
         </SectionReveal>

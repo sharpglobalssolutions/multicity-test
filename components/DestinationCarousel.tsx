@@ -26,7 +26,7 @@ export function DestinationCarousel({
     <section id="destinations" className="bg-white py-10 sm:py-16">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mt-3 text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
           <div className="mt-2 text-base text-text-gray sm:text-lg" dangerouslySetInnerHTML={{ __html: subheading }} />
         </SectionReveal>
 

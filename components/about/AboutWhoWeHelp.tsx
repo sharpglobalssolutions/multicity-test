@@ -14,7 +14,7 @@ export function AboutWhoWeHelp() {
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">Who We Help</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">Who We Help</h2>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12 px-9 sm:px-11">

@@ -36,7 +36,7 @@ export function FirstClassCabinSection({
     <section className="bg-[#0a0c11] py-10 sm:py-14">
       <div className="content-container grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-40}>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[32px]">{heading}</h2>
+          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">{body}</p>
           <p className="mt-5 text-[15px] font-semibold text-white">{subheading}</p>
           <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">

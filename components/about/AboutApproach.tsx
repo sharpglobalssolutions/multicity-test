@@ -20,7 +20,7 @@ export function AboutApproach() {
         </SectionReveal>
 
         <SectionReveal x={60} delay={0.1}>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">What Makes Our Approach Different?</h2>
+          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">What Makes Our Approach Different?</h2>
           <p className="mt-5 max-w-lg text-[16px] leading-relaxed text-text-gray">{APPROACH_TEXT}</p>
 
           <ul className="mt-6 space-y-3">

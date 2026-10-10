@@ -30,7 +30,7 @@ export function DateChangeCenteredCta({
     <section className="bg-black py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
           <p className="mt-4 text-[15px] leading-relaxed text-white/70 sm:text-base">{subheading}</p>
           <div className="mt-8 inline-block">
             <Button type="button" variant="gold" onClick={() => setOpen(true)}>

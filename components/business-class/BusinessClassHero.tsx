@@ -48,7 +48,7 @@ export function BusinessClassHero({
 
       <div className="content-container relative grid grid-cols-1 items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1fr_600px] lg:gap-10 lg:py-8">
         <SectionReveal className="text-center lg:pt-10 lg:text-left">
-          <h1 className="mt-3 text-4xl font-normal text-white sm:text-5xl lg:text-[60px]">
+          <h1 className="mt-3 text-2xl font-semibold text-white sm:text-5xl lg:text-[40px]">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}

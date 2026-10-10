@@ -64,7 +64,7 @@ export function AboutStory() {
           </div>
 
           <div className="mt-20 lg:mt-24">
-            <h2 className="text-3xl font-semibold sm:text-4xl lg:text-[34px]">
+            <h2 className="text-2xl font-semibold sm:text-4xl lg:text-[30px]">
               <motion.span
                 className="inline-block text-text-gray/40"
                 initial={{ opacity: 0, y: 10 }}

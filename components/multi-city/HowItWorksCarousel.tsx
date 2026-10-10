@@ -80,7 +80,7 @@ export function HowItWorksCarousel({
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
           <h2
-            className={`text-[28px] font-medium uppercase tracking-[0.04em] sm:text-[32px] ${
+            className={`text-2xl sm:text-4xl lg:text-[30px] font-semibold uppercase tracking-[0.04em] ${
               isDark ? "text-white" : "text-[#07111F]"
             }`}
           >

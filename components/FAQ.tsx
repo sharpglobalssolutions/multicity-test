@@ -38,7 +38,7 @@ export function FAQ({
       <div className="content-container relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr]  lg:gap-16">
         <SectionReveal x={-30}>
           <span className="text-white text-[20px]">{eyebrow}</span>
-          <h2 className="mt-3 text-3xl leading-tight text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-2xl font-semibold leading-tight text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "4rem" }}

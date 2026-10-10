@@ -136,7 +136,7 @@ export function JourneyCarousel({ slides = DEFAULT_SLIDES }: JourneyCarouselProp
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <h2 className="text-[30px] leading-tight text-[#07111F] sm:text-[32px] md:text-[22px] lg:text-[34px]">
+                <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-[#07111F]">
                   {slide.titleLines.split("\n").map((line, index) => (
                     <span key={index} className="block">
                       {line}

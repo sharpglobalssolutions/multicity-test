@@ -56,7 +56,7 @@ export function CancellationHero({
 
       <div className="content-container relative z-10">
         <SectionReveal className="max-w-xl">
-          <h1 className="text-3xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[44px]">
+          <h1 className="text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}

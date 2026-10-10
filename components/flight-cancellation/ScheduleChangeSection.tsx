@@ -64,7 +64,7 @@ export function ScheduleChangeSection({
       <div className="content-container relative z-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           <SectionReveal x={-30}>
-            <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px]">
+            <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">
               {headingLines.map((line, index) => (
                 <span key={index} className="block">
                   {line}

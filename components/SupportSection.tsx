@@ -28,7 +28,7 @@ export function SupportSection({
     <section className="overflow-x-hidden bg-white py-10 sm:py-12">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-60} className="lg:order-1">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}

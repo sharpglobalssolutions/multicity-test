@@ -39,7 +39,7 @@ export function HowItWorks({
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-[28px] font-medium uppercase tracking-[0.04em] text-[#07111F] sm:text-[32px]">
+          <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold uppercase tracking-[0.04em] text-[#07111F]">
             {heading}
           </h2>
           <p className="mt-2.5 text-[20px] font-normal text-[#9A9A9A] sm:text-[23px]">{subheading}</p>

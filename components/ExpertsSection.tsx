@@ -77,7 +77,7 @@ export function ExpertsSection({
 
       <div className="content-container relative z-10">
         <SectionReveal className="mx-auto max-w-4xl text-center">
-          <h2 className="mt-3 text-2xl text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-2xl font-semibold text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
           <p className="mt-2 text-base text-white sm:text-[16px]"><strong>{subtitle1}</strong></p>
           <div className="mt-2 text-base text-white sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subtitle2 }} />
         </SectionReveal>

@@ -70,7 +70,7 @@ export function MultiCityHero({
 
       <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-10">
         <div>
-          <h1 className="text-2xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
+          <h1 className="text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}

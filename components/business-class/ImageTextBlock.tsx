@@ -141,7 +141,7 @@ export function ImageTextBlock({
 
   const textBlock = (
     <SectionReveal x={imagePosition === "left" ? 60 : -60} delay={0.1}>
-      <h3 className="text-2xl leading-tight text-text-dark sm:text-[30px]">
+      <h3 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-text-dark">
         {eyebrowLines.map((line, index) => (
           <span key={index} className="block">
             {line}

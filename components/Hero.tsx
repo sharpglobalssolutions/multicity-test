@@ -91,7 +91,7 @@ export function Hero({
             as="h1"
             text={headingLines}
             mode="line"
-            className="mt-4 text-2xl font-bold leading-[1.08] text-white sm:text-5xl lg:text-[40px]"
+            className="mt-4 text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]"
           />
 
           <SectionReveal delay={0.3}>

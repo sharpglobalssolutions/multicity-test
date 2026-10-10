@@ -57,7 +57,7 @@ export function BeyondPrice({
       <div className="content-container grid grid-cols-1 gap-8 lg:grid-cols-[1fr_2fr] lg:items-center lg:gap-10">
         <SectionReveal x={-30}>
           <p className="text-[22px] font-medium text-[#B59655] sm:text-[24px]">{eyebrow}</p>
-          <h2 className="mt-3 text-[32px] font-normal leading-[1.15] text-white sm:text-[38px] lg:text-[42px]">
+          <h2 className="mt-3 text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-[1.15] text-white">
             {heading.map((line, index) => (
               <span key={index} className="block">
                 {line}

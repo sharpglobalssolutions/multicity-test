@@ -36,7 +36,7 @@ export function ExpertGuidanceSection({
 }: ExpertGuidanceSectionProps = {}) {
   const textBlock = (
     <SectionReveal x={imagePosition === "right" ? -60 : 60}>
-      <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+      <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
       {paragraphs.map((paragraph, index) => (
         <p key={index} className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}>
           {paragraph}

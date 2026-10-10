@@ -87,7 +87,7 @@ export async function Footer({
       <div className="content-container">
         {/* Let's Stay Connected */}
         <div className="text-center">
-          <h2 className="text-[28px] uppercase  text-text-dark">{resolvedConnectHeading}</h2>
+          <h2 className="text-2xl uppercase text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{resolvedConnectHeading}</h2>
           <div className="mt-5 flex items-center justify-center gap-4">
             {resolvedSocialLinks.map(({ label, href, icon }) => {
               const Icon = SOCIAL_ICON_MAP[icon as keyof typeof SOCIAL_ICON_MAP];
@@ -152,7 +152,7 @@ export async function Footer({
         <div className="content-container py-16">
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.9fr_1.4fr] lg:gap-16">
             <div>
-              <h2 className="text-3xl font-semibold leading-tight sm:text-[26px]">
+              <h2 className="text-2xl font-semibold leading-tight sm:text-4xl lg:text-[30px]">
                 {resolvedDarkHeadingLines.map((line, index) => (
                   <span key={index}>
                     {index > 0 ? <br /> : null}

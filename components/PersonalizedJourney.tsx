@@ -40,7 +40,7 @@ export function PersonalizedJourney({
     <section className="overflow-x-hidden bg-white py-10 sm:py-12 personalize-journey">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal y={24}>
-          <h2 className="mt-3 text-2xl text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-2xl font-semibold text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
           <div className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]" dangerouslySetInnerHTML={{ __html: body }} />
         </SectionReveal>
 

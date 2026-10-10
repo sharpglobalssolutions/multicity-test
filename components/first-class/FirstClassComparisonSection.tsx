@@ -49,7 +49,7 @@ export function FirstClassComparisonSection({
 
       <div className="content-container relative z-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
         <SectionReveal x={-40}>
-          <h2 className="text-3xl leading-tight text-white sm:text-4xl lg:text-[36px]">
+          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}

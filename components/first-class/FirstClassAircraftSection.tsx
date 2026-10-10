@@ -40,7 +40,7 @@ export function FirstClassAircraftSection({
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[32px]">
+          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
