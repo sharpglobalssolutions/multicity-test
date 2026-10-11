@@ -21,6 +21,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { RoutesCarousel } from "@/components/RoutesCarousel";
 import { unsplash } from "@/lib/images";
 import { getFirstClassPageSeoSafely, getFirstClassSectionsSafely } from "@/services/first-class.service";
@@ -55,6 +56,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FirstClassPage() {
   const sections = await getFirstClassSectionsSafely();
+  const seo = await getFirstClassPageSeoSafely();
 
   const flightSearchChallenge = sections.FC_FLIGHT_SEARCH_CHALLENGE;
   const beforeBooking = sections.FC_BEFORE_BOOKING;
@@ -87,6 +89,7 @@ export default async function FirstClassPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

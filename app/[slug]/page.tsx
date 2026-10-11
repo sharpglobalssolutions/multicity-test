@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { PolicyPageTemplate } from "@/components/PolicyPageTemplate";
 import { NotFoundError } from "@/lib/errors";
 import { listActiveSectionsForPage } from "@/services/page-section.service";
@@ -51,6 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
   const page = await getPublishedPageOr404(slug);
+  const seo = await getPageSeo(page.id).catch(() => null);
 
   if (page.template !== "policy") {
     notFound();
@@ -66,6 +68,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <PolicyPageTemplate

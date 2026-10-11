@@ -1,7 +1,7 @@
 import { recordAuditLog } from "@/lib/audit";
 import { NotFoundError } from "@/lib/errors";
 import { findPageById } from "@/repositories/page.repository";
-import { findByEntity, upsertByEntity } from "@/repositories/seo-metadata.repository";
+import { findByEntity, upsertSeoMetadata } from "@/repositories/seo-metadata.repository";
 import type { UpdateSeoMetadataInput } from "@/validations/seo-metadata.validation";
 
 const ENTITY_TYPE = "PAGE";
@@ -23,7 +23,7 @@ export async function updatePageSeo(pageId: string, input: UpdateSeoMetadataInpu
   await getPageOr404(pageId);
   const before = await findByEntity(ENTITY_TYPE, pageId);
 
-  const metadata = await upsertByEntity(ENTITY_TYPE, pageId, input);
+  const metadata = await upsertSeoMetadata({ entityType: ENTITY_TYPE, entityId: pageId, ...input });
 
   await recordAuditLog({
     userId,

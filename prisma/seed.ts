@@ -98,6 +98,10 @@ const PERMISSIONS = [
 
   // Audit
   { key: "audit_logs.read", description: "View the audit log." },
+
+  // Site settings (header/footer script injection, etc.)
+  { key: "settings.read", description: "View site-wide settings." },
+  { key: "settings.update", description: "Edit site-wide settings." },
 ] as const;
 
 const ALL_PERMISSION_KEYS = PERMISSIONS.map((permission) => permission.key);

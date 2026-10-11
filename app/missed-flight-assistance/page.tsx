@@ -16,6 +16,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getMissedFlightAssistancePageSeoSafely,
@@ -113,6 +114,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MissedFlightAssistancePage() {
   const sections = await getMissedFlightAssistanceSectionsSafely();
+  const seo = await getMissedFlightAssistancePageSeoSafely();
 
   const intro = sections.MF_INTRO;
   const businessClass = sections.MF_BUSINESS_CLASS;
@@ -121,6 +123,7 @@ export default async function MissedFlightAssistancePage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

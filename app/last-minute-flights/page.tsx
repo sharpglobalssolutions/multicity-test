@@ -13,6 +13,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getLastMinuteFlightsPageSeoSafely,
@@ -97,12 +98,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LastMinuteFlightsPage() {
   const sections = await getLastMinuteFlightsSectionsSafely();
+  const seo = await getLastMinuteFlightsPageSeoSafely();
 
   const intro = sections.LMF_INTRO;
   const businessClass = sections.LMF_BUSINESS_CLASS;
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

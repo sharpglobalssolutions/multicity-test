@@ -16,6 +16,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getDateChangeAssistancePageSeoSafely,
@@ -124,6 +125,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function DateChangeAssistancePage() {
   const sections = await getDateChangeAssistanceSectionsSafely();
+  const seo = await getDateChangeAssistancePageSeoSafely();
 
   const businessClass = sections.DC_BUSINESS_CLASS;
   const multiCity = sections.DC_MULTI_CITY;
@@ -131,6 +133,7 @@ export default async function DateChangeAssistancePage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

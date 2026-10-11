@@ -1,4 +1,5 @@
-import type { Prisma, SeoEntityType } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import type { SeoEntityType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import type { UpsertSeoMetadataInput } from "@/validations/seo.validation";
 
@@ -26,21 +27,15 @@ export function findByEntityWithImages(entityType: SeoEntityType, entityId: stri
  * `page-section.repository.ts`'s `toInputJson`. */
 export function upsertSeoMetadata(input: UpsertSeoMetadataInput) {
   const { entityType, entityId, schemaData, ...data } = input;
-  const json = schemaData as Prisma.InputJsonValue | undefined;
+  // Prisma represents "clear this Json column" as `Prisma.JsonNull`, not a
+  // plain JS `null` (which it reserves for "no value provided" in some
+  // input types) — explicit sentinel required here or `null` is rejected
+  // at the type level.
+  const json =
+    schemaData === null ? Prisma.JsonNull : (schemaData as Prisma.InputJsonValue | undefined);
   return prisma.seoMetadata.upsert({
     where: { entityType_entityId: { entityType, entityId } },
     update: { ...data, schemaData: json },
     create: { entityType, entityId, ...data, schemaData: json },
   });
-}
-
-/** Narrow upsert for the per-page "meta title / meta description" admin
- * card — the only two fields that feature needs, layered on top of the
- * general upsert above rather than duplicating the Prisma call. */
-export function upsertByEntity(
-  entityType: SeoEntityType,
-  entityId: string,
-  input: { seoTitle?: string; metaDescription?: string },
-) {
-  return upsertSeoMetadata({ entityType, entityId, ...input });
 }

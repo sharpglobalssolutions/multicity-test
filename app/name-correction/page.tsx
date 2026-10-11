@@ -15,6 +15,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getNameCorrectionPageSeoSafely,
@@ -113,6 +114,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function NameCorrectionPage() {
   const sections = await getNameCorrectionSectionsSafely();
+  const seo = await getNameCorrectionPageSeoSafely();
 
   const intro = sections.NC_INTRO;
   const howWeHelp = sections.NC_HOW_WE_HELP;
@@ -125,6 +127,7 @@ export default async function NameCorrectionPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

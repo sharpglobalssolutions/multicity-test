@@ -14,6 +14,7 @@ import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import type { Faq } from "@/data/content";
 import { unsplash } from "@/lib/images";
 import {
@@ -83,6 +84,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MultiCityFlightsPage() {
   const sections = await getMultiCityFlightsSectionsSafely();
+  const seo = await getMultiCityFlightsPageSeoSafely();
 
   const featuredOne = sections.MC_FEATURED_ONE;
   const featuredTwo = sections.MC_FEATURED_TWO;
@@ -90,6 +92,7 @@ export default async function MultiCityFlightsPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero {...sections.MC_HERO} />

@@ -1,6 +1,7 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
@@ -37,6 +38,22 @@ export function BusinessClassSection({
   body = DEFAULT_BODY,
   images = BUSINESS_CLASS_IMAGES,
 }: BusinessClassSectionProps = {}) {
+  // A fade-effect Swiper keeps every slide stacked at the same position
+  // (only `opacity` differs), so the browser considers them all "in
+  // viewport" at once — `next/image`'s own lazy loading can't defer them,
+  // and all N images would otherwise fetch simultaneously on mount,
+  // starving the one the visitor actually sees first. Loading only the
+  // active slide (plus the one it's about to crossfade to) spreads the
+  // requests out to match what autoplay actually shows.
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1 % images.length]));
+  // `loop: true` makes Swiper reposition to an internal clone right after
+  // mount, which fires `onSlideChangeTransitionStart` once as its own
+  // bookkeeping — not a real user-visible transition. Skipping exactly
+  // that first firing (whenever it happens — no timing assumed) keeps the
+  // initial load to the two slides above; every firing after it is a
+  // genuine autoplay/user transition.
+  const skippedInitialTransitionRef = useRef(false);
+
   return (
     // `overflow-x-hidden`: the image/text below slide in via translateX —
     // clips that motion at the section boundary so it can never cause
@@ -55,17 +72,31 @@ export function BusinessClassSection({
               navigation={{ prevEl: ".business-class-prev", nextEl: ".business-class-next" }}
               loop={images.length > 1}
               className="h-full w-full"
+              onSlideChangeTransitionStart={(swiper) => {
+                if (!skippedInitialTransitionRef.current) {
+                  skippedInitialTransitionRef.current = true;
+                  return;
+                }
+                const next = (swiper.realIndex + 1) % images.length;
+                setLoadedIndices((prev) => {
+                  if (prev.has(swiper.realIndex) && prev.has(next)) return prev;
+                  return new Set(prev).add(swiper.realIndex).add(next);
+                });
+              }}
             >
-              {images.map((image) => (
+              {images.map((image, index) => (
                 <SwiperSlide key={image.src}>
                   <div className="relative h-full w-full">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      sizes="(min-width: 1024px) 45vw, 90vw"
-                      className="object-cover"
-                    />
+                    {loadedIndices.has(index) ? (
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        sizes="(min-width: 1024px) 45vw, 90vw"
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    ) : null}
                   </div>
                 </SwiperSlide>
               ))}

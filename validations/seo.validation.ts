@@ -16,8 +16,8 @@ export const upsertSeoMetadataSchema = z.object({
   ogDescription: z.string().trim().min(1).optional(),
   twitterTitle: z.string().trim().min(1).optional(),
   twitterDescription: z.string().trim().min(1).optional(),
-  schemaType: z.string().trim().min(1).optional(),
-  schemaData: z.record(z.unknown()).optional(),
+  schemaType: z.string().trim().min(1).nullable().optional(),
+  schemaData: z.record(z.unknown()).nullable().optional(),
 });
 
 export type UpsertSeoMetadataInput = z.infer<typeof upsertSeoMetadataSchema>;

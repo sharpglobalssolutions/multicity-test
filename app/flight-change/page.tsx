@@ -14,6 +14,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getFlightChangePageSeoSafely,
@@ -110,6 +111,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FlightChangePage() {
   const sections = await getFlightChangeSectionsSafely();
+  const seo = await getFlightChangePageSeoSafely();
 
   const optionsChange = sections.FCH_OPTIONS_CHANGE;
   const process = sections.FCH_PROCESS;
@@ -120,6 +122,7 @@ export default async function FlightChangePage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

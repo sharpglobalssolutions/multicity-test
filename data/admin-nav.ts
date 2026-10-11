@@ -34,5 +34,5 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { label: "Blog", href: "/admin/blog", icon: Globe2, status: "active" },
   { label: "SEO", href: "/admin/seo", icon: Search, status: "soon" },
   { label: "Users & Roles", href: "/admin/users", icon: ShieldCheck, status: "soon" },
-  { label: "Settings", href: "/admin/settings", icon: Settings, status: "soon" },
+  { label: "Settings", href: "/admin/settings", icon: Settings, status: "active" },
 ];

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { BlogDetailTemplate } from "@/components/blog/BlogDetailTemplate";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { NotFoundError } from "@/lib/errors";
 import { getBlogPostPageData, getBlogPostSeo, getPublishedBlogPostBySlug } from "@/services/blog.service";
 
@@ -72,8 +73,11 @@ export default async function InsightArticlePage({ params }: PageProps) {
     throw error;
   }
 
+  const seo = await getBlogPostSeo(data.post.id).catch(() => null);
+
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <BlogDetailTemplate post={data.post} relatedPosts={data.relatedPosts} faqs={data.faqs} />

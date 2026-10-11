@@ -847,6 +847,9 @@ model SiteSettings {
   defaultOgImageId      String?
   gaId                  String?
   gtmId                 String?
+  headerCode            String?  @db.Text
+  bodyCode              String?  @db.Text
+  footerCode            String?  @db.Text
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 

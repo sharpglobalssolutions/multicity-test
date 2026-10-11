@@ -20,6 +20,8 @@ interface PageSeoCardProps {
 export function PageSeoCard({ pageId }: PageSeoCardProps) {
   const [seoTitle, setSeoTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
+  const [schemaMarkup, setSchemaMarkup] = useState("");
+  const [schemaError, setSchemaError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -30,6 +32,7 @@ export function PageSeoCard({ pageId }: PageSeoCardProps) {
         if (cancelled) return;
         setSeoTitle(seo?.seoTitle ?? "");
         setMetaDescription(seo?.metaDescription ?? "");
+        setSchemaMarkup(seo?.schemaData ? JSON.stringify(seo.schemaData, null, 2) : "");
       })
       .catch(() => {
         // No SEO metadata yet is expected for most pages — leave fields blank.
@@ -43,11 +46,36 @@ export function PageSeoCard({ pageId }: PageSeoCardProps) {
   }, [pageId]);
 
   async function handleSave() {
+    const trimmedSchema = schemaMarkup.trim();
+    let schemaData: Record<string, unknown> | null = null;
+    let schemaType: string | null = null;
+
+    if (trimmedSchema) {
+      try {
+        const parsed = JSON.parse(trimmedSchema);
+        if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+          throw new Error("Schema markup must be a single JSON object (e.g. { \"@type\": ... }).");
+        }
+        schemaData = parsed as Record<string, unknown>;
+        schemaType = typeof schemaData["@type"] === "string" ? (schemaData["@type"] as string) : null;
+        setSchemaError(null);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Schema markup isn't valid JSON.";
+        setSchemaError(message);
+        toast.error(message);
+        return;
+      }
+    } else {
+      setSchemaError(null);
+    }
+
     setSaving(true);
     try {
       await updatePageSeo(pageId, {
         seoTitle: seoTitle.trim() || undefined,
         metaDescription: metaDescription.trim() || undefined,
+        schemaData,
+        schemaType,
       });
       toast.success("SEO metadata saved.");
     } catch (error) {
@@ -96,6 +124,29 @@ export function PageSeoCard({ pageId }: PageSeoCardProps) {
           <p className="text-xs text-muted-foreground">
             {metaDescription.length}/{DESCRIPTION_GUIDANCE} characters (guidance)
           </p>
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="schemaMarkup">Schema markup (JSON-LD)</Label>
+          <Textarea
+            id="schemaMarkup"
+            value={schemaMarkup}
+            onChange={(event) => {
+              setSchemaMarkup(event.target.value);
+              if (schemaError) setSchemaError(null);
+            }}
+            disabled={saving}
+            rows={8}
+            placeholder={'{\n  "@context": "https://schema.org",\n  "@type": "Organization",\n  "name": "..."\n}'}
+            className="font-mono text-xs"
+            aria-invalid={schemaError ? true : undefined}
+          />
+          {schemaError ? (
+            <p className="text-xs text-destructive">{schemaError}</p>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              Paste a full JSON-LD structured-data object. Rendered on the page as-is; leave blank for none.
+            </p>
+          )}
         </div>
       </CardContent>
       <CardFooter className="justify-end">

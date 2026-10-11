@@ -16,6 +16,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getScheduleChangesPageSeoSafely,
@@ -125,6 +126,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function ScheduleChangesPage() {
   const sections = await getScheduleChangesSectionsSafely();
+  const seo = await getScheduleChangesPageSeoSafely();
 
   const whatMeans = sections.SC_WHAT_MEANS;
   const multiCity = sections.SC_MULTI_CITY;
@@ -134,6 +136,7 @@ export default async function ScheduleChangesPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

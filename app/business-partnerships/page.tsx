@@ -17,6 +17,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import {
   getBusinessPartnershipsPageSeoSafely,
@@ -110,6 +111,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BusinessPartnershipsPage() {
   const sections = await getBusinessPartnershipsSectionsSafely();
+  const seo = await getBusinessPartnershipsPageSeoSafely();
 
   const intro = sections.BP_INTRO;
   const whoWeSupport = sections.BP_WHO_WE_SUPPORT;
@@ -119,6 +121,7 @@ export default async function BusinessPartnershipsPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <CancellationHero

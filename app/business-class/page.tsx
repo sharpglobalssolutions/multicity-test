@@ -13,6 +13,7 @@ import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import type { Faq } from "@/data/content";
 import { unsplash } from "@/lib/images";
@@ -85,9 +86,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BusinessClassPage() {
   const sections = await getBusinessClassSectionsSafely();
+  const seo = await getBusinessClassPageSeoSafely();
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <BusinessClassHero {...sections.BC_HERO} />

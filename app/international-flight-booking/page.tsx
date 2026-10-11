@@ -16,6 +16,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
 import { unsplash } from "@/lib/images";
 import {
@@ -109,6 +110,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function InternationalFlightBookingPage() {
   const sections = await getInternationalFlightBookingSectionsSafely();
+  const seo = await getInternationalFlightBookingPageSeoSafely();
 
   const fareGuidance = sections.IFB_FARE_GUIDANCE;
   const whoWeHelp = sections.IFB_WHO_WE_HELP;
@@ -155,6 +157,7 @@ export default async function InternationalFlightBookingPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero

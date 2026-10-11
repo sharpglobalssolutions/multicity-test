@@ -7,6 +7,7 @@ import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { JsonLd } from "@/components/JsonLd";
 import { PartnerStrip } from "@/components/PartnerStrip";
 import { PersonalizedJourney } from "@/components/PersonalizedJourney";
 import { RoutesCarousel } from "@/components/RoutesCarousel";
@@ -35,9 +36,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function Home() {
   const sections = await getHomeSectionsSafely();
+  const seo = await getHomePageSeoSafely();
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <Hero {...sections.HERO} />

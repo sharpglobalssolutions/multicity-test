@@ -70,7 +70,7 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
               <Image
                 src={logoSrc}
                 alt="MultiCityExperts"
-                width={250}
+                width={200}
                 height={40}
                 priority
                 className="site-logo"
@@ -85,7 +85,7 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
             )}
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
             {navLinks.map((link, linkIndex) =>
               link.children && link.children.length > 0 ? (
                 <div key={`${link.href}-${linkIndex}`} className="group relative">

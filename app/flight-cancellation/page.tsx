@@ -20,6 +20,7 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { ServicesCarousel } from "@/components/ServicesCarousel";
 import { unsplash } from "@/lib/images";
 import {
@@ -102,6 +103,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FlightCancellationPage() {
   const sections = await getFlightCancellationSectionsSafely();
+  const seo = await getFlightCancellationPageSeoSafely();
 
   const intro = sections.CNX_INTRO;
   const entireBooking = sections.CNX_ENTIRE_BOOKING;
@@ -139,6 +141,7 @@ export default async function FlightCancellationPage() {
 
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <CancellationHero {...sections.CNX_HERO} />
