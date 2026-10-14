@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CancellationHero } from "@/components/flight-cancellation/CancellationHero";
 import { CenteredCtaBanner } from "@/components/flight-cancellation/CenteredCtaBanner";
 import { ComparisonColumnsSection } from "@/components/flight-cancellation/ComparisonColumnsSection";
 import { InfoBanner } from "@/components/flight-cancellation/InfoBanner";
@@ -14,6 +13,7 @@ import { FeaturedBlockSection } from "@/components/multi-city/FeaturedBlockSecti
 // into their JSX, only into their default props) that building near-identical
 // ones here would just be duplication.
 import { HowItWorksCarousel } from "@/components/multi-city/HowItWorksCarousel";
+import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsSection";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
@@ -144,7 +144,16 @@ export default async function FlightCancellationPage() {
       <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
-        <CancellationHero {...sections.CNX_HERO} />
+        <MultiCityHero
+          headingLines={["Flight Cancellation", "Assistance"]}
+          subheading="Know Your Options Before You Cancel"
+          paragraphs={[
+            "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
+          ]}
+          buttonLabel="Speak With a Travel Specialist"
+          backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          {...sections.CNX_HERO}
+        />
 
         <FeaturedBlockSection
           headingLines={intro?.headingLines ?? ["Independent Flight Cancellation", "& Refund Assistance"]}

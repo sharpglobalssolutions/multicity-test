@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BrandPhilosophySection } from "@/components/BrandPhilosophySection";
 import { BusinessClassSection } from "@/components/BusinessClassSection";
 import { DestinationCarousel } from "@/components/DestinationCarousel";
 import { ExpertsSection } from "@/components/ExpertsSection";
@@ -53,6 +54,7 @@ export default async function Home() {
         <ServicesCarousel {...sections.SERVICES} />
         <SupportSection {...sections.SUPPORT} />
         <ExpertsSection {...sections.EXPERTS} />
+        <BrandPhilosophySection {...sections.BRAND_PHILOSOPHY} />
         <TestimonialCarousel {...sections.TESTIMONIALS} />
         <FAQ {...sections.FAQ} />
         <TravelInsights {...sections.INSIGHTS} />

@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {
+  COOKIE_CONSENT_EVENT,
+  getCookieConsentStatus,
+} from "@/lib/cookie-consent";
 
 interface RawCodeInjectorProps {
   /** Raw HTML/script snippet from the admin's Settings page (see
@@ -12,6 +16,11 @@ interface RawCodeInjectorProps {
    * here, not at the end of the page); `body-end` appends just before
    * `</body>` (the common "footer scripts" slot). */
   target: "head" | "body-start" | "body-end";
+  /** When true (the cookie-consent banner is enabled — see
+   * `CookieConsentBanner.tsx`), this snippet is treated as non-essential
+   * and only actually runs once the visitor accepts. `false`/omitted
+   * injects unconditionally, same as before cookie consent existed. */
+  requireConsent?: boolean;
 }
 
 /**
@@ -29,10 +38,34 @@ interface RawCodeInjectorProps {
  * executes or loads until the recreated nodes are explicitly appended
  * below.
  */
-export function RawCodeInjector({ html, target }: RawCodeInjectorProps) {
+export function RawCodeInjector({
+  html,
+  target,
+  requireConsent = false,
+}: RawCodeInjectorProps) {
+  // `null` while consent isn't required (always allowed) or hasn't loaded
+  // from storage yet; `true`/`false` once a real decision is known. Kept
+  // as its own effect so a decision made in a *different* mounted instance
+  // of this component (head/body-start/body-end each render one) is picked
+  // up here too via the shared event, without needing a page reload.
+  const [consentGranted, setConsentGranted] = useState(!requireConsent);
+
+  useEffect(() => {
+    if (!requireConsent) {
+      setConsentGranted(true);
+      return;
+    }
+    setConsentGranted(getCookieConsentStatus() === "accepted");
+    const onChange = (event: Event) => {
+      setConsentGranted((event as CustomEvent<string>).detail === "accepted");
+    };
+    window.addEventListener(COOKIE_CONSENT_EVENT, onChange);
+    return () => window.removeEventListener(COOKIE_CONSENT_EVENT, onChange);
+  }, [requireConsent]);
+
   useEffect(() => {
     const trimmed = html?.trim();
-    if (!trimmed) return;
+    if (!trimmed || !consentGranted) return;
 
     const container = target === "head" ? document.head : document.body;
     const template = document.createElement("template");
@@ -74,7 +107,7 @@ export function RawCodeInjector({ html, target }: RawCodeInjectorProps) {
         node.parentNode?.removeChild(node);
       }
     };
-  }, [html, target]);
+  }, [html, target, consentGranted]);
 
   return null;
 }

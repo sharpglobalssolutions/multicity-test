@@ -20,6 +20,7 @@ export const SECTION_TYPES = [
   "SERVICES",
   "SUPPORT",
   "EXPERTS",
+  "BRAND_PHILOSOPHY",
   "TESTIMONIALS",
   "FAQ",
   "INSIGHTS",

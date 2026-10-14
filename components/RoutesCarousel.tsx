@@ -21,15 +21,21 @@ export interface RoutesCarouselProps {
    * component hardcoding a cabin name that isn't true for every page it's
    * reused on. */
   cabinLabel?: string;
+  /** Unset renders no button, same as before this field existed. */
+  buttonLabel?: string;
+  buttonHref?: string;
 }
 
 /** All props optional, falling back to the current hardcoded default — see
  * `Hero.tsx` for the rationale. */
 export function RoutesCarousel({
   heading = "Expert International Flight Planning Across Key Global Routes",
-  subheading = "Whether you're travelling between major business centres, visiting family overseas, planning a multi-city holiday, or putting together a more complex itinerary, our specialists can help you evaluate the journey around your priorities.",
+  subheading = "<p>Some international routes are travelled every day. Others require a little more planning. MultiCity Experts specialises in international journeys connecting North America, the UK and Europe, helping travellers explore suitable routes and flight options for business, leisure, family visits and multi-destination journeys.</p>" +
+    '<p style="margin-top:0.75rem;">Whether you\'re travelling between major business centres, visiting family overseas, planning a multi-city holiday, or putting together a more complex itinerary, our specialists can help you evaluate the journey around your priorities.</p>',
   routes = ROUTE_DEALS,
   cabinLabel = "Business Class",
+  buttonLabel,
+  buttonHref = "#connect",
 }: RoutesCarouselProps = {}) {
   return (
     <section className="bg-white py-10 sm:py-14">
@@ -125,6 +131,17 @@ export function RoutesCarousel({
             }
           />
         </SectionReveal>
+
+        {buttonLabel ? (
+          <SectionReveal delay={0.2} className="mt-10 text-center">
+            <Link
+              href={buttonHref}
+              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
+            >
+              {buttonLabel}
+            </Link>
+          </SectionReveal>
+        ) : null}
       </div>
     </section>
   );

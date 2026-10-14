@@ -1,4 +1,4 @@
-import { Armchair, Headset, Route, ShieldCheck, Users } from "lucide-react";
+import { Armchair, Headset, Route, Scale, ShieldCheck, Users } from "lucide-react";
 import { unsplash } from "@/lib/images";
 import heroImage from "@/public/images/landing-img.webp"
 
@@ -218,6 +218,12 @@ export const EXPERT_FEATURES: ExpertFeature[] = [
     title: "Human Travel Support",
     description: "When you need assistance, you can speak with a real travel specialist rather than relying entirely on a self-service booking system.",
   },
+  {
+    id: "value-focused",
+    icon: Scale,
+    title: "A Value-Focused Approach",
+    description: "We don't automatically equate the lowest fare with the best option. Instead, we help you consider the complete journey and what you're actually getting for the price.",
+  },
 ];
 
 export interface Testimonial {
@@ -376,7 +382,7 @@ export const DARK_FOOTER_LINKS = {
     { label: "Privacy Policy", href: "#" },
     { label: "Refund Policy", href: "#" },
     { label: "Chargeback Policy", href: "#" },
-    { label: "Cookie Policy", href: "#" },
+    { label: "Cookie Policy", href: "/cookie-policy" },
     { label: "Data Processing", href: "#" },
     { label: "Disclaimer", href: "#" },
   ],

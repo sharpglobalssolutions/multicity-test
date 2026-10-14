@@ -82,7 +82,13 @@ export function Hero({
       <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-transparent to-transparent" />
 
       <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
-        <div>
+        {/* order-2/order-1 below: on mobile the quote-form card should
+            appear above the heading/CTAs, reversed back to the normal
+            reading order (text first, form second) from `lg` up — DOM
+            order stays text-then-form throughout, so the page source and
+            screen-reader order are unaffected, only the visual stacking
+            on narrow screens changes. */}
+        <div className="order-2 lg:order-1">
           {/* <SectionReveal>
             <span className="eyebrow">Premium International Travel</span>
           </SectionReveal> */}
@@ -102,14 +108,14 @@ export function Hero({
           </SectionReveal>
 
           <SectionReveal delay={0.45}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button href={primaryButtonHref} variant="primary">
+            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-stretch">
+              <Button href={primaryButtonHref} variant="primary" className="px-4! sm:px-6!">
                 {primaryButtonLabel}
               </Button>
               <Button
                 href={secondaryButtonHref}
                 variant="secondary"
-                className="hover:brightness-110"
+                className="px-4! hover:brightness-110 sm:px-6!"
                 style={{ backgroundColor: "#40a8f3", borderColor: "#40a8f3" }}
               >
                 {secondaryButtonLabel}
@@ -118,7 +124,7 @@ export function Hero({
           </SectionReveal>
         </div>
 
-        <SectionReveal scale={0.95} delay={0.2} className="lg:justify-self-end lg:w-full">
+        <SectionReveal scale={0.95} delay={0.2} className="order-1 lg:order-2 lg:justify-self-end lg:w-full">
           <FlightSearch />
         </SectionReveal>
       </div>

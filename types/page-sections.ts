@@ -69,6 +69,11 @@ export interface ServicesSectionData {
   heading: string;
   subheading: string;
   services: ServiceCard[];
+  /** Shared across every card in this section (matches `ServicesCarousel`'s
+   * own `linkLabel` prop) — optional since every existing page using this
+   * component already has its own hardcoded default ("Explore Business
+   * Class" on the homepage). */
+  linkLabel?: string;
 }
 
 export interface SupportSectionData {
@@ -76,6 +81,14 @@ export interface SupportSectionData {
   paragraphs: string[];
   items: string[][];
   imageSrc: string;
+  closingParagraph?: string;
+  buttonLabel?: string;
+  buttonHref?: string;
+}
+
+export interface BrandPhilosophySectionData {
+  heading: string;
+  body: string;
 }
 
 export interface ExpertsSectionData {
@@ -84,6 +97,8 @@ export interface ExpertsSectionData {
   subtitle2: string;
   backgroundImage: string;
   features: ExpertFeatureInput[];
+  buttonLabel?: string;
+  buttonHref?: string;
 }
 
 export interface TestimonialsSectionData {
@@ -107,6 +122,8 @@ export interface RoutesSectionData {
   heading: string;
   subheading: string;
   routes: RouteDeal[];
+  buttonLabel?: string;
+  buttonHref?: string;
 }
 
 export interface CtaSectionData {
@@ -586,6 +603,7 @@ export interface SectionDataByType {
   SERVICES: ServicesSectionData;
   SUPPORT: SupportSectionData;
   EXPERTS: ExpertsSectionData;
+  BRAND_PHILOSOPHY: BrandPhilosophySectionData;
   TESTIMONIALS: TestimonialsSectionData;
   FAQ: FaqSectionData;
   INSIGHTS: InsightsSectionData;
@@ -639,7 +657,7 @@ export interface SectionDataByType {
   FC_JOURNEY_PREFERENCES: McImageTextSectionData;
   FC_PLAN_CTA: FcPlanCtaSectionData;
   FC_FAQ: FaqSectionData;
-  CNX_HERO: CnxHeroSectionData;
+  CNX_HERO: McHeroSectionData;
   CNX_INTRO: McImageTextSectionData;
   CNX_WHY_CANCEL: McPlanningFactorsSectionData;
   CNX_CHECK_OPTIONS: McWhyChooseSectionData;
@@ -762,7 +780,7 @@ export interface SectionDataByType {
   NC_INFO_NEEDED: McImageTextSectionData;
   NC_REQUEST_FORM: DcRequestFormSectionData;
   NC_FAQ: FaqSectionData;
-  BP_HERO: CnxHeroSectionData;
+  BP_HERO: McHeroSectionData;
   BP_INTRO: McImageTextSectionData;
   BP_VALUE: McPlanningFactorsSectionData;
   BP_WHO_WE_SUPPORT: McImageTextSectionData;

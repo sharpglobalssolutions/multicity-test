@@ -13,6 +13,12 @@ export async function upsertSiteSettings(data: {
   headerCode?: string | null;
   bodyCode?: string | null;
   footerCode?: string | null;
+  cookieConsentEnabled?: boolean;
+  cookieConsentMessage?: string | null;
+  cookieConsentAcceptLabel?: string | null;
+  cookieConsentRejectLabel?: string | null;
+  cookieConsentPolicyHref?: string | null;
+  cookieConsentPrivacyHref?: string | null;
 }) {
   const existing = await prisma.siteSettings.findFirst();
   if (existing) {

@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Armchair, ChevronLeft, ChevronRight, Headset, Route, ShieldCheck, Users } from "lucide-react";
+import { Armchair, ChevronLeft, ChevronRight, Headset, Route, Scale, ShieldCheck, Users } from "lucide-react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -20,6 +21,7 @@ export const EXPERT_ICON_MAP = {
   armchair: Armchair,
   "shield-check": ShieldCheck,
   users: Users,
+  scale: Scale,
 } as const;
 
 export type ExpertIconKey = keyof typeof EXPERT_ICON_MAP;
@@ -44,7 +46,9 @@ const DEFAULT_FEATURES: ExpertFeatureInput[] = EXPERT_FEATURES.map((feature) => 
           ? "armchair"
           : feature.icon === ShieldCheck
             ? "shield-check"
-            : "users",
+            : feature.icon === Scale
+              ? "scale"
+              : "users",
 }));
 
 export interface ExpertsSectionProps {
@@ -53,6 +57,9 @@ export interface ExpertsSectionProps {
   subtitle2?: string;
   backgroundImage?: string;
   features?: ExpertFeatureInput[];
+  /** Unset renders no button, same as before this field existed. */
+  buttonLabel?: string;
+  buttonHref?: string;
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -63,6 +70,8 @@ export function ExpertsSection({
   subtitle2 = "For more than 11 years, our approach has been shaped by experience with international travel and complex flight requirements.",
   backgroundImage = EXPERTS_BACKGROUND_IMAGE.src,
   features = DEFAULT_FEATURES,
+  buttonLabel = "Talk to a Travel Specialist",
+  buttonHref = "#connect",
 }: ExpertsSectionProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
@@ -125,6 +134,17 @@ export function ExpertsSection({
             <ChevronRight size={18} aria-hidden="true" />
           </button>
         </SectionReveal>
+
+        {buttonLabel ? (
+          <SectionReveal delay={0.2} className="mt-10 text-center">
+            <Link
+              href={buttonHref}
+              className="inline-flex items-center rounded-full bg-white px-7 py-3.5 text-[16px] font-semibold text-navy-deep transition-colors hover:bg-white/90"
+            >
+              {buttonLabel}
+            </Link>
+          </SectionReveal>
+        ) : null}
       </div>
     </section>
   );

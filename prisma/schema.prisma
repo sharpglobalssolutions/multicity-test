@@ -834,24 +834,30 @@ model NavigationItem {
 /// new here and Media already exists. `socialLinks` is JSON (shape like
 /// `{ facebook: "...", instagram: "..." }`).
 model SiteSettings {
-  id                    String   @id @default(cuid())
-  siteName              String
-  logoId                String?
-  faviconId             String?
-  phone                 String?
-  email                 String?
-  address               String?
-  socialLinks           Json?
-  defaultSeoTitle       String?
-  defaultSeoDescription String?
-  defaultOgImageId      String?
-  gaId                  String?
-  gtmId                 String?
-  headerCode            String?  @db.Text
-  bodyCode              String?  @db.Text
-  footerCode            String?  @db.Text
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id                       String   @id @default(cuid())
+  siteName                 String
+  logoId                   String?
+  faviconId                String?
+  phone                    String?
+  email                    String?
+  address                  String?
+  socialLinks              Json?
+  defaultSeoTitle          String?
+  defaultSeoDescription    String?
+  defaultOgImageId         String?
+  gaId                     String?
+  gtmId                    String?
+  headerCode               String?  @db.Text
+  bodyCode                 String?  @db.Text
+  footerCode               String?  @db.Text
+  cookieConsentEnabled     Boolean  @default(true)
+  cookieConsentMessage     String?  @db.Text
+  cookieConsentAcceptLabel String?
+  cookieConsentRejectLabel String?
+  cookieConsentPolicyHref  String?
+  cookieConsentPrivacyHref String?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
 
   logo           Media? @relation("SiteSettingsLogo", fields: [logoId], references: [id], onDelete: SetNull)
   favicon        Media? @relation("SiteSettingsFavicon", fields: [faviconId], references: [id], onDelete: SetNull)

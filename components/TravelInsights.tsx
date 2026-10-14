@@ -49,7 +49,7 @@ export interface TravelInsightsProps {
  * `Hero.tsx` for the rationale. The article list itself stays blog-driven
  * (unrelated to this — it always reflects the live `BlogPost` table). */
 export function TravelInsights({
-  heading = "Travel Insights & Flight Expertise",
+  heading = "Travel Insights & International Flight Expertise",
   subheading = "Practical guidance for premium international travel, multi-city itineraries and business class planning.",
 }: TravelInsightsProps = {}) {
   return (

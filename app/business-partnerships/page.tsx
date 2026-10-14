@@ -7,10 +7,10 @@ import { FeaturedBlockSection } from "@/components/multi-city/FeaturedBlockSecti
 // default props) that building near-identical ones here would just be
 // duplication.
 import { HowItWorksCarousel } from "@/components/multi-city/HowItWorksCarousel";
+import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsSection";
 import { ComplexitySection } from "@/components/multi-city/ComplexitySection";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
-import { CancellationHero } from "@/components/flight-cancellation/CancellationHero";
 import { CenteredCtaBanner } from "@/components/flight-cancellation/CenteredCtaBanner";
 import { InfoBanner } from "@/components/flight-cancellation/InfoBanner";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
@@ -124,14 +124,13 @@ export default async function BusinessPartnershipsPage() {
       <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
-        <CancellationHero
+        <MultiCityHero
           headingLines={["Premium Airfare Expertise and", "Travel Support for Your Business"]}
-          subheading=""
-          paragraph="MultiCity Experts works with businesses and professional organizations that arrange international travel for clients, employees, members, or partners. We specialize in Business and First Class travel, with particular expertise in one-way, open-jaw, and multi-city itineraries between the United States, Canada, the United Kingdom, and Europe. Whether you need help with an occasional complex itinerary or are looking for dependable premium-airfare support as part of your existing operation, our travel professionals can work alongside your team."
+          paragraphs={[
+            "MultiCity Experts works with businesses and professional organizations that arrange international travel for clients, employees, members, or partners. We specialize in Business and First Class travel, with particular expertise in one-way, open-jaw, and multi-city itineraries between the United States, Canada, the United Kingdom, and Europe. Whether you need help with an occasional complex itinerary or are looking for dependable premium-airfare support as part of your existing operation, our travel professionals can work alongside your team.",
+          ]}
           buttonLabel="Request a B2B Fare Comparison"
           buttonHref="#connect"
-          secondaryButtonLabel="Discuss a Partnership"
-          secondaryButtonHref="#connect"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.BP_HERO}
         />

@@ -30,8 +30,16 @@ const playfairDisplay = Playfair_Display({
  * the browser synthesizing a fake bold for anything in between. */
 const justSans = localFont({
   src: [
-    { path: "./fonts/just-sans/JUSTSans-Regular.woff2", weight: "100 500", style: "normal" },
-    { path: "./fonts/just-sans/JUSTSans-ExtraBold.woff2", weight: "600 900", style: "normal" },
+    {
+      path: "./fonts/just-sans/JUSTSans-Regular.woff2",
+      weight: "100 500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/just-sans/JUSTSans-ExtraBold.woff2",
+      weight: "600 900",
+      style: "normal",
+    },
   ],
   variable: "--font-just-sans",
   display: "swap",
@@ -48,13 +56,29 @@ export const metadata: Metadata = {
 // footer code change appears site-wide within 5 minutes, not instantly.
 export const revalidate = 300;
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const settings = await getSiteSettingsSafely();
 
   return (
-    <html lang="en" className={cn(inter.variable, justSans.variable, playfairDisplay.variable, "font-sans")}>
+    <html
+      lang="en"
+      className={cn(
+        inter.variable,
+        justSans.variable,
+        playfairDisplay.variable,
+        "font-sans",
+      )}
+    >
       <head>
-        <RawCodeInjector html={settings?.headerCode} target="head" />
+        <RawCodeInjector
+          html={settings?.headerCode}
+          target="head"
+          requireConsent={settings?.cookieConsentEnabled ?? true}
+        />
       </head>
       {/* suppressHydrationWarning: browser extensions (Grammarly, ColorZilla,
           etc.) inject attributes like `data-gr-ext-installed` onto `<body>`
@@ -63,9 +87,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           attribute-mismatch warnings on this exact element; it doesn't
           suppress mismatches in `children`. */}
       <body suppressHydrationWarning>
-        <RawCodeInjector html={settings?.bodyCode} target="body-start" />
+        <RawCodeInjector
+          html={settings?.bodyCode}
+          target="body-start"
+          requireConsent={settings?.cookieConsentEnabled ?? true}
+        />
         {children}
-        <RawCodeInjector html={settings?.footerCode} target="body-end" />
+        <RawCodeInjector
+          html={settings?.footerCode}
+          target="body-end"
+          requireConsent={settings?.cookieConsentEnabled ?? true}
+        />
       </body>
     </html>
   );

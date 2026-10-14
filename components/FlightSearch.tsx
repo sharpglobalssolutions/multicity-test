@@ -331,7 +331,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                 type="button"
                 onClick={swap}
                 aria-label="Swap origin and destination"
-                className="flex h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-white text-navy-deep shadow-sm transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald hover:shadow-card sm:self-center"
+                className="hidden h-11 w-11 shrink-0 items-center justify-center self-center rounded-full border border-navy-deep/10 bg-white text-navy-deep shadow-sm transition-all duration-300 hover:rotate-180 hover:border-emerald hover:text-emerald hover:shadow-card sm:flex sm:self-center"
               >
                 <ArrowLeftRight size={16} aria-hidden="true" />
               </button>
