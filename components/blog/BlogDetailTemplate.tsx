@@ -23,7 +23,11 @@ export interface BlogDetailTemplateProps {
  * code change (mirrors `PolicyPageTemplate`'s "one template, many pages"
  * approach).
  */
-export function BlogDetailTemplate({ post, relatedPosts, faqs }: BlogDetailTemplateProps) {
+export function BlogDetailTemplate({
+  post,
+  relatedPosts,
+  faqs,
+}: BlogDetailTemplateProps) {
   const toc = extractToc(post.content);
 
   return (
@@ -31,11 +35,11 @@ export function BlogDetailTemplate({ post, relatedPosts, faqs }: BlogDetailTempl
       {/* Hero */}
       <section className="bg-off-white pt-28 pb-10 sm:pt-32 sm:pb-12">
         <div className="content-container max-w-4xl text-center">
-          <h1 className="text-3xl font-semibold leading-tight text-text-dark sm:text-4xl lg:text-[42px]">
+          <h1 className="text-[35px] leading-[40px] font-semibold text-text-dark">
             {post.title}
           </h1>
           {post.excerpt ? (
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-text-gray sm:text-lg">
+            <p className="mx-auto mt-4 max-w-2xl text-[16px] leading-[22px] text-text-gray">
               {post.excerpt}
             </p>
           ) : null}

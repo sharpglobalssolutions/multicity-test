@@ -53,7 +53,7 @@ export function CookieConsentBanner({
       aria-label="Cookie consent"
       className="fixed bottom-20 left-4 right-4 z-[60] max-w-sm rounded-2xl border border-white/10 bg-navy-deep p-4 text-white shadow-2xl sm:right-auto lg:bottom-6"
     >
-      <p className="text-[13px] leading-relaxed text-white/85">{message}</p>
+      <p className="text-[15px] leading-[18px] text-white/85">{message}</p>
       <p className="mt-2 text-[13px] text-white/70">
         <Link
           href={privacyHref}
@@ -73,14 +73,14 @@ export function CookieConsentBanner({
         <button
           type="button"
           onClick={() => decide("rejected")}
-          className="rounded-full border border-white/25 px-5 py-2 text-[14px] font-semibold text-white transition-colors hover:border-white/50"
+          className="rounded-full border border-white/25 px-5 py-2 text-[14px] text-white transition-colors hover:border-white/50"
         >
           {rejectLabel}
         </button>
         <button
           type="button"
           onClick={() => decide("accepted")}
-          className="rounded-full bg-emerald px-5 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-emerald-bright"
+          className="rounded-full bg-emerald px-5 py-2 text-[14px] text-white transition-colors hover:bg-emerald-bright"
         >
           {acceptLabel}
         </button>

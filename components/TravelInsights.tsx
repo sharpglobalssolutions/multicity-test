@@ -7,7 +7,10 @@ const FEATURED_COUNT = 3;
 
 function InsightsGridSkeleton() {
   return (
-    <div className="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+    <div
+      className="mt-14 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
+      aria-hidden="true"
+    >
       {Array.from({ length: FEATURED_COUNT }).map((_, index) => (
         <div key={index} className="animate-pulse">
           <div className="aspect-[4/3] rounded-2xl bg-navy-deep/[0.06]" />
@@ -53,7 +56,10 @@ export function TravelInsights({
   subheading = "Practical guidance for premium international travel, multi-city itineraries and business class planning.",
 }: TravelInsightsProps = {}) {
   return (
-    <section id="insights" className="relative overflow-hidden bg-off-white py-14 sm:py-14">
+    <section
+      id="insights"
+      className="relative overflow-hidden bg-off-white py-14 sm:py-14"
+    >
       {/* Decorative oversized word, bottom-left — Playfair Display, purely
           a background motif, kept behind all content. */}
       <span
@@ -64,9 +70,14 @@ export function TravelInsights({
       </span>
 
       <div className="content-container relative">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <div className="mt-4 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <div
+            className="mt-4 text-[16px] leading-[22px] text-text-gray"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </div>
 
         <Suspense fallback={<InsightsGridSkeleton />}>
@@ -76,7 +87,7 @@ export function TravelInsights({
         <div className="mt-12 flex justify-center lg:justify-end">
           <Link
             href="/insights"
-            className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3 text-sm font-semibold text-white transition-colors hover:bg-navy-dark"
+            className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3 text-[15px] text-white transition-colors hover:bg-navy-dark"
           >
             View All Articles
           </Link>

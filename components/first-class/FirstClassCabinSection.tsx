@@ -3,7 +3,13 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { unsplash } from "@/lib/images";
 
 const DEFAULT_COLUMNS: string[][] = [
-  ["Seat width", "Bed length", "Privacy door", "Personal space & storage", "Dining space"],
+  [
+    "Seat width",
+    "Bed length",
+    "Privacy door",
+    "Personal space & storage",
+    "Dining space",
+  ],
   ["Entertainment", "Power and connectivity", "Bedding", "Cabin size"],
 ];
 
@@ -30,15 +36,22 @@ export function FirstClassCabinSection({
   image = unsplash("1569154941061-e231b4725ef1"),
   imageAlt = "A commercial aircraft on the tarmac at an airport terminal",
 }: FirstClassCabinSectionProps = {}) {
-  const columns = twoColumnItems.length === 2 ? twoColumnItems : [twoColumnItems[0] ?? [], twoColumnItems[1] ?? []];
+  const columns =
+    twoColumnItems.length === 2
+      ? twoColumnItems
+      : [twoColumnItems[0] ?? [], twoColumnItems[1] ?? []];
 
   return (
     <section className="bg-[#0a0c11] py-10 sm:py-14">
       <div className="content-container grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-40}>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">{body}</p>
-          <p className="mt-5 text-[15px] font-semibold text-white">{subheading}</p>
+          <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
+          <p className="mt-5 max-w-md text-[15px] leading-[18px] text-white/70">
+            {body}
+          </p>
+          <p className="mt-5 text-[15px] font-semibold text-white">
+            {subheading}
+          </p>
           <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
             {columns.map((column, columnIndex) => (
               <ul key={columnIndex} className="space-y-2">
@@ -54,7 +67,13 @@ export function FirstClassCabinSection({
 
         <SectionReveal x={40} delay={0.1}>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[18px] sm:aspect-[16/11]">
-            <Image src={image} alt={imageAlt} fill sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
+            <Image
+              src={image}
+              alt={imageAlt}
+              fill
+              sizes="(min-width: 1024px) 45vw, 90vw"
+              className="object-cover"
+            />
           </div>
         </SectionReveal>
       </div>

@@ -36,13 +36,25 @@ export function WorkAroundYouSection({
 
   return (
     <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
-      <Image src={backgroundImage} alt="A commercial aircraft climbing into a golden evening sky" fill sizes="100vw" className="object-cover" />
+      <Image
+        src={backgroundImage}
+        alt="A commercial aircraft climbing into a golden evening sky"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
 
       <div className="content-container relative z-10">
-        <div className={hasRightColumn ? "grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16" : undefined}>
+        <div
+          className={
+            hasRightColumn
+              ? "grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16"
+              : undefined
+          }
+        >
           <SectionReveal className={hasRightColumn ? undefined : "max-w-lg"}>
-            <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-white">
+            <h2 className="text-[28px] leading-[32px] text-white">
               {headingLines.map((line, index) => (
                 <span key={index} className="block">
                   {line}
@@ -52,7 +64,7 @@ export function WorkAroundYouSection({
             {paragraphs.map((paragraph, index) => (
               <p
                 key={index}
-                className={`max-w-md text-base leading-relaxed text-white/80 sm:text-lg ${index === 0 ? "mt-6" : "mt-4"}`}
+                className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "mt-6" : "mt-4"}`}
               >
                 {paragraph}
               </p>
@@ -64,7 +76,7 @@ export function WorkAroundYouSection({
               {rightParagraphs!.map((paragraph, index) => (
                 <p
                   key={index}
-                  className={`max-w-md text-base leading-relaxed text-white/80 sm:text-lg ${index === 0 ? "" : "mt-4"}`}
+                  className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
                 >
                   {paragraph}
                 </p>

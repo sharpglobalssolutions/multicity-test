@@ -17,27 +17,32 @@ const DEFAULT_FEATURES: WhyChooseFeature[] = [
   {
     id: "years-experience",
     title: "11+ Years of Experience",
-    description: "Over a decade planning complex international itineraries for travelers who need more than a single flight search.",
+    description:
+      "Over a decade planning complex international itineraries for travelers who need more than a single flight search.",
   },
   {
     id: "multi-city-expertise",
     title: "Multi-City Expertise",
-    description: "Multi-city and open-jaw routing is one of our specialties, not an afterthought bolted onto a standard booking flow.",
+    description:
+      "Multi-city and open-jaw routing is one of our specialties, not an afterthought bolted onto a standard booking flow.",
   },
   {
     id: "north-atlantic-knowledge",
     title: "North Atlantic Route Knowledge",
-    description: "Deep familiarity with the airlines, connections and fare rules that shape journeys between North America and Europe.",
+    description:
+      "Deep familiarity with the airlines, connections and fare rules that shape journeys between North America and Europe.",
   },
   {
     id: "human-support",
     title: "Real Human Support",
-    description: "A travel specialist you can actually talk to, before and after you book — not just an automated search result.",
+    description:
+      "A travel specialist you can actually talk to, before and after you book — not just an automated search result.",
   },
   {
     id: "flexible-planning",
     title: "Flexible Planning",
-    description: "We start with your priorities — destinations, dates and cabin preference — not a rigid, predefined package.",
+    description:
+      "We start with your priorities — destinations, dates and cabin preference — not a rigid, predefined package.",
   },
 ];
 
@@ -63,7 +68,15 @@ export interface WhyChooseSectionProps {
   layout?: "carousel" | "grid";
 }
 
-function WhyChooseCard({ feature, isDark, isBordered }: { feature: WhyChooseFeature; isDark: boolean; isBordered: boolean }) {
+function WhyChooseCard({
+  feature,
+  isDark,
+  isBordered,
+}: {
+  feature: WhyChooseFeature;
+  isDark: boolean;
+  isBordered: boolean;
+}) {
   return (
     <div
       className={
@@ -74,8 +87,12 @@ function WhyChooseCard({ feature, isDark, isBordered }: { feature: WhyChooseFeat
           : "h-full text-center sm:text-left"
       }
     >
-      <h3 className={`text-lg ${isDark ? "text-white" : "text-navy-deep"}`}>{feature.title}</h3>
-      <p className={`mt-3 text-[15px] leading-relaxed ${isDark ? "text-white/70" : "text-text-gray"}`}>
+      <h3 className={`text-lg ${isDark ? "text-white" : "text-navy-deep"}`}>
+        {feature.title}
+      </h3>
+      <p
+        className={`mt-3 text-[15px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
+      >
         {feature.description}
       </p>
     </div>
@@ -95,32 +112,56 @@ export function WhyChooseSection({
   const isBordered = cardStyle === "bordered";
 
   return (
-    <section className={isDark ? "bg-navy-deep py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
+    <section
+      className={
+        isDark ? "bg-navy-deep py-10 sm:py-14" : "bg-white py-10 sm:py-14"
+      }
+    >
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className={`text-2xl sm:text-4xl lg:text-[30px] font-semibold ${isDark ? "text-white" : "text-text-dark"}`}>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2
+            className={`text-[28px] leading-[32px] ${isDark ? "text-white" : "text-text-dark"}`}
+          >
             {heading}
           </h2>
         </SectionReveal>
 
         {layout === "grid" ? (
-          <SectionReveal delay={0.1} className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionReveal
+            delay={0.1}
+            className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {features.map((feature) => (
-              <WhyChooseCard key={feature.id} feature={feature} isDark={isDark} isBordered={isBordered} />
+              <WhyChooseCard
+                key={feature.id}
+                feature={feature}
+                isDark={isDark}
+                isBordered={isBordered}
+              />
             ))}
           </SectionReveal>
         ) : (
           <SectionReveal delay={0.1} className="relative mt-12 px-10 sm:px-12">
             <Swiper
               modules={[Navigation]}
-              navigation={{ prevEl: ".why-choose-prev", nextEl: ".why-choose-next" }}
+              navigation={{
+                prevEl: ".why-choose-prev",
+                nextEl: ".why-choose-next",
+              }}
               spaceBetween={32}
               slidesPerView={1}
-              breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
+              breakpoints={{
+                640: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+              }}
             >
               {features.map((feature) => (
                 <SwiperSlide key={feature.id} className="h-auto">
-                  <WhyChooseCard feature={feature} isDark={isDark} isBordered={isBordered} />
+                  <WhyChooseCard
+                    feature={feature}
+                    isDark={isDark}
+                    isBordered={isBordered}
+                  />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -129,7 +170,9 @@ export function WhyChooseSection({
               type="button"
               aria-label="Previous"
               className={`why-choose-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
-                isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+                isDark
+                  ? "border-white/20 text-white"
+                  : "border-navy-deep/10 text-navy-deep"
               }`}
             >
               <ChevronLeft size={18} aria-hidden="true" />
@@ -138,7 +181,9 @@ export function WhyChooseSection({
               type="button"
               aria-label="Next"
               className={`why-choose-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
-                isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+                isDark
+                  ? "border-white/20 text-white"
+                  : "border-navy-deep/10 text-navy-deep"
               }`}
             >
               <ChevronRight size={18} aria-hidden="true" />

@@ -50,14 +50,24 @@ export function Hero({
   // `<video poster>` is a plain HTML attribute — it only accepts a string
   // URL, unlike `next/image`'s `src` (which also accepts the StaticImageData
   // object a local `import` produces), so it needs unwrapping here.
-  const heroPosterSrc = typeof resolvedImageSrc === "string" ? resolvedImageSrc : resolvedImageSrc.src;
+  const heroPosterSrc =
+    typeof resolvedImageSrc === "string"
+      ? resolvedImageSrc
+      : resolvedImageSrc.src;
 
   return (
     <section
       id="flights"
       className="relative flex min-h-[650px] items-center overflow-hidden bg-navy-deep pb-16 pt-32 sm:min-h-[700px] lg:min-h-[750px] lg:pt-24"
     >
-      <Image src={resolvedImageSrc} alt={HERO_IMAGE.alt} fill priority sizes="100vw" className="object-cover" />
+      <Image
+        src={resolvedImageSrc}
+        alt={HERO_IMAGE.alt}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
       {videoSrc && !videoFailed ? (
         <video
           key={videoSrc}
@@ -97,19 +107,23 @@ export function Hero({
             as="h1"
             text={headingLines}
             mode="line"
-            className="mt-4 text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]"
+            className="mt-4 text-[35px] font-semibold leading-[1.08] text-white"
           />
 
           <SectionReveal delay={0.3}>
             <div
-              className="mt-6 max-w-md text-base leading-relaxed text-white/80 sm:text-lg"
+              className="mt-6 max-w-md text-[16px] leading-[22px] text-white/80"
               dangerouslySetInnerHTML={{ __html: subheading }}
             />
           </SectionReveal>
 
           <SectionReveal delay={0.45}>
             <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row sm:items-stretch">
-              <Button href={primaryButtonHref} variant="primary" className="px-4! sm:px-6!">
+              <Button
+                href={primaryButtonHref}
+                variant="primary"
+                className="px-4! sm:px-6!"
+              >
                 {primaryButtonLabel}
               </Button>
               <Button
@@ -124,7 +138,11 @@ export function Hero({
           </SectionReveal>
         </div>
 
-        <SectionReveal scale={0.95} delay={0.2} className="order-1 lg:order-2 lg:justify-self-end lg:w-full">
+        <SectionReveal
+          scale={0.95}
+          delay={0.2}
+          className="order-1 lg:order-2 lg:justify-self-end lg:w-full"
+        >
           <FlightSearch />
         </SectionReveal>
       </div>

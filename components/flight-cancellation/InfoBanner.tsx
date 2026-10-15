@@ -15,9 +15,12 @@ export interface InfoBannerProps {
 }
 
 const DEFAULT_CTA_HEADING = "Travel credit is not the same as a cash refund.";
-const DEFAULT_CTA_BODY = "Whether you qualify for a refund, credit or another remedy depends on your ticket and the applicable airline rules.";
-const DEFAULT_WARNING_HEADING = "Cancellation rules are based on the specific fare purchased — not simply the airline or cabin class.";
-const DEFAULT_WARNING_BODY = "Two passengers travelling on the same airline can have very different cancellation and refund conditions.";
+const DEFAULT_CTA_BODY =
+  "Whether you qualify for a refund, credit or another remedy depends on your ticket and the applicable airline rules.";
+const DEFAULT_WARNING_HEADING =
+  "Cancellation rules are based on the specific fare purchased — not simply the airline or cabin class.";
+const DEFAULT_WARNING_BODY =
+  "Two passengers travelling on the same airline can have very different cancellation and refund conditions.";
 
 /** A flat black inset banner reused twice on the Flight Cancellation page —
  * once as a CTA strip (statement + gold button) and once as a plain
@@ -47,8 +50,12 @@ export function InfoBanner({
               </span>
             ) : null}
             <div>
-              <p className="text-lg font-semibold leading-snug text-white sm:text-xl">{heading}</p>
-              <p className="mt-2 text-[15px] leading-relaxed text-white/70">{body}</p>
+              <p className="text-lg font-semibold leading-snug text-white sm:text-xl">
+                {heading}
+              </p>
+              <p className="mt-2 text-[15px] leading-[18px] text-white/70">
+                {body}
+              </p>
             </div>
           </div>
 

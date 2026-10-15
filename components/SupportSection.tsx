@@ -58,11 +58,13 @@ export function SupportSection({
     <section className="overflow-x-hidden bg-white py-10 sm:py-12">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-60} className="lg:order-1">
-          <h2 className="text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+              className={`max-w-lg text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
             >
               {paragraph}
             </p>
@@ -74,9 +76,15 @@ export function SupportSection({
                 {column.map((item) => {
                   const href = ITEM_LINKS[item];
                   return (
-                    <li key={item} className="text-[16px] font-medium text-navy-deep">
+                    <li
+                      key={item}
+                      className="text-[16px] font-medium text-navy-deep"
+                    >
                       {href ? (
-                        <Link href={href} className="transition-colors hover:text-emerald hover:underline">
+                        <Link
+                          href={href}
+                          className="transition-colors hover:text-emerald hover:underline"
+                        >
                           {item}
                         </Link>
                       ) : (
@@ -89,13 +97,17 @@ export function SupportSection({
             ))}
           </div>
 
-          {closingParagraph ? <p className="mt-6 max-w-lg text-[16px] leading-relaxed text-text-gray">{closingParagraph}</p> : null}
+          {closingParagraph ? (
+            <p className="mt-6 max-w-lg text-[15px] leading-[18px] text-text-gray">
+              {closingParagraph}
+            </p>
+          ) : null}
 
           {buttonLabel ? (
             <div className="mt-6">
               <Link
                 href={buttonHref}
-                className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
+                className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[15px] text-white transition-colors hover:bg-navy-dark"
               >
                 {buttonLabel}
               </Link>

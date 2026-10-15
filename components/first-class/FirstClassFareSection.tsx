@@ -4,8 +4,17 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { unsplash } from "@/lib/images";
 
 const DEFAULT_COLUMNS: string[][] = [
-  ["Flexible First Class fares", "Refundable First Class fares", "Partially refundable fares", "One-way First Class fares"],
-  ["Round-trip First Class fares", "Multi-city fare structures", "Mixed-cabin itineraries"],
+  [
+    "Flexible First Class fares",
+    "Refundable First Class fares",
+    "Partially refundable fares",
+    "One-way First Class fares",
+  ],
+  [
+    "Round-trip First Class fares",
+    "Multi-city fare structures",
+    "Mixed-cabin itineraries",
+  ],
 ];
 
 export interface FirstClassFareSectionProps {
@@ -33,17 +42,28 @@ export function FirstClassFareSection({
   subheading = "Depending on the airline, route and fare structure, options may include:",
   twoColumnItems = DEFAULT_COLUMNS,
 }: FirstClassFareSectionProps = {}) {
-  const columns = twoColumnItems.length === 2 ? twoColumnItems : [twoColumnItems[0] ?? [], twoColumnItems[1] ?? []];
+  const columns =
+    twoColumnItems.length === 2
+      ? twoColumnItems
+      : [twoColumnItems[0] ?? [], twoColumnItems[1] ?? []];
 
   return (
     <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
-      <Image src={backgroundImage} alt="A city skyline at dusk" fill sizes="100vw" className="object-cover" />
+      <Image
+        src={backgroundImage}
+        alt="A city skyline at dusk"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/30" />
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-white/80">{body}</p>
+          <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
+          <p className="mt-4 max-w-sm text-[15px] leading-[18px] text-white/80">
+            {body}
+          </p>
           <div className="mt-7">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}

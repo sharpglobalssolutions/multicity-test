@@ -35,7 +35,11 @@ export interface HeaderClientProps {
  * `Hero.tsx` for the rationale. Split from `Header.tsx` (an async Server
  * Component that fetches the CMS data) so this can stay a Client Component
  * for the scroll listener and mobile-menu state. */
-export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = [...NAV_LINKS] }: HeaderClientProps) {
+export function HeaderClient({
+  logoImageSrc,
+  phone = "1869-504-657",
+  navLinks = [...NAV_LINKS],
+}: HeaderClientProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoSourceIndex, setLogoSourceIndex] = useState(0);
@@ -65,7 +69,11 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
         }`}
       >
         <div className="content-container flex h-20 items-center justify-between">
-          <Link href="#top" aria-label="MultiCityExperts home" className="flex items-center">
+          <Link
+            href="#top"
+            aria-label="MultiCityExperts home"
+            className="flex items-center"
+          >
             {logoSrc ? (
               <Image
                 src={logoSrc}
@@ -85,16 +93,26 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
             )}
           </Link>
 
-          <nav aria-label="Primary" className="hidden items-center gap-6 lg:flex">
+          <nav
+            aria-label="Primary"
+            className="hidden items-center gap-6 lg:flex"
+          >
             {navLinks.map((link, linkIndex) =>
               link.children && link.children.length > 0 ? (
-                <div key={`${link.href}-${linkIndex}`} className="group relative">
+                <div
+                  key={`${link.href}-${linkIndex}`}
+                  className="group relative"
+                >
                   <Link
                     href={link.href}
                     className="flex items-center gap-1 text-md font-medium text-black transition-colors duration-200 hover:text-emerald-bright"
                   >
                     {link.label}
-                    <ChevronDown size={14} aria-hidden="true" className="transition-transform group-hover:rotate-180" />
+                    <ChevronDown
+                      size={14}
+                      aria-hidden="true"
+                      className="transition-transform group-hover:rotate-180"
+                    />
                   </Link>
                   <div className="invisible absolute left-0 top-full z-10 min-w-[220px] rounded-input border border-navy-deep/10 bg-white py-2 opacity-0 shadow-card transition-all duration-150 group-hover:visible group-hover:opacity-100">
                     {link.children.map((child, childIndex) => (
@@ -141,7 +159,12 @@ export function HeaderClient({ logoImageSrc, phone = "1869-504-657", navLinks = 
         </div>
       </header>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} navLinks={navLinks} phone={phone} />
+      <MobileMenu
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        navLinks={navLinks}
+        phone={phone}
+      />
     </>
   );
 }

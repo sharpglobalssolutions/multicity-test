@@ -4,7 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Armchair, ChevronLeft, ChevronRight, Headset, Route, Scale, ShieldCheck, Users } from "lucide-react";
+import {
+  Armchair,
+  ChevronLeft,
+  ChevronRight,
+  Headset,
+  Route,
+  Scale,
+  ShieldCheck,
+  Users,
+} from "lucide-react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -33,23 +42,25 @@ export interface ExpertFeatureInput {
   icon: ExpertIconKey;
 }
 
-const DEFAULT_FEATURES: ExpertFeatureInput[] = EXPERT_FEATURES.map((feature) => ({
-  id: feature.id,
-  title: feature.title,
-  description: feature.description,
-  icon:
-    feature.icon === Headset
-      ? "headset"
-      : feature.icon === Route
-        ? "route"
-        : feature.icon === Armchair
-          ? "armchair"
-          : feature.icon === ShieldCheck
-            ? "shield-check"
-            : feature.icon === Scale
-              ? "scale"
-              : "users",
-}));
+const DEFAULT_FEATURES: ExpertFeatureInput[] = EXPERT_FEATURES.map(
+  (feature) => ({
+    id: feature.id,
+    title: feature.title,
+    description: feature.description,
+    icon:
+      feature.icon === Headset
+        ? "headset"
+        : feature.icon === Route
+          ? "route"
+          : feature.icon === Armchair
+            ? "armchair"
+            : feature.icon === ShieldCheck
+              ? "shield-check"
+              : feature.icon === Scale
+                ? "scale"
+                : "users",
+  }),
+);
 
 export interface ExpertsSectionProps {
   heading?: string;
@@ -74,28 +85,52 @@ export function ExpertsSection({
   buttonHref = "#connect",
 }: ExpertsSectionProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
   const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section id="experts" ref={sectionRef} className="relative overflow-hidden bg-navy-deep py-10 sm:py-14">
+    <section
+      id="experts"
+      ref={sectionRef}
+      className="relative overflow-hidden bg-navy-deep py-10 sm:py-14"
+    >
       <motion.div style={{ y }} className="absolute inset-0 scale-110">
-        <Image src={backgroundImage} alt={EXPERTS_BACKGROUND_IMAGE.alt} fill sizes="100vw" className="object-cover" />
+        <Image
+          src={backgroundImage}
+          alt={EXPERTS_BACKGROUND_IMAGE.alt}
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
       </motion.div>
       <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/20 via-navy-deep/20 to-navy-deep/30" />
 
       <div className="content-container relative z-10">
-        <SectionReveal className="mx-auto max-w-4xl text-center">
-          <h2 className="mt-3 text-2xl font-semibold text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p className="mt-2 text-base text-white sm:text-[16px]"><strong>{subtitle1}</strong></p>
-          <div className="mt-2 text-base text-white sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subtitle2 }} />
+        <SectionReveal className="mx-auto max-w-6xl text-center">
+          <h2 className="mt-3 text-[28px] leading-[32px] text-white">
+            {heading}
+          </h2>
+          <p className="mt-2 text-[16px] leading-[22px] text-white">
+            <strong>{subtitle1}</strong>
+          </p>
+          <div
+            className="mt-2 text-[16px] leading-[22px] text-white"
+            dangerouslySetInnerHTML={{ __html: subtitle2 }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12 px-9 sm:px-11">
           <Swiper
             modules={[Navigation, Autoplay]}
             navigation={{ prevEl: ".experts-prev", nextEl: ".experts-next" }}
-            autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             spaceBetween={20}
             slidesPerView={1}
             breakpoints={{
@@ -111,8 +146,10 @@ export function ExpertsSection({
                 <SwiperSlide key={feature.id} className="h-auto">
                   <div className="flex h-full flex-col items-center gap-3 text-center lg:px-6">
                     <Icon size={30} className="text-white" aria-hidden="true" />
-                    <h3 className="text-base font-semibold text-white">{feature.title}</h3>
-                    <p className="text-sm leading-relaxed text-white/70">{feature.description}</p>
+                    <h3 className="text-base text-white">{feature.title}</h3>
+                    <p className="text-[16px] leading-[22px] text-white/70">
+                      {feature.description}
+                    </p>
                   </div>
                 </SwiperSlide>
               );
@@ -139,7 +176,7 @@ export function ExpertsSection({
           <SectionReveal delay={0.2} className="mt-10 text-center">
             <Link
               href={buttonHref}
-              className="inline-flex items-center rounded-full bg-white px-7 py-3.5 text-[16px] font-semibold text-navy-deep transition-colors hover:bg-white/90"
+              className="inline-flex items-center rounded-full bg-white px-7 py-3.5 text-[15px] text-navy-deep transition-colors hover:bg-white/90"
             >
               {buttonLabel}
             </Link>

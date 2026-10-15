@@ -22,12 +22,22 @@ export function BlogHelpCard({
   return (
     <div className="overflow-hidden rounded-card bg-sky-50">
       <div className="relative h-32 w-full">
-        <Image src={image} alt="" fill sizes="(min-width: 1024px) 320px, 100vw" className="object-cover" />
+        <Image
+          src={image}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 320px, 100vw"
+          className="object-cover"
+        />
       </div>
       <div className="p-5">
         <p className="text-base font-semibold text-text-dark">{heading}</p>
-        <p className="mt-2 text-sm leading-relaxed text-text-gray">{body}</p>
-        <Button href={CALL_EXPERT_HREF} variant="navy" className="mt-4 w-full justify-center text-sm">
+        <p className="mt-2 text-[15px] leading-[18px] text-text-gray">{body}</p>
+        <Button
+          href={CALL_EXPERT_HREF}
+          variant="navy"
+          className="mt-4 w-full justify-center text-sm"
+        >
           Speak With a Travel Expert
         </Button>
       </div>

@@ -16,7 +16,10 @@ const DEFAULT_ONE_WAY: BusinessClassOptionsBlock = {
   buttonLabel: "Explore One-Way",
   buttonHref: "#connect",
   images: [
-    { src: unsplash("1569629743817-70d8db6c323b"), alt: "A wide-body aircraft on final approach against a blue sky" },
+    {
+      src: unsplash("1569629743817-70d8db6c323b"),
+      alt: "A wide-body aircraft on final approach against a blue sky",
+    },
     {
       src: unsplash("1488085061387-422e29b40080"),
       alt: "An aircraft window view of a city skyline during descent at sunset",
@@ -34,7 +37,10 @@ const DEFAULT_MULTI_CITY: BusinessClassOptionsBlock = {
       src: unsplash("1500835556837-99ac94a94552"),
       alt: "View from an aircraft window over clouds lit by a golden sunset",
     },
-    { src: unsplash("1569154941061-e231b4725ef1"), alt: "A passenger's premium business class seat and workspace in flight" },
+    {
+      src: unsplash("1569154941061-e231b4725ef1"),
+      alt: "A passenger's premium business class seat and workspace in flight",
+    },
   ],
 };
 
@@ -60,9 +66,13 @@ export function BusinessClassOptions({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-3 text-base text-text-gray sm:text-lg">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div className="mt-14 space-y-16">

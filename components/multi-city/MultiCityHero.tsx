@@ -10,7 +10,10 @@ export interface MultiCityHeroTrustStat {
   label: string;
 }
 
-const DEFAULT_HEADING_LINES = ["Multi-City Flights to Europe,", "Built Around Your Journey"];
+const DEFAULT_HEADING_LINES = [
+  "Multi-City Flights to Europe,",
+  "Built Around Your Journey",
+];
 
 const DEFAULT_PARAGRAPHS = [
   "Planning to visit several European destinations? A multi-city itinerary can help you see more while avoiding unnecessary backtracking.",
@@ -19,7 +22,7 @@ const DEFAULT_PARAGRAPHS = [
 
 const DEFAULT_TRUST_STATS: MultiCityHeroTrustStat[] = [
   { id: "safe", value: "100%", label: "Safe & Secure" },
-  { id: "travellers", value: "250K+", label: "Travellers Served" },
+  { id: "travellers", value: "1K+", label: "Travellers Served" },
   { id: "support", value: "24/7", label: "Concierge Support" },
 ];
 
@@ -70,7 +73,7 @@ export function MultiCityHero({
 
       <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-10">
         <div>
-          <h1 className="text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
+          <h1 className="text-[35px] leading-[40px] font-semibold text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
@@ -79,14 +82,16 @@ export function MultiCityHero({
           </h1>
 
           {subheading ? (
-            <p className="mt-4 text-xl text-white/90 sm:text-2xl">{subheading}</p>
+            <p className="mt-4 text-xl text-white/90 sm:text-2xl">
+              {subheading}
+            </p>
           ) : null}
 
           <SectionReveal delay={0.3}>
             {paragraphs.map((paragraph, index) => (
               <p
                 key={index}
-                className={`max-w-md text-base leading-relaxed text-white/80 sm:text-lg ${index === 0 ? "mt-6" : "mt-4"}`}
+                className={`max-w-md text-[16px] leading-[22px] text-white/80 ${index === 0 ? "mt-6" : "mt-4"}`}
               >
                 {paragraph}
               </p>
@@ -102,13 +107,25 @@ export function MultiCityHero({
           </SectionReveal>
         </div>
 
-        <SectionReveal scale={0.95} delay={0.2} className="lg:justify-self-end lg:w-full">
+        <SectionReveal
+          scale={0.95}
+          delay={0.2}
+          className="lg:justify-self-end lg:w-full"
+        >
           <div className="rounded-[7px] bg-white p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8">
             <div className="mb-6 flex items-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white">
               <div className="relative size-11 shrink-0 overflow-hidden rounded-full ring-2 ring-white/40">
-                <Image src={phoneHeaderImage} alt="" fill sizes="44px" className="object-cover" />
+                <Image
+                  src={phoneHeaderImage}
+                  alt=""
+                  fill
+                  sizes="44px"
+                  className="object-cover"
+                />
               </div>
-              <span className="text-xl font-bold tracking-wide">{phoneNumber}</span>
+              <span className="text-xl font-bold tracking-wide">
+                {phoneNumber}
+              </span>
             </div>
 
             <FlightSearch variant="light" />
@@ -116,7 +133,9 @@ export function MultiCityHero({
             <div className="mt-6 grid grid-cols-3 divide-x divide-navy-deep/10 border-t border-navy-deep/10 pt-5 text-center">
               {trustStats.map((stat) => (
                 <div key={stat.id} className="px-2">
-                  <p className="text-lg font-bold text-navy-deep sm:text-xl">{stat.value}</p>
+                  <p className="text-lg font-medium text-navy-deep sm:text-xl">
+                    {stat.value}
+                  </p>
                   <p className="mt-1 text-[10px] font-medium uppercase tracking-wide text-text-gray sm:text-[11px]">
                     {stat.label}
                   </p>

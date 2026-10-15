@@ -22,7 +22,11 @@ import { Button } from "@/components/Button";
 import { DatePicker } from "@/components/DatePicker";
 import type { Airport } from "@/lib/airportSearch";
 import { formatShortDate, toIsoDate } from "@/lib/dateUtils";
-import { CABIN_CLASSES, TRIP_TYPE_TABS, type TripType } from "@/lib/flightSearchTypes";
+import {
+  CABIN_CLASSES,
+  TRIP_TYPE_TABS,
+  type TripType,
+} from "@/lib/flightSearchTypes";
 import { buildQuoteQueryString } from "@/lib/quoteQuery";
 
 type Step = "criteria" | "contact";
@@ -32,7 +36,8 @@ const FIELD_CLASSES =
 
 const FIELD_LABEL_CLASSES_BY_VARIANT = {
   dark: "mb-2 block text-[11px] font-bold uppercase tracking-wider text-white",
-  light: "mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-deep",
+  light:
+    "mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-deep",
 };
 
 // The small circular icon "chip" every field's leading icon sits in —
@@ -193,9 +198,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
     const errors: ContactErrors = {};
     if (!name.trim()) errors.name = "Name is required.";
     if (!email.trim()) errors.email = "Email is required.";
-    else if (!EMAIL_PATTERN.test(email.trim())) errors.email = "Enter a valid email address.";
+    else if (!EMAIL_PATTERN.test(email.trim()))
+      errors.email = "Enter a valid email address.";
     if (!mobile.trim()) errors.mobile = "Mobile number is required.";
-    else if (!isValidPhone(mobile)) errors.mobile = "Enter a valid phone number.";
+    else if (!isValidPhone(mobile))
+      errors.mobile = "Enter a valid phone number.";
     if (!city.trim()) errors.city = "City is required.";
     return errors;
   }
@@ -220,12 +227,17 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
         cabinClass,
         contactCity: city.trim(),
       };
-      const contact = { name: name.trim(), email: email.trim(), phone: mobile.trim() };
+      const contact = {
+        name: name.trim(),
+        email: email.trim(),
+        phone: mobile.trim(),
+      };
 
       // Complete the record Step 1 already created rather than creating a
       // second one — falls back to a fresh submission only if that
       // background capture never resolved to an id (e.g. it failed).
-      const submissionId = await (submissionPromiseRef.current ?? Promise.resolve(null));
+      const submissionId = await (submissionPromiseRef.current ??
+        Promise.resolve(null));
       const response = submissionId
         ? await fetch(`/api/v1/form-submissions/${submissionId}/complete`, {
             method: "PATCH",
@@ -235,25 +247,44 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
         : await fetch("/api/v1/form-submissions", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ formType: "flight_quote_request", ...contact, payload }),
+            body: JSON.stringify({
+              formType: "flight_quote_request",
+              ...contact,
+              payload,
+            }),
           });
 
       if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as
-          | { error?: { message?: string } }
-          | null;
-        throw new Error(body?.error?.message ?? "Something went wrong. Please try again.");
+        const body = (await response.json().catch(() => null)) as {
+          error?: { message?: string };
+        } | null;
+        throw new Error(
+          body?.error?.message ?? "Something went wrong. Please try again.",
+        );
       }
 
-      const query = buildQuoteQueryString({ tripType, from, to, departure, returnDate, passengers, cabinClass });
+      const query = buildQuoteQueryString({
+        tripType,
+        from,
+        to,
+        departure,
+        returnDate,
+        passengers,
+        cabinClass,
+      });
       router.push(`/quote?${query}`);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
       setSubmitting(false);
     }
   }
 
-  const nonActiveLabelClass = variant === "light" ? "text-navy-deep/70" : "text-white";
+  const nonActiveLabelClass =
+    variant === "light" ? "text-navy-deep/70" : "text-white";
 
   return (
     <div
@@ -267,8 +298,14 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
 
       <div className="mb-4">
         <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider">
-          <span className={step === "criteria" ? nonActiveLabelClass : "text-emerald"}>
-            {step === "contact" ? <Check size={11} className="mr-1 inline" aria-hidden="true" /> : null}
+          <span
+            className={
+              step === "criteria" ? nonActiveLabelClass : "text-emerald"
+            }
+          >
+            {step === "contact" ? (
+              <Check size={11} className="mr-1 inline" aria-hidden="true" />
+            ) : null}
             Flight Details
           </span>
           <span className={nonActiveLabelClass}>Your Details</span>
@@ -291,7 +328,7 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               type="button"
               onClick={() => setTripType(tab.id)}
               aria-pressed={tripType === tab.id}
-              className={`relative flex-1 whitespace-nowrap rounded-[7px] px-2 py-2.5 text-xs font-semibold transition-colors sm:px-3 sm:text-[13px] ${
+              className={`relative flex-1 whitespace-nowrap rounded-[7px] px-2 py-2.5 text-xs transition-colors sm:px-3 sm:text-[13px] ${
                 variant === "light"
                   ? "border border-navy-deep/15 hover:bg-navy-deep/5"
                   : "border border-white hover:bg-[#0a4074]"
@@ -372,9 +409,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               ) : null}
             </div>
 
-            {dateError ? <p className="text-xs font-medium text-red-500">{dateError}</p> : null}
+            {dateError ? (
+              <p className="text-xs font-medium text-red-500">{dateError}</p>
+            ) : null}
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label className="sr-only" htmlFor="passengers">
                   Passengers
@@ -386,7 +425,9 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                   <select
                     id="passengers"
                     value={passengers}
-                    onChange={(event) => setPassengers(Number(event.target.value))}
+                    onChange={(event) =>
+                      setPassengers(Number(event.target.value))
+                    }
                     className={`${FIELD_CLASSES} pr-8`}
                   >
                     {Array.from({ length: 9 }, (_, i) => i + 1).map((count) => (
@@ -432,7 +473,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               </div>
             </div>
 
-            <Button type="submit" variant={submitButtonVariant} className="w-full py-4 text-[15px]">
+            <Button
+              type="submit"
+              variant={submitButtonVariant}
+              className="w-full py-4 text-[15px]"
+            >
               <Search size={16} aria-hidden="true" />
               Search Flights
             </Button>
@@ -449,7 +494,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               <div className="flex items-center justify-between gap-3">
                 <span className="flex min-w-0 items-center gap-1.5 text-sm font-bold">
                   <span className="truncate">{from ? from.iata : "—"}</span>
-                  <Plane size={12} className="shrink-0 rotate-90 text-emerald-bright" aria-hidden="true" />
+                  <Plane
+                    size={12}
+                    className="shrink-0 rotate-90 text-emerald-bright"
+                    aria-hidden="true"
+                  />
                   <span className="truncate">{to ? to.iata : "—"}</span>
                 </span>
                 <span className="shrink-0 rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide">
@@ -462,9 +511,14 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
               <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-white/60">
                 <span>
                   {departure ? formatShortDate(departure) : "—"}
-                  {tripType === "round-trip" && returnDate ? ` – ${formatShortDate(returnDate)}` : ""}
+                  {tripType === "round-trip" && returnDate
+                    ? ` – ${formatShortDate(returnDate)}`
+                    : ""}
                 </span>
-                <span className="size-1 rounded-full bg-white/30" aria-hidden="true" />
+                <span
+                  className="size-1 rounded-full bg-white/30"
+                  aria-hidden="true"
+                />
                 <span>
                   {passengers} {passengers === 1 ? "Passenger" : "Passengers"}
                 </span>
@@ -490,7 +544,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                   aria-invalid={Boolean(contactErrors.name)}
                 />
               </div>
-              {contactErrors.name ? <p className="mt-1 text-xs text-red-500">{contactErrors.name}</p> : null}
+              {contactErrors.name ? (
+                <p className="mt-1 text-xs text-red-500">
+                  {contactErrors.name}
+                </p>
+              ) : null}
             </div>
 
             <div>
@@ -512,7 +570,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                   aria-invalid={Boolean(contactErrors.email)}
                 />
               </div>
-              {contactErrors.email ? <p className="mt-1 text-xs text-red-500">{contactErrors.email}</p> : null}
+              {contactErrors.email ? (
+                <p className="mt-1 text-xs text-red-500">
+                  {contactErrors.email}
+                </p>
+              ) : null}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -535,7 +597,11 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                     aria-invalid={Boolean(contactErrors.mobile)}
                   />
                 </div>
-                {contactErrors.mobile ? <p className="mt-1 text-xs text-red-500">{contactErrors.mobile}</p> : null}
+                {contactErrors.mobile ? (
+                  <p className="mt-1 text-xs text-red-500">
+                    {contactErrors.mobile}
+                  </p>
+                ) : null}
               </div>
 
               <div>
@@ -557,25 +623,40 @@ export function FlightSearch({ variant = "dark" }: FlightSearchProps = {}) {
                     aria-invalid={Boolean(contactErrors.city)}
                   />
                 </div>
-                {contactErrors.city ? <p className="mt-1 text-xs text-red-500">{contactErrors.city}</p> : null}
+                {contactErrors.city ? (
+                  <p className="mt-1 text-xs text-red-500">
+                    {contactErrors.city}
+                  </p>
+                ) : null}
               </div>
             </div>
 
-            {submitError ? <p className="text-xs font-medium text-red-500">{submitError}</p> : null}
+            {submitError ? (
+              <p className="text-xs font-medium text-red-500">{submitError}</p>
+            ) : null}
 
             <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => setStep("criteria")}
                 disabled={submitting}
-                className="rounded-btn border border-navy-deep/10 bg-white px-5 py-3 text-sm font-semibold text-text-dark transition-colors hover:border-transparent hover:bg-[#40a8f3] hover:text-white disabled:opacity-50"
+                className="rounded-btn border border-navy-deep/10 bg-white px-5 py-3 text-sm text-text-dark transition-colors hover:border-transparent hover:bg-[#40a8f3] hover:text-white disabled:opacity-50"
               >
                 Back
               </button>
-              <Button type="submit" variant={submitButtonVariant} className="flex-1" disabled={submitting}>
+              <Button
+                type="submit"
+                variant={submitButtonVariant}
+                className="flex-1"
+                disabled={submitting}
+              >
                 {submitting ? (
                   <>
-                    <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                    <Loader2
+                      size={16}
+                      className="animate-spin"
+                      aria-hidden="true"
+                    />
                     Submitting…
                   </>
                 ) : (

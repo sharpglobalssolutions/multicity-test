@@ -29,9 +29,11 @@ const DEFAULT_SLIDES: JourneySlide[] = [
   {
     id: "not-cheapest-fare",
     image: unsplash("1569154941061-e231b4725ef1"),
-    imageAlt: "A passenger's premium business class seat and workspace in flight",
+    imageAlt:
+      "A passenger's premium business class seat and workspace in flight",
     titleLines: "Business Class is not\nAbout finding the\nCheapest fare",
-    description: "It's about finding the right combination of price, routing, airline, schedule and flexibility.",
+    description:
+      "It's about finding the right combination of price, routing, airline, schedule and flexibility.",
     factors: JOURNEY_FACTORS,
   },
   {
@@ -68,7 +70,9 @@ export interface JourneyCarouselProps {
  *
  * All props optional, falling back to the current hardcoded default — see
  * `Hero.tsx` for the rationale. */
-export function JourneyCarousel({ slides = DEFAULT_SLIDES }: JourneyCarouselProps = {}) {
+export function JourneyCarousel({
+  slides = DEFAULT_SLIDES,
+}: JourneyCarouselProps = {}) {
   const instanceId = useId().replace(/:/g, "");
   const prevClass = `journey-carousel-prev-${instanceId}`;
   const nextClass = `journey-carousel-next-${instanceId}`;
@@ -85,10 +89,16 @@ export function JourneyCarousel({ slides = DEFAULT_SLIDES }: JourneyCarouselProp
               effect="fade"
               fadeEffect={{ crossFade: true }}
               speed={400}
-              autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               navigation={{ prevEl: `.${prevClass}`, nextEl: `.${nextClass}` }}
               loop={slides.length > 1}
-              onSlideChange={(swiper: SwiperType) => setActiveIndex(swiper.realIndex)}
+              onSlideChange={(swiper: SwiperType) =>
+                setActiveIndex(swiper.realIndex)
+              }
               className="h-full w-full"
             >
               {slides.map((s) => (
@@ -136,18 +146,26 @@ export function JourneyCarousel({ slides = DEFAULT_SLIDES }: JourneyCarouselProp
                 transition={{ duration: 0.4, ease: "easeInOut" }}
                 className="absolute inset-0"
               >
-                <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-[#07111F]">
+                <h2 className="text-[28px] leading-[32px] text-[#07111F]">
                   {slide.titleLines.split("\n").map((line, index) => (
                     <span key={index} className="block">
                       {line}
                     </span>
                   ))}
                 </h2>
-                <p className="mt-5 max-w-[430px] text-[16px] leading-relaxed text-[#999999]">{slide.description}</p>
+                <p className="mt-5 max-w-[430px] text-[15px] leading-[18px] text-[#999999]">
+                  {slide.description}
+                </p>
                 <ul className="mt-7 grid max-w-[420px] grid-cols-3 gap-x-6 gap-y-3">
                   {slide.factors.split("\n").map((factor) => (
-                    <li key={factor} className="flex items-center gap-2 text-[15px] font-medium text-[#4a4a4a]">
-                      <span className="size-1.5 shrink-0 rounded-full bg-[#B59655]" aria-hidden="true" />
+                    <li
+                      key={factor}
+                      className="flex items-center gap-2 text-[15px] font-medium text-[#4a4a4a]"
+                    >
+                      <span
+                        className="size-1.5 shrink-0 rounded-full bg-[#B59655]"
+                        aria-hidden="true"
+                      />
                       {factor}
                     </li>
                   ))}

@@ -12,20 +12,46 @@ export interface RefundVsCreditBlock {
 const DEFAULT_REFUND: RefundVsCreditBlock = {
   headingLines: ["Flight Refund"],
   body: "A refund means eligible ticket value may be returned according to the applicable fare and airline rules. Before requesting one, consider:",
-  images: [{ src: unsplash("1569629743817-70d8db6c323b"), alt: "A wide-body aircraft on final approach against a blue sky" }],
+  images: [
+    {
+      src: unsplash("1569629743817-70d8db6c323b"),
+      alt: "A wide-body aircraft on final approach against a blue sky",
+    },
+  ],
   twoColumnItems: [
-    ["Whether the fare is refundable", "Cancellation penalties", "Original payment method"],
-    ["Refund processing conditions", "Unused ticket value", "Whether the airline initiated the cancellation or schedule change"],
+    [
+      "Whether the fare is refundable",
+      "Cancellation penalties",
+      "Original payment method",
+    ],
+    [
+      "Refund processing conditions",
+      "Unused ticket value",
+      "Whether the airline initiated the cancellation or schedule change",
+    ],
   ],
 };
 
 const DEFAULT_CREDIT: RefundVsCreditBlock = {
   headingLines: ["Travel Credit"],
   body: "Travel credit may allow eligible ticket value to be retained for future travel under the airline's conditions.",
-  images: [{ src: unsplash("1500835556837-99ac94a94552"), alt: "View from an aircraft window over clouds lit by a golden sunset" }],
+  images: [
+    {
+      src: unsplash("1500835556837-99ac94a94552"),
+      alt: "View from an aircraft window over clouds lit by a golden sunset",
+    },
+  ],
   twoColumnItems: [
-    ["Credit expiration date", "Who can use the credit", "Airline restrictions"],
-    ["Rebooking deadline", "Fare difference", "Route or destination restrictions"],
+    [
+      "Credit expiration date",
+      "Who can use the credit",
+      "Airline restrictions",
+    ],
+    [
+      "Rebooking deadline",
+      "Fare difference",
+      "Route or destination restrictions",
+    ],
   ],
 };
 
@@ -52,9 +78,13 @@ export function RefundVsCreditSection({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-3 text-base text-text-gray sm:text-lg">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div className="mt-14 space-y-16">

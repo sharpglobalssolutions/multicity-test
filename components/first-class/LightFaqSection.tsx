@@ -66,9 +66,11 @@ export function LightFaqSection({
 
   return (
     <section className="bg-white py-10 sm:py-14">
-      <div className="content-container mx-auto max-w-3xl">
+      <div className="content-container mx-auto max-w-4xl">
         <SectionReveal>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
         </SectionReveal>
 
         <div className="mt-8 divide-y divide-navy-deep/10 border-t border-navy-deep/10">
@@ -88,11 +90,17 @@ export function LightFaqSection({
                     onClick={() => setOpenId(isOpen ? null : faq.id)}
                     className="flex w-full items-center justify-between gap-4 py-5 text-left"
                   >
-                    <span className="text-lg text-text-dark sm:text-xl">{faq.question}</span>
+                    <span className="text-lg text-text-dark sm:text-xl">
+                      {faq.question}
+                    </span>
                     <motion.span
                       aria-hidden="true"
                       animate={{ rotate: isOpen ? 180 : 0 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 22,
+                      }}
                       className="shrink-0 text-navy-deep"
                     >
                       <ChevronDown size={20} />
@@ -111,7 +119,9 @@ export function LightFaqSection({
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-5 text-[15px] leading-relaxed text-text-gray">{faq.answer}</p>
+                      <p className="pb-5 text-[15px] leading-[18px] text-text-gray">
+                        {faq.answer}
+                      </p>
                     </motion.div>
                   ) : null}
                 </AnimatePresence>

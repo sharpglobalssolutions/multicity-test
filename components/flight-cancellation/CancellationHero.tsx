@@ -56,15 +56,21 @@ export function CancellationHero({
 
       <div className="content-container relative z-10">
         <SectionReveal className="max-w-xl">
-          <h1 className="text-2xl font-semibold leading-[1.08] text-white sm:text-5xl lg:text-[40px]">
+          <h1 className="text-[35px] leading-[40px] font-semibold text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
               </span>
             ))}
           </h1>
-          {subheading ? <p className="mt-4 text-xl text-white/90 sm:text-2xl">{subheading}</p> : null}
-          <p className="mt-6 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">{paragraph}</p>
+          {subheading ? (
+            <p className="mt-4 text-xl text-white/90 sm:text-2xl">
+              {subheading}
+            </p>
+          ) : null}
+          <p className="mt-6 max-w-md text-[16px] leading-[22px] text-white/80">
+            {paragraph}
+          </p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}
@@ -75,7 +81,9 @@ export function CancellationHero({
               </Button>
             ) : null}
           </div>
-          {trustLine ? <p className="mt-6 text-sm text-white/70">{trustLine}</p> : null}
+          {trustLine ? (
+            <p className="mt-6 text-sm text-white/70">{trustLine}</p>
+          ) : null}
         </SectionReveal>
       </div>
     </section>

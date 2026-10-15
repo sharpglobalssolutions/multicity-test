@@ -8,7 +8,11 @@ const DEFAULT_PARAGRAPHS = [
   "With 11+ years of travel industry experience, we help you explore practical ways to structure your European trip.",
 ];
 
-const DEFAULT_TAGS = ["11+ Years Experience", "International Routes", "Multi-City Expertise"];
+const DEFAULT_TAGS = [
+  "11+ Years Experience",
+  "International Routes",
+  "Multi-City Expertise",
+];
 
 export interface ExpertGuidanceSectionProps {
   heading?: string;
@@ -36,9 +40,12 @@ export function ExpertGuidanceSection({
 }: ExpertGuidanceSectionProps = {}) {
   const textBlock = (
     <SectionReveal x={imagePosition === "right" ? -60 : 60}>
-      <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
+      <h2 className="text-[28px] leading-[32px] text-text-dark">{heading}</h2>
       {paragraphs.map((paragraph, index) => (
-        <p key={index} className={`max-w-lg text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}>
+        <p
+          key={index}
+          className={`max-w-lg text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+        >
           {paragraph}
         </p>
       ))}
@@ -47,7 +54,12 @@ export function ExpertGuidanceSection({
         <p className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-gray">
           {tags.map((tag, index) => (
             <span key={tag} className="flex items-center gap-2">
-              {index > 0 ? <span className="size-1 rounded-full bg-text-gray/50" aria-hidden="true" /> : null}
+              {index > 0 ? (
+                <span
+                  className="size-1 rounded-full bg-text-gray/50"
+                  aria-hidden="true"
+                />
+              ) : null}
               {tag}
             </span>
           ))}

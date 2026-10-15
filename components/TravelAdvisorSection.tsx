@@ -15,27 +15,33 @@ export interface TravelAdvisorItem {
 const DEFAULT_ITEMS: TravelAdvisorItem[] = [
   {
     label: "Explore Alternative Routes",
-    description: "A different routing could offer a more convenient schedule, shorter connection or better overall journey.",
-  },
-  {
-    label: "Consider Nearby Airports",
-    description: "Depending on where you're travelling from or to, an alternative airport may open up additional routing and flight options.",
-  },
-  {
-    label: "Choose the Right Cabin",
-    description: "Compare Economy, Premium Economy, Business Class and First Class according to your priorities, rather than simply choosing based on price.",
-  },
-  {
-    label: "Understand Fare Flexibility",
-    description: "Different fares come with different conditions. Understanding your available flexibility before booking can help you make a more informed decision.",
-  },
-  {
-    label: "Navigate Complex Itineraries",
-    description: "Multi-city, open-jaw and multiple-destination journeys often require more careful planning than a standard return flight.",
+    description:
+      "A different routing could offer a more convenient schedule, shorter connection or better overall journey.",
   },
   {
     label: "Build Around Your Schedule",
-    description: "Your preferred departure time, arrival time, connection preferences and other practical requirements all matter.",
+    description:
+      "Your preferred departure time, arrival time, connection preferences and other practical requirements all matter.",
+  },
+  {
+    label: "Choose the Right Cabin",
+    description:
+      "Compare Economy, Premium Economy, Business Class and First Class according to your priorities, rather than simply choosing based on price.",
+  },
+  {
+    label: "Understand Fare Flexibility",
+    description:
+      "Different fares come with different conditions. Understanding your available flexibility before booking can help you make a more informed decision.",
+  },
+  {
+    label: "Navigate Complex Itineraries",
+    description:
+      "Multi-city, open-jaw and multiple-destination journeys often require more careful planning than a standard return flight.",
+  },
+  {
+    label: "Consider Nearby Airports",
+    description:
+      "Depending on where you're travelling from or to, an alternative airport may open up additional routing and flight options.",
   },
 ];
 
@@ -68,11 +74,13 @@ export function TravelAdvisorSection({
     <section className="overflow-x-hidden bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`text-[16px] leading-relaxed text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+              className={`text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
             >
               {paragraph}
             </p>
@@ -82,7 +90,13 @@ export function TravelAdvisorSection({
         <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <SectionReveal x={-60}>
             <div className="relative aspect-[4/3] w-full overflow-hidden sm:aspect-[16/11]">
-              <Image src={imageSrc} alt={TRAVEL_ADVISOR_IMAGE.alt} fill sizes="(min-width: 1024px) 45vw, 90vw" className="object-cover" />
+              <Image
+                src={imageSrc}
+                alt={TRAVEL_ADVISOR_IMAGE.alt}
+                fill
+                sizes="(min-width: 1024px) 45vw, 90vw"
+                className="object-cover"
+              />
             </div>
           </SectionReveal>
 
@@ -91,8 +105,12 @@ export function TravelAdvisorSection({
               <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
                 {items.map((item) => (
                   <div key={item.label}>
-                    <p className="text-[16px] font-semibold text-text-dark">{item.label}</p>
-                    <p className="mt-1.5 text-[14px] leading-relaxed text-text-gray">{item.description}</p>
+                    <p className="text-[16px] font-medium text-text-dark">
+                      {item.label}
+                    </p>
+                    <p className="mt-1.5 text-[15px] leading-[18px] text-text-gray">
+                      {item.description}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -101,7 +119,7 @@ export function TravelAdvisorSection({
             <div className="mt-8">
               <Link
                 href={buttonHref}
-                className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
+                className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[15px] text-white transition-colors hover:bg-navy-dark"
               >
                 {buttonLabel}
               </Link>

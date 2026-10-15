@@ -21,13 +21,13 @@ export default async function InsightsPage() {
       <main id="top">
         <section className="bg-off-white py-20 sm:py-28">
           <div className="content-container">
-            <div className="mx-auto max-w-2xl text-center">
-              <h1 className="text-3xl font-semibold text-text-dark sm:text-4xl lg:text-[34px]">
+            <div className="mx-auto max-w-4xl text-center">
+              <h1 className="text-[35px] leading-[40px] font-semibold text-text-dark">
                 Travel Insights &amp; Flight Expertise
               </h1>
-              <p className="mt-4 text-base text-text-gray sm:text-[16px]">
-                Practical guidance for premium international travel, multi-city itineraries and business class
-                planning.
+              <p className="mt-4 text-[16px] leading-[22px] text-text-gray">
+                Practical guidance for premium international travel, multi-city
+                itineraries and business class planning.
               </p>
             </div>
 

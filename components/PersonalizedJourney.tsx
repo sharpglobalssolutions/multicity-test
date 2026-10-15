@@ -13,7 +13,8 @@ import { Button } from "@/components/Button";
 import { SectionReveal } from "@/components/SectionReveal";
 import { PERSONALIZED_JOURNEY_IMAGES } from "@/data/content";
 
-const DEFAULT_HEADING = "Get Expert Help With Complex International Itineraries";
+const DEFAULT_HEADING =
+  "Get Expert Help With Complex International Itineraries";
 const DEFAULT_BODY =
   "Some journeys are straightforward. Others require a little more thought. Multiple destinations. " +
   "Long-haul connections. Premium cabins. Different departure airports. Tight schedules. Flexible travel " +
@@ -42,7 +43,9 @@ export function PersonalizedJourney({
   // starving the one the visitor actually sees first. Loading only the
   // active slide (plus the one it's about to crossfade to) spreads the
   // requests out to match what autoplay actually shows.
-  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1 % images.length]));
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(
+    () => new Set([0, 1 % images.length]),
+  );
   // `loop: true` makes Swiper reposition to an internal clone right after
   // mount, which fires `onSlideChangeTransitionStart` once as its own
   // bookkeeping — not a real user-visible transition. Skipping exactly
@@ -57,8 +60,13 @@ export function PersonalizedJourney({
     <section className="overflow-x-hidden bg-white py-10 sm:py-12 personalize-journey">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <SectionReveal y={24}>
-          <h2 className="mt-3 text-2xl font-semibold text-[#0a0c11] sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <div className="mt-5 max-w-lg text-[16px] text-[#7e7e7e]" dangerouslySetInnerHTML={{ __html: body }} />
+          <h2 className="mt-3 text-[28px] leading-[32px] text-[#0a0c11]">
+            {heading}
+          </h2>
+          <div
+            className="mt-5 max-w-lg text-[15px] text-[#7e7e7e]"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
         </SectionReveal>
 
         <SectionReveal x={80} delay={0.1}>
@@ -67,9 +75,19 @@ export function PersonalizedJourney({
               modules={[Autoplay, EffectFade, Navigation, Pagination]}
               effect="fade"
               fadeEffect={{ crossFade: true }}
-              autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-              pagination={{ el: ".personalized-journey-pagination", clickable: true }}
-              navigation={{ prevEl: ".personalized-journey-prev", nextEl: ".personalized-journey-next" }}
+              autoplay={{
+                delay: 4000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              pagination={{
+                el: ".personalized-journey-pagination",
+                clickable: true,
+              }}
+              navigation={{
+                prevEl: ".personalized-journey-prev",
+                nextEl: ".personalized-journey-next",
+              }}
               loop={images.length > 1}
               className="h-full w-full"
               onSlideChangeTransitionStart={(swiper) => {
@@ -113,7 +131,7 @@ export function PersonalizedJourney({
               }
             />
 
-                <div className="absolute left-0 top-0 z-20 w-20 h-20 flex items-center gap-0  bg-[#f4f4f4] p-1 shadow-card">
+            <div className="absolute left-0 top-0 z-20 w-20 h-20 flex items-center gap-0  bg-[#f4f4f4] p-1 shadow-card">
               <button
                 type="button"
                 aria-label="Previous image"

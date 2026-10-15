@@ -13,15 +13,24 @@ export function AboutWhoWeHelp() {
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">Who We Help</h2>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            Who We Help
+          </h2>
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12 px-9 sm:px-11">
           <Swiper
             modules={[Navigation, Autoplay]}
-            navigation={{ prevEl: ".who-we-help-prev", nextEl: ".who-we-help-next" }}
-            autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            navigation={{
+              prevEl: ".who-we-help-prev",
+              nextEl: ".who-we-help-next",
+            }}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             spaceBetween={24}
             slidesPerView={1.1}
             breakpoints={{
@@ -44,7 +53,7 @@ export function AboutWhoWeHelp() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </div>
-                  <h3 className="relative mt-4 inline-block text-center text-lg font-semibold text-text-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-emerald after:transition-all after:duration-300 group-hover:after:w-full">
+                  <h3 className="relative mt-4 inline-block text-center text-lg text-text-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-emerald after:transition-all after:duration-300 group-hover:after:w-full">
                     {card.title}
                   </h3>
                 </article>

@@ -1,13 +1,26 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Armchair, Check, ChevronDown, Loader2, Mail, Phone, User, Users2 } from "lucide-react";
+import {
+  Armchair,
+  Check,
+  ChevronDown,
+  Loader2,
+  Mail,
+  Phone,
+  User,
+  Users2,
+} from "lucide-react";
 import { AirportAutocomplete } from "@/components/AirportAutocomplete";
 import { Button } from "@/components/Button";
 import { DatePicker } from "@/components/DatePicker";
 import type { Airport } from "@/lib/airportSearch";
 import { toIsoDate } from "@/lib/dateUtils";
-import { CABIN_CLASSES, TRIP_TYPE_TABS, type TripType } from "@/lib/flightSearchTypes";
+import {
+  CABIN_CLASSES,
+  TRIP_TYPE_TABS,
+  type TripType,
+} from "@/lib/flightSearchTypes";
 import type { QuoteCriteria } from "@/lib/quoteQuery";
 
 const CONTACT_PHONE_HREF = "tel:1869-504-657";
@@ -51,7 +64,7 @@ function isValidPhone(value: string): boolean {
 
 const TRUST_ITEMS = [
   { value: "100%", label: "Safe & Secure" },
-  { value: "250K+", label: "Travellers Served" },
+  { value: "1K+", label: "Travellers Served" },
   { value: "24/7", label: "Concierge Support" },
 ];
 
@@ -77,7 +90,10 @@ export interface QuoteFormProps {
  * editable. Submits to the same `/api/v1/form-submissions` endpoint (same
  * `formType`/`payload` shape) that used to be reached from `FlightSearch`'s
  * inline "contact" step. */
-export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProps) {
+export function QuoteForm({
+  criteria,
+  phoneBarVariant = "green",
+}: QuoteFormProps) {
   const [tripType, setTripType] = useState<TripType>(criteria.tripType);
   const [from, setFrom] = useState<Airport | null>(criteria.from);
   const [to, setTo] = useState<Airport | null>(criteria.to);
@@ -105,9 +121,11 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
     const nextErrors: FormErrors = {};
     if (!name.trim()) nextErrors.name = "Name is required.";
     if (!email.trim()) nextErrors.email = "Email is required.";
-    else if (!EMAIL_PATTERN.test(email.trim())) nextErrors.email = "Enter a valid email address.";
+    else if (!EMAIL_PATTERN.test(email.trim()))
+      nextErrors.email = "Enter a valid email address.";
     if (!phone.trim()) nextErrors.phone = "Phone number is required.";
-    else if (!isValidPhone(phone)) nextErrors.phone = "Enter a valid phone number.";
+    else if (!isValidPhone(phone))
+      nextErrors.phone = "Enter a valid phone number.";
     return nextErrors;
   }
 
@@ -142,13 +160,21 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
       });
 
       if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as { error?: { message?: string } } | null;
-        throw new Error(body?.error?.message ?? "Something went wrong. Please try again.");
+        const body = (await response.json().catch(() => null)) as {
+          error?: { message?: string };
+        } | null;
+        throw new Error(
+          body?.error?.message ?? "Something went wrong. Please try again.",
+        );
       }
 
       setSubmitted(true);
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Something went wrong. Please try again.");
+      setSubmitError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -160,10 +186,13 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
         <span className="flex size-14 items-center justify-center rounded-full bg-emerald/10 text-emerald">
           <Check size={28} aria-hidden="true" />
         </span>
-        <h3 className="font-heading text-lg font-bold text-text-dark">Request Received!</h3>
+        <h3 className="font-heading text-lg text-text-dark">
+          Request Received!
+        </h3>
         <p className="max-w-xs text-sm text-text-gray">
-          Thanks, {name.split(" ")[0] || "there"} — one of our travel experts will reach out to{" "}
-          {email || "your email"} shortly with the best fares for your trip.
+          Thanks, {name.split(" ")[0] || "there"} — one of our travel experts
+          will reach out to {email || "your email"} shortly with the best fares
+          for your trip.
         </p>
       </div>
     );
@@ -174,7 +203,7 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
       {phoneBarVariant === "navy" ? (
         <a
           href={CONTACT_PHONE_HREF}
-          className="flex h-[70px] items-center justify-center gap-3 rounded-input bg-navy-deep px-6 text-center text-lg font-bold text-white transition-colors hover:bg-navy-dark sm:text-xl"
+          className="flex h-[70px] items-center justify-center gap-3 rounded-input bg-navy-deep px-6 text-center text-lg text-white transition-colors hover:bg-navy-dark sm:text-xl"
         >
           <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white text-navy-deep">
             <Phone size={16} aria-hidden="true" />
@@ -184,7 +213,7 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
       ) : (
         <a
           href={CONTACT_PHONE_HREF}
-          className="flex h-[70px] items-center justify-center gap-2 rounded-input bg-emerald px-6 text-center text-lg font-bold text-white transition-colors hover:bg-emerald-bright sm:text-xl"
+          className="flex h-[70px] items-center justify-center gap-2 rounded-input bg-emerald px-6 text-center text-lg text-white transition-colors hover:bg-emerald-bright sm:text-xl"
         >
           <Phone size={20} aria-hidden="true" />
           {CONTACT_PHONE_LABEL}
@@ -201,7 +230,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
               <select
                 id="quote-trip-type"
                 value={tripType}
-                onChange={(event) => setTripType(event.target.value as TripType)}
+                onChange={(event) =>
+                  setTripType(event.target.value as TripType)
+                }
                 className={`${FIELD_CLASSES} pl-4 pr-8`}
               >
                 {TRIP_TYPE_TABS.map((tab) => (
@@ -232,7 +263,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
                 <select
                   id="quote-passengers"
                   value={passengers}
-                  onChange={(event) => setPassengers(Number(event.target.value))}
+                  onChange={(event) =>
+                    setPassengers(Number(event.target.value))
+                  }
                   className={GROUPED_SELECT_CLASSES}
                 >
                   {Array.from({ length: 9 }, (_, i) => i + 1).map((count) => (
@@ -296,7 +329,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
           />
         </div>
 
-        <div className={`grid grid-cols-1 gap-3 ${tripType === "round-trip" ? "sm:grid-cols-2" : ""}`}>
+        <div
+          className={`grid grid-cols-1 gap-3 ${tripType === "round-trip" ? "sm:grid-cols-2" : ""}`}
+        >
           <DatePicker
             id="quote-departure-date"
             label="Departure Date"
@@ -342,7 +377,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
               aria-invalid={Boolean(errors.email)}
             />
           </div>
-          {errors.email ? <p className="mt-1 text-xs text-red-500">{errors.email}</p> : null}
+          {errors.email ? (
+            <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+          ) : null}
         </div>
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -365,7 +402,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
                 aria-invalid={Boolean(errors.phone)}
               />
             </div>
-            {errors.phone ? <p className="mt-1 text-xs text-red-500">{errors.phone}</p> : null}
+            {errors.phone ? (
+              <p className="mt-1 text-xs text-red-500">{errors.phone}</p>
+            ) : null}
           </div>
 
           <div>
@@ -387,13 +426,22 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
                 aria-invalid={Boolean(errors.name)}
               />
             </div>
-            {errors.name ? <p className="mt-1 text-xs text-red-500">{errors.name}</p> : null}
+            {errors.name ? (
+              <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+            ) : null}
           </div>
         </div>
 
-        {submitError ? <p className="text-xs font-medium text-red-500">{submitError}</p> : null}
+        {submitError ? (
+          <p className="text-xs font-medium text-red-500">{submitError}</p>
+        ) : null}
 
-        <Button type="submit" variant="gold" className="h-[58px] w-full text-base uppercase" disabled={submitting}>
+        <Button
+          type="submit"
+          variant="gold"
+          className="h-[58px] w-full text-base uppercase"
+          disabled={submitting}
+        >
           {submitting ? (
             <>
               <Loader2 size={16} className="animate-spin" aria-hidden="true" />
@@ -407,7 +455,9 @@ export function QuoteForm({ criteria, phoneBarVariant = "green" }: QuoteFormProp
         <div className="grid grid-cols-3 divide-x divide-navy-deep/10 pt-4 text-center">
           {TRUST_ITEMS.map((item) => (
             <div key={item.label}>
-              <p className="text-lg text-navy-deep sm:text-[22px]">{item.value}</p>
+              <p className="text-lg text-navy-deep sm:text-[22px]">
+                {item.value}
+              </p>
               <p className="mt-1 text-[9px]  uppercase leading-tight tracking-wide text-text-gray sm:text-[14px]">
                 {item.label}
               </p>

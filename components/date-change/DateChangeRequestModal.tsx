@@ -12,7 +12,8 @@ import { CABIN_CLASSES } from "@/lib/flightSearchTypes";
 
 const FIELD_CLASSES =
   "w-full rounded-input border border-navy-deep/10 bg-white px-4 py-3 text-sm font-medium text-text-dark outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";
-const FIELD_LABEL_CLASSES = "mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-deep";
+const FIELD_LABEL_CLASSES =
+  "mb-2 block text-[11px] font-bold uppercase tracking-wider text-navy-deep";
 
 export interface DateChangeRequestModalProps {
   open: boolean;
@@ -51,7 +52,9 @@ export function DateChangeRequestModal({
   const [cabinClass, setCabinClass] = useState("Business");
   const [flexibleDates, setFlexibleDates] = useState<"yes" | "no">("no");
   const [additionalRequirements, setAdditionalRequirements] = useState("");
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const [error, setError] = useState("");
 
   const todayIso = toIsoDate(new Date());
@@ -104,14 +107,22 @@ export function DateChangeRequestModal({
       });
 
       if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as { error?: { message?: string } } | null;
-        throw new Error(body?.error?.message ?? "Something went wrong. Please try again.");
+        const body = (await response.json().catch(() => null)) as {
+          error?: { message?: string };
+        } | null;
+        throw new Error(
+          body?.error?.message ?? "Something went wrong. Please try again.",
+        );
       }
 
       setStatus("success");
     } catch (submitError) {
       setStatus("error");
-      setError(submitError instanceof Error ? submitError.message : "Something went wrong. Please try again.");
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : "Something went wrong. Please try again.",
+      );
     }
   }
 
@@ -122,19 +133,28 @@ export function DateChangeRequestModal({
         initialFocus={initialFocusRef}
         className="max-h-[90vh] w-full max-w-[calc(100%-2rem)] overflow-y-auto rounded-[20px] bg-white p-0 ring-1 ring-navy-deep/10 sm:max-w-2xl"
       >
-        <div ref={initialFocusRef} tabIndex={-1} className="p-6 outline-none sm:p-10">
+        <div
+          ref={initialFocusRef}
+          tabIndex={-1}
+          className="p-6 outline-none sm:p-10"
+        >
           {status === "success" ? (
             <div className="py-6 text-center">
               <h2 className="text-2xl text-text-dark">Thank You</h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-text-gray">
-                We&apos;ve received your request. A travel specialist will review your booking and get in touch to
-                help you explore your date change options.
+              <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+                We&apos;ve received your request. A travel specialist will
+                review your booking and get in touch to help you explore your
+                date change options.
               </p>
             </div>
           ) : (
             <>
-              <h2 className="text-2xl text-text-dark sm:text-[28px]">{heading}</h2>
-              <p className="mt-2 text-[15px] font-semibold text-text-gray">{subheading}</p>
+              <h2 className="text-2xl text-text-dark sm:text-[28px]">
+                {heading}
+              </h2>
+              <p className="mt-2 text-[15px] font-semibold text-text-gray">
+                {subheading}
+              </p>
 
               <form onSubmit={handleSubmit} className="mt-8 space-y-5">
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -152,14 +172,19 @@ export function DateChangeRequestModal({
                     />
                   </div>
                   <div>
-                    <label className={FIELD_LABEL_CLASSES} htmlFor="dc-booking-ref">
+                    <label
+                      className={FIELD_LABEL_CLASSES}
+                      htmlFor="dc-booking-ref"
+                    >
                       Booking Reference
                     </label>
                     <input
                       id="dc-booking-ref"
                       type="text"
                       value={bookingReference}
-                      onChange={(event) => setBookingReference(event.target.value)}
+                      onChange={(event) =>
+                        setBookingReference(event.target.value)
+                      }
                       className={FIELD_CLASSES}
                       placeholder="If available"
                     />
@@ -208,20 +233,27 @@ export function DateChangeRequestModal({
 
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <div>
-                    <label className={FIELD_LABEL_CLASSES} htmlFor="dc-passengers">
+                    <label
+                      className={FIELD_LABEL_CLASSES}
+                      htmlFor="dc-passengers"
+                    >
                       Passengers
                     </label>
                     <select
                       id="dc-passengers"
                       value={passengers}
-                      onChange={(event) => setPassengers(Number(event.target.value))}
+                      onChange={(event) =>
+                        setPassengers(Number(event.target.value))
+                      }
                       className={FIELD_CLASSES}
                     >
-                      {Array.from({ length: 9 }, (_, i) => i + 1).map((count) => (
-                        <option key={count} value={count}>
-                          {count} {count === 1 ? "Passenger" : "Passengers"}
-                        </option>
-                      ))}
+                      {Array.from({ length: 9 }, (_, i) => i + 1).map(
+                        (count) => (
+                          <option key={count} value={count}>
+                            {count} {count === 1 ? "Passenger" : "Passengers"}
+                          </option>
+                        ),
+                      )}
                     </select>
                   </div>
                   <div>
@@ -252,7 +284,7 @@ export function DateChangeRequestModal({
                         type="button"
                         onClick={() => setFlexibleDates(option)}
                         aria-pressed={flexibleDates === option}
-                        className={`rounded-btn border px-6 py-2.5 text-sm font-semibold capitalize transition-colors ${
+                        className={`rounded-btn border px-6 py-2.5 text-sm capitalize transition-colors ${
                           flexibleDates === option
                             ? "border-emerald bg-emerald text-white"
                             : "border-navy-deep/15 text-text-dark hover:border-navy-deep/30"
@@ -265,26 +297,42 @@ export function DateChangeRequestModal({
                 </div>
 
                 <div>
-                  <label className={FIELD_LABEL_CLASSES} htmlFor="dc-requirements">
+                  <label
+                    className={FIELD_LABEL_CLASSES}
+                    htmlFor="dc-requirements"
+                  >
                     Additional Requirements
                   </label>
                   <textarea
                     id="dc-requirements"
                     value={additionalRequirements}
-                    onChange={(event) => setAdditionalRequirements(event.target.value)}
+                    onChange={(event) =>
+                      setAdditionalRequirements(event.target.value)
+                    }
                     rows={4}
                     className={FIELD_CLASSES}
                     placeholder="Anything else we should know?"
                   />
                 </div>
 
-                {status === "error" ? <p className="text-sm font-medium text-red-500">{error}</p> : null}
+                {status === "error" ? (
+                  <p className="text-sm font-medium text-red-500">{error}</p>
+                ) : null}
 
                 <div>
-                  <Button type="submit" variant="gold" disabled={status === "submitting"} className="w-full sm:w-auto">
+                  <Button
+                    type="submit"
+                    variant="gold"
+                    disabled={status === "submitting"}
+                    className="w-full sm:w-auto"
+                  >
                     {status === "submitting" ? (
                       <>
-                        <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                        <Loader2
+                          size={16}
+                          className="animate-spin"
+                          aria-hidden="true"
+                        />
                         Submitting…
                       </>
                     ) : (

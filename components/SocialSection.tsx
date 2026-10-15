@@ -9,12 +9,16 @@ export interface SocialSectionProps {
 /** All props optional, falling back to the current hardcoded default — see
  * `Hero.tsx` for the rationale. Social icons stay global (`SOCIAL_LINKS`),
  * not per-section content. */
-export function SocialSection({ heading = "Let's Stay Connected" }: SocialSectionProps = {}) {
+export function SocialSection({
+  heading = "Let's Stay Connected",
+}: SocialSectionProps = {}) {
   return (
     <section id="connect" className="bg-white py-10 sm:py-14">
       <div className="content-container text-center">
         <SectionReveal>
-          <h2 className="text-2xl font-bold text-text-dark sm:text-3xl">{heading}</h2>
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
           <div className="mt-6 flex items-center justify-center gap-4">
             {SOCIAL_LINKS.map(({ label, href, icon }) => {
               const Icon = SOCIAL_ICON_MAP[icon];
@@ -32,9 +36,15 @@ export function SocialSection({ heading = "Let's Stay Connected" }: SocialSectio
           </div>
         </SectionReveal>
 
-        <SectionReveal delay={0.1} className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+        <SectionReveal
+          delay={0.1}
+          className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-4"
+        >
           {PARTNER_AIRLINES.map((name) => (
-            <span key={name} className="text-sm font-semibold tracking-wide text-text-gray/50">
+            <span
+              key={name}
+              className="text-sm font-semibold tracking-wide text-text-gray/50"
+            >
               {name}
             </span>
           ))}

@@ -13,13 +13,22 @@ export interface HowItWorksStep {
 }
 
 const DEFAULT_STEPS: HowItWorksStep[] = [
-  { id: "tell-us", titleLines: "Tell Us Your\nJourney", descriptionLines: "Route, dates & preferences." },
+  {
+    id: "tell-us",
+    titleLines: "Tell Us Your\nJourney",
+    descriptionLines: "Route, dates & preferences.",
+  },
   {
     id: "we-research",
     titleLines: "We Research\nYour Options",
-    descriptionLines: "Our specialists evaluate available\nBusiness Class possibilities.",
+    descriptionLines:
+      "Our specialists evaluate available\nBusiness Class possibilities.",
   },
-  { id: "choose-option", titleLines: "Choose Your\nOption", descriptionLines: "We present the options.\nYou decide." },
+  {
+    id: "choose-option",
+    titleLines: "Choose Your\nOption",
+    descriptionLines: "We present the options.\nYou decide.",
+  },
 ];
 
 export interface HowItWorksProps {
@@ -38,11 +47,13 @@ export function HowItWorks({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold uppercase tracking-[0.04em] text-[#07111F]">
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] uppercase tracking-[0.04em] text-[#07111F]">
             {heading}
           </h2>
-          <p className="mt-2.5 text-[20px] font-normal text-[#9A9A9A] sm:text-[23px]">{subheading}</p>
+          <p className="mt-2.5 text-[18px] font-normal text-[#9A9A9A]">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div className="relative mt-12 sm:mt-[52px]">
@@ -51,8 +62,17 @@ export function HowItWorks({
 
           <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
             {steps.map((step, index) => (
-              <SectionReveal key={step.id} delay={index * 0.1} className="text-center">
-                <FileText size={36} strokeWidth={1.5} className="mx-auto text-[#B59655]" aria-hidden="true" />
+              <SectionReveal
+                key={step.id}
+                delay={index * 0.1}
+                className="text-center"
+              >
+                <FileText
+                  size={36}
+                  strokeWidth={1.5}
+                  className="mx-auto text-[#B59655]"
+                  aria-hidden="true"
+                />
                 <h3 className="mt-[27px] text-[21px] font-medium leading-snug text-[#07111F]">
                   {step.titleLines.split("\n").map((line, lineIndex) => (
                     <span key={lineIndex} className="block">
@@ -60,7 +80,7 @@ export function HowItWorks({
                     </span>
                   ))}
                 </h3>
-                <p className="mt-4 text-base leading-relaxed text-[#9A9A9A]">
+                <p className="mt-4 text-[15px] leading-[18px] text-[#9A9A9A]">
                   {step.descriptionLines.split("\n").map((line, lineIndex) => (
                     <span key={lineIndex} className="block">
                       {line}

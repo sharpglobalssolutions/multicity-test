@@ -13,7 +13,10 @@ export function AboutStory() {
       <div className="content-container grid grid-cols-1 gap-20 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
         {/* Left: large portrait with a smaller, older portrait overlapping its bottom-left */}
         <div className="relative">
-          <SectionReveal x={-60} className="group relative aspect-[3/4] w-[60%] overflow-hidden rounded-md">
+          <SectionReveal
+            x={-60}
+            className="group relative aspect-[3/4] w-[60%] overflow-hidden rounded-md"
+          >
             <Image
               src={STORY_IMAGES.large.src}
               alt={STORY_IMAGES.large.alt}
@@ -64,7 +67,7 @@ export function AboutStory() {
           </div>
 
           <div className="mt-20 lg:mt-24">
-            <h2 className="text-2xl font-semibold sm:text-4xl lg:text-[30px]">
+            <h2 className="text-[28px] leading-[32px]">
               <motion.span
                 className="inline-block text-text-gray/40"
                 initial={{ opacity: 0, y: 10 }}
@@ -87,7 +90,9 @@ export function AboutStory() {
             <div className="mt-6 max-w-md space-y-4">
               {STORY_PARAGRAPHS.map((paragraph, index) => (
                 <SectionReveal key={index} delay={0.4 + index * 0.1} y={12}>
-                  <p className="text-[16px] leading-relaxed text-text-gray">{paragraph}</p>
+                  <p className="text-[15px] leading-[18px] text-text-gray">
+                    {paragraph}
+                  </p>
                 </SectionReveal>
               ))}
             </div>

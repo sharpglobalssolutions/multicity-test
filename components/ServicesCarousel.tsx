@@ -41,7 +41,10 @@ export function ServicesCarousel({
   desktopSlidesPerView = 3,
 }: ServicesCarouselProps = {}) {
   return (
-    <section id="services" className="relative overflow-hidden bg-white py-14 sm:py-14">
+    <section
+      id="services"
+      className="relative overflow-hidden bg-white py-14 sm:py-14"
+    >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.05]"
@@ -54,9 +57,14 @@ export function ServicesCarousel({
       />
 
       <div className="content-container relative">
-        <SectionReveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <div className="mt-2 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <div
+            className="mt-2 text-[15px] leading-[18px] text-text-gray"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="relative mt-12">
@@ -64,7 +72,11 @@ export function ServicesCarousel({
             modules={[Navigation, Autoplay, Keyboard]}
             navigation={{ prevEl: ".services-prev", nextEl: ".services-next" }}
             keyboard={{ enabled: true }}
-            autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             loop
             spaceBetween={24}
             slidesPerView={1.1}
@@ -87,12 +99,15 @@ export function ServicesCarousel({
                     />
                   </div>
                   <div className="p-6">
-           
-                    <h3 className="mt-2 text-[18px] font-semibold text-text-dark">{service.title}</h3>
-                    <p className="mt-2 line-clamp-3 text-[15px] leading-normal text-text-gray">{service.description}</p>
+                    <h3 className="mt-2 text-[18px] text-text-dark">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-[15px] leading-[18px] text-text-gray">
+                      {service.description}
+                    </p>
                     <a
                       href={service.href}
-                      className="mt-5 inline-flex items-center gap-1.5 text-[16px]  text-emerald transition-colors hover:text-navy-deep"
+                      className="mt-5 inline-flex items-center gap-1.5 text-[15px] text-emerald transition-colors hover:text-navy-deep"
                     >
                       {linkLabel}
                       <ArrowRight size={14} aria-hidden="true" />

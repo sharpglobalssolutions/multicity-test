@@ -39,9 +39,9 @@ export function FinalCTA({
 
       <div className="content-container relative z-10">
         <SectionReveal className="max-w-lg">
-          <h2 className="text-2xl font-semibold text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
           <div
-            className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg"
+            className="mt-5 max-w-md text-[15px] leading-[18px] text-white/80"
             dangerouslySetInnerHTML={{ __html: body }}
           />
           <div className="mt-8">

@@ -337,6 +337,7 @@
 #business-class{
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 #business-class::after{
   content: '';
@@ -350,6 +351,8 @@
 
 .personalize-journey{
     position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 .personalize-journey::after{
   content: '';
@@ -366,7 +369,7 @@
     width: 92%;
     height: 100px;
     background-color: #f4f4f4;
-    top: -36px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -376,7 +379,7 @@
     width: 92%;
     height: 65px;
     background-color: #f4f4f4;
-    bottom: 0;
+    bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: -1;

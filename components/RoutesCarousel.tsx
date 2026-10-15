@@ -3,7 +3,12 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -41,8 +46,13 @@ export function RoutesCarousel({
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-5xl text-center">
-          <h2 className="text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <div className="mt-4 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <div
+            className="mt-4 text-[15px] leading-[18px] text-text-gray"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.15} className="mt-12">
@@ -51,7 +61,11 @@ export function RoutesCarousel({
               modules={[Navigation, Pagination, Autoplay]}
               navigation={{ prevEl: ".routes-prev", nextEl: ".routes-next" }}
               pagination={{ el: ".routes-pagination", clickable: true }}
-              autoplay={{ delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+              autoplay={{
+                delay: 6000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
               spaceBetween={24}
               slidesPerView={1}
               breakpoints={{
@@ -87,17 +101,30 @@ export function RoutesCarousel({
 
                       <p className="flex items-center gap-2 text-[18px]  text-navy-deep">
                         {route.originCity}
-                        <ArrowRight size={14} className="text-navy-deep/50" aria-hidden="true" />
+                        <ArrowRight
+                          size={14}
+                          className="text-navy-deep/50"
+                          aria-hidden="true"
+                        />
                         {route.destinationCity}
                       </p>
 
-                      <p className="text-sm text-text-gray">{route.multiCityRoute.join(" → ")}</p>
-
-                      <p className="mt-1 text-[16px] text-text-gray">
-                        Starting from <span className="text-[20px] ms-4 text-navy-deep">{route.price}</span>
+                      <p className="text-sm text-text-gray">
+                        {route.multiCityRoute.join(" → ")}
                       </p>
 
-                      {route.tagline ? <p className="text-xs italic text-text-gray/80">{route.tagline}</p> : null}
+                      <p className="mt-1 text-[15px] text-text-gray">
+                        Starting from{" "}
+                        <span className="text-[20px] ms-4 text-navy-deep">
+                          {route.price}
+                        </span>
+                      </p>
+
+                      {route.tagline ? (
+                        <p className="text-xs italic text-text-gray/80">
+                          {route.tagline}
+                        </p>
+                      ) : null}
                     </div>
                   </article>
                 </SwiperSlide>
@@ -136,7 +163,7 @@ export function RoutesCarousel({
           <SectionReveal delay={0.2} className="mt-10 text-center">
             <Link
               href={buttonHref}
-              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-colors hover:bg-navy-dark"
+              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[15px] text-white transition-colors hover:bg-navy-dark"
             >
               {buttonLabel}
             </Link>

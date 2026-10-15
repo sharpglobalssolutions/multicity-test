@@ -35,19 +35,22 @@ const DEFAULT_ROUTES: PopularRoute[] = [
     id: "toronto-europe",
     number: "02",
     tag: "4 CITIES | ROUND TRIP",
-    stops: "Toronto|CANADA\nAmsterdam|NETHERLANDS\nBarcelona|SPAIN\nMadrid|SPAIN\nToronto|CANADA",
+    stops:
+      "Toronto|CANADA\nAmsterdam|NETHERLANDS\nBarcelona|SPAIN\nMadrid|SPAIN\nToronto|CANADA",
   },
   {
     id: "chicago-europe",
     number: "03",
     tag: "4 CITIES | ROUND TRIP",
-    stops: "Chicago|USA\nFrankfurt|GERMANY\nVienna|AUSTRIA\nAthens|GREECE\nChicago|USA",
+    stops:
+      "Chicago|USA\nFrankfurt|GERMANY\nVienna|AUSTRIA\nAthens|GREECE\nChicago|USA",
   },
   {
     id: "los-angeles-europe",
     number: "04",
     tag: "4 CITIES | ROUND TRIP",
-    stops: "Los Angeles|USA\nZurich|SWITZERLAND\nMilan|ITALY\nLisbon|PORTUGAL\nLos Angeles|USA",
+    stops:
+      "Los Angeles|USA\nZurich|SWITZERLAND\nMilan|ITALY\nLisbon|PORTUGAL\nLos Angeles|USA",
   },
 ];
 
@@ -73,9 +76,13 @@ export function PopularRoutesSection({
   return (
     <section className="bg-gray-light py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-3 text-base text-text-gray sm:text-lg">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -91,10 +98,20 @@ export function PopularRoutesSection({
 
                   <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-5 sm:gap-3">
                     {stops.map((stop, stopIndex) => (
-                      <div key={`${stop.city}-${stopIndex}`} className="text-center">
-                        <div className="aspect-square w-full rounded-lg bg-navy-deep" aria-hidden="true" />
-                        <p className="mt-2 truncate text-[13px] font-semibold text-text-dark">{stop.city}</p>
-                        <p className="truncate text-[11px] text-text-gray">{stop.country}</p>
+                      <div
+                        key={`${stop.city}-${stopIndex}`}
+                        className="text-center"
+                      >
+                        <div
+                          className="aspect-square w-full rounded-lg bg-navy-deep"
+                          aria-hidden="true"
+                        />
+                        <p className="mt-2 truncate text-[13px] font-semibold text-text-dark">
+                          {stop.city}
+                        </p>
+                        <p className="truncate text-[11px] text-text-gray">
+                          {stop.country}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -107,7 +124,11 @@ export function PopularRoutesSection({
         <SectionReveal delay={0.15} className="mt-8">
           <div className="flex flex-col items-center justify-between gap-4 rounded-full border border-navy-deep/10 bg-white px-6 py-4 sm:flex-row">
             <p className="flex items-center gap-3 text-sm text-text-gray">
-              <AlertTriangle size={20} className="shrink-0 text-gold" aria-hidden="true" />
+              <AlertTriangle
+                size={20}
+                className="shrink-0 text-gold"
+                aria-hidden="true"
+              />
               {noticeText}
             </p>
             <Button href={buttonHref} variant="navy" className="shrink-0">

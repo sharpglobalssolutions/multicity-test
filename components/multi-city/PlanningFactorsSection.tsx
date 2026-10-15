@@ -10,32 +10,38 @@ const DEFAULT_ITEMS: PlanningFactor[] = [
   {
     id: "arrival-departure",
     label: "Arrival & Departure Cities",
-    description: "Which city you fly into and out of shapes the entire route — and what connections make sense along the way.",
+    description:
+      "Which city you fly into and out of shapes the entire route — and what connections make sense along the way.",
   },
   {
     id: "destinations",
     label: "Destinations",
-    description: "The cities you want to visit, and the order that makes the most sense given routing and schedules.",
+    description:
+      "The cities you want to visit, and the order that makes the most sense given routing and schedules.",
   },
   {
     id: "travel-time",
     label: "Travel Time",
-    description: "How much time you have available, and how that's best spent between destinations versus in transit.",
+    description:
+      "How much time you have available, and how that's best spent between destinations versus in transit.",
   },
   {
     id: "flight-structure",
     label: "Flight Structure",
-    description: "Whether a one-way, open-jaw, or fully round-trip structure fits your itinerary best.",
+    description:
+      "Whether a one-way, open-jaw, or fully round-trip structure fits your itinerary best.",
   },
   {
     id: "cabin-preference",
     label: "Cabin Preference",
-    description: "Economy, Premium Economy, Business, or a mix — availability varies by route and airline.",
+    description:
+      "Economy, Premium Economy, Business, or a mix — availability varies by route and airline.",
   },
   {
     id: "fare-flexibility",
     label: "Fare Flexibility",
-    description: "Whether you need the ability to change dates or routing, and how that affects the fares available to you.",
+    description:
+      "Whether you need the ability to change dates or routing, and how that affects the fares available to you.",
   },
 ];
 
@@ -62,9 +68,13 @@ export function PlanningFactorsSection({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-3 text-base text-text-gray sm:text-lg">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div
@@ -75,7 +85,9 @@ export function PlanningFactorsSection({
           {items.map((item, index) => (
             <SectionReveal key={item.id} delay={index * 0.05}>
               <h3 className="text-lg text-navy-deep">{item.label}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-text-gray">{item.description}</p>
+              <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+                {item.description}
+              </p>
             </SectionReveal>
           ))}
         </div>

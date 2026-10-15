@@ -18,9 +18,13 @@ export function BrandPhilosophySection({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-semibold text-text-dark sm:text-4xl lg:text-[30px]">{heading}</h2>
-          <p className="mt-5 text-[16px] leading-relaxed text-text-gray">{body}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-5 text-[16px] leading-[22px] text-text-gray">
+            {body}
+          </p>
         </SectionReveal>
       </div>
     </section>

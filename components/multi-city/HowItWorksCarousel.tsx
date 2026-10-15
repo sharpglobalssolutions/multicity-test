@@ -21,11 +21,16 @@ export interface HowItWorksStep {
 }
 
 const DEFAULT_STEPS: HowItWorksStep[] = [
-  { id: "tell-us", titleLines: "Tell Us Your\nJourney", descriptionLines: "Route, dates & preferences." },
+  {
+    id: "tell-us",
+    titleLines: "Tell Us Your\nJourney",
+    descriptionLines: "Route, dates & preferences.",
+  },
   {
     id: "we-explore",
     titleLines: "We Explore Possible\nItineraries",
-    descriptionLines: "Our specialists evaluate available\nroutes and connections.",
+    descriptionLines:
+      "Our specialists evaluate available\nroutes and connections.",
   },
   {
     id: "compare-routes",
@@ -35,7 +40,8 @@ const DEFAULT_STEPS: HowItWorksStep[] = [
   {
     id: "book-journey",
     titleLines: "Book With\nConfidence",
-    descriptionLines: "Your specialist helps finalize\ndates and documentation.",
+    descriptionLines:
+      "Your specialist helps finalize\ndates and documentation.",
   },
 ];
 
@@ -73,41 +79,64 @@ export function HowItWorksCarousel({
   variant = "light",
 }: HowItWorksCarouselProps = {}) {
   const isDark = variant === "dark";
-  const sectionBgClass = variant === "dark" ? "bg-black" : variant === "gray" ? "bg-gray-light" : "bg-white";
+  const sectionBgClass =
+    variant === "dark"
+      ? "bg-black"
+      : variant === "gray"
+        ? "bg-gray-light"
+        : "bg-white";
 
   return (
     <section className={`${sectionBgClass} py-10 sm:py-14`}>
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
+        <SectionReveal className="mx-auto max-w-4xl text-center">
           <h2
-            className={`text-2xl sm:text-4xl lg:text-[30px] font-semibold uppercase tracking-[0.04em] ${
+            className={`text-[28px] leading-[32px] uppercase tracking-[0.04em] ${
               isDark ? "text-white" : "text-[#07111F]"
             }`}
           >
             {heading}
           </h2>
-          <p className={`mt-2.5 text-[20px] font-normal sm:text-[23px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}>
+          <p
+            className={`mt-2.5 text-[20px] font-normal sm:text-[23px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}
+          >
             {subheading}
           </p>
           {paragraph ? (
-            <p className={`mt-4 text-[15px] leading-relaxed ${isDark ? "text-white/70" : "text-text-gray"}`}>
+            <p
+              className={`mt-4 text-[15px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
+            >
               {paragraph}
             </p>
           ) : null}
         </SectionReveal>
 
-        <SectionReveal delay={0.1} className="relative mt-12 px-10 sm:mt-[52px] sm:px-12">
+        <SectionReveal
+          delay={0.1}
+          className="relative mt-12 px-10 sm:mt-[52px] sm:px-12"
+        >
           <Swiper
             modules={[Navigation]}
-            navigation={{ prevEl: ".how-it-works-prev", nextEl: ".how-it-works-next" }}
+            navigation={{
+              prevEl: ".how-it-works-prev",
+              nextEl: ".how-it-works-next",
+            }}
             spaceBetween={SLIDE_GAP}
             slidesPerView={1}
-            breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
           >
             {steps.map((step, index) => (
               <SwiperSlide key={step.id} className="h-auto">
                 <div className="relative h-full text-center">
-                  <FileText size={36} strokeWidth={1.5} className="mx-auto text-[#B59655]" aria-hidden="true" />
+                  <FileText
+                    size={36}
+                    strokeWidth={1.5}
+                    className="mx-auto text-[#B59655]"
+                    aria-hidden="true"
+                  />
                   <h3
                     className={`mt-[27px] text-[21px] font-medium leading-snug ${
                       isDark ? "text-white" : "text-[#07111F]"
@@ -119,12 +148,16 @@ export function HowItWorksCarousel({
                       </span>
                     ))}
                   </h3>
-                  <p className={`mt-4 text-base leading-relaxed ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}>
-                    {step.descriptionLines.split("\n").map((line, lineIndex) => (
-                      <span key={lineIndex} className="block">
-                        {line}
-                      </span>
-                    ))}
+                  <p
+                    className={`mt-4 text-[15px] leading-[18px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}
+                  >
+                    {step.descriptionLines
+                      .split("\n")
+                      .map((line, lineIndex) => (
+                        <span key={lineIndex} className="block">
+                          {line}
+                        </span>
+                      ))}
                   </p>
                   {/* A divider between columns, same as the static grid this
                       replaces — centered in the gap Swiper leaves between
@@ -150,7 +183,9 @@ export function HowItWorksCarousel({
             type="button"
             aria-label="Previous"
             className={`how-it-works-prev absolute left-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
-              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+              isDark
+                ? "border-white/20 text-white"
+                : "border-navy-deep/10 text-navy-deep"
             }`}
           >
             <ChevronLeft size={18} aria-hidden="true" />
@@ -159,7 +194,9 @@ export function HowItWorksCarousel({
             type="button"
             aria-label="Next"
             className={`how-it-works-next absolute right-0 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border transition-colors hover:border-emerald hover:text-emerald ${
-              isDark ? "border-white/20 text-white" : "border-navy-deep/10 text-navy-deep"
+              isDark
+                ? "border-white/20 text-white"
+                : "border-navy-deep/10 text-navy-deep"
             }`}
           >
             <ChevronRight size={18} aria-hidden="true" />

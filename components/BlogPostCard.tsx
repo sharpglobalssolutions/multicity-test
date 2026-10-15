@@ -19,7 +19,11 @@ export function BlogPostCard({ post }: { post: PublicBlogPost }) {
 
   return (
     <article className="group">
-      <Link href={post.url} className="block overflow-hidden rounded-2xl" tabIndex={-1}>
+      <Link
+        href={post.url}
+        className="block overflow-hidden rounded-2xl"
+        tabIndex={-1}
+      >
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-gray-light">
           <Image
             src={post.featured_image || FALLBACK_IMAGE}
@@ -30,10 +34,12 @@ export function BlogPostCard({ post }: { post: PublicBlogPost }) {
           />
         </div>
       </Link>
-      <h3 className="mt-5 line-clamp-2 text-lg font-semibold leading-snug text-text-dark">
+      <h3 className="mt-5 line-clamp-2 text-lg leading-snug text-text-dark">
         <Link href={post.url}>{post.title}</Link>
       </h3>
-      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-text-gray">{excerpt}</p>
+      <p className="mt-2 line-clamp-3 text-[15px] leading-[18px] text-text-gray">
+        {excerpt}
+      </p>
       <Link
         href={post.url}
         className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-navy-deep transition-colors hover:text-emerald"

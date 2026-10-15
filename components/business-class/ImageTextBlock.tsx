@@ -79,9 +79,23 @@ export function ImageTextBlock({
           modules={[Autoplay, EffectFade, Navigation, Pagination]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
-          autoplay={isCarousel ? { delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true } : false}
-          pagination={isCarousel ? { el: `.${paginationClass}`, clickable: true } : false}
-          navigation={isCarousel ? { prevEl: `.${prevClass}`, nextEl: `.${nextClass}` } : false}
+          autoplay={
+            isCarousel
+              ? {
+                  delay: 4000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }
+              : false
+          }
+          pagination={
+            isCarousel ? { el: `.${paginationClass}`, clickable: true } : false
+          }
+          navigation={
+            isCarousel
+              ? { prevEl: `.${prevClass}`, nextEl: `.${nextClass}` }
+              : false
+          }
           loop={images.length > 1}
           className="h-full w-full"
         >
@@ -141,20 +155,27 @@ export function ImageTextBlock({
 
   const textBlock = (
     <SectionReveal x={imagePosition === "left" ? 60 : -60} delay={0.1}>
-      <h3 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-text-dark">
+      <h3 className="text-[28px] leading-[32px] text-text-dark">
         {eyebrowLines.map((line, index) => (
           <span key={index} className="block">
             {line}
           </span>
         ))}
       </h3>
-      <p className="mt-5 max-w-lg text-[16px] text-text-gray">{body}</p>
+      <p className="mt-5 max-w-lg text-[15px] text-text-gray">{body}</p>
 
       {benefits && benefits.length > 0 ? (
         <ul className="mt-6 space-y-3">
           {benefits.map((benefit) => (
-            <li key={benefit} className="flex items-start gap-2.5 text-[15px] text-text-dark">
-              <Check size={18} className="mt-0.5 shrink-0 text-emerald" aria-hidden="true" />
+            <li
+              key={benefit}
+              className="flex items-start gap-2.5 text-[15px] text-text-dark"
+            >
+              <Check
+                size={18}
+                className="mt-0.5 shrink-0 text-emerald"
+                aria-hidden="true"
+              />
               {benefit}
             </li>
           ))}
@@ -179,8 +200,10 @@ export function ImageTextBlock({
         <div className="mt-6 grid max-w-lg grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
           {titledItems.map((item) => (
             <div key={item.title}>
-              <h4 className="text-[16px] font-semibold text-text-dark">{item.title}</h4>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-text-gray">{item.description}</p>
+              <h4 className="text-[16px] text-text-dark">{item.title}</h4>
+              <p className="mt-1.5 text-[15px] leading-[18px] text-text-gray">
+                {item.description}
+              </p>
             </div>
           ))}
         </div>

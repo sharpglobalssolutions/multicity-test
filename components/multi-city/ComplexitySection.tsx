@@ -3,8 +3,17 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { unsplash } from "@/lib/images";
 
 const DEFAULT_ITEMS: string[][] = [
-  ["Which city to arrive in", "Where to depart from", "Whether to combine airlines", "Flexible or refundable fares"],
-  ["How to avoid unnecessary backtracking", "Flight or rail connections between cities", "Business Class or other cabin options"],
+  [
+    "Which city to arrive in",
+    "Where to depart from",
+    "Whether to combine airlines",
+    "Flexible or refundable fares",
+  ],
+  [
+    "How to avoid unnecessary backtracking",
+    "Flight or rail connections between cities",
+    "Business Class or other cabin options",
+  ],
 ];
 
 export interface ComplexitySectionProps {
@@ -48,16 +57,30 @@ export function ComplexitySection({
     >
       {backgroundImage ? (
         <>
-          <Image src={backgroundImage} alt="A traveler with luggage walking through an airport terminal" fill sizes="100vw" className="object-cover" />
+          <Image
+            src={backgroundImage}
+            alt="A traveler with luggage walking through an airport terminal"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/35" />
         </>
       ) : null}
 
       <div className="content-container relative z-10">
-        <SectionReveal className={isCentered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
-          <h2 className="text-2xl text-white sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-4 text-base leading-relaxed text-white/80 sm:text-lg">{subheading}</p>
-          {listIntro ? <p className="mt-6 text-base font-semibold text-white">{listIntro}</p> : null}
+        <SectionReveal
+          className={isCentered ? "mx-auto max-w-4xl text-center" : "max-w-4xl"}
+        >
+          <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
+          <p className="mt-4 text-[15px] leading-[18px] text-white/80">
+            {subheading}
+          </p>
+          {listIntro ? (
+            <p className="mt-6 text-base font-semibold text-white">
+              {listIntro}
+            </p>
+          ) : null}
         </SectionReveal>
 
         <SectionReveal
@@ -67,8 +90,14 @@ export function ComplexitySection({
           {columns.map((column, columnIndex) => (
             <ul key={columnIndex} className="space-y-3">
               {column.map((item) => (
-                <li key={item} className="flex items-start gap-2.5 text-[15px] text-white/90">
-                  <span className="mt-2 size-1.5 shrink-0 rounded-full bg-white" aria-hidden="true" />
+                <li
+                  key={item}
+                  className="flex items-start gap-2.5 text-[15px] text-white/90"
+                >
+                  <span
+                    className="mt-2 size-1.5 shrink-0 rounded-full bg-white"
+                    aria-hidden="true"
+                  />
                   {item}
                 </li>
               ))}

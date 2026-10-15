@@ -45,8 +45,8 @@ export function FlightOptionCards({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl leading-tight text-text-dark sm:text-4xl lg:text-[30px] font-semibold">
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
             <span className="block">{heading}</span>
             <span className="block">{subheading}</span>
           </h2>
@@ -57,11 +57,19 @@ export function FlightOptionCards({
             <SectionReveal key={card.id} delay={index * 0.1}>
               <article className="overflow-hidden rounded-card shadow-card">
                 <div className="relative aspect-[16/11] w-full">
-                  <Image src={card.image} alt={card.alt} fill sizes="(min-width: 640px) 45vw, 90vw" className="object-cover" />
+                  <Image
+                    src={card.image}
+                    alt={card.alt}
+                    fill
+                    sizes="(min-width: 640px) 45vw, 90vw"
+                    className="object-cover"
+                  />
                 </div>
                 <div className="bg-[#ececec] p-6">
                   <h3 className="text-xl text-text-dark">{card.title}</h3>
-                  <p className="mt-3 text-[15px] leading-relaxed text-text-gray">{card.description}</p>
+                  <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+                    {card.description}
+                  </p>
                 </div>
               </article>
             </SectionReveal>

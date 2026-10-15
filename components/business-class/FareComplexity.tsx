@@ -1,4 +1,11 @@
-import { Armchair, CalendarClock, Plane, RefreshCw, Route, ScrollText } from "lucide-react";
+import {
+  Armchair,
+  CalendarClock,
+  Plane,
+  RefreshCw,
+  Route,
+  ScrollText,
+} from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
 
 /** DB-provided items carry an icon *key* (JSON can't store a component
@@ -46,20 +53,30 @@ export function FareComplexity({
   return (
     <section className="bg-white py-10 sm:py-14">
       <div className="content-container">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">{subheading}</p>
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <p className="mt-3 text-base text-text-gray sm:text-lg">
+            {subheading}
+          </p>
         </SectionReveal>
 
         <div className="mt-14 grid grid-cols-2 gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
           {items.map((item, index) => {
             const Icon = FARE_ICON_MAP[item.icon];
             return (
-              <SectionReveal key={item.id} delay={index * 0.05} className="flex flex-col items-center gap-3 text-center">
+              <SectionReveal
+                key={item.id}
+                delay={index * 0.05}
+                className="flex flex-col items-center gap-3 text-center"
+              >
                 <span className="flex size-16 items-center justify-center rounded-full border border-navy-deep/10 bg-gray-light text-navy-deep">
                   <Icon size={26} aria-hidden="true" />
                 </span>
-                <p className="text-sm font-semibold text-text-dark">{item.label}</p>
+                <p className="text-sm font-semibold text-text-dark">
+                  {item.label}
+                </p>
               </SectionReveal>
             );
           })}

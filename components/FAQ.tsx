@@ -22,10 +22,13 @@ export function FAQ({
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section id="faq" className="relative overflow-hidden bg-navy-deep py-14 sm:py-20">
+    <section
+      id="faq"
+      className="relative overflow-hidden bg-navy-deep py-14 sm:py-20"
+    >
       {/* Decorative abstract circles, bottom-left — low-contrast, purely
           ornamental, kept behind all content. */}
-    
+
       {/* Decorative oversized "Q" — Playfair Display is used here only,
           purely as a background motif, never as the site's real type. */}
       <span
@@ -38,7 +41,9 @@ export function FAQ({
       <div className="content-container relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr]  lg:gap-16">
         <SectionReveal x={-30}>
           <span className="text-white text-[20px]">{eyebrow}</span>
-          <h2 className="mt-3 text-2xl font-semibold leading-tight text-white sm:text-4xl lg:text-[30px]">{heading}</h2>
+          <h2 className="mt-3 text-[28px] leading-[32px] text-white">
+            {heading}
+          </h2>
           <motion.div
             initial={{ width: 0 }}
             whileInView={{ width: "4rem" }}
@@ -48,7 +53,11 @@ export function FAQ({
           />
         </SectionReveal>
 
-        <SectionReveal x={30} delay={0.1} className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6 lg:p-8">
+        <SectionReveal
+          x={30}
+          delay={0.1}
+          className="rounded-3xl border border-white/10 bg-white/[0.04] p-4 sm:p-6 lg:p-8"
+        >
           <div className="space-y-4">
             {faqs.map((faq, index) => {
               const isOpen = openId === faq.id;
@@ -59,9 +68,13 @@ export function FAQ({
                 <SectionReveal key={faq.id} delay={0.15 + index * 0.07} y={16}>
                   <motion.div
                     layout
-                    transition={{ layout: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
+                    transition={{
+                      layout: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+                    }}
                     className={`overflow-hidden rounded-2xl bg-off-white transition-shadow duration-300 ${
-                      isOpen ? "shadow-lg ring-1 ring-emerald/30" : "hover:shadow-md"
+                      isOpen
+                        ? "shadow-lg ring-1 ring-emerald/30"
+                        : "hover:shadow-md"
                     }`}
                   >
                     <h3>
@@ -73,11 +86,20 @@ export function FAQ({
                         onClick={() => setOpenId(isOpen ? null : faq.id)}
                         className="flex w-full items-center justify-between gap-2 p-2 text-left sm:p-3"
                       >
-                        <span className="text-base font-semibold text-text-dark sm:text-lg">{faq.question}</span>
+                        <span className="text-base font-semibold text-text-dark sm:text-lg">
+                          {faq.question}
+                        </span>
                         <motion.span
                           aria-hidden="true"
-                          animate={{ rotate: isOpen ? 180 : 0, backgroundColor: isOpen ? "#00b67a" : "#0a0c11" }}
-                          transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                          animate={{
+                            rotate: isOpen ? 180 : 0,
+                            backgroundColor: isOpen ? "#00b67a" : "#0a0c11",
+                          }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 22,
+                          }}
                           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
                         >
                           <ChevronDown size={18} className="text-white" />
@@ -93,14 +115,21 @@ export function FAQ({
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                          transition={{
+                            duration: 0.35,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
                           className="overflow-hidden"
                         >
                           <motion.p
                             initial={{ y: -8, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 0.3, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                            className="px-5 pb-5 text-sm leading-relaxed text-text-gray sm:px-6 sm:pb-6 sm:text-base"
+                            transition={{
+                              duration: 0.3,
+                              delay: 0.1,
+                              ease: [0.22, 1, 0.36, 1],
+                            }}
+                            className="px-5 pb-5 text-[15px] leading-[18px] text-text-gray sm:px-6 sm:pb-6"
                           >
                             {faq.answer}
                           </motion.p>

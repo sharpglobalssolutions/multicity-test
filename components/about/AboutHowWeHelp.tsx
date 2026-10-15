@@ -9,7 +9,10 @@ export function AboutHowWeHelp() {
   return (
     <section className="overflow-x-hidden bg-white py-10 sm:py-14">
       <div className="content-container grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        <SectionReveal x={-60} className="group relative aspect-[4/3] w-full overflow-hidden rounded-card sm:aspect-[16/11]">
+        <SectionReveal
+          x={-60}
+          className="group relative aspect-[4/3] w-full overflow-hidden rounded-card sm:aspect-[16/11]"
+        >
           <Image
             src={HOW_WE_HELP_IMAGE.src}
             alt={HOW_WE_HELP_IMAGE.alt}
@@ -21,13 +24,19 @@ export function AboutHowWeHelp() {
         </SectionReveal>
 
         <SectionReveal x={60} delay={0.1}>
-          <h2 className="text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">How We Help Travellers</h2>
-          <p className="mt-6 text-lg font-semibold text-navy-deep">Contact a Travel Specialist</p>
-          <p className="mt-2 max-w-lg text-[16px] leading-relaxed text-text-gray">Call us or submit an enquiry.</p>
+          <h2 className="text-[28px] leading-[32px] text-text-dark">
+            How We Help Travellers
+          </h2>
+          <p className="mt-6 text-lg font-semibold text-navy-deep">
+            Contact a Travel Specialist
+          </p>
+          <p className="mt-2 max-w-lg text-[15px] leading-[18px] text-text-gray">
+            Call us or submit an enquiry.
+          </p>
           <div className="mt-8">
             <a
               href={CALL_EXPERT_HREF}
-              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[16px] font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-navy-dark hover:shadow-[0_12px_28px_-10px_rgba(4,22,39,0.5)]"
+              className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[15px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-navy-dark hover:shadow-[0_12px_28px_-10px_rgba(4,22,39,0.5)]"
             >
               Call an Expert
             </a>

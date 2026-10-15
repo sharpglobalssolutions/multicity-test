@@ -28,19 +28,27 @@ export function ExploreEuropeSection({
 }: ExploreEuropeSectionProps = {}) {
   return (
     <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
-      <Image src={backgroundImage} alt="A European city skyline at dusk" fill sizes="100vw" className="object-cover" />
+      <Image
+        src={backgroundImage}
+        alt="A European city skyline at dusk"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-2xl sm:text-4xl lg:text-[30px] font-semibold leading-tight text-white">
+          <h2 className="text-[28px] leading-[32px] text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
               </span>
             ))}
           </h2>
-          <p className="mt-4 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">{subheading}</p>
+          <p className="mt-4 max-w-md text-[15px] leading-[18px] text-white/80">
+            {subheading}
+          </p>
           <div className="mt-8">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}
@@ -49,8 +57,12 @@ export function ExploreEuropeSection({
         </SectionReveal>
 
         <SectionReveal delay={0.1}>
-          <p className="text-[15px] font-medium leading-relaxed text-white sm:text-base">{rightHeading}</p>
-          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/70">{rightBody}</p>
+          <p className="text-[15px] font-medium leading-[18px] text-white">
+            {rightHeading}
+          </p>
+          <p className="mt-4 max-w-md text-[15px] leading-[18px] text-white/70">
+            {rightBody}
+          </p>
         </SectionReveal>
       </div>
     </section>

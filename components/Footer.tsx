@@ -119,7 +119,7 @@ export async function Footer({
         <div className="content-container">
           {/* Let's Stay Connected */}
           <div className="text-center">
-            <h2 className="text-2xl uppercase text-text-dark sm:text-4xl lg:text-[30px] font-semibold">
+            <h2 className="text-[28px] leading-[32px] uppercase text-text-dark">
               {resolvedConnectHeading}
             </h2>
             <div className="mt-5 flex items-center justify-center gap-4">
@@ -157,7 +157,7 @@ export async function Footer({
           <div className="mt-12 grid grid-cols-1 gap-10 border-t border-navy-deep/10 pt-12 sm:grid-cols-3 sm:gap-8">
             {columns.map((column) => (
               <div key={column.title}>
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-text-dark">
+                <h3 className="text-sm uppercase tracking-wide text-text-dark">
                   {column.title}
                 </h3>
                 <ul className="mt-5 space-y-3">
@@ -192,7 +192,7 @@ export async function Footer({
           <div className="content-container py-16">
             <div className="grid grid-cols-1 gap-14 lg:grid-cols-[0.9fr_1.4fr] lg:gap-16">
               <div>
-                <h2 className="text-2xl font-semibold leading-tight sm:text-4xl lg:text-[30px]">
+                <h2 className="text-[28px] leading-[32px]">
                   {resolvedDarkHeadingLines.map((line, index) => (
                     <span key={index}>
                       {index > 0 ? <br /> : null}
@@ -209,7 +209,7 @@ export async function Footer({
                   className="mt-8 w-50"
                 />
 
-                <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
+                <p className="mt-4 max-w-xs text-[15px] leading-[18px] text-white/60">
                   {resolvedTagline}
                 </p>
               </div>
@@ -222,7 +222,7 @@ export async function Footer({
                 <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
                   {resolvedFooterNavColumns.map((column) => (
                     <div key={column.title}>
-                      <h3 className="text-xs font-semibold uppercase tracking-wide text-white/50">
+                      <h3 className="text-xs uppercase tracking-wide text-white/50">
                         {column.title}
                       </h3>
                       <ul className="mt-4 space-y-3">
@@ -249,7 +249,7 @@ export async function Footer({
               not needed from `lg` up, where that button is hidden. */}
           <div className="border-t border-white/10">
             <div className="content-container flex flex-col items-center gap-3 py-6 pb-24 text-center sm:flex-row sm:justify-between sm:text-left lg:pb-6">
-              <div className="text-xs leading-relaxed text-white/50">
+              <div className="text-[15px] leading-[18px] text-white/50">
                 <p>{resolvedCopyrightText}</p>
                 <p>© {year} MulticityExperts. All rights reserved.</p>
               </div>

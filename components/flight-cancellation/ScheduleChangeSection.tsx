@@ -3,7 +3,10 @@ import { ArrowRight } from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
 import { unsplash } from "@/lib/images";
 
-const DEFAULT_HEADING_LINES = ["What Happens If the", "Airline Changes Your Flight?"];
+const DEFAULT_HEADING_LINES = [
+  "What Happens If the",
+  "Airline Changes Your Flight?",
+];
 
 const DEFAULT_FLOW_STEPS = [
   "Original Itinerary",
@@ -58,20 +61,28 @@ export function ScheduleChangeSection({
 
   return (
     <section className="relative overflow-hidden bg-navy-deep py-14 sm:py-20">
-      <Image src={backgroundImage} alt="An aircraft wing above the clouds during a sunset flight" fill sizes="100vw" className="object-cover" />
+      <Image
+        src={backgroundImage}
+        alt="An aircraft wing above the clouds during a sunset flight"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-black/40" />
 
       <div className="content-container relative z-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           <SectionReveal x={-30}>
-            <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">
+            <h2 className="text-[28px] leading-[32px] text-white">
               {headingLines.map((line, index) => (
                 <span key={index} className="block">
                   {line}
                 </span>
               ))}
             </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/80">{body}</p>
+            <p className="mt-5 max-w-md text-[15px] leading-[18px] text-white/80">
+              {body}
+            </p>
           </SectionReveal>
 
           <SectionReveal x={30} delay={0.1}>
@@ -79,32 +90,49 @@ export function ScheduleChangeSection({
             <div className="mt-5 grid grid-cols-2 gap-x-8 gap-y-2.5">
               <ul className="space-y-2.5">
                 {columnA.map((item) => (
-                  <li key={item} className="text-[15px] font-medium text-white/90">
+                  <li
+                    key={item}
+                    className="text-[15px] font-medium text-white/90"
+                  >
                     {item}
                   </li>
                 ))}
               </ul>
               <ul className="space-y-2.5">
                 {columnB.map((item) => (
-                  <li key={item} className="text-[15px] font-medium text-white/90">
+                  <li
+                    key={item}
+                    className="text-[15px] font-medium text-white/90"
+                  >
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
-            {rightNote ? <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/80">{rightNote}</p> : null}
+            {rightNote ? (
+              <p className="mt-6 max-w-md text-[15px] leading-[18px] text-white/80">
+                {rightNote}
+              </p>
+            ) : null}
           </SectionReveal>
         </div>
 
         {flowSteps.length > 0 ? (
-          <SectionReveal delay={0.2} className="mt-14 border-t border-white/15 pt-8">
+          <SectionReveal
+            delay={0.2}
+            className="mt-14 border-t border-white/15 pt-8"
+          >
             <p className="text-lg text-white">{flowLabel}</p>
             <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3 text-[15px] font-medium text-white/90">
               {flowSteps.map((step, index) => (
                 <span key={step} className="flex items-center gap-2">
                   {step}
                   {index < flowSteps.length - 1 ? (
-                    <ArrowRight size={14} className="text-gold" aria-hidden="true" />
+                    <ArrowRight
+                      size={14}
+                      className="text-gold"
+                      aria-hidden="true"
+                    />
                   ) : null}
                 </span>
               ))}

@@ -23,7 +23,10 @@ export function TestimonialCarousel({
   testimonials = TESTIMONIALS,
 }: TestimonialCarouselProps = {}) {
   return (
-    <section id="testimonials" className="relative overflow-hidden bg-white py-14 sm:py-14">
+    <section
+      id="testimonials"
+      className="relative overflow-hidden bg-white py-14 sm:py-14"
+    >
       {/* Decorative, low-opacity travel motif — not a stock photo, just the
           site's own icon set (globe + plane) rendered oversized so it reads
           as a background illustration without competing with the cards. */}
@@ -32,20 +35,39 @@ export function TestimonialCarousel({
         className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
       >
         <Globe2 size={620} strokeWidth={0.6} className="text-navy-deep" />
-        <Plane size={160} strokeWidth={0.6} className="absolute left-[60%] top-[20%] -rotate-45 text-navy-deep" />
+        <Plane
+          size={160}
+          strokeWidth={0.6}
+          className="absolute left-[60%] top-[20%] -rotate-45 text-navy-deep"
+        />
       </div>
 
       <div className="content-container relative">
-        <SectionReveal className="mx-auto max-w-2xl text-center">
-          <h2 className="mt-3 text-2xl text-text-dark sm:text-4xl lg:text-[30px] font-semibold">{heading}</h2>
-          <div className="mt-2 text-base text-text-gray sm:text-[16px]" dangerouslySetInnerHTML={{ __html: subheading }} />
+        <SectionReveal className="mx-auto max-w-4xl text-center">
+          <h2 className="mt-3 text-[28px] leading-[32px] text-text-dark">
+            {heading}
+          </h2>
+          <div
+            className="mt-2 text-[15px] leading-[18px] text-text-gray"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
-        <SectionReveal delay={0.15} className="relative mx-auto mt-12 px-10 sm:px-14">
+        <SectionReveal
+          delay={0.15}
+          className="relative mx-auto mt-12 px-10 sm:px-14"
+        >
           <Swiper
             modules={[Navigation, Autoplay]}
-            navigation={{ prevEl: ".testimonials-prev", nextEl: ".testimonials-next" }}
-            autoplay={{ delay: 6000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+            navigation={{
+              prevEl: ".testimonials-prev",
+              nextEl: ".testimonials-next",
+            }}
+            autoplay={{
+              delay: 6000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
             loop
             spaceBetween={28}
             slidesPerView={1}
@@ -67,7 +89,7 @@ export function TestimonialCarousel({
                   >
                     &ldquo;
                   </span>
-                  <blockquote className="mt-2 max-w-md text-base leading-relaxed text-text-dark sm:text-lg">
+                  <blockquote className="mt-2 max-w-md text-[15px] leading-[18px] text-text-dark">
                     {testimonial.quote}
                   </blockquote>
                   <figcaption className="mt-8 flex flex-col items-center gap-3">
@@ -81,8 +103,12 @@ export function TestimonialCarousel({
                       />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-text-dark">{testimonial.name}</p>
-                      <p className="text-xs text-text-gray">{testimonial.location}</p>
+                      <p className="text-sm font-bold text-text-dark">
+                        {testimonial.name}
+                      </p>
+                      <p className="text-xs text-text-gray">
+                        {testimonial.location}
+                      </p>
                     </div>
                   </figcaption>
                 </figure>

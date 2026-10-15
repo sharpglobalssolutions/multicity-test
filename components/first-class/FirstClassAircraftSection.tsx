@@ -35,12 +35,18 @@ export function FirstClassAircraftSection({
 }: FirstClassAircraftSectionProps = {}) {
   return (
     <section className="relative flex min-h-[360px] items-center overflow-hidden bg-navy-deep py-10 sm:min-h-[440px] sm:py-14">
-      <Image src={backgroundImage} alt="An aircraft wing above the clouds during a sunset flight" fill sizes="100vw" className="object-cover" />
+      <Image
+        src={backgroundImage}
+        alt="An aircraft wing above the clouds during a sunset flight"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/35" />
 
       <div className="content-container relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
-          <h2 className="text-2xl leading-tight text-white sm:text-4xl lg:text-[30px] font-semibold">
+          <h2 className="text-[28px] leading-[32px] text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
                 {line}
@@ -50,7 +56,7 @@ export function FirstClassAircraftSection({
           {leftParagraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-sm text-[15px] leading-relaxed text-white/80 ${index === 0 ? "mt-5" : "mt-4"}`}
+              className={`max-w-sm text-[15px] leading-[18px] text-white/80 ${index === 0 ? "mt-5" : "mt-4"}`}
             >
               {paragraph}
             </p>
@@ -59,7 +65,10 @@ export function FirstClassAircraftSection({
 
         <SectionReveal delay={0.1}>
           {rightParagraphs.map((paragraph, index) => (
-            <p key={index} className={`max-w-md text-[15px] leading-relaxed text-white/80 ${index === 0 ? "" : "mt-4"}`}>
+            <p
+              key={index}
+              className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
+            >
               {paragraph}
             </p>
           ))}
