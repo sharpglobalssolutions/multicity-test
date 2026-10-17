@@ -9,15 +9,18 @@ import { HowItWorks } from "@/components/business-class/HowItWorks";
 import { JourneySection } from "@/components/business-class/JourneySection";
 import { QuickConsultSection } from "@/components/business-class/QuickConsultSection";
 import { StatsBar } from "@/components/business-class/StatsBar";
-import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
+import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import type { Faq } from "@/data/content";
 import { unsplash } from "@/lib/images";
-import { getBusinessClassPageSeoSafely, getBusinessClassSectionsSafely } from "@/services/business-class.service";
+import {
+  getBusinessClassPageSeoSafely,
+  getBusinessClassSectionsSafely,
+} from "@/services/business-class.service";
 
 // Every section below now reads its content from the database (see
 // services/business-class.service.ts) — revalidate periodically so edits
@@ -73,7 +76,11 @@ const DEFAULT_FAQS: Faq[] = [
       "Tell us your travel requirements, our specialists evaluate suitable routes and fares across airlines, and you choose the option that works best for you — with support throughout.",
   },
 ];
-const DEFAULT_FAQ_SECTION = { eyebrow: "Common Questions", heading: "Everything You Need to Know", faqs: DEFAULT_FAQS };
+const DEFAULT_FAQ_SECTION = {
+  eyebrow: "Common Questions",
+  heading: "Everything You Need to Know",
+  faqs: DEFAULT_FAQS,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getBusinessClassPageSeoSafely();
@@ -108,8 +115,13 @@ export default async function BusinessClassPage() {
         <BusinessClassServices {...sections.BC_SERVICES} />
         <BusinessClassExpertise {...sections.BC_EXPERTISE} />
         <FinalCTA {...(sections.CTA ?? DEFAULT_CTA)} />
-        <TestimonialCarousel {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)} />
-        <FAQ {...(sections.FAQ ?? DEFAULT_FAQ_SECTION)} />
+        <TestimonialCarousel
+          {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}
+        />
+        <LightFaqSection
+          heading={sections.FAQ?.heading ?? DEFAULT_FAQ_SECTION.heading}
+          faqs={sections.FAQ?.faqs ?? DEFAULT_FAQ_SECTION.faqs}
+        />
       </main>
       <Footer />
     </>

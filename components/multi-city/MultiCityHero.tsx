@@ -1,4 +1,6 @@
+import { PhoneCall } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/Button";
 import { FlightSearch } from "@/components/FlightSearch";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -38,7 +40,6 @@ export interface MultiCityHeroProps {
   buttonLabel?: string;
   buttonHref?: string;
   phoneNumber?: string;
-  phoneHeaderImage?: string;
   trustStats?: MultiCityHeroTrustStat[];
 }
 
@@ -55,7 +56,6 @@ export function MultiCityHero({
   buttonLabel = "Plan My Europe Journey",
   buttonHref = "#connect",
   phoneNumber = "1869-504-657",
-  phoneHeaderImage = unsplash("1573497491208-6b1acb260507"),
   trustStats = DEFAULT_TRUST_STATS,
 }: MultiCityHeroProps = {}) {
   return (
@@ -72,7 +72,7 @@ export function MultiCityHero({
       <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-transparent to-transparent" />
 
       <div className="content-container relative z-10 grid items-center gap-12 lg:grid-cols-[3fr_2fr] lg:gap-10">
-        <div>
+        <div className="order-2 lg:order-1">
           <h1 className="text-[35px] leading-[40px] font-semibold text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
@@ -110,23 +110,20 @@ export function MultiCityHero({
         <SectionReveal
           scale={0.95}
           delay={0.2}
-          className="lg:justify-self-end lg:w-full"
+          className="order-1 lg:order-2 lg:justify-self-end lg:w-full"
         >
           <div className="rounded-[7px] bg-white p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8">
-            <div className="mb-6 flex items-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white">
-              <div className="relative size-11 shrink-0 overflow-hidden rounded-full ring-2 ring-white/40">
-                <Image
-                  src={phoneHeaderImage}
-                  alt=""
-                  fill
-                  sizes="44px"
-                  className="object-cover"
-                />
+            <Link
+              href={`tel:${phoneNumber}`}
+              className="mb-6 flex items-center justify-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
+            >
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-none bg-[#ab8a4b]">
+                <PhoneCall size={20} aria-hidden="true" />
               </div>
-              <span className="text-xl font-bold tracking-wide">
+              <span className="text-lg font-bold tracking-wide sm:text-2xl">
                 {phoneNumber}
               </span>
-            </div>
+            </Link>
 
             <FlightSearch variant="light" />
 

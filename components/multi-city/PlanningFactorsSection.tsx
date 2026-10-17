@@ -85,7 +85,7 @@ export function PlanningFactorsSection({
           {items.map((item, index) => (
             <SectionReveal key={item.id} delay={index * 0.05}>
               <h3 className="text-lg text-navy-deep">{item.label}</h3>
-              <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+              <p className="mt-2 text-[15px] leading-[18px] text-text-gray">
                 {item.description}
               </p>
             </SectionReveal>

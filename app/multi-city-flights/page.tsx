@@ -10,11 +10,11 @@ import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsS
 import { PopularRoutesSection } from "@/components/multi-city/PopularRoutesSection";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { WorkAroundYouSection } from "@/components/multi-city/WorkAroundYouSection";
-import { FAQ } from "@/components/FAQ";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
+import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import type { Faq } from "@/data/content";
 import { unsplash } from "@/lib/images";
 import {
@@ -62,7 +62,8 @@ const DEFAULT_FAQS: Faq[] = [
   {
     id: "economy-or-business",
     question: "Do you book economy or only business class?",
-    answer: "Both. We work across Economy, Premium Economy and Business Class, based on what fits your trip and budget.",
+    answer:
+      "Both. We work across Economy, Premium Economy and Business Class, based on what fits your trip and budget.",
   },
   {
     id: "plans-change",
@@ -71,7 +72,11 @@ const DEFAULT_FAQS: Faq[] = [
       "It depends on the fare rules attached to your ticket. We flag flexibility upfront when it matters, and help you navigate changes if your plans shift.",
   },
 ];
-const DEFAULT_FAQ_SECTION = { eyebrow: "Common Questions", heading: "Everything You Need to Know", faqs: DEFAULT_FAQS };
+const DEFAULT_FAQ_SECTION = {
+  eyebrow: "Common Questions",
+  heading: "Everything You Need to Know",
+  faqs: DEFAULT_FAQS,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getMultiCityFlightsPageSeoSafely();
@@ -103,40 +108,84 @@ export default async function MultiCityFlightsPage() {
         <HowItWorksCarousel {...sections.MC_HOW_IT_WORKS} />
         <WorkAroundYouSection {...sections.MC_WORK_AROUND_YOU} />
         <FeaturedBlockSection
-          headingLines={featuredOne?.headingLines ?? ["Business Class", "Multi-City Travel"]}
+          headingLines={
+            featuredOne?.headingLines ?? ["Business Class", "Multi-City Travel"]
+          }
           body={
             featuredOne?.body ??
             "Travelling between several European cities in Business Class can involve different airlines, routes, schedules and fare structures."
           }
           images={
             featuredOne?.images ?? [
-              { src: unsplash("1569154941061-e231b4725ef1"), alt: "A passenger's premium business class seat and workspace in flight" },
-              { src: unsplash("1587019158091-1a103c5dd17f"), alt: "Close-up detail of a first-class seat and personal suite" },
+              {
+                src: unsplash("1569154941061-e231b4725ef1"),
+                alt: "A passenger's premium business class seat and workspace in flight",
+              },
+              {
+                src: unsplash("1587019158091-1a103c5dd17f"),
+                alt: "Close-up detail of a first-class seat and personal suite",
+              },
             ]
           }
           twoColumnItems={
             featuredOne?.twoColumnItems ?? [
-              ["Flexible fares", "Refundable fares", "Business Class", "Premium Economy"],
-              ["Mixed-cabin itineraries", "Multiple-airline combinations", "One-way combinations", "Open-jaw options"],
+              [
+                "Flexible fares",
+                "Refundable fares",
+                "Business Class",
+                "Premium Economy",
+              ],
+              [
+                "Mixed-cabin itineraries",
+                "Multiple-airline combinations",
+                "One-way combinations",
+                "Open-jaw options",
+              ],
             ]
           }
-          buttonLabel={featuredOne?.buttonLabel ?? "Plan My Business Class Journey"}
+          buttonLabel={
+            featuredOne?.buttonLabel ?? "Plan My Business Class Journey"
+          }
           buttonHref={featuredOne?.buttonHref ?? "#connect"}
           imagePosition="left"
         />
         <FeaturedBlockSection
-          headingLines={featuredTwo?.headingLines ?? ["Flexible Options for", "Complex European Trips"]}
-          body={featuredTwo?.body ?? "Depending on your route and available fares, you may be able to explore:"}
+          headingLines={
+            featuredTwo?.headingLines ?? [
+              "Flexible Options for",
+              "Complex European Trips",
+            ]
+          }
+          body={
+            featuredTwo?.body ??
+            "Depending on your route and available fares, you may be able to explore:"
+          }
           images={
             featuredTwo?.images ?? [
-              { src: unsplash("1502602898657-3e91760cbb34"), alt: "The Eiffel Tower rising above the rooftops of Paris at dusk" },
-              { src: unsplash("1513635269975-59663e0ac1ad"), alt: "The Elizabeth Tower and Houses of Parliament in London" },
+              {
+                src: unsplash("1502602898657-3e91760cbb34"),
+                alt: "The Eiffel Tower rising above the rooftops of Paris at dusk",
+              },
+              {
+                src: unsplash("1513635269975-59663e0ac1ad"),
+                alt: "The Elizabeth Tower and Houses of Parliament in London",
+              },
             ]
           }
           twoColumnItems={
             featuredTwo?.twoColumnItems ?? [
-              ["Flexible fares", "Refundable fares", "Business Class", "Premium Economy"],
-              ["Mixed-cabin itineraries", "Multiple-airline combinations", "One-way combinations", "Open-jaw options"],
+              [
+                "Flexible fares",
+                "Refundable fares",
+                "Business Class",
+                "Premium Economy",
+              ],
+              [
+                "Mixed-cabin itineraries",
+                "Multiple-airline combinations",
+                "One-way combinations",
+                "Open-jaw options",
+              ],
             ]
           }
           buttonLabel={featuredTwo?.buttonLabel ?? "Compare My Travel Options"}
@@ -147,8 +196,13 @@ export default async function MultiCityFlightsPage() {
         <ExploreEuropeSection {...sections.MC_EXPLORE_EUROPE} />
         <WhyChooseSection {...sections.MC_WHY_CHOOSE} />
         <FeaturedBlockSection
-          headingLines={planningCta?.headingLines ?? ["What We Need to", "Start Planning"]}
-          body={planningCta?.body ?? "You don't need to have your entire itinerary figured out. Start with the basics."}
+          headingLines={
+            planningCta?.headingLines ?? ["What We Need to", "Start Planning"]
+          }
+          body={
+            planningCta?.body ??
+            "You don't need to have your entire itinerary figured out. Start with the basics."
+          }
           images={
             planningCta?.images ?? [
               {
@@ -163,15 +217,30 @@ export default async function MultiCityFlightsPage() {
           }
           twoColumnItems={
             planningCta?.twoColumnItems ?? [
-              ["Departure city", "Destinations you're considering", "Approximate travel dates", "Trip duration", "Preferred arrival or departure city"],
-              ["Cabin preference", "Number of travellers", "Preferred airline, if any", "Flexible dates, if applicable", "Any special requirements"],
+              [
+                "Departure city",
+                "Destinations you're considering",
+                "Approximate travel dates",
+                "Trip duration",
+                "Preferred arrival or departure city",
+              ],
+              [
+                "Cabin preference",
+                "Number of travellers",
+                "Preferred airline, if any",
+                "Flexible dates, if applicable",
+                "Any special requirements",
+              ],
             ]
           }
           buttonLabel={planningCta?.buttonLabel ?? "Start My Itinerary"}
           buttonHref={planningCta?.buttonHref ?? "#connect"}
           imagePosition="left"
         />
-        <FAQ {...(sections.FAQ ?? DEFAULT_FAQ_SECTION)} />
+        <LightFaqSection
+          heading={sections.FAQ?.heading ?? DEFAULT_FAQ_SECTION.heading}
+          faqs={sections.FAQ?.faqs ?? DEFAULT_FAQ_SECTION.faqs}
+        />
         <FinalCTA {...(sections.CTA ?? DEFAULT_CTA)} />
       </main>
       <Footer />

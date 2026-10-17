@@ -1,8 +1,9 @@
+import { PhoneCall } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { FlightSearch } from "@/components/FlightSearch";
 import { SectionReveal } from "@/components/SectionReveal";
 import { HERO_BACKGROUND_IMAGE } from "@/data/business-class-content";
-import { unsplash } from "@/lib/images";
 
 interface BusinessClassHeroTrustStat {
   id: string;
@@ -54,7 +55,7 @@ export function BusinessClassHero({
       </div>
 
       <div className="content-container relative grid grid-cols-1 items-center gap-12 py-16 sm:py-20 lg:grid-cols-[60%_40%] lg:gap-10 lg:py-8">
-        <SectionReveal className="text-center lg:pt-10 lg:text-left">
+        <SectionReveal className="order-2 text-center lg:order-1 lg:pt-10 lg:text-left">
           <h1 className="mt-3 text-[35px] leading-[40px] font-semibold text-white">
             {headingLines.map((line, index) => (
               <span key={index} className="block">
@@ -67,22 +68,19 @@ export function BusinessClassHero({
           </p>
         </SectionReveal>
 
-        <SectionReveal delay={0.1} x={40}>
+        <SectionReveal delay={0.1} x={40} className="order-1 lg:order-2">
           <div className="rounded-[7px] bg-white p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8">
-            <div className="mb-6 flex items-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white">
-              <div className="relative size-11 shrink-0 overflow-hidden rounded-full ring-2 ring-white/40">
-                <Image
-                  src={unsplash("1573497491208-6b1acb260507")}
-                  alt=""
-                  fill
-                  sizes="44px"
-                  className="object-cover"
-                />
+            <Link
+              href="tel:1869-504-657"
+              className="mb-6 flex items-center justify-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
+            >
+              <div className="flex size-11 shrink-0 items-center justify-center rounded-none bg-[#ab8a4b]">
+                <PhoneCall size={20} aria-hidden="true" />
               </div>
-              <span className="text-xl font-bold tracking-wide">
+              <span className="text-lg font-bold tracking-wide sm:text-2xl">
                 1869-504-657
               </span>
-            </div>
+            </Link>
 
             <FlightSearch variant="light" />
 

@@ -13,6 +13,7 @@ import {
   listTopCities,
   listTopCountries,
 } from "@/services/destination.service";
+import { listTopRoutes } from "@/services/route.service";
 
 const DEFAULT_DARK_FOOTER_COLUMNS: {
   title: string;
@@ -32,13 +33,15 @@ interface LinkColumn {
 }
 
 async function getLinkColumns(): Promise<LinkColumn[]> {
-  const [countries, cities, airlines] = await Promise.all([
+  const [routes, countries, cities, airlines] = await Promise.all([
+    listTopRoutes(10),
     listTopCountries(10),
     listTopCities(10),
     listTopAirlines(10),
   ]);
 
   return [
+    { title: "Top Routes", links: routes },
     { title: "Top Countries", links: countries },
     { title: "Top Cities", links: cities },
     { title: "Top Airlines", links: airlines },
@@ -46,7 +49,7 @@ async function getLinkColumns(): Promise<LinkColumn[]> {
 }
 
 /** All props optional, falling back to the current hardcoded default — see
- * `Hero.tsx` for the rationale. The Top Countries/Cities/Airlines columns
+ * `Hero.tsx` for the rationale. The Top Routes/Countries/Cities/Airlines columns
  * above (`getLinkColumns`) and the `GetInTouchForm`/`NewsletterForm`
  * components are NOT part of this — they stay DB-driven/functional, not
  * chrome content editable here. */
@@ -153,8 +156,8 @@ export async function Footer({
             ))}
           </div>
 
-          {/* Top Countries / Top Cities / Top Airlines */}
-          <div className="mt-12 grid grid-cols-1 gap-10 border-t border-navy-deep/10 pt-12 sm:grid-cols-3 sm:gap-8">
+          {/* Top Routes / Top Countries / Top Cities / Top Airlines */}
+          <div className="mt-12 grid grid-cols-1 gap-10 border-t border-navy-deep/10 pt-12 sm:grid-cols-2 sm:gap-8 lg:grid-cols-[1.5fr_1fr_0.9fr_1.15fr]">
             {columns.map((column) => (
               <div key={column.title}>
                 <h3 className="text-sm uppercase tracking-wide text-text-dark">
@@ -165,7 +168,7 @@ export async function Footer({
                     <li key={link.slug}>
                       <Link
                         href={link.url}
-                        className="text-sm text-text-gray transition-colors hover:text-navy-deep hover:underline hover:underline-offset-4"
+                        className="text-[13px] text-text-gray transition-colors hover:text-navy-deep hover:underline hover:underline-offset-4"
                       >
                         {link.label}
                       </Link>
