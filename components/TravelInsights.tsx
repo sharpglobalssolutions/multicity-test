@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { BlogPostCard } from "@/components/BlogPostCard";
-import { listFeaturedBlogPosts } from "@/services/blog.service";
+import { listFeaturedBlogPostsSafely } from "@/services/blog.service";
 
 const FEATURED_COUNT = 3;
 
@@ -24,7 +24,7 @@ function InsightsGridSkeleton() {
 }
 
 async function InsightsGrid() {
-  const posts = await listFeaturedBlogPosts(FEATURED_COUNT);
+  const posts = await listFeaturedBlogPostsSafely(FEATURED_COUNT);
 
   if (posts.length === 0) {
     return (

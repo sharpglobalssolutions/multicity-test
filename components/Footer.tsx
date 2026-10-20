@@ -6,6 +6,7 @@ import { SOCIAL_ICON_MAP } from "@/components/SocialIcons";
 import { StickyCallButton } from "@/components/StickyCallButton";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { DARK_FOOTER_LINKS, SOCIAL_LINKS, TRUST_BADGES } from "@/data/content";
+import { logger } from "@/lib/logger";
 import { getChromeSectionsSafely } from "@/services/chrome.service";
 import { getSiteSettingsSafely } from "@/services/site-settings.service";
 import { listTopAirlines } from "@/services/airline.service";
@@ -32,20 +33,32 @@ interface LinkColumn {
   links: { label: string; url: string; slug: string }[];
 }
 
+/** Falls back to empty columns on failure rather than throwing — this runs
+ * on every public page via `Footer`, so a transient DB hiccup (or, during a
+ * Docker build, no database being reachable yet while pages prerender)
+ * would otherwise take the whole page down with it. Same "never break the
+ * page" reasoning as `getSiteSettingsSafely`/`getChromeSectionsSafely`. */
 async function getLinkColumns(): Promise<LinkColumn[]> {
-  const [routes, countries, cities, airlines] = await Promise.all([
-    listTopRoutes(10),
-    listTopCountries(10),
-    listTopCities(10),
-    listTopAirlines(10),
-  ]);
+  try {
+    const [routes, countries, cities, airlines] = await Promise.all([
+      listTopRoutes(10),
+      listTopCountries(10),
+      listTopCities(10),
+      listTopAirlines(10),
+    ]);
 
-  return [
-    { title: "Top Routes", links: routes },
-    { title: "Top Countries", links: countries },
-    { title: "Top Cities", links: cities },
-    { title: "Top Airlines", links: airlines },
-  ];
+    return [
+      { title: "Top Routes", links: routes },
+      { title: "Top Countries", links: countries },
+      { title: "Top Cities", links: cities },
+      { title: "Top Airlines", links: airlines },
+    ];
+  } catch (error) {
+    logger.error("Failed to load footer link columns — hiding Top Routes/Countries/Cities/Airlines", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return [];
+  }
 }
 
 /** All props optional, falling back to the current hardcoded default — see

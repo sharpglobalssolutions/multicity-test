@@ -1,6 +1,7 @@
 import type { BlogCategory, BlogPost, BlogPostTag, BlogTag, Prisma, User } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { logger } from "@/lib/logger";
 import { isRecordNotFoundError, isUniqueConstraintError } from "@/lib/prisma-errors";
 import { revalidateBlogPostBySlug } from "@/lib/revalidate";
 import { findActiveFaqsByEntity } from "@/repositories/faq.repository";
@@ -65,6 +66,24 @@ export type PublicBlogPost = ReturnType<typeof toPublicBlogPost>;
 export async function listFeaturedBlogPosts(limit?: number): Promise<PublicBlogPost[]> {
   const posts = await listPublishedBlogPosts(limit);
   return posts.map(toPublicBlogPost);
+}
+
+/** Falls back to an empty list on failure rather than throwing — this runs
+ * on the homepage via `TravelInsights`, so a transient DB hiccup (or, during
+ * a Docker build, no database being reachable yet while pages prerender)
+ * would otherwise take the whole page down with it. `TravelInsights` already
+ * renders a "check back soon" message for an empty list, so this reuses
+ * that same fallback UI rather than needing its own. Same "never break the
+ * page" reasoning as `getSiteSettingsSafely`/`getChromeSectionsSafely`. */
+export async function listFeaturedBlogPostsSafely(limit?: number): Promise<PublicBlogPost[]> {
+  try {
+    return await listFeaturedBlogPosts(limit);
+  } catch (error) {
+    logger.error("Failed to load featured blog posts — hiding the Travel Insights section's posts", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return [];
+  }
 }
 
 /** Lightweight lookup — just the post itself, for `generateMetadata` (which
