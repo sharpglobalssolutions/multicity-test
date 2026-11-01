@@ -62,9 +62,10 @@ export function StepsListCarousel({
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             {heading}
           </h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">
-            {subheading}
-          </p>
+          <p
+            className="mt-3 text-base text-text-gray sm:text-lg"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.1} className="relative mt-12 px-10 sm:px-12">
@@ -92,7 +93,7 @@ export function StepsListCarousel({
                       .map((item) => (
                         <li
                           key={item}
-                          className="text-[15px] leading-[18px] text-white/80"
+                          className="text-[13px] leading-[18px] text-white/80"
                         >
                           {item}
                         </li>

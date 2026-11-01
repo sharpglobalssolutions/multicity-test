@@ -32,7 +32,7 @@ export function AboutWhyChooseUs() {
                 <SectionReveal
                   delay={0.25 + index * 0.05}
                   x={12}
-                  className="flex items-center gap-3 text-[15px] font-medium text-navy-deep"
+                  className="flex items-center gap-3 text-[13px] leading-[18px] font-medium text-navy-deep"
                 >
                   <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald/10 text-emerald">
                     <Check size={12} aria-hidden="true" />

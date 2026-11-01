@@ -129,7 +129,7 @@ function SectionHeading({
 }) {
   return (
     <div className="flex items-start gap-4">
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold text-[15px] font-bold text-white">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold text-[13px] font-bold text-white">
         {step}
       </span>
       <div>
@@ -450,7 +450,7 @@ export function PersonalizedQuoteModal({
                 <br />
                 Journey
               </h2>
-              <p className="mt-4 text-[15px] leading-[18px] text-text-gray">
+              <p className="mt-4 text-[13px] leading-[18px] text-text-gray">
                 Tell us what you&rsquo;re looking for, and our premium travel
                 specialists can help you compare suitable First Class flights,
                 airlines, routes, aircraft, cabin experiences and fare options.
@@ -521,7 +521,7 @@ export function PersonalizedQuoteModal({
                 <h2 className="mt-5 text-2xl text-text-dark">
                   Request received
                 </h2>
-                <p className="mt-2 max-w-sm text-[15px] text-text-gray">
+                <p className="mt-2 max-w-sm text-[13px] leading-[18px] text-text-gray">
                   Thank you — a First Class travel specialist will be in touch
                   shortly with options tailored to your journey.
                 </p>

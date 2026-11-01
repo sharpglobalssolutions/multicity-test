@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Check } from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
 import { SUPPORT_ITEMS, SUPPORT_SPECIALIST_IMAGE } from "@/data/content";
 
@@ -64,10 +65,9 @@ export function SupportSection({
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-lg text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
-            >
-              {paragraph}
-            </p>
+              className={`max-w-lg text-[13px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
           ))}
 
           <div className="mt-6 grid grid-cols-2 gap-x-8 gap-y-3 max-w-lg">
@@ -78,18 +78,25 @@ export function SupportSection({
                   return (
                     <li
                       key={item}
-                      className="text-[16px] font-medium text-navy-deep"
+                      className="flex items-start gap-2 text-[13px] font-medium text-navy-deep"
                     >
-                      {href ? (
-                        <Link
-                          href={href}
-                          className="transition-colors hover:text-emerald hover:underline"
-                        >
-                          {item}
-                        </Link>
-                      ) : (
-                        item
-                      )}
+                      <Check
+                        size={14}
+                        className="mt-0.5 shrink-0 text-emerald"
+                        aria-hidden="true"
+                      />
+                      <span>
+                        {href ? (
+                          <Link
+                            href={href}
+                            className="transition-colors hover:text-emerald hover:underline"
+                          >
+                            {item}
+                          </Link>
+                        ) : (
+                          item
+                        )}
+                      </span>
                     </li>
                   );
                 })}
@@ -98,9 +105,10 @@ export function SupportSection({
           </div>
 
           {closingParagraph ? (
-            <p className="mt-6 max-w-lg text-[15px] leading-[18px] text-text-gray">
-              {closingParagraph}
-            </p>
+            <p
+              className="mt-6 max-w-lg text-[13px] leading-[18px] text-text-gray"
+              dangerouslySetInnerHTML={{ __html: closingParagraph }}
+            />
           ) : null}
 
           {buttonLabel ? (

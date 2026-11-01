@@ -30,7 +30,7 @@ export function AboutApproach() {
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             What Makes Our Approach Different?
           </h2>
-          <p className="mt-5 max-w-lg text-[15px] leading-[18px] text-text-gray">
+          <p className="mt-5 max-w-lg text-[13px] leading-[18px] text-text-gray">
             {APPROACH_TEXT}
           </p>
 

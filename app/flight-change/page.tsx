@@ -137,9 +137,15 @@ export default async function FlightChangePage() {
         />
 
         <HowItWorksCarousel
-          heading="Expert Guidance When Your Travel Plans Change"
-          subheading="Changing an international flight can involve more than selecting a new date."
-          paragraph="Depending on your airline, route and ticket conditions, you may need to consider change fees, fare differences, available flights, connection times, airport options and restrictions attached to your fare. We help you understand these details and explore the alternatives available for your journey."
+          heading={sections.FCH_EXPERT_GUIDANCE?.heading ?? "Expert Guidance When Your Travel Plans Change"}
+          subheading={
+            sections.FCH_EXPERT_GUIDANCE?.subheading ??
+            "Changing an international flight can involve more than selecting a new date."
+          }
+          paragraph={
+            sections.FCH_EXPERT_GUIDANCE?.paragraph ??
+            "Depending on your airline, route and ticket conditions, you may need to consider change fees, fare differences, available flights, connection times, airport options and restrictions attached to your fare. We help you understand these details and explore the alternatives available for your journey."
+          }
           steps={
             sections.FCH_EXPERT_GUIDANCE?.steps ?? [
               { id: "tell-us-booking", titleLines: "Tell Us About\nYour Booking", descriptionLines: "Route, dates & what changed." },

@@ -19,6 +19,8 @@ services:
   app:
     build:
       context: .
+      target: runner
+      network: host
       args:
         NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
     restart: unless-stopped
@@ -38,6 +40,46 @@ services:
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
       CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
       LOG_LEVEL: ${LOG_LEVEL:-info}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Hot-reload dev server. Not started by a plain `docker compose up` — only
+  # with `--profile dev` — since it binds the same host port as `app` and
+  # the two are meant to be run one at a time. Source is bind-mounted so
+  # edits on the host are picked up by `next dev` immediately, no rebuild;
+  # `node_modules`/`.next` are anonymous volumes so the image's own copies
+  # (installed for linux/Alpine) aren't shadowed by the host's.
+  app-dev:
+    profiles: ["dev"]
+    build:
+      context: .
+      target: dev
+      network: host
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-multicityexperts}?schema=public
+      DIRECT_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-multicityexperts}?schema=public
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      SESSION_SECRET: ${SESSION_SECRET}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
     depends_on:
       db:
         condition: service_healthy

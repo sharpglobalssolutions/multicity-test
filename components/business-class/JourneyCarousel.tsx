@@ -153,14 +153,15 @@ export function JourneyCarousel({
                     </span>
                   ))}
                 </h2>
-                <p className="mt-5 max-w-[430px] text-[15px] leading-[18px] text-[#999999]">
-                  {slide.description}
-                </p>
+                <p
+                  className="mt-5 max-w-[430px] text-[13px] leading-[18px] text-[#999999]"
+                  dangerouslySetInnerHTML={{ __html: slide.description }}
+                />
                 <ul className="mt-7 grid max-w-[420px] grid-cols-3 gap-x-6 gap-y-3">
                   {slide.factors.split("\n").map((factor) => (
                     <li
                       key={factor}
-                      className="flex items-center gap-2 text-[15px] font-medium text-[#4a4a4a]"
+                      className="flex items-center gap-2 text-[13px] leading-[18px] font-medium text-[#4a4a4a]"
                     >
                       <span
                         className="size-1.5 shrink-0 rounded-full bg-[#B59655]"

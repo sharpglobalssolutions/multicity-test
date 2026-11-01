@@ -97,9 +97,10 @@ export function FirstClassAirlinesCarousel({
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             {heading}
           </h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">
-            {subheading}
-          </p>
+          <p
+            className="mt-3 text-base text-text-gray sm:text-lg"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.1} className="relative mt-10 px-9 sm:px-11">
@@ -128,12 +129,13 @@ export function FirstClassAirlinesCarousel({
                       className="object-cover"
                     />
                   </div>
-                  <h3 className="mt-3 text-[15px] text-text-dark">
+                  <h3 className="mt-3 text-[13px] leading-[18px] text-text-dark">
                     {airline.title}
                   </h3>
-                  <p className="mt-1.5 text-[15px] leading-[18px] text-text-gray">
-                    {airline.description}
-                  </p>
+                  <p
+                    className="mt-1.5 text-[13px] leading-[18px] text-text-gray"
+                    dangerouslySetInnerHTML={{ __html: airline.description }}
+                  />
                   <a
                     href={airline.linkHref}
                     className="mt-3 flex items-center justify-between text-[13px] font-semibold text-emerald"

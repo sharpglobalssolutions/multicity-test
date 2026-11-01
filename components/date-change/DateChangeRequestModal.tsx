@@ -141,7 +141,7 @@ export function DateChangeRequestModal({
           {status === "success" ? (
             <div className="py-6 text-center">
               <h2 className="text-2xl text-text-dark">Thank You</h2>
-              <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+              <p className="mt-3 text-[13px] leading-[18px] text-text-gray">
                 We&apos;ve received your request. A travel specialist will
                 review your booking and get in touch to help you explore your
                 date change options.
@@ -152,7 +152,7 @@ export function DateChangeRequestModal({
               <h2 className="text-2xl text-text-dark sm:text-[28px]">
                 {heading}
               </h2>
-              <p className="mt-2 text-[15px] font-semibold text-text-gray">
+              <p className="mt-2 text-[13px] leading-[18px] font-semibold text-text-gray">
                 {subheading}
               </p>
 
@@ -344,7 +344,7 @@ export function DateChangeRequestModal({
                   </Button>
                 </div>
 
-                <p className="text-xs text-text-gray">{disclaimer}</p>
+                <p className="text-xs text-text-gray" dangerouslySetInnerHTML={{ __html: disclaimer }} />
               </form>
             </>
           )}

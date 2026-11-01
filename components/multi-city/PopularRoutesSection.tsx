@@ -218,7 +218,7 @@ export function PopularRoutesSection({
                 className="shrink-0 text-gold"
                 aria-hidden="true"
               />
-              {noticeText}
+              <span dangerouslySetInnerHTML={{ __html: noticeText }} />
             </p>
             <Button href={buttonHref} variant="navy" className="shrink-0">
               {buttonLabel}

@@ -105,6 +105,7 @@ export interface TestimonialsSectionData {
   heading: string;
   subheading: string;
   testimonials: Testimonial[];
+  backgroundImage?: string;
 }
 
 export interface FaqSectionData {

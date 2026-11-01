@@ -340,8 +340,6 @@ export const STATS: Stat[] = [
 export const SOCIAL_LINKS = [
   { label: "Facebook", href: "#", icon: "facebook" },
   { label: "Instagram", href: "#", icon: "instagram" },
-  { label: "LinkedIn", href: "#", icon: "linkedin" },
-  { label: "YouTube", href: "#", icon: "youtube" },
 ] as const;
 
 /** Payment/trust badges shown in the footer. No official brand logo

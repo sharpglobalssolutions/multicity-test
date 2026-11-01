@@ -61,9 +61,10 @@ export function FirstClassFareSection({
       <div className="content-container relative z-10 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
         <SectionReveal>
           <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
-          <p className="mt-4 max-w-sm text-[15px] leading-[18px] text-white/80">
-            {body}
-          </p>
+          <p
+            className="mt-4 max-w-sm text-[13px] leading-[18px] text-white/80"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
           <div className="mt-7">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}
@@ -72,7 +73,7 @@ export function FirstClassFareSection({
         </SectionReveal>
 
         <SectionReveal delay={0.1}>
-          <p className="text-[15px] font-semibold text-white">{subheading}</p>
+          <p className="text-[13px] leading-[18px] font-semibold text-white">{subheading}</p>
           <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">
             {columns.map((column, columnIndex) => (
               <ul key={columnIndex} className="space-y-2">

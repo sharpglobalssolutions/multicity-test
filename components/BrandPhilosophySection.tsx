@@ -6,6 +6,9 @@ const DEFAULT_BODY =
 export interface BrandPhilosophySectionProps {
   heading?: string;
   body?: string;
+  /** Defaults to "white". Pass "gray" to match a surrounding page's
+   * alternating light-gray band (e.g. between two white sections). */
+  background?: "white" | "gray";
 }
 
 /** A short, text-only mission-statement band — no image, no items, no
@@ -14,17 +17,21 @@ export interface BrandPhilosophySectionProps {
 export function BrandPhilosophySection({
   heading = "Travel Advice Built Around Your Journey",
   body = DEFAULT_BODY,
+  background = "white",
 }: BrandPhilosophySectionProps = {}) {
   return (
-    <section className="bg-white py-10 sm:py-14">
+    <section
+      className={`${background === "gray" ? "bg-gray-light" : "bg-white"} py-10 sm:py-14`}
+    >
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-4xl text-center">
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             {heading}
           </h2>
-          <p className="mt-5 text-[16px] leading-[22px] text-text-gray">
-            {body}
-          </p>
+          <p
+            className="mt-5 text-[13px] leading-[18px] text-text-gray"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
         </SectionReveal>
       </div>
     </section>

@@ -33,9 +33,10 @@ export function FirstClassCenteredCta({
       <div className="content-container">
         <SectionReveal className="mx-auto max-w-4xl text-center">
           <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
-          <p className="mt-4 text-[15px] leading-[18px] text-white/70">
-            {subheading}
-          </p>
+          <p
+            className="mt-4 text-[13px] leading-[18px] text-white/70"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
           <div className="mt-8 inline-block">
             <Button type="button" variant="gold" onClick={() => setOpen(true)}>
               {buttonLabel}

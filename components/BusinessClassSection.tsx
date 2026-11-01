@@ -154,7 +154,7 @@ export function BusinessClassSection({
             {heading}
           </h2>
           <div
-            className="mt-5 max-w-lg text-[15px] text-[#7e7e7e]"
+            className="business-class-content mt-6 mb-4 max-w-lg text-[13px] leading-[18px] text-[#7e7e7e]"
             dangerouslySetInnerHTML={{ __html: body }}
           />
           <div className="mt-8" />

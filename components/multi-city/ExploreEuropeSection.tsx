@@ -46,9 +46,10 @@ export function ExploreEuropeSection({
               </span>
             ))}
           </h2>
-          <p className="mt-4 max-w-md text-[15px] leading-[18px] text-white/80">
-            {subheading}
-          </p>
+          <p
+            className="mt-4 max-w-md text-[13px] leading-[18px] text-white/80"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
           <div className="mt-8">
             <Button href={buttonHref} variant="gold">
               {buttonLabel}
@@ -57,12 +58,13 @@ export function ExploreEuropeSection({
         </SectionReveal>
 
         <SectionReveal delay={0.1}>
-          <p className="text-[15px] font-medium leading-[18px] text-white">
+          <p className="text-[13px] font-medium leading-[18px] text-white">
             {rightHeading}
           </p>
-          <p className="mt-4 max-w-md text-[15px] leading-[18px] text-white/70">
-            {rightBody}
-          </p>
+          <p
+            className="mt-4 max-w-md text-[13px] leading-[18px] text-white/70"
+            dangerouslySetInnerHTML={{ __html: rightBody }}
+          />
         </SectionReveal>
       </div>
     </section>

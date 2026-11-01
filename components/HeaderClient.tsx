@@ -141,8 +141,17 @@ export function HeaderClient({
           <div className="hidden items-center gap-4 lg:flex">
             <a
               href={`tel:${phone}`}
-              className="px-5 py-2.5 text-[16px] font-semibold bg-[#0a4074] text-white rounded-4xl transition hover:text-[#0a4074] hover:bg-emerald-bright"
+              className="flex items-center gap-2 px-5 py-2.5 text-[16px] font-semibold bg-[#0a4074] text-white rounded-4xl transition hover:text-[#0a4074] hover:bg-emerald-bright"
             >
+              {/* Plain <img>, not next/image — image optimization would
+                  rasterize this to a single static frame, losing the
+                  animation. */}
+              <img
+                src="/icons/call-ringing.gif"
+                alt=""
+                aria-hidden="true"
+                className="h-6 w-6 shrink-0 rounded-full"
+              />
               {phone}
             </a>
           </div>

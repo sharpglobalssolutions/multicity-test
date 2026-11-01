@@ -64,7 +64,7 @@ export function PersonalizedJourney({
             {heading}
           </h2>
           <div
-            className="mt-5 max-w-lg text-[15px] text-[#7e7e7e]"
+            className="mt-5 max-w-lg text-[13px] leading-[18px] text-[#7e7e7e]"
             dangerouslySetInnerHTML={{ __html: body }}
           />
         </SectionReveal>

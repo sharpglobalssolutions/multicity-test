@@ -80,7 +80,7 @@ export function HowItWorks({
                     </span>
                   ))}
                 </h3>
-                <p className="mt-4 text-[15px] leading-[18px] text-[#9A9A9A]">
+                <p className="mt-4 text-[13px] leading-[18px] text-[#9A9A9A]">
                   {step.descriptionLines.split("\n").map((line, lineIndex) => (
                     <span key={lineIndex} className="block">
                       {line}

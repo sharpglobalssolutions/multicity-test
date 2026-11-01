@@ -29,11 +29,11 @@ export function FAQ({
       {/* Decorative abstract circles, bottom-left — low-contrast, purely
           ornamental, kept behind all content. */}
 
-      {/* Decorative oversized "Q" — Playfair Display is used here only,
-          purely as a background motif, never as the site's real type. */}
+      {/* Decorative oversized "Q", purely a background motif, never as the
+          site's real type. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-5 left-[10px] select-none font-playfair text-[220px] font-normal leading-none text-white/[0.06]  sm:text-[300px] lg:text-[380px]"
+        className="pointer-events-none absolute bottom-[-20px] left-[-30px] select-none text-[220px] font-normal leading-none text-white/[0.06]  sm:text-[300px] lg:text-[380px]"
       >
         Q
       </span>
@@ -129,10 +129,9 @@ export function FAQ({
                               delay: 0.1,
                               ease: [0.22, 1, 0.36, 1],
                             }}
-                            className="px-5 pb-5 text-[15px] leading-[18px] text-text-gray sm:px-6 sm:pb-6"
-                          >
-                            {faq.answer}
-                          </motion.p>
+                            className="px-5 pb-5 text-[13px] leading-[18px] text-text-gray sm:px-6 sm:pb-6"
+                            dangerouslySetInnerHTML={{ __html: faq.answer }}
+                          />
                         </motion.div>
                       ) : null}
                     </AnimatePresence>

@@ -80,10 +80,9 @@ export function TravelAdvisorSection({
           {paragraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
-            >
-              {paragraph}
-            </p>
+              className={`text-[13px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
           ))}
         </SectionReveal>
 
@@ -108,9 +107,10 @@ export function TravelAdvisorSection({
                     <p className="text-[16px] font-medium text-text-dark">
                       {item.label}
                     </p>
-                    <p className="mt-1.5 text-[15px] leading-[18px] text-text-gray">
-                      {item.description}
-                    </p>
+                    <p
+                      className="mt-1.5 text-[13px] leading-[18px] text-text-gray"
+                      dangerouslySetInnerHTML={{ __html: item.description }}
+                    />
                   </div>
                 ))}
               </div>

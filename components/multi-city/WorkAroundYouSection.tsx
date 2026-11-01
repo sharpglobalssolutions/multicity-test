@@ -64,7 +64,7 @@ export function WorkAroundYouSection({
             {paragraphs.map((paragraph, index) => (
               <p
                 key={index}
-                className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "mt-6" : "mt-4"}`}
+                className={`max-w-md text-[13px] leading-[18px] text-white/80 ${index === 0 ? "mt-6" : "mt-4"}`}
               >
                 {paragraph}
               </p>
@@ -76,7 +76,7 @@ export function WorkAroundYouSection({
               {rightParagraphs!.map((paragraph, index) => (
                 <p
                   key={index}
-                  className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
+                  className={`max-w-md text-[13px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
                 >
                   {paragraph}
                 </p>

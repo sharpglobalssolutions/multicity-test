@@ -30,7 +30,7 @@ export function AboutHowWeHelp() {
           <p className="mt-6 text-lg font-semibold text-navy-deep">
             Contact a Travel Specialist
           </p>
-          <p className="mt-2 max-w-lg text-[15px] leading-[18px] text-text-gray">
+          <p className="mt-2 max-w-lg text-[13px] leading-[18px] text-text-gray">
             Call us or submit an enquiry.
           </p>
           <div className="mt-8">

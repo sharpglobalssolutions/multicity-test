@@ -85,9 +85,10 @@ export function BeyondPrice({
                 <h3 className="text-[17px] font-medium leading-snug text-white">
                   {benefit.title}
                 </h3>
-                <p className="text-[14px] leading-snug text-[#B8C4D3]">
-                  {benefit.description}
-                </p>
+                <p
+                  className="text-[14px] leading-snug text-[#B8C4D3]"
+                  dangerouslySetInnerHTML={{ __html: benefit.description }}
+                />
               </div>
             ))}
           </div>

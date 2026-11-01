@@ -13,6 +13,11 @@ export interface TestimonialCarouselProps {
   heading?: string;
   subheading?: string;
   testimonials?: Testimonial[];
+  /** Unset renders the default decorative icon background below (no photo,
+   * matches this component's original look). Set one in the admin panel to
+   * use a photo instead — it renders under a light wash so the cards and
+   * dark text on top stay legible. */
+  backgroundImage?: string;
 }
 
 /** All props optional, falling back to the current hardcoded default — see
@@ -21,26 +26,40 @@ export function TestimonialCarousel({
   heading = "Client Experiences",
   subheading = "Trusted by travelers worldwide.",
   testimonials = TESTIMONIALS,
+  backgroundImage,
 }: TestimonialCarouselProps = {}) {
   return (
     <section
       id="testimonials"
       className="relative overflow-hidden bg-white py-14 sm:py-14"
     >
-      {/* Decorative, low-opacity travel motif — not a stock photo, just the
-          site's own icon set (globe + plane) rendered oversized so it reads
-          as a background illustration without competing with the cards. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
-      >
-        <Globe2 size={620} strokeWidth={0.6} className="text-navy-deep" />
-        <Plane
-          size={160}
-          strokeWidth={0.6}
-          className="absolute left-[60%] top-[20%] -rotate-45 text-navy-deep"
-        />
-      </div>
+      {backgroundImage ? (
+        <>
+          <Image
+            src={backgroundImage}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-white/85" />
+        </>
+      ) : (
+        /* Decorative, low-opacity travel motif — not a stock photo, just the
+           site's own icon set (globe + plane) rendered oversized so it reads
+           as a background illustration without competing with the cards. */
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
+        >
+          <Globe2 size={620} strokeWidth={0.6} className="text-navy-deep" />
+          <Plane
+            size={160}
+            strokeWidth={0.6}
+            className="absolute left-[60%] top-[20%] -rotate-45 text-navy-deep"
+          />
+        </div>
+      )}
 
       <div className="content-container relative">
         <SectionReveal className="mx-auto max-w-4xl text-center">
@@ -48,7 +67,7 @@ export function TestimonialCarousel({
             {heading}
           </h2>
           <div
-            className="mt-2 text-[15px] leading-[18px] text-text-gray"
+            className="mt-2 text-[13px] leading-[18px] text-text-gray"
             dangerouslySetInnerHTML={{ __html: subheading }}
           />
         </SectionReveal>
@@ -89,7 +108,7 @@ export function TestimonialCarousel({
                   >
                     &ldquo;
                   </span>
-                  <blockquote className="mt-2 max-w-md text-[15px] leading-[18px] text-text-dark">
+                  <blockquote className="mt-2 max-w-md text-[13px] leading-[18px] text-text-dark">
                     {testimonial.quote}
                   </blockquote>
                   <figcaption className="mt-8 flex flex-col items-center gap-3">

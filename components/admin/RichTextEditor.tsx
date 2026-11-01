@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { EditorContent, useEditor, type Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -126,18 +126,47 @@ function Toolbar({ editor }: { editor: Editor }) {
   );
 }
 
+function ModeTab({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onMouseDown={(event) => event.preventDefault()}
+      onClick={onClick}
+      className={cn(
+        "px-3 py-1.5 text-xs font-medium transition-colors",
+        active
+          ? "border-b-2 border-primary text-foreground"
+          : "border-b-2 border-transparent text-muted-foreground hover:text-foreground",
+      )}
+    >
+      {children}
+    </button>
+  );
+}
+
 /**
- * A WordPress-style WYSIWYG editor for the "Policy Page" template's
- * content field — toolbar buttons for headings/bold/lists/links/tables
- * instead of typing markdown syntax by hand. Stores and emits raw HTML
- * (Tiptap's native format); `PolicyPageTemplate` renders that HTML
- * directly and derives the table of contents from its heading tags (see
- * `lib/toc.ts`). Content is admin-authored and RBAC-gated the same way
- * every other section field is, so rendering it with
- * `dangerouslySetInnerHTML` carries the same trust boundary as the rest
- * of this app's admin-authored content — no extra sanitization pass.
+ * A WordPress-style editor for admin-authored HTML fields — a Visual
+ * (WYSIWYG, toolbar-driven) tab and a Text tab for typing/pasting raw
+ * HTML directly, same split as WordPress's classic editor. Stores and
+ * emits raw HTML either way (Tiptap's native format); `PolicyPageTemplate`
+ * and friends render that HTML directly and derive the table of contents
+ * from its heading tags (see `lib/toc.ts`). Content is admin-authored and
+ * RBAC-gated the same way every other section field is, so rendering it
+ * with `dangerouslySetInnerHTML` carries the same trust boundary as the
+ * rest of this app's admin-authored content — no extra sanitization pass;
+ * the Text tab doesn't widen that boundary, it just gives admins the same
+ * write access through a textarea instead of the toolbar.
  */
 export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorProps) {
+  const [mode, setMode] = useState<"visual" | "html">("visual");
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -177,8 +206,28 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
 
   return (
     <div className="overflow-hidden rounded-md border border-input bg-background">
-      <Toolbar editor={editor} />
-      <EditorContent editor={editor} />
+      <div className="flex items-center gap-1 border-b border-border px-1.5">
+        <ModeTab active={mode === "visual"} onClick={() => setMode("visual")}>
+          Visual
+        </ModeTab>
+        <ModeTab active={mode === "html"} onClick={() => setMode("html")}>
+          Text
+        </ModeTab>
+      </div>
+      {mode === "visual" ? (
+        <>
+          <Toolbar editor={editor} />
+          <EditorContent editor={editor} />
+        </>
+      ) : (
+        <textarea
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          spellCheck={false}
+          className="min-h-[280px] w-full resize-y bg-background px-4 py-3 font-mono text-xs leading-relaxed text-foreground focus:outline-none"
+        />
+      )}
     </div>
   );
 }

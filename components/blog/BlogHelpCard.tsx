@@ -32,7 +32,7 @@ export function BlogHelpCard({
       </div>
       <div className="p-5">
         <p className="text-base font-semibold text-text-dark">{heading}</p>
-        <p className="mt-2 text-[15px] leading-[18px] text-text-gray">{body}</p>
+        <p className="mt-2 text-[13px] leading-[18px] text-text-gray">{body}</p>
         <Button
           href={CALL_EXPERT_HREF}
           variant="navy"

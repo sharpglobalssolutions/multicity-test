@@ -119,9 +119,10 @@ export function LightFaqSection({
                       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                       className="overflow-hidden"
                     >
-                      <p className="pb-5 text-[15px] leading-[18px] text-text-gray">
-                        {faq.answer}
-                      </p>
+                      <p
+                        className="pb-5 text-[13px] leading-[18px] text-text-gray"
+                        dangerouslySetInnerHTML={{ __html: faq.answer }}
+                      />
                     </motion.div>
                   ) : null}
                 </AnimatePresence>

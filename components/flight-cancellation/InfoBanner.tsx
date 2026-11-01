@@ -53,9 +53,10 @@ export function InfoBanner({
               <p className="text-lg font-semibold leading-snug text-white sm:text-xl">
                 {heading}
               </p>
-              <p className="mt-2 text-[15px] leading-[18px] text-white/70">
-                {body}
-              </p>
+              <p
+                className="mt-2 text-[13px] leading-[18px] text-white/70"
+                dangerouslySetInnerHTML={{ __html: body }}
+              />
             </div>
           </div>
 

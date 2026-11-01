@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Image from "next/image";
 import {
   Armchair,
   Check,
@@ -26,6 +27,16 @@ import type { QuoteCriteria } from "@/lib/quoteQuery";
 const CONTACT_PHONE_HREF = "tel:1869-504-657";
 const CONTACT_PHONE_LABEL = "1869-504-657";
 
+/** Stock support-agent portrait for the call bar — same verified Unsplash
+ * id already used elsewhere in this app (as a testimonial avatar), reused
+ * here to avoid an unverified photo id. */
+const AGENT_PHOTO_SRC =
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80";
+
+/** Static placeholder discount code shown in the call bar — same value for
+ * every visitor, not tied to any real promo system. */
+const DISCOUNT_ID = "MCE-2024";
+
 // A brighter value color than the site's plain `text-text-dark` — reuses
 // the same secondary brand blue already used for the header's CTA and
 // `FlightSearch.tsx`'s active trip-type pill, rather than introducing a
@@ -36,7 +47,7 @@ const FIELD_VALUE_COLOR = "text-[#0a4074]";
 // `::placeholder` inherits an input's `color` at reduced opacity by
 // default — pinned to `text-text-gray` explicitly so a brighter value
 // color never tints the empty-state placeholder too.
-const FIELD_CLASSES = `w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-[15px] font-medium ${FIELD_VALUE_COLOR} placeholder:text-text-gray placeholder:font-normal outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]`;
+const FIELD_CLASSES = `w-full appearance-none rounded-input border border-navy-deep/10 bg-white py-3.5 pl-12 pr-3 text-[13px] leading-[18px] font-medium ${FIELD_VALUE_COLOR} placeholder:text-text-gray placeholder:font-normal outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]`;
 
 // Visually hidden, not removed — the `<label htmlFor>` association is
 // still every one of these fields' accessible name. Fields-only is a
@@ -200,25 +211,40 @@ export function QuoteForm({
 
   return (
     <div className="border border-navy-deep/10 bg-white p-6 sm:p-8">
-      {phoneBarVariant === "navy" ? (
-        <a
-          href={CONTACT_PHONE_HREF}
-          className="flex h-[70px] items-center justify-center gap-3 rounded-input bg-navy-deep px-6 text-center text-lg text-white transition-colors hover:bg-navy-dark sm:text-xl"
-        >
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white text-navy-deep">
-            <Phone size={16} aria-hidden="true" />
+      <a
+        href={CONTACT_PHONE_HREF}
+        className={`flex items-center gap-4 rounded-input px-4 py-3 text-white transition-colors ${
+          phoneBarVariant === "navy"
+            ? "bg-navy-deep hover:bg-navy-dark"
+            : "bg-emerald hover:bg-emerald-bright"
+        }`}
+      >
+        <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/25">
+          <Image
+            src={AGENT_PHOTO_SRC}
+            alt=""
+            fill
+            sizes="56px"
+            className="object-cover"
+          />
+          <span className="absolute inset-x-0 bottom-0 bg-black/70 py-[1px] text-center text-[9px] font-bold leading-tight tracking-wide text-[#D9BE85]">
+            24/7
           </span>
-          {CONTACT_PHONE_LABEL}
-        </a>
-      ) : (
-        <a
-          href={CONTACT_PHONE_HREF}
-          className="flex h-[70px] items-center justify-center gap-2 rounded-input bg-emerald px-6 text-center text-lg text-white transition-colors hover:bg-emerald-bright sm:text-xl"
-        >
-          <Phone size={20} aria-hidden="true" />
-          {CONTACT_PHONE_LABEL}
-        </a>
-      )}
+        </span>
+        <div className="min-w-0">
+          <span className="block text-lg font-bold tracking-wide sm:text-xl">
+            {CONTACT_PHONE_LABEL}
+          </span>
+          <div className="mt-1.5 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] text-white/80">
+              Your Discount ID
+            </span>
+            <span className="rounded bg-white px-2 py-0.5 text-[11px] font-semibold text-navy-deep">
+              {DISCOUNT_ID}
+            </span>
+          </div>
+        </div>
+      </a>
 
       <form onSubmit={handleSubmit} noValidate className="mt-4 space-y-2">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_1.3fr]">

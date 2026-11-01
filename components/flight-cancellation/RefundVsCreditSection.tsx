@@ -82,9 +82,10 @@ export function RefundVsCreditSection({
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             {heading}
           </h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">
-            {subheading}
-          </p>
+          <p
+            className="mt-3 text-base text-text-gray sm:text-lg"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <div className="mt-14 space-y-16">

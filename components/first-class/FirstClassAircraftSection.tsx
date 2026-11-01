@@ -56,7 +56,7 @@ export function FirstClassAircraftSection({
           {leftParagraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-sm text-[15px] leading-[18px] text-white/80 ${index === 0 ? "mt-5" : "mt-4"}`}
+              className={`max-w-sm text-[13px] leading-[18px] text-white/80 ${index === 0 ? "mt-5" : "mt-4"}`}
             >
               {paragraph}
             </p>
@@ -67,7 +67,7 @@ export function FirstClassAircraftSection({
           {rightParagraphs.map((paragraph, index) => (
             <p
               key={index}
-              className={`max-w-md text-[15px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
+              className={`max-w-md text-[13px] leading-[18px] text-white/80 ${index === 0 ? "" : "mt-4"}`}
             >
               {paragraph}
             </p>

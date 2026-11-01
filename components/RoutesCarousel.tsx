@@ -50,7 +50,7 @@ export function RoutesCarousel({
             {heading}
           </h2>
           <div
-            className="mt-4 text-[15px] leading-[18px] text-text-gray"
+            className="mt-4 text-[13px] leading-[18px] text-text-gray"
             dangerouslySetInnerHTML={{ __html: subheading }}
           />
         </SectionReveal>
@@ -113,7 +113,7 @@ export function RoutesCarousel({
                         {route.multiCityRoute.join(" → ")}
                       </p>
 
-                      <p className="mt-1 text-[15px] text-text-gray">
+                      <p className="mt-1 text-[13px] leading-[18px] text-text-gray">
                         Starting from{" "}
                         <span className="text-[20px] ms-4 text-navy-deep">
                           {route.price}

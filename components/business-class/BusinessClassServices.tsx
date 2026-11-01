@@ -62,9 +62,10 @@ export function BusinessClassServices({
           {services.map((service, index) => (
             <SectionReveal key={service.title} delay={index * 0.05}>
               <h3 className="text-lg text-text-dark">{service.title}</h3>
-              <p className="mt-2 text-[15px] leading-[18px] text-text-gray">
-                {service.description}
-              </p>
+              <p
+                className="mt-2 text-[13px] leading-[18px] text-text-gray"
+                dangerouslySetInnerHTML={{ __html: service.description }}
+              />
             </SectionReveal>
           ))}
         </div>

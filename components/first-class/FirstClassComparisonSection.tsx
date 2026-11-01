@@ -102,12 +102,14 @@ export function FirstClassComparisonSection({
               </span>
             ))}
           </h2>
-          <p className="mt-2 text-2xl text-white/90 sm:text-3xl">
-            {subheading}
-          </p>
-          <p className="mt-5 max-w-sm text-[15px] leading-[18px] text-white/70">
-            {body}
-          </p>
+          <p
+            className="mt-2 text-2xl text-white/90 sm:text-3xl"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
+          <p
+            className="mt-5 max-w-sm text-[13px] leading-[18px] text-white/70"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
         </SectionReveal>
 
         <SectionReveal x={40} delay={0.1}>

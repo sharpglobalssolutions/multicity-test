@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Phone } from "lucide-react";
 
 export interface StickyCallButtonProps {
   phone?: string;
@@ -23,7 +22,14 @@ export function StickyCallButton({
       className="fixed inset-x-0 bottom-0 z-50 flex items-center justify-center gap-2 bg-navy-deep px-4 py-5 text-[15px] text-white shadow-[0_-4px_16px_rgba(0,0,0,0.12)] lg:hidden"
       style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
     >
-      <Phone size={18} aria-hidden="true" />
+      {/* Plain <img>, not next/image — image optimization would rasterize
+          this to a single static frame, losing the animation. */}
+      <img
+        src="/icons/call-ringing.gif"
+        alt=""
+        aria-hidden="true"
+        className="h-6 w-6 shrink-0 rounded-full"
+      />
       Call Now: {phone}
     </Link>
   );

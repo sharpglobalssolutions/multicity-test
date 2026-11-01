@@ -91,10 +91,9 @@ function WhyChooseCard({
         {feature.title}
       </h3>
       <p
-        className={`mt-3 text-[15px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
-      >
-        {feature.description}
-      </p>
+        className={`mt-3 text-[13px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
+        dangerouslySetInnerHTML={{ __html: feature.description }}
+      />
     </div>
   );
 }

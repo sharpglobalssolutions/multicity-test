@@ -73,13 +73,15 @@ export function ComplexitySection({
           className={isCentered ? "mx-auto max-w-4xl text-center" : "max-w-4xl"}
         >
           <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
-          <p className="mt-4 text-[15px] leading-[18px] text-white/80">
-            {subheading}
-          </p>
+          <p
+            className="mt-4 text-[13px] leading-[18px] text-white/80"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
           {listIntro ? (
-            <p className="mt-6 text-base font-semibold text-white">
-              {listIntro}
-            </p>
+            <p
+              className="mt-6 text-base font-semibold text-white"
+              dangerouslySetInnerHTML={{ __html: listIntro }}
+            />
           ) : null}
         </SectionReveal>
 
@@ -92,7 +94,7 @@ export function ComplexitySection({
               {column.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2.5 text-[15px] text-white/90"
+                  className="flex items-start gap-2.5 text-[13px] leading-[18px] text-white/90"
                 >
                   <span
                     className="mt-2 size-1.5 shrink-0 rounded-full bg-white"

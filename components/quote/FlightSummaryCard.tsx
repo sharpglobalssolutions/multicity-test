@@ -88,7 +88,7 @@ export function FlightSummaryCard({
           </span>
         </div>
 
-        <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-center text-[15px] font-medium text-text-gray">
+        <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-center text-[13px] leading-[18px] font-medium text-text-gray">
           <span>{cabinClass} Class</span>
           <TripDetailDivider />
           <span>{TRIP_TYPE_LABELS[tripType]}</span>
@@ -102,7 +102,7 @@ export function FlightSummaryCard({
           <h2 className="text-xl text-[#00b67a] sm:text-2xl">
             Congratulations!
           </h2>
-          <p className="mt-2 text-[15px] font-semibold text-navy-deep/70">
+          <p className="mt-2 text-[13px] leading-[18px] font-semibold text-navy-deep/70">
             Exclusive unpublished fares are available for your flight.
           </p>
         </div>

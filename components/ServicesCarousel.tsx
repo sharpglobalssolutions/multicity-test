@@ -62,7 +62,7 @@ export function ServicesCarousel({
             {heading}
           </h2>
           <div
-            className="mt-2 text-[15px] leading-[18px] text-text-gray"
+            className="mt-2 text-[13px] leading-[18px] text-text-gray"
             dangerouslySetInnerHTML={{ __html: subheading }}
           />
         </SectionReveal>
@@ -102,7 +102,7 @@ export function ServicesCarousel({
                     <h3 className="mt-2 text-[18px] text-text-dark">
                       {service.title}
                     </h3>
-                    <p className="mt-2 line-clamp-3 text-[15px] leading-[18px] text-text-gray">
+                    <p className="mt-2 line-clamp-3 text-[13px] leading-[18px] text-text-gray">
                       {service.description}
                     </p>
                     <a

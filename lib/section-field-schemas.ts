@@ -105,7 +105,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items (optional — a labelled list below the paragraphs)",
       kind: "list",
-      itemFields: [text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("label", "Label"), richtext("description", "Description")],
       emptyItem: { label: "", description: "" },
     },
     image("imageSrc", "Image"),
@@ -123,7 +123,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
         text("id", "ID"),
         text("category", "Category"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
         text("href", "Link"),
@@ -136,7 +136,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     text("heading", "Heading"),
     { key: "paragraphs", label: "Paragraphs", kind: "string-list" },
     image("imageSrc", "Image"),
-    textarea("closingParagraph", "Closing paragraph (optional)"),
+    richtext("closingParagraph", "Closing paragraph (optional)"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],
@@ -152,7 +152,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       itemFields: [
         text("id", "ID"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         text("icon", "Icon key (headset, route, armchair, shield-check, users, scale)"),
       ],
       emptyItem: { id: "", title: "", description: "", icon: "headset" },
@@ -160,17 +160,18 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],
-  BRAND_PHILOSOPHY: [text("heading", "Heading"), textarea("body", "Body")],
+  BRAND_PHILOSOPHY: [text("heading", "Heading"), richtext("body", "Body")],
   TESTIMONIALS: [
     text("heading", "Heading"),
     richtext("subheading", "Subheading"),
+    image("backgroundImage", "Background image (optional — leave empty for the default subtle icon background)"),
     {
       key: "testimonials",
       label: "Testimonials",
       kind: "list",
       itemFields: [
         text("id", "ID"),
-        textarea("quote", "Quote"),
+        richtext("quote", "Quote"),
         text("name", "Name"),
         text("location", "Location"),
         text("rating", "Rating (1-5)"),
@@ -186,7 +187,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -251,7 +252,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     text("newsletterHeading", "Newsletter heading"),
     { key: "darkHeadingLines", label: "Dark section heading (one line per entry)", kind: "string-list" },
     image("logoImageSrc", "Dark section logo (reversed/white)"),
-    textarea("tagline", "Tagline"),
+    richtext("tagline", "Tagline"),
     text("copyrightText", "Copyright line"),
     text("privacyPolicyHref", "Privacy Policy link"),
     text("termsHref", "Terms & Conditions link"),
@@ -297,7 +298,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   BC_OPTIONS: [text("heading", "Heading"), text("subheading", "Subheading")],
   BC_OPTIONS_ONE_WAY: [
     { key: "eyebrowLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -310,7 +311,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BC_OPTIONS_MULTI_CITY: [
     { key: "eyebrowLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -343,7 +344,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "benefits",
       label: "Benefits",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
@@ -372,7 +373,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
         image("image", "Image"),
         text("imageAlt", "Image alt text"),
         textarea("titleLines", "Title (one line per row)", 3),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         textarea("factors", "Factors (one per row)", 5),
       ],
       emptyItem: { id: "", image: "", imageAlt: "", titleLines: "", description: "", factors: "" },
@@ -384,7 +385,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "services",
       label: "Services",
       kind: "list",
-      itemFields: [text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("title", "Title"), richtext("description", "Description")],
       emptyItem: { title: "", description: "" },
     },
   ],
@@ -444,14 +445,14 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       itemFields: [
         text("id", "ID"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
       ],
       emptyItem: { id: "", title: "", description: "", image: "", alt: "" },
     },
   ],
-  MC_COMPLEXITY: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  MC_COMPLEXITY: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   MC_PLANNING_FACTORS: [
     text("heading", "Heading"),
     text("subheading", "Subheading"),
@@ -459,7 +460,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -485,7 +486,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MC_FEATURED_ONE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -498,7 +499,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MC_FEATURED_TWO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -524,18 +525,18 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       ],
       emptyItem: { id: "", number: "", tag: "", stops: "" },
     },
-    textarea("noticeText", "Notice bar text"),
+    richtext("noticeText", "Notice bar text"),
     text("buttonLabel", "Notice bar button label"),
     text("buttonHref", "Notice bar button link"),
   ],
   MC_EXPLORE_EUROPE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
     image("backgroundImage", "Background image"),
     text("rightHeading", "Right column heading"),
-    textarea("rightBody", "Right column body"),
+    richtext("rightBody", "Right column body"),
   ],
   MC_WHY_CHOOSE: [
     text("heading", "Heading"),
@@ -543,13 +544,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Features",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   MC_PLANNING_CTA: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -591,13 +592,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   FC_FLIGHT_SEARCH_CHALLENGE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -619,7 +620,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       itemFields: [
         text("id", "ID"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
       ],
@@ -628,8 +629,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_COMPARISON: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("subheading", "Subheading"),
-    textarea("body", "Body"),
+    richtext("subheading", "Subheading"),
+    richtext("body", "Body"),
     image("backgroundImage", "Background image"),
     {
       key: "rows",
@@ -646,7 +647,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_AIRLINES: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "airlines",
       label: "Airlines",
@@ -654,7 +655,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       itemFields: [
         text("id", "ID"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
         text("linkLabel", "Link label"),
@@ -665,7 +666,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_CABIN: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("subheading", "List heading (e.g. \"When comparing First Class products, consider:\")"),
     image("image", "Image"),
     text("imageAlt", "Image alt text"),
@@ -693,7 +694,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_BEFORE_BOOKING: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -706,7 +707,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_BOARDING_EXPERIENCE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -717,7 +718,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_FARE: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
     image("backgroundImage", "Background image"),
@@ -761,7 +762,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -771,13 +772,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Features",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   FC_JOURNEY_PREFERENCES: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -790,7 +791,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FC_PLAN_CTA: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
@@ -800,7 +801,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -823,7 +824,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_INTRO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -841,7 +842,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -851,26 +852,26 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   CNX_CANCEL_VS_REBOOK: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("groupOneHeading", "Left group heading"),
-    textarea("groupOneIntro", "Left group intro (optional)"),
+    richtext("groupOneIntro", "Left group intro (optional)"),
     textarea("groupOneColumnA", "Left group — column 1 (one item per row)", 6),
     textarea("groupOneColumnB", "Left group — column 2 (one item per row)", 6),
     text("groupTwoHeading", "Right group heading"),
-    textarea("groupTwoIntro", "Right group intro (optional)"),
+    richtext("groupTwoIntro", "Right group intro (optional)"),
     textarea("groupTwoColumnA", "Right group — column 1 (one item per row)", 6),
     textarea("groupTwoColumnB", "Right group — column 2 (one item per row)", 6),
   ],
-  CNX_REFUND_VS_CREDIT: [text("heading", "Heading"), textarea("subheading", "Subheading")],
+  CNX_REFUND_VS_CREDIT: [text("heading", "Heading"), richtext("subheading", "Subheading")],
   CNX_REFUND_BLOCK: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -881,7 +882,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_CREDIT_BLOCK: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -892,13 +893,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_CREDIT_BANNER: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],
   CNX_SCHEDULE_CHANGE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("rightHeading", "Right column heading"),
     textarea("rightColumnA", "Right column — list 1 (one item per row)", 6),
     textarea("rightColumnB", "Right column — list 2 (one item per row)", 6),
@@ -908,7 +909,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_ENTIRE_BOOKING: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -924,19 +925,19 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   CNX_FARE_WARNING: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],
   CNX_PREMIUM_CABIN: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -962,8 +963,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_NOT_SURE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
-    textarea("listIntro", "Label above the list (optional, e.g. \"Simply tell us what changed:\")"),
+    richtext("subheading", "Subheading"),
+    richtext("listIntro", "Label above the list (optional, e.g. \"Simply tell us what changed:\")"),
     image("backgroundImage", "Background image (leave empty for a flat black section)"),
   ],
   CNX_WHY_CHOOSE: [
@@ -973,7 +974,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -988,7 +989,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
         text("id", "ID"),
         text("category", "Category"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
         text("href", "Link"),
@@ -998,19 +999,19 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_REVIEW_INFO: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("groupOneHeading", "Left group heading"),
-    textarea("groupOneIntro", "Left group intro (optional)"),
+    richtext("groupOneIntro", "Left group intro (optional)"),
     textarea("groupOneColumnA", "Left group — column 1 (one item per row)", 6),
     textarea("groupOneColumnB", "Left group — column 2 (one item per row)", 6),
     text("groupTwoHeading", "Right group heading"),
-    textarea("groupTwoIntro", "Right group intro (optional)"),
+    richtext("groupTwoIntro", "Right group intro (optional)"),
     textarea("groupTwoColumnA", "Right group — column 1 (one item per row)", 6),
     textarea("groupTwoColumnB", "Right group — column 2 (one item per row)", 6),
   ],
   CNX_REVIEW_STEPS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "steps",
       label: "Steps",
@@ -1021,7 +1022,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   CNX_PLAN_CTA: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
@@ -1031,7 +1032,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1054,8 +1055,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FCH_EXPERT_GUIDANCE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
-    textarea("paragraph", "Paragraph (optional)"),
+    richtext("subheading", "Subheading"),
+    richtext("paragraph", "Paragraph (optional)"),
     {
       key: "steps",
       label: "Steps",
@@ -1070,7 +1071,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FCH_OPTIONS_CHANGE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1088,7 +1089,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1114,7 +1115,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1124,13 +1125,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   FCH_PROCESS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1142,13 +1143,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "titledItems",
       label: "Process steps",
       kind: "list",
-      itemFields: [text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("title", "Title"), richtext("description", "Description")],
       emptyItem: { title: "", description: "" },
     },
   ],
   FCH_EXPERTS_HELP: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1161,13 +1162,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FCH_NOT_SURE_BANNER: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],
   FCH_BUSINESS_CLASS_CHANGES: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1178,7 +1179,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FCH_MULTICITY_CHANGE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1194,7 +1195,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1207,7 +1208,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   FCH_REVIEW_INFO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1222,7 +1223,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1250,7 +1251,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1260,7 +1261,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
@@ -1275,7 +1276,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
         text("id", "ID"),
         text("category", "Category"),
         text("title", "Title"),
-        textarea("description", "Description"),
+        richtext("description", "Description"),
         image("image", "Image"),
         text("alt", "Image alt text"),
         text("href", "Link"),
@@ -1285,11 +1286,11 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   IFB_ROUTES: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("rightHeading", "Right column heading"),
     textarea("rightColumnA", "Right column — list 1 (one item per row)", 6),
     textarea("rightColumnB", "Right column — list 2 (one item per row)", 6),
-    textarea("rightNote", "Right column closing note (optional)"),
+    richtext("rightNote", "Right column closing note (optional)"),
     image("backgroundImage", "Background image"),
   ],
   IFB_AIRLINES: [
@@ -1299,13 +1300,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   IFB_FARE_GUIDANCE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1323,7 +1324,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1344,7 +1345,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   IFB_WHO_WE_HELP: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1360,7 +1361,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1372,7 +1373,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   IFB_REVIEW_INFO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1387,7 +1388,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1409,7 +1410,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MF_INTRO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1426,35 +1427,35 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   MF_BEFORE_BOOK: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
-  MF_WHY_MISS: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  MF_WHY_MISS: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   MF_OPTIONS: [
     text("heading", "Heading"),
     {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   MF_BUSINESS_CLASS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1466,7 +1467,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MF_MULTI_CITY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1493,8 +1494,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MF_URGENT_HELP: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
-    textarea("listIntro", "Label above the list (optional)"),
+    richtext("subheading", "Subheading"),
+    richtext("listIntro", "Label above the list (optional)"),
     image("backgroundImage", "Background image (leave empty for a flat black section)"),
   ],
   MF_WHY_CHOOSE: [
@@ -1504,13 +1505,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   MF_INFO_READY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1521,7 +1522,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   MF_REVIEW_CTA: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
@@ -1531,7 +1532,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1553,7 +1554,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   LMF_INTRO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1564,12 +1565,12 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   LMF_HELP_WITH: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1579,14 +1580,14 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
-  LMF_WHY_SPECIALIST: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  LMF_WHY_SPECIALIST: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   LMF_BUSINESS_CLASS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1603,7 +1604,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1613,7 +1614,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1635,34 +1636,34 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   DC_EXPERT_GUIDANCE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   DC_UNDERSTANDING_OPTIONS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   DC_BEFORE_CHANGE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1672,25 +1673,25 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   DC_FARE_RULES: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
-  DC_WHY_DATE_MATTERS: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  DC_WHY_DATE_MATTERS: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   DC_BUSINESS_CLASS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1702,7 +1703,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   DC_MULTI_CITY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1714,8 +1715,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   DC_URGENT_HELP: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
-    textarea("listIntro", "Label above the list (optional)"),
+    richtext("subheading", "Subheading"),
+    richtext("listIntro", "Label above the list (optional)"),
     image("backgroundImage", "Background image (leave empty for a flat black section)"),
   ],
   DC_HOW_IT_WORKS: [
@@ -1740,13 +1741,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   DC_INFO_NEEDED: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1757,9 +1758,9 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   DC_REQUEST_FORM: [
     text("heading", "CTA heading"),
-    textarea("subheading", "CTA subheading"),
+    richtext("subheading", "CTA subheading"),
     text("buttonLabel", "Button label (opens the request form)"),
-    textarea("disclaimer", "Disclaimer (shown inside the request form)"),
+    richtext("disclaimer", "Disclaimer (shown inside the request form)"),
   ],
   DC_FAQ: [
     text("heading", "Heading"),
@@ -1767,7 +1768,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1789,7 +1790,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_WHAT_MEANS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1802,23 +1803,23 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_TYPES: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   SC_BEFORE_ACCEPT: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1828,18 +1829,18 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   SC_SCENARIOS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
@@ -1849,13 +1850,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
   SC_MULTI_CITY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1869,7 +1870,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_BUSINESS_CLASS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1883,7 +1884,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_ONE_WAY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1897,8 +1898,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_URGENT_HELP: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
-    textarea("listIntro", "Label above the list (optional)"),
+    richtext("subheading", "Subheading"),
+    richtext("listIntro", "Label above the list (optional)"),
     image("backgroundImage", "Background image (leave empty for a flat black section)"),
   ],
   SC_HOW_IT_WORKS: [
@@ -1923,13 +1924,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   SC_INFO_NEEDED: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1940,7 +1941,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   SC_REVIEW_CTA: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
@@ -1950,7 +1951,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -1972,7 +1973,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_INTRO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1983,7 +1984,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_HOW_WE_HELP: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -1995,40 +1996,40 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_BEFORE_REQUEST: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   NC_SCENARIOS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   NC_POLICIES_TABLE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Factors",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Factor"), textarea("description", "Why it matters")],
+      itemFields: [text("id", "ID"), text("label", "Factor"), richtext("description", "Why it matters")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   NC_CORRECTION_VS_CHANGE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2037,10 +2038,10 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { src: "", alt: "" },
     },
   ],
-  NC_INTERNATIONAL: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  NC_INTERNATIONAL: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   NC_BUSINESS_CLASS: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2052,7 +2053,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_MULTI_CITY: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2078,7 +2079,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_URGENT: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2092,7 +2093,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_BOOKED_ELSEWHERE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2101,7 +2102,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { src: "", alt: "" },
     },
   ],
-  NC_TIPS: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  NC_TIPS: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   NC_WHY_CHOOSE: [
     text("heading", "Heading"),
     text("subheading", "Subheading"),
@@ -2109,13 +2110,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   NC_INFO_NEEDED: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2128,9 +2129,9 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   NC_REQUEST_FORM: [
     text("heading", "CTA heading"),
-    textarea("subheading", "CTA subheading"),
+    richtext("subheading", "CTA subheading"),
     text("buttonLabel", "Button label (opens the enquiry form)"),
-    textarea("disclaimer", "Disclaimer (shown inside the enquiry form)"),
+    richtext("disclaimer", "Disclaimer (shown inside the enquiry form)"),
   ],
   NC_FAQ: [
     text("heading", "Heading"),
@@ -2138,7 +2139,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
@@ -2161,7 +2162,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BP_INTRO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2172,18 +2173,18 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BP_VALUE: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   BP_WHO_WE_SUPPORT: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2192,21 +2193,21 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { src: "", alt: "" },
     },
   ],
-  BP_FITS_WORKFLOW: [text("heading", "Heading"), textarea("subheading", "Subheading"), image("backgroundImage", "Background image")],
+  BP_FITS_WORKFLOW: [text("heading", "Heading"), richtext("subheading", "Subheading"), image("backgroundImage", "Background image")],
   BP_MODELS: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   BP_EXPERIENCE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2218,7 +2219,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BP_ITINERARIES: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2230,7 +2231,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
   ],
   BP_MORE_THAN_FARE: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     {
       key: "images",
       label: "Images",
@@ -2260,7 +2261,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "features",
       label: "Cards",
       kind: "list",
-      itemFields: [text("id", "ID"), text("title", "Title"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
       emptyItem: { id: "", title: "", description: "" },
     },
   ],
@@ -2271,13 +2272,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "items",
       label: "Items",
       kind: "list",
-      itemFields: [text("id", "ID"), text("label", "Label"), textarea("description", "Description")],
+      itemFields: [text("id", "ID"), text("label", "Label"), richtext("description", "Description")],
       emptyItem: { id: "", label: "", description: "" },
     },
   ],
   BP_MID_CTA: [
     text("heading", "Heading"),
-    textarea("subheading", "Subheading"),
+    richtext("subheading", "Subheading"),
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
@@ -2287,13 +2288,13 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "faqs",
       label: "Questions",
       kind: "list",
-      itemFields: [text("id", "ID"), text("question", "Question"), textarea("answer", "Answer")],
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
       emptyItem: { id: "", question: "", answer: "" },
     },
   ],
   BP_DISCLAIMER: [
     text("heading", "Heading"),
-    textarea("body", "Body"),
+    richtext("body", "Body"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
   ],

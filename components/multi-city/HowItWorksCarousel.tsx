@@ -99,15 +99,13 @@ export function HowItWorksCarousel({
           </h2>
           <p
             className={`mt-2.5 text-[20px] font-normal sm:text-[23px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}
-          >
-            {subheading}
-          </p>
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
           {paragraph ? (
             <p
-              className={`mt-4 text-[15px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
-            >
-              {paragraph}
-            </p>
+              className={`mt-4 text-[13px] leading-[18px] ${isDark ? "text-white/70" : "text-text-gray"}`}
+              dangerouslySetInnerHTML={{ __html: paragraph }}
+            />
           ) : null}
         </SectionReveal>
 
@@ -149,7 +147,7 @@ export function HowItWorksCarousel({
                     ))}
                   </h3>
                   <p
-                    className={`mt-4 text-[15px] leading-[18px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}
+                    className={`mt-4 text-[13px] leading-[18px] ${isDark ? "text-white/60" : "text-[#9A9A9A]"}`}
                   >
                     {step.descriptionLines
                       .split("\n")

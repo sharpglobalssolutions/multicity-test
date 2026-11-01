@@ -34,7 +34,7 @@ export function AboutCoreValues() {
                 }}
               />
               <h3 className="mt-4 text-lg text-text-dark">{value.title}</h3>
-              <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
+              <p className="mt-3 text-[13px] leading-[18px] text-text-gray">
                 {value.description}
               </p>
             </SectionReveal>

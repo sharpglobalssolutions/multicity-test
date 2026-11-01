@@ -162,14 +162,17 @@ export function ImageTextBlock({
           </span>
         ))}
       </h3>
-      <p className="mt-5 max-w-lg text-[15px] text-text-gray">{body}</p>
+      <p
+        className="mt-5 max-w-lg text-[13px] leading-[18px] text-text-gray"
+        dangerouslySetInnerHTML={{ __html: body }}
+      />
 
       {benefits && benefits.length > 0 ? (
         <ul className="mt-6 space-y-3">
           {benefits.map((benefit) => (
             <li
               key={benefit}
-              className="flex items-start gap-2.5 text-[15px] text-text-dark"
+              className="flex items-start gap-2.5 text-[13px] leading-[18px] text-text-dark"
             >
               <Check
                 size={18}
@@ -187,7 +190,7 @@ export function ImageTextBlock({
           {twoColumnItems.map((column, columnIndex) => (
             <ul key={columnIndex} className="space-y-2.5">
               {column.map((item) => (
-                <li key={item} className="text-[15px] text-text-dark">
+                <li key={item} className="text-[13px] leading-[15px] text-text-dark">
                   {item}
                 </li>
               ))}
@@ -201,9 +204,10 @@ export function ImageTextBlock({
           {titledItems.map((item) => (
             <div key={item.title}>
               <h4 className="text-[16px] text-text-dark">{item.title}</h4>
-              <p className="mt-1.5 text-[15px] leading-[18px] text-text-gray">
-                {item.description}
-              </p>
+              <p
+                className="mt-1.5 text-[13px] leading-[18px] text-text-gray"
+                dangerouslySetInnerHTML={{ __html: item.description }}
+              />
             </div>
           ))}
         </div>

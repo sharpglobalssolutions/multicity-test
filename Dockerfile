@@ -52,3 +52,21 @@ EXPOSE 3000
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["npm", "start"]
+
+# --- dev: hot-reload development server -------------------------------
+# Not used by the default `app` service above — only by the `app-dev`
+# service (docker-compose.yml, "dev" profile), which bind-mounts the repo
+# over this image's /app so edits on the host are picked up by `next dev`
+# without a rebuild. `node_modules`/`.next` stay as anonymous volumes in
+# that mount so the host's copy (which may be missing, or built for a
+# different OS/arch) never shadows what this image installed.
+FROM node:20-alpine AS dev
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npx prisma generate
+RUN chmod +x ./docker-entrypoint.sh
+EXPOSE 3000
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["npm", "run", "dev"]

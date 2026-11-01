@@ -44,7 +44,7 @@ export function ExpertGuidanceSection({
       {paragraphs.map((paragraph, index) => (
         <p
           key={index}
-          className={`max-w-lg text-[15px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
+          className={`max-w-lg text-[13px] leading-[18px] text-text-gray ${index === 0 ? "mt-5" : "mt-4"}`}
         >
           {paragraph}
         </p>

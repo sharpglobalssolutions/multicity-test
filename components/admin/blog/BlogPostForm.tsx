@@ -39,7 +39,23 @@ interface FieldErrors {
   title?: string;
   slug?: string;
   content?: string;
+  excerpt?: string;
+  featuredImage?: string;
+  category?: string;
+  tags?: string;
+  readingTime?: string;
 }
+
+const KNOWN_FIELD_ERRORS: Record<keyof FieldErrors, true> = {
+  title: true,
+  slug: true,
+  content: true,
+  excerpt: true,
+  featuredImage: true,
+  category: true,
+  tags: true,
+  readingTime: true,
+};
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" });
 
@@ -178,12 +194,14 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
         } else if (error.details.length > 0) {
           const next: FieldErrors = {};
           for (const detail of error.details) {
-            if (detail.field && detail.field in { title: 1, slug: 1, content: 1 }) {
+            if (detail.field && detail.field in KNOWN_FIELD_ERRORS) {
               next[detail.field as keyof FieldErrors] = detail.message;
             }
           }
           setFieldErrors(next);
-          if (Object.keys(next).length === 0) setFormError(error.message);
+          if (Object.keys(next).length === 0) {
+            setFormError(error.details.map((detail) => detail.message).join(" "));
+          }
         } else {
           setFormError(error.message);
         }
@@ -340,13 +358,18 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
                 onChange={(event) => setExcerpt(event.target.value)}
                 disabled={submitting}
                 rows={2}
+                aria-invalid={Boolean(fieldErrors.excerpt)}
                 placeholder="A short summary shown on the article card and used as the meta description."
               />
+              {fieldErrors.excerpt ? <p className="text-xs text-destructive">{fieldErrors.excerpt}</p> : null}
             </div>
 
             <div className="space-y-1.5">
               <Label>Featured image</Label>
               <ImageUploadField value={featuredImage} onChange={setFeaturedImage} disabled={submitting} />
+              {fieldErrors.featuredImage ? (
+                <p className="text-xs text-destructive">{fieldErrors.featuredImage}</p>
+              ) : null}
             </div>
 
             <div className="space-y-1.5">
@@ -364,6 +387,7 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
                   value={category}
                   onChange={(event) => setCategory(event.target.value)}
                   disabled={submitting}
+                  aria-invalid={Boolean(fieldErrors.category)}
                   placeholder="e.g. Business Class"
                 />
                 <datalist id="blog-category-suggestions">
@@ -371,6 +395,7 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
                     <option key={option.id} value={option.name} />
                   ))}
                 </datalist>
+                {fieldErrors.category ? <p className="text-xs text-destructive">{fieldErrors.category}</p> : null}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="tags">Tags</Label>
@@ -379,8 +404,10 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
                   value={tagsInput}
                   onChange={(event) => setTagsInput(event.target.value)}
                   disabled={submitting}
+                  aria-invalid={Boolean(fieldErrors.tags)}
                   placeholder="Comma separated"
                 />
+                {fieldErrors.tags ? <p className="text-xs text-destructive">{fieldErrors.tags}</p> : null}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="readingTime">Reading time (min)</Label>
@@ -391,7 +418,11 @@ export function BlogPostForm({ mode, postId }: BlogPostFormProps) {
                   value={readingTime}
                   onChange={(event) => setReadingTime(event.target.value)}
                   disabled={submitting}
+                  aria-invalid={Boolean(fieldErrors.readingTime)}
                 />
+                {fieldErrors.readingTime ? (
+                  <p className="text-xs text-destructive">{fieldErrors.readingTime}</p>
+                ) : null}
               </div>
             </div>
 

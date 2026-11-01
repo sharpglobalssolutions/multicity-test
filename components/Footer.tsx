@@ -225,7 +225,7 @@ export async function Footer({
                   className="mt-8 w-50"
                 />
 
-                <p className="mt-4 max-w-xs text-[15px] leading-[18px] text-white/60">
+                <p className="mt-4 max-w-xs text-[13px] leading-[18px] text-white/60">
                   {resolvedTagline}
                 </p>
               </div>
@@ -265,7 +265,7 @@ export async function Footer({
               not needed from `lg` up, where that button is hidden. */}
           <div className="border-t border-white/10">
             <div className="content-container flex flex-col items-center gap-3 py-6 pb-24 text-center sm:flex-row sm:justify-between sm:text-left lg:pb-6">
-              <div className="text-[15px] leading-[18px] text-white/50">
+              <div className="text-[13px] leading-[18px] text-white/50">
                 <p>{resolvedCopyrightText}</p>
                 <p>© {year} MulticityExperts. All rights reserved.</p>
               </div>

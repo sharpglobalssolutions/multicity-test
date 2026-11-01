@@ -20,18 +20,13 @@
   --color-text-gray: #7e7e7e;
   --color-text-dark: #0a0c11;
 
-  /* Headings: Inter. Body/description text: JUST Sans (see
-     app/fonts/just-sans/NOTICE.md) — applies site-wide, marketing and
-     admin alike. `--font-sans` drives Tailwind's `font-sans` utility
-     (the html-level default); kept equal to `--font-body` since nothing
-     in this app distinguishes the two — explicit headings opt in via the
-     `font-heading` utility instead (see `h1-h4`/shadcn titles below). */
+  /* Inter, site-wide — headings and body/description text alike, marketing
+     and admin. `--font-sans` drives Tailwind's `font-sans` utility (the
+     html-level default); kept equal to `--font-body`/`--font-heading`
+     since the whole app now uses one typeface. */
   --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-body: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-just-sans), ui-sans-serif, system-ui, sans-serif;
-  /* Decorative-only (e.g. the FAQ section's background "Q") — never used
-     for real body/heading copy. */
-  --font-playfair: var(--font-playfair), serif;
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 18px;
   --radius-btn: 10px;
@@ -312,7 +307,7 @@
 }
 
 .exlusive-heal-content p{
-  font-size:20px;
+  font-size:18px;
   font-weight: 500;
 }
 .exlusive-heal-content{
@@ -321,7 +316,7 @@
   padding: 10px;
 }
 .exlusive-heal-content h3{
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
   margin-top: 5px;
 }

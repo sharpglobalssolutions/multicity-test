@@ -1,9 +1,18 @@
-import { PhoneCall } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { FlightSearch } from "@/components/FlightSearch";
 import { SectionReveal } from "@/components/SectionReveal";
 import { HERO_BACKGROUND_IMAGE } from "@/data/business-class-content";
+
+/** Stock support-agent portrait for the quote card's call bar — same
+ * verified Unsplash id already used elsewhere in this app (as a
+ * testimonial avatar), reused here to avoid an unverified photo id. */
+const AGENT_PHOTO_SRC =
+  "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80";
+
+/** Static placeholder discount code shown in the call bar — same value for
+ * every visitor, not tied to any real promo system. */
+const DISCOUNT_ID = "MCE-2024";
 
 interface BusinessClassHeroTrustStat {
   id: string;
@@ -63,23 +72,43 @@ export function BusinessClassHero({
               </span>
             ))}
           </h1>
-          <p className="mx-auto mt-6 max-w-[550px] text-[16px] leading-[22px] text-white/80 lg:mx-0">
-            {description}
-          </p>
+          <p
+            className="mx-auto mt-6 max-w-[550px] text-[16px] leading-[22px] text-white/80 lg:mx-0"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </SectionReveal>
 
         <SectionReveal delay={0.1} x={40} className="order-1 lg:order-2">
           <div className="rounded-[7px] bg-white p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8">
             <Link
               href="tel:1869-504-657"
-              className="mb-6 flex items-center justify-center gap-3 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
+              className="mb-6 flex items-center gap-4 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
             >
-              <div className="flex size-11 shrink-0 items-center justify-center rounded-none bg-[#ab8a4b]">
-                <PhoneCall size={20} aria-hidden="true" />
-              </div>
-              <span className="text-lg font-bold tracking-wide sm:text-2xl">
-                1869-504-657
+              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/25">
+                <Image
+                  src={AGENT_PHOTO_SRC}
+                  alt=""
+                  fill
+                  sizes="56px"
+                  className="object-cover"
+                />
+                <span className="absolute inset-x-0 bottom-0 bg-black/70 py-[1px] text-center text-[9px] font-bold leading-tight tracking-wide text-[#D9BE85]">
+                  24/7
+                </span>
               </span>
+              <div className="min-w-0">
+                <span className="block text-lg font-bold tracking-wide sm:text-2xl">
+                  1869-504-657
+                </span>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <span className="text-[11px] text-white/80 sm:text-xs">
+                    Your Discount ID
+                  </span>
+                  <span className="rounded bg-white px-2 py-0.5 text-[11px] font-semibold text-navy-deep sm:text-xs">
+                    {DISCOUNT_ID}
+                  </span>
+                </div>
+              </div>
             </Link>
 
             <FlightSearch variant="light" />

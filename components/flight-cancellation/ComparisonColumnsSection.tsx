@@ -43,21 +43,22 @@ function ComparisonGroupColumn({ group }: { group: ComparisonGroup }) {
     <div>
       <h3 className="text-xl text-text-dark sm:text-2xl">{group.heading}</h3>
       {group.intro ? (
-        <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
-          {group.intro}
-        </p>
+        <p
+          className="mt-3 text-[13px] leading-[18px] text-text-gray"
+          dangerouslySetInnerHTML={{ __html: group.intro }}
+        />
       ) : null}
       <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-2">
         <ul className="space-y-2.5">
           {columnA.map((item) => (
-            <li key={item} className="text-[15px] text-text-dark">
+            <li key={item} className="text-[13px] leading-[15px] text-text-dark">
               {item}
             </li>
           ))}
         </ul>
         <ul className="space-y-2.5">
           {columnB.map((item) => (
-            <li key={item} className="text-[15px] text-text-dark">
+            <li key={item} className="text-[13px] leading-[15px] text-text-dark">
               {item}
             </li>
           ))}
@@ -86,9 +87,10 @@ export function ComparisonColumnsSection({
           <h2 className="text-[28px] leading-[32px] text-text-dark">
             {heading}
           </h2>
-          <p className="mt-3 text-base text-text-gray sm:text-lg">
-            {subheading}
-          </p>
+          <p
+            className="mt-3 text-base text-text-gray sm:text-lg"
+            dangerouslySetInnerHTML={{ __html: subheading }}
+          />
         </SectionReveal>
 
         <SectionReveal

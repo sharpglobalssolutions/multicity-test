@@ -80,9 +80,10 @@ export function ScheduleChangeSection({
                 </span>
               ))}
             </h2>
-            <p className="mt-5 max-w-md text-[15px] leading-[18px] text-white/80">
-              {body}
-            </p>
+            <p
+              className="mt-5 max-w-md text-[13px] leading-[18px] text-white/80"
+              dangerouslySetInnerHTML={{ __html: body }}
+            />
           </SectionReveal>
 
           <SectionReveal x={30} delay={0.1}>
@@ -92,7 +93,7 @@ export function ScheduleChangeSection({
                 {columnA.map((item) => (
                   <li
                     key={item}
-                    className="text-[15px] font-medium text-white/90"
+                    className="text-[13px] leading-[18px] font-medium text-white/90"
                   >
                     {item}
                   </li>
@@ -102,7 +103,7 @@ export function ScheduleChangeSection({
                 {columnB.map((item) => (
                   <li
                     key={item}
-                    className="text-[15px] font-medium text-white/90"
+                    className="text-[13px] leading-[18px] font-medium text-white/90"
                   >
                     {item}
                   </li>
@@ -110,9 +111,10 @@ export function ScheduleChangeSection({
               </ul>
             </div>
             {rightNote ? (
-              <p className="mt-6 max-w-md text-[15px] leading-[18px] text-white/80">
-                {rightNote}
-              </p>
+              <p
+                className="mt-6 max-w-md text-[13px] leading-[18px] text-white/80"
+                dangerouslySetInnerHTML={{ __html: rightNote }}
+              />
             ) : null}
           </SectionReveal>
         </div>
@@ -123,7 +125,7 @@ export function ScheduleChangeSection({
             className="mt-14 border-t border-white/15 pt-8"
           >
             <p className="text-lg text-white">{flowLabel}</p>
-            <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3 text-[15px] font-medium text-white/90">
+            <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-3 text-[13px] leading-[18px] font-medium text-white/90">
               {flowSteps.map((step, index) => (
                 <span key={step} className="flex items-center gap-2">
                   {step}

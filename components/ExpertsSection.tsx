@@ -113,11 +113,11 @@ export function ExpertsSection({
           <h2 className="mt-3 text-[28px] leading-[32px] text-white">
             {heading}
           </h2>
-          <p className="mt-2 text-[16px] leading-[22px] text-white">
+          <p className="mt-2 text-[13px] leading-[18px] text-white">
             <strong>{subtitle1}</strong>
           </p>
           <div
-            className="mt-2 text-[16px] leading-[22px] text-white"
+            className="mt-2 text-[13px] leading-[18px] text-white"
             dangerouslySetInnerHTML={{ __html: subtitle2 }}
           />
         </SectionReveal>
@@ -147,7 +147,7 @@ export function ExpertsSection({
                   <div className="flex h-full flex-col items-center gap-3 text-center lg:px-6">
                     <Icon size={30} className="text-white" aria-hidden="true" />
                     <h3 className="text-base text-white">{feature.title}</h3>
-                    <p className="text-[16px] leading-[22px] text-white/70">
+                    <p className="text-[13px] leading-[18px] text-white/70">
                       {feature.description}
                     </p>
                   </div>

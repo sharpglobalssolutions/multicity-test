@@ -60,11 +60,11 @@ export function TravelInsights({
       id="insights"
       className="relative overflow-hidden bg-off-white py-14 sm:py-14"
     >
-      {/* Decorative oversized word, bottom-left — Playfair Display, purely
-          a background motif, kept behind all content. */}
+      {/* Decorative oversized word, bottom-left — purely a background
+          motif, kept behind all content. */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-8 -left-2 select-none font-playfair text-[110px] font-normal leading-none text-navy-deep/[0.05] sm:-bottom-12 sm:text-[170px] lg:-bottom-16 lg:text-[220px]"
+        className="pointer-events-none absolute -bottom-8 -left-2 select-none text-[110px] font-normal leading-none text-navy-deep/[0.05] sm:-bottom-12 sm:text-[170px] lg:-bottom-16 lg:text-[220px]"
       >
         Insights
       </span>

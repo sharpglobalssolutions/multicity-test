@@ -37,7 +37,7 @@ export function BlogPostCard({ post }: { post: PublicBlogPost }) {
       <h3 className="mt-5 line-clamp-2 text-lg leading-snug text-text-dark">
         <Link href={post.url}>{post.title}</Link>
       </h3>
-      <p className="mt-2 line-clamp-3 text-[15px] leading-[18px] text-text-gray">
+      <p className="mt-2 line-clamp-3 text-[13px] leading-[18px] text-text-gray">
         {excerpt}
       </p>
       <Link

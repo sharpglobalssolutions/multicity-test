@@ -46,10 +46,11 @@ export function FirstClassCabinSection({
       <div className="content-container grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <SectionReveal x={-40}>
           <h2 className="text-[28px] leading-[32px] text-white">{heading}</h2>
-          <p className="mt-5 max-w-md text-[15px] leading-[18px] text-white/70">
-            {body}
-          </p>
-          <p className="mt-5 text-[15px] font-semibold text-white">
+          <p
+            className="mt-5 max-w-md text-[13px] leading-[18px] text-white/70"
+            dangerouslySetInnerHTML={{ __html: body }}
+          />
+          <p className="mt-5 text-[13px] leading-[18px] font-semibold text-white">
             {subheading}
           </p>
           <div className="mt-4 grid grid-cols-2 gap-x-8 gap-y-2">

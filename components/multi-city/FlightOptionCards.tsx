@@ -67,9 +67,10 @@ export function FlightOptionCards({
                 </div>
                 <div className="bg-[#ececec] p-6">
                   <h3 className="text-xl text-text-dark">{card.title}</h3>
-                  <p className="mt-3 text-[15px] leading-[18px] text-text-gray">
-                    {card.description}
-                  </p>
+                  <p
+                    className="mt-3 text-[13px] leading-[18px] text-text-gray"
+                    dangerouslySetInnerHTML={{ __html: card.description }}
+                  />
                 </div>
               </article>
             </SectionReveal>
