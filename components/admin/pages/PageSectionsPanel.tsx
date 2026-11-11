@@ -33,7 +33,7 @@ interface PageSectionsPanelProps {
 
 const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> = {
   policy: ["POLICY_CONTENT"],
-  chrome: ["HEADER", "FOOTER"],
+  chrome: ["HEADER", "FOOTER", "TOP_LINKS"],
   "business-class": [
     "BC_HERO",
     "BC_QUICK_CONSULT",
@@ -66,6 +66,7 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "MC_WHY_CHOOSE",
     "MC_PLANNING_CTA",
     "CTA",
+    "TESTIMONIALS",
     "FAQ",
   ],
   "first-class": [
@@ -114,6 +115,7 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "CNX_PLAN_CTA",
     "CNX_FAQ",
     "CTA",
+    "TESTIMONIALS",
   ],
   "flight-change": [
     "FCH_HERO",
@@ -133,6 +135,8 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "FCH_REVIEW_INFO",
     "FCH_FAQ",
     "CTA",
+    "TESTIMONIALS",
+    "SERVICE_FORM",
   ],
   "international-flight-booking": [
     "IFB_HERO",
@@ -167,6 +171,7 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "MF_REVIEW_CTA",
     "MF_FAQ",
     "CTA",
+    "SERVICE_FORM",
   ],
   "last-minute-flights": [
     "LMF_HERO",
@@ -178,6 +183,7 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "LMF_WHY_CHOOSE",
     "LMF_FAQ",
     "CTA",
+    "TESTIMONIALS",
   ],
   "date-change-assistance": [
     "DC_HERO",
@@ -193,9 +199,9 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "DC_HOW_IT_WORKS",
     "DC_WHY_CHOOSE",
     "DC_INFO_NEEDED",
-    "DC_REQUEST_FORM",
     "DC_FAQ",
     "CTA",
+    "SERVICE_FORM",
   ],
   "schedule-changes": [
     "SC_HERO",
@@ -215,6 +221,7 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "SC_REVIEW_CTA",
     "SC_FAQ",
     "CTA",
+    "SERVICE_FORM",
   ],
   "name-correction": [
     "NC_HERO",
@@ -233,9 +240,9 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "NC_TIPS",
     "NC_WHY_CHOOSE",
     "NC_INFO_NEEDED",
-    "NC_REQUEST_FORM",
     "NC_FAQ",
     "CTA",
+    "SERVICE_FORM",
   ],
   "business-partnerships": [
     "BP_HERO",
@@ -255,6 +262,16 @@ const ALLOWED_SECTION_TYPES_BY_TEMPLATE: Record<string, readonly SectionType[]> 
     "CTA",
     "BP_DISCLAIMER",
   ],
+  contact: [
+    "CT_HERO",
+    "CT_SPEAK_SPECIALIST",
+    "CT_UNDERSTAND_JOURNEY",
+    "CT_ENQUIRY_STEPS",
+    "CT_TRAVEL_SUPPORT",
+    "CT_FAQ",
+    "CT_SUPPORT_BAND",
+  ],
+  quote: ["QT_SUMMARY", "QT_FORM", "QT_DESTINATIONS", "TESTIMONIALS"],
 };
 
 export function PageSectionsPanel({ pageId, template }: PageSectionsPanelProps) {

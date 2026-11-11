@@ -14,7 +14,7 @@ const DEFAULT_ONE_WAY: BusinessClassOptionsBlock = {
   eyebrowLines: ["ONE-WAY", "BUSINESS CLASS"],
   body: "Not every trip needs a return date. Whether you're relocating, extending a journey, or simply booking each leg on its own terms, one-way Business Class gives you the flexibility to structure travel exactly the way you need it — without paying for a round trip you won't use.",
   buttonLabel: "Explore One-Way",
-  buttonHref: "#connect",
+  buttonHref: "/one-way-flights",
   images: [
     {
       src: unsplash("1569629743817-70d8db6c323b"),
@@ -31,7 +31,7 @@ const DEFAULT_MULTI_CITY: BusinessClassOptionsBlock = {
   eyebrowLines: ["MULTI-CITY", "BUSINESS CLASS"],
   body: "Visiting more than one destination on the same trip shouldn't mean booking separate, disconnected fares. Our specialists build multi-city Business Class itineraries around your full route — coordinating connections, cabins and timing so every leg works together.",
   buttonLabel: "Explore Multi-City",
-  buttonHref: "#connect",
+  buttonHref: "/multi-city-flights",
   images: [
     {
       src: unsplash("1500835556837-99ac94a94552"),

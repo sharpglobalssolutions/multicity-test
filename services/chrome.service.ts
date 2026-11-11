@@ -3,7 +3,7 @@ import { cache } from "react";
 import { logger } from "@/lib/logger";
 import { listActiveSectionsForPage } from "@/services/page-section.service";
 import { getPageByIdOrSlugForViewer } from "@/services/page.service";
-import type { FooterSectionData, HeaderSectionData } from "@/types/page-sections";
+import type { FooterSectionData, HeaderSectionData, TopLinksSectionData } from "@/types/page-sections";
 
 /** The one singleton `Page` row carrying site-wide chrome (Header/Footer
  * content) instead of any real page's content — see the "chrome" template
@@ -11,7 +11,7 @@ import type { FooterSectionData, HeaderSectionData } from "@/types/page-sections
  * Must match the slug the one-off seed script creates it with. */
 export const CHROME_PAGE_SLUG = "site-chrome";
 
-type ChromeSections = Partial<{ HEADER: HeaderSectionData; FOOTER: FooterSectionData }>;
+type ChromeSections = Partial<{ HEADER: HeaderSectionData; FOOTER: FooterSectionData; TOP_LINKS: TopLinksSectionData }>;
 
 /**
  * Loads the site-wide chrome's DB-driven content, for spreading into

@@ -6,15 +6,8 @@ import { SOCIAL_ICON_MAP } from "@/components/SocialIcons";
 import { StickyCallButton } from "@/components/StickyCallButton";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { DARK_FOOTER_LINKS, SOCIAL_LINKS, TRUST_BADGES } from "@/data/content";
-import { logger } from "@/lib/logger";
 import { getChromeSectionsSafely } from "@/services/chrome.service";
 import { getSiteSettingsSafely } from "@/services/site-settings.service";
-import { listTopAirlines } from "@/services/airline.service";
-import {
-  listTopCities,
-  listTopCountries,
-} from "@/services/destination.service";
-import { listTopRoutes } from "@/services/route.service";
 
 const DEFAULT_DARK_FOOTER_COLUMNS: {
   title: string;
@@ -30,42 +23,66 @@ const DEFAULT_LOGO_SRC = "/logo/logo-white.webp";
 
 interface LinkColumn {
   title: string;
-  links: { label: string; url: string; slug: string }[];
+  links: { label: string; href: string }[];
 }
 
-/** Falls back to empty columns on failure rather than throwing — this runs
- * on every public page via `Footer`, so a transient DB hiccup (or, during a
- * Docker build, no database being reachable yet while pages prerender)
- * would otherwise take the whole page down with it. Same "never break the
- * page" reasoning as `getSiteSettingsSafely`/`getChromeSectionsSafely`. */
-async function getLinkColumns(): Promise<LinkColumn[]> {
-  try {
-    const [routes, countries, cities, airlines] = await Promise.all([
-      listTopRoutes(10),
-      listTopCountries(10),
-      listTopCities(10),
-      listTopAirlines(10),
-    ]);
-
-    return [
-      { title: "Top Routes", links: routes },
-      { title: "Top Countries", links: countries },
-      { title: "Top Cities", links: cities },
-      { title: "Top Airlines", links: airlines },
-    ];
-  } catch (error) {
-    logger.error("Failed to load footer link columns — hiding Top Routes/Countries/Cities/Airlines", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
-  }
-}
+const DEFAULT_TOP_LINKS_COLUMNS: LinkColumn[] = [
+  {
+    title: "Top Routes",
+    links: [
+      { label: "Business Class Flights from New York to London", href: "#" },
+      { label: "Business Class Flights from New York to Paris", href: "#" },
+      { label: "Business Class Flights from Chicago to Frankfurt", href: "#" },
+      { label: "Business Class Flights from Los Angeles to London", href: "#" },
+      { label: "Business Class Flights from Toronto to London", href: "#" },
+      { label: "Business Class Flights from New York to Rome", href: "#" },
+      { label: "Business Class Flights from Miami to Madrid", href: "#" },
+      { label: "Business Class Flights from Boston to London", href: "#" },
+      { label: "Business Class Flights from Washington DC to Frankfurt", href: "#" },
+      { label: "Business Class Flights from Toronto to Paris", href: "#" },
+    ],
+  },
+  {
+    title: "Top Countries",
+    links: [
+      { label: "France Business Class Flights", href: "#" },
+      { label: "Germany Business Class Flights", href: "#" },
+      { label: "Italy Business Class Flights", href: "#" },
+      { label: "Spain Business Class Flights", href: "#" },
+      { label: "Switzerland Business Class Flights", href: "#" },
+      { label: "United Kingdom Business Class Flights", href: "#" },
+    ],
+  },
+  {
+    title: "Top Cities",
+    links: [
+      { label: "Frankfurt Business Class Flights", href: "#" },
+      { label: "London Business Class Flights", href: "#" },
+      { label: "Madrid Business Class Flights", href: "#" },
+      { label: "Paris Business Class Flights", href: "#" },
+      { label: "Rome Business Class Flights", href: "#" },
+      { label: "Zurich Business Class Flights", href: "#" },
+    ],
+  },
+  {
+    title: "Top Airlines",
+    links: [
+      { label: "United Airlines", href: "#" },
+      { label: "American Airlines", href: "#" },
+      { label: "Delta One & Business Class Flight Options", href: "#" },
+      { label: "British Airways", href: "#" },
+      { label: "Lufthansa", href: "#" },
+      { label: "Air Canada", href: "#" },
+    ],
+  },
+];
 
 /** All props optional, falling back to the current hardcoded default — see
- * `Hero.tsx` for the rationale. The Top Routes/Countries/Cities/Airlines columns
- * above (`getLinkColumns`) and the `GetInTouchForm`/`NewsletterForm`
- * components are NOT part of this — they stay DB-driven/functional, not
- * chrome content editable here. */
+ * `Hero.tsx` for the rationale. The Top Routes/Countries/Cities/Airlines
+ * columns are the admin-editable `TOP_LINKS` chrome section
+ * (`DEFAULT_TOP_LINKS_COLUMNS` above is just the code-level fallback); the
+ * `GetInTouchForm`/`NewsletterForm` components are NOT part of this — they
+ * stay functional, not chrome content editable here. */
 export async function Footer({
   connectHeading = "Let's Stay Connected",
   socialLinks = SOCIAL_LINKS as unknown as {
@@ -99,12 +116,12 @@ export async function Footer({
   termsHref?: string;
 } = {}) {
   const year = new Date().getFullYear();
-  const [columns, chrome, siteSettings] = await Promise.all([
-    getLinkColumns(),
+  const [chrome, siteSettings] = await Promise.all([
     getChromeSectionsSafely(),
     getSiteSettingsSafely(),
   ]);
   const footer = chrome.FOOTER;
+  const columns = chrome.TOP_LINKS?.columns ?? DEFAULT_TOP_LINKS_COLUMNS;
 
   const resolvedConnectHeading = footer?.connectHeading ?? connectHeading;
   const resolvedSocialLinks = footer?.socialLinks ?? socialLinks;
@@ -178,9 +195,9 @@ export async function Footer({
                 </h3>
                 <ul className="mt-5 space-y-3">
                   {column.links.map((link) => (
-                    <li key={link.slug}>
+                    <li key={link.label}>
                       <Link
-                        href={link.url}
+                        href={link.href}
                         className="text-[13px] text-text-gray transition-colors hover:text-navy-deep hover:underline hover:underline-offset-4"
                       >
                         {link.label}

@@ -40,7 +40,7 @@ export function RoutesCarousel({
   routes = ROUTE_DEALS,
   cabinLabel = "Business Class",
   buttonLabel,
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
 }: RoutesCarouselProps = {}) {
   return (
     <section className="bg-white py-10 sm:py-14">

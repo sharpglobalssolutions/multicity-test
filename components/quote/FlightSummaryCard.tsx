@@ -2,8 +2,10 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { unsplash } from "@/lib/images";
 import { TRIP_TYPE_LABELS, type TripType } from "@/lib/flightSearchTypes";
+import { QuoteFareReveal } from "@/components/quote/QuoteFareReveal";
+import type { QtSummaryImage } from "@/types/page-sections";
 
-const SUMMARY_IMAGES = [
+const DEFAULT_SUMMARY_IMAGES: QtSummaryImage[] = [
   {
     src: unsplash("1569154941061-e231b4725ef1"),
     alt: "Business class cabin seating",
@@ -32,6 +34,7 @@ export interface FlightSummaryCardProps {
   cabinClass: string;
   tripType: TripType;
   passengers: number;
+  images?: QtSummaryImage[];
 }
 
 function TripDetailDivider() {
@@ -46,12 +49,18 @@ export function FlightSummaryCard({
   cabinClass,
   tripType,
   passengers,
+  images: imagesProp,
 }: FlightSummaryCardProps) {
+  const images = imagesProp && imagesProp.length > 0 ? imagesProp : DEFAULT_SUMMARY_IMAGES;
+
   return (
     <div className="flex h-full flex-col overflow-hidden  border border-navy-deep/10 bg-white pb-14">
       <div className="p-6 sm:p-8">
-        <div className="grid grid-cols-3 gap-3">
-          {SUMMARY_IMAGES.map((image) => (
+        <div
+          className="grid gap-3"
+          style={{ gridTemplateColumns: `repeat(${images.length}, minmax(0, 1fr))` }}
+        >
+          {images.map((image) => (
             <div
               key={image.src}
               className="relative aspect-square overflow-hidden rounded-input"
@@ -98,14 +107,7 @@ export function FlightSummaryCard({
           </span>
         </p>
 
-        <div className="mt-8 text-center">
-          <h2 className="text-xl text-[#00b67a] sm:text-2xl">
-            Congratulations!
-          </h2>
-          <p className="mt-2 text-[13px] leading-[18px] font-semibold text-navy-deep/70">
-            Exclusive unpublished fares are available for your flight.
-          </p>
-        </div>
+        <QuoteFareReveal />
       </div>
 
       <div className="mt-20 grid grid-cols-3 divide-x divide-navy-deep/10 border-t border-navy-deep/10 bg-gray-light py-6 text-center">

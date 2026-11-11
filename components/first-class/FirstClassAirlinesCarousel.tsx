@@ -28,7 +28,7 @@ const DEFAULT_AIRLINES: FirstClassAirline[] = [
     image: unsplash("1569629743817-70d8db6c323b"),
     alt: "A wide-body aircraft on final approach against a blue sky",
     linkLabel: "Explore First Class",
-    linkHref: "#connect",
+    linkHref: "/quote",
   },
   {
     id: "lufthansa",
@@ -38,7 +38,7 @@ const DEFAULT_AIRLINES: FirstClassAirline[] = [
     image: unsplash("1587019158091-1a103c5dd17f"),
     alt: "A commercial aircraft on final approach against a blue sky",
     linkLabel: "Explore First Class",
-    linkHref: "#connect",
+    linkHref: "/quote",
   },
   {
     id: "air-france",
@@ -48,7 +48,7 @@ const DEFAULT_AIRLINES: FirstClassAirline[] = [
     image: unsplash("1474302770737-173ee21bab63"),
     alt: "A commercial aircraft climbing into a golden evening sky",
     linkLabel: "Plan My Journey",
-    linkHref: "#connect",
+    linkHref: "/quote",
   },
   {
     id: "american-airlines",
@@ -58,7 +58,7 @@ const DEFAULT_AIRLINES: FirstClassAirline[] = [
     image: unsplash("1436491865332-7a61a109cc05"),
     alt: "An aircraft wing above the clouds during a sunset flight",
     linkLabel: "Plan My Journey",
-    linkHref: "#connect",
+    linkHref: "/quote",
   },
 ];
 

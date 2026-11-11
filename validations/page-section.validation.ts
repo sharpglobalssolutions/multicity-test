@@ -22,6 +22,11 @@ export const SECTION_TYPES = [
   "EXPERTS",
   "BRAND_PHILOSOPHY",
   "TESTIMONIALS",
+  /** The shared "Last Name + Booking Reference, then call" lead-capture
+   * card (`FlightServiceForm`) — reused across Flight Change, Missed
+   * Flight, Date Change, Schedule Changes and Name Correction, the same
+   * way `TESTIMONIALS` is reused above. */
+  "SERVICE_FORM",
   "FAQ",
   "INSIGHTS",
   "ROUTES",
@@ -39,6 +44,11 @@ export const SECTION_TYPES = [
    * `Footer` rather than a specific page's `<main>`. */
   "HEADER",
   "FOOTER",
+  /** The footer's "Top Routes / Top Countries / Top Cities / Top Airlines"
+   * columns — same singleton chrome page as HEADER/FOOTER above, admin-
+   * editable as a plain list of {title, links[]} columns rather than tied
+   * to the Route/Destination/Airline tables. */
+  "TOP_LINKS",
   /** The Business Class landing page (`business-class` template) — one
    * value per component, in the order `app/business-class/page.tsx`
    * renders them. `BC_OPTIONS` is just the shared heading above the two
@@ -203,9 +213,9 @@ export const SECTION_TYPES = [
   /** The Date Change Assistance landing page (`date-change-assistance`
    * template) — one value per component, in the order
    * `app/date-change-assistance/page.tsx` renders them. Entirely reuses
-   * MC_*, BC_* and CNX_* shapes the same way the LMF_* block above does,
-   * aside from `DC_REQUEST_FORM`'s own shape; `CTA` is reused here too,
-   * scoped to this page's own `Page` row. */
+   * MC_*, BC_* and CNX_* shapes the same way the LMF_* block above does;
+   * `CTA`/`SERVICE_FORM` are reused here too, scoped to this page's own
+   * `Page` row. */
   "DC_HERO",
   "DC_EXPERT_GUIDANCE",
   "DC_UNDERSTANDING_OPTIONS",
@@ -219,7 +229,6 @@ export const SECTION_TYPES = [
   "DC_HOW_IT_WORKS",
   "DC_WHY_CHOOSE",
   "DC_INFO_NEEDED",
-  "DC_REQUEST_FORM",
   "DC_FAQ",
   /** The Airline Schedule Change Assistance landing page
    * (`schedule-changes` template) — one value per component, in the order
@@ -263,7 +272,6 @@ export const SECTION_TYPES = [
   "NC_TIPS",
   "NC_WHY_CHOOSE",
   "NC_INFO_NEEDED",
-  "NC_REQUEST_FORM",
   "NC_FAQ",
   /** The Business Travel Partnerships (B2B) landing page
    * (`business-partnerships` template) — one value per component, in the
@@ -289,6 +297,25 @@ export const SECTION_TYPES = [
   "BP_MID_CTA",
   "BP_FAQ",
   "BP_DISCLAIMER",
+  /** The Contact page (`contact` template) — one value per component, in
+   * the order `app/contact/page.tsx` renders them. `CT_SPEAK_SPECIALIST`/
+   * `CT_UNDERSTAND_JOURNEY`/`CT_TRAVEL_SUPPORT` reuse the same shape
+   * `ImageTextBlock`-backed sections elsewhere use (e.g. `NC_INTRO`);
+   * `CT_ENQUIRY_STEPS` reuses `HowItWorksCarousel`'s shape the same way
+   * `NC_HOW_IT_WORKS` does. */
+  "CT_HERO",
+  "CT_SPEAK_SPECIALIST",
+  "CT_UNDERSTAND_JOURNEY",
+  "CT_ENQUIRY_STEPS",
+  "CT_TRAVEL_SUPPORT",
+  "CT_FAQ",
+  "CT_SUPPORT_BAND",
+  /** The `/quote` page (`quote` template) — the lead-capture phone bar
+   * above the quote form (`QT_FORM`) and the deals carousel beneath it
+   * (`QT_DESTINATIONS`). `TESTIMONIALS` above is reused here too. */
+  "QT_FORM",
+  "QT_DESTINATIONS",
+  "QT_SUMMARY",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

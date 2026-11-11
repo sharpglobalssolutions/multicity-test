@@ -73,8 +73,7 @@ export interface OneWayFlightsRequestFormProps {
 /** The "Let's Plan Your International Journey" lead form, rendered inline
  * as a page section (not a modal) — the source content presents it as its
  * own four-step block on the page, not something a button pops open, so
- * it's its own component rather than reusing the
- * `DateChangeRequestModal`/`NameCorrectionRequestModal` dialog pattern.
+ * it's its own component rather than a modal dialog.
  * Submits a real `one_way_flights_request` row to
  * `/api/v1/form-submissions`, same backend every other form on the site
  * uses. All copy props optional, falling back to the current hardcoded

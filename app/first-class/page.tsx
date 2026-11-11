@@ -41,7 +41,6 @@ const DEFAULT_CTA = {
   heading: "First Class Should Fit Your Journey, Not Just Your Budget",
   body: "We'll help you explore suitable First Class flights, international routes, airlines, aircraft and fare options so you can make a more informed travel decision.",
   buttonLabel: "Speak With a First Class Travel Specialist",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1474302770737-173ee21bab63"),
 };
 
@@ -71,7 +70,7 @@ export default async function FirstClassPage() {
       price: "$1,899",
       image: unsplash("1513635269975-59663e0ac1ad"),
       alt: "The Elizabeth Tower and Houses of Parliament in London",
-      href: "#connect",
+      href: "/quote",
       tagline: "First Class · North Atlantic · Premium Travel",
     },
     {
@@ -82,7 +81,7 @@ export default async function FirstClassPage() {
       price: "$1,899",
       image: unsplash("1502602898657-3e91760cbb34"),
       alt: "The Eiffel Tower rising above the rooftops of Paris at dusk",
-      href: "#connect",
+      href: "/quote",
       tagline: "First Class · Europe · Luxury Leisure",
     },
   ];
@@ -100,6 +99,7 @@ export default async function FirstClassPage() {
           ]}
           backgroundImage={unsplash("1474302770737-173ee21bab63")}
           buttonLabel="Speak With a First Class Travel Specialist"
+          buttonHref="tel:1869-504-657"
           {...sections.FC_HERO}
         />
         <ExpertGuidanceSection
@@ -110,6 +110,7 @@ export default async function FirstClassPage() {
           ]}
           tags={[]}
           buttonLabel="Compare My First Class Options"
+          buttonHref="/quote"
           imageSrc={unsplash("1714079761488-e0c9b9ac4138")}
           {...sections.FC_EXPERT_GUIDANCE}
           imagePosition="left"
@@ -147,7 +148,7 @@ export default async function FirstClassPage() {
             ]
           }
           buttonLabel={flightSearchChallenge?.buttonLabel ?? "Speak With a First Class Specialist"}
-          buttonHref={flightSearchChallenge?.buttonHref ?? "#connect"}
+          buttonHref={flightSearchChallenge?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="right"
         />
         <FirstClassOptionsCarousel {...sections.FC_OPTIONS} />
@@ -185,7 +186,7 @@ export default async function FirstClassPage() {
             ]
           }
           buttonLabel={beforeBooking?.buttonLabel ?? "Review My First Class Options"}
-          buttonHref={beforeBooking?.buttonHref ?? "#connect"}
+          buttonHref={beforeBooking?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="left"
         />
         <FeaturedBlockSection
@@ -210,7 +211,7 @@ export default async function FirstClassPage() {
           }
           imagePosition="right"
         />
-        <FirstClassFareSection {...sections.FC_FARE} />
+        <FirstClassFareSection buttonHref="/quote" {...sections.FC_FARE} />
         <RoutesCarousel
           heading="Popular First Class Routes From North America"
           subheading="Looking for inspiration for your next premium journey?"
@@ -250,7 +251,7 @@ export default async function FirstClassPage() {
             ]
           }
           buttonLabel={journeyPreferences?.buttonLabel ?? "Build My Journey"}
-          buttonHref={journeyPreferences?.buttonHref ?? "#connect"}
+          buttonHref={journeyPreferences?.buttonHref ?? "/quote"}
           buttonVariant="gold"
           imagePosition="right"
         />

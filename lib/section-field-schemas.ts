@@ -180,6 +180,7 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { id: "", quote: "", name: "", location: "", rating: "5", avatar: "" },
     },
   ],
+  SERVICE_FORM: [text("ctaLabel", "Button label")],
   FAQ: [
     text("eyebrow", "Eyebrow"),
     text("heading", "Heading"),
@@ -257,10 +258,16 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     text("privacyPolicyHref", "Privacy Policy link"),
     text("termsHref", "Terms & Conditions link"),
   ],
+  // `columns` isn't listed here — like `FOOTER.footerNavColumns`, it's a
+  // list-of-columns-of-links shape the generic field-schema model doesn't
+  // cover, so `SectionEditorDialog` special-cases it (reusing
+  // `FooterNavColumnsEditor`).
+  TOP_LINKS: [],
   BC_HERO: [
     { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
     richtext("description", "Description"),
     image("backgroundImage", "Background image"),
+    image("phoneHeaderImage", "Phone header avatar image"),
   ],
   BC_QUICK_CONSULT: [
     text("heading", "Heading"),
@@ -1756,12 +1763,6 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       emptyItem: { src: "", alt: "" },
     },
   ],
-  DC_REQUEST_FORM: [
-    text("heading", "CTA heading"),
-    richtext("subheading", "CTA subheading"),
-    text("buttonLabel", "Button label (opens the request form)"),
-    richtext("disclaimer", "Disclaimer (shown inside the request form)"),
-  ],
   DC_FAQ: [
     text("heading", "Heading"),
     {
@@ -2127,12 +2128,6 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     text("buttonLabel", "Button label"),
     text("buttonHref", "Button link"),
   ],
-  NC_REQUEST_FORM: [
-    text("heading", "CTA heading"),
-    richtext("subheading", "CTA subheading"),
-    text("buttonLabel", "Button label (opens the enquiry form)"),
-    richtext("disclaimer", "Disclaimer (shown inside the enquiry form)"),
-  ],
   NC_FAQ: [
     text("heading", "Heading"),
     {
@@ -2297,5 +2292,122 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     richtext("body", "Body"),
     text("buttonLabel", "Button label (optional)"),
     text("buttonHref", "Button link (optional)"),
+  ],
+  CT_HERO: [
+    text("heading", "Heading"),
+    richtext("body", "Body"),
+    text("emailLabel", "Email label"),
+    text("emailValue", "Email address"),
+    text("phoneLabel", "Phone label"),
+    text("phoneValue", "Phone number"),
+    image("backgroundImage", "Background image"),
+  ],
+  CT_SPEAK_SPECIALIST: [
+    { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
+    richtext("body", "Body"),
+    {
+      key: "images",
+      label: "Images",
+      kind: "list",
+      itemFields: [image("src", "Image"), text("alt", "Alt text")],
+      emptyItem: { src: "", alt: "" },
+    },
+    text("buttonLabel", "Button label"),
+    text("buttonHref", "Button link"),
+  ],
+  CT_UNDERSTAND_JOURNEY: [
+    { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
+    richtext("body", "Body"),
+    {
+      key: "images",
+      label: "Images",
+      kind: "list",
+      itemFields: [image("src", "Image"), text("alt", "Alt text")],
+      emptyItem: { src: "", alt: "" },
+    },
+  ],
+  CT_ENQUIRY_STEPS: [
+    text("heading", "Heading"),
+    text("subheading", "Subheading"),
+    {
+      key: "steps",
+      label: "Steps",
+      kind: "list",
+      itemFields: [
+        text("id", "ID"),
+        textarea("titleLines", "Title (one line per row)", 2),
+        textarea("descriptionLines", "Description (one line per row)", 2),
+      ],
+      emptyItem: { id: "", titleLines: "", descriptionLines: "" },
+    },
+  ],
+  CT_TRAVEL_SUPPORT: [
+    { key: "headingLines", label: "Heading (one line per entry)", kind: "string-list" },
+    richtext("body", "Body"),
+    {
+      key: "images",
+      label: "Images",
+      kind: "list",
+      itemFields: [image("src", "Image"), text("alt", "Alt text")],
+      emptyItem: { src: "", alt: "" },
+    },
+  ],
+  CT_FAQ: [
+    text("heading", "Heading"),
+    {
+      key: "faqs",
+      label: "Questions",
+      kind: "list",
+      itemFields: [text("id", "ID"), text("question", "Question"), richtext("answer", "Answer")],
+      emptyItem: { id: "", question: "", answer: "" },
+    },
+  ],
+  CT_SUPPORT_BAND: [
+    text("heading", "Heading"),
+    {
+      key: "items",
+      label: "Items",
+      kind: "list",
+      itemFields: [text("id", "ID"), text("title", "Title"), richtext("description", "Description")],
+      emptyItem: { id: "", title: "", description: "" },
+    },
+  ],
+  QT_FORM: [
+    text("phoneNumber", "Phone number"),
+    image("agentPhoto", "Agent photo"),
+    {
+      key: "trustStats",
+      label: "Trust stats",
+      kind: "list",
+      itemFields: [text("id", "ID"), text("value", "Value (e.g. \"100%\")"), text("label", "Label")],
+      emptyItem: { id: "", value: "", label: "" },
+    },
+  ],
+  QT_DESTINATIONS: [
+    text("heading", "Heading"),
+    richtext("subheading", "Subheading"),
+    {
+      key: "deals",
+      label: "Deals",
+      kind: "list",
+      itemFields: [
+        text("id", "ID"),
+        text("city", "City"),
+        text("route", "Route"),
+        text("price", "Price"),
+        image("image", "Image"),
+        text("alt", "Image alt text"),
+      ],
+      emptyItem: { id: "", city: "", route: "", price: "", image: "", alt: "" },
+    },
+  ],
+  QT_SUMMARY: [
+    {
+      key: "images",
+      label: "Images",
+      kind: "list",
+      itemFields: [image("src", "Image"), text("alt", "Alt text")],
+      emptyItem: { src: "", alt: "" },
+    },
   ],
 };

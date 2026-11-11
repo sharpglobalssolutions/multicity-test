@@ -37,7 +37,6 @@ const DEFAULT_CTA = {
   heading: "Missed Your Flight? Let's Find the Next Step.",
   body: "Your journey may still have options. Before buying another ticket or abandoning your itinerary, let our travel specialists help you understand what may be available and explore the most practical way forward.",
   buttonLabel: "Review My Travel Options",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1436491865332-7a61a109cc05"),
 };
 
@@ -133,7 +132,9 @@ export default async function MissedFlightAssistancePage() {
             "Depending on your airline, ticket conditions and circumstances, there may be several ways to continue your trip. Our travel specialists help you review your booking, understand the available airline options and explore practical next steps for your journey.",
           ]}
           buttonLabel="Review My Travel Options"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          serviceForm={{ serviceType: "missed_flight", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.MF_HERO}
         />
 
@@ -357,7 +358,7 @@ export default async function MissedFlightAssistancePage() {
             "Missed your departure? Don't make a rushed decision. Tell us what happened, where you're trying to go and how urgently you need to travel — our specialists can help you understand the available options and explore a practical way forward."
           }
           buttonLabel={sections.MF_REVIEW_CTA?.buttonLabel ?? "Review My Options"}
-          buttonHref={sections.MF_REVIEW_CTA?.buttonHref ?? "#connect"}
+          buttonHref={sections.MF_REVIEW_CTA?.buttonHref ?? "tel:1869-504-657"}
         />
 
         <LightFaqSection

@@ -35,7 +35,7 @@ export function CancellationHero({
   subheading = "Know Your Options Before You Cancel",
   paragraph = "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
   buttonLabel = "Speak With a Travel Specialist",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
   secondaryButtonLabel,
   secondaryButtonHref,
   trustLine,

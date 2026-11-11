@@ -18,11 +18,12 @@ export interface ImageTextBlockProps {
   images: { src: string; alt: string }[];
   imagePosition?: "left" | "right";
   benefits?: string[];
-  /** A plain two-column list (no checkmark bullets) — an alternative to
-   * `benefits` (a single checkmarked column) for content that reads as two
-   * side-by-side columns of short phrases in the reference design (e.g.
-   * "Flexible fares" / "Mixed-cabin itineraries"). At most one of
-   * `benefits`/`twoColumnItems` is expected to be set at a time. */
+  /** A two-column list, each item with a checkmark bullet (same bullet
+   * style as `benefits`, just split across two columns instead of one) —
+   * for content that reads as two side-by-side columns of short phrases in
+   * the reference design (e.g. "Flexible fares" / "Mixed-cabin
+   * itineraries"). At most one of `benefits`/`twoColumnItems` is expected
+   * to be set at a time. */
   twoColumnItems?: string[][];
   /** A third, richer list style alongside `benefits`/`twoColumnItems` — a
    * two-column grid of title+description pairs rather than plain bullet
@@ -38,6 +39,10 @@ export interface ImageTextBlockProps {
    * match a CTA that reads as more of a primary action there than the
    * navy buttons elsewhere on that same page. */
   buttonVariant?: "navy" | "gold";
+  /** Defaults to "50-50" (every existing caller's current look). The
+   * Flight Change page's "When Can MultiCity Experts Help?" instance uses
+   * "70-30" instead, to give the text column more room than the photo. */
+  columnRatio?: "50-50" | "60-40" | "70-30";
 }
 
 /** Shared "large image + text" layout behind both One-Way/Multi-City
@@ -61,6 +66,7 @@ export function ImageTextBlock({
   buttonLabel,
   buttonHref,
   buttonVariant = "navy",
+  columnRatio = "50-50",
 }: ImageTextBlockProps) {
   const instanceId = useId().replace(/:/g, "");
   const prevClass = `image-text-block-prev-${instanceId}`;
@@ -186,11 +192,21 @@ export function ImageTextBlock({
       ) : null}
 
       {twoColumnItems && twoColumnItems.length > 0 ? (
-        <div className="mt-6 grid max-w-lg grid-cols-2 gap-x-8 gap-y-2.5">
+        <div
+          className={`mt-6 grid grid-cols-2 gap-x-8 gap-y-3 ${columnRatio === "50-50" ? "max-w-lg" : "max-w-none"}`}
+        >
           {twoColumnItems.map((column, columnIndex) => (
-            <ul key={columnIndex} className="space-y-2.5">
+            <ul key={columnIndex} className="space-y-3">
               {column.map((item) => (
-                <li key={item} className="text-[13px] leading-[15px] text-text-dark">
+                <li
+                  key={item}
+                  className="flex items-start gap-2 text-[13px] leading-[18px] text-text-dark"
+                >
+                  <Check
+                    size={16}
+                    className="mt-0.5 shrink-0 text-emerald"
+                    aria-hidden="true"
+                  />
                   {item}
                 </li>
               ))}
@@ -223,8 +239,19 @@ export function ImageTextBlock({
     </SectionReveal>
   );
 
+  const gridColsClass =
+    columnRatio === "70-30"
+      ? imagePosition === "left"
+        ? "lg:grid-cols-[30%_70%]"
+        : "lg:grid-cols-[70%_30%]"
+      : columnRatio === "60-40"
+        ? imagePosition === "left"
+          ? "lg:grid-cols-[40%_60%]"
+          : "lg:grid-cols-[60%_40%]"
+        : "lg:grid-cols-2";
+
   return (
-    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+    <div className={`grid grid-cols-1 items-center gap-12 ${gridColsClass} lg:gap-16`}>
       {imagePosition === "left" ? (
         <>
           {imageBlock}

@@ -2,6 +2,7 @@ import { recordAuditLog } from "@/lib/audit";
 import { NotFoundError, ValidationError } from "@/lib/errors";
 import { isRecordNotFoundError } from "@/lib/prisma-errors";
 import { revalidatePageBySlug } from "@/lib/revalidate";
+import { sanitizeRichText, sanitizeSectionData } from "@/lib/sanitize-html";
 import {
   createSection,
   deleteSection,
@@ -12,6 +13,7 @@ import {
   updateSection,
 } from "@/repositories/page-section.repository";
 import { findPageById } from "@/repositories/page.repository";
+import type { SectionType } from "@/types/page-sections";
 import type {
   CreatePageSectionInput,
   ReorderPageSectionsInput,
@@ -66,7 +68,13 @@ export async function createSectionForPage(
   const page = await getPageOr404(pageId);
 
   const sortOrder = input.sortOrder ?? (await getNextSortOrder(pageId));
-  const section = await createSection(pageId, { ...input, sortOrder });
+  const sanitizedInput = {
+    ...input,
+    ...(input.content !== undefined ? { content: sanitizeRichText(input.content) } : {}),
+    ...(input.data !== undefined ? { data: sanitizeSectionData(input.sectionType, input.data) } : {}),
+    sortOrder,
+  };
+  const section = await createSection(pageId, sanitizedInput);
 
   await recordAuditLog({
     userId,
@@ -92,9 +100,17 @@ export async function updateSectionForPage(
   const page = await getPageOr404(pageId);
   const before = await getOwnedSectionOr404(pageId, sectionId);
 
+  const sanitizedInput = {
+    ...input,
+    ...(input.content !== undefined ? { content: sanitizeRichText(input.content) } : {}),
+    ...(input.data !== undefined
+      ? { data: sanitizeSectionData(input.sectionType ?? (before.sectionType as SectionType), input.data) }
+      : {}),
+  };
+
   let section;
   try {
-    section = await updateSection(sectionId, input);
+    section = await updateSection(sectionId, sanitizedInput);
   } catch (error) {
     if (isRecordNotFoundError(error)) {
       throw new NotFoundError("Page section not found");

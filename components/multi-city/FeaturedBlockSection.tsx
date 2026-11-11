@@ -15,6 +15,8 @@ export interface FeaturedBlockSectionProps {
    * Flight Change page's "When Can MultiCity Experts Help?" instance
    * passes "gray" instead, to match that page's reference design. */
   background?: "white" | "gray";
+  /** See `ImageTextBlock`'s own doc comment — defaults to "50-50". */
+  columnRatio?: "50-50" | "60-40" | "70-30";
 }
 
 /** Thin section/container wrapper around the Business Class page's shared
@@ -35,6 +37,7 @@ export function FeaturedBlockSection({
   buttonVariant,
   imagePosition = "left",
   background = "white",
+  columnRatio = "50-50",
 }: FeaturedBlockSectionProps) {
   return (
     <section className={background === "gray" ? "bg-gray-light py-10 sm:py-14" : "bg-white py-10 sm:py-14"}>
@@ -50,6 +53,7 @@ export function FeaturedBlockSection({
           buttonHref={buttonHref}
           buttonVariant={buttonVariant}
           imagePosition={imagePosition}
+          columnRatio={columnRatio}
         />
       </div>
     </section>

@@ -231,7 +231,7 @@ export default function OneWayFlightsPage() {
             ["Mixed-cabin itineraries", "Multiple-airline combinations", "Alternative departure airports", "Flexible premium fares"],
           ]}
           buttonLabel="Compare Premium Cabin Options"
-          buttonHref="#connect"
+          buttonHref="tel:1869-504-657"
           imagePosition="right"
         />
 
@@ -328,7 +328,7 @@ export default function OneWayFlightsPage() {
           heading="Your International Journey Doesn't Have to Be a Round Trip"
           body="Fly into one city. Travel through Europe. Return from another. Or travel one-way and build the rest of your journey around your own plans. Tell us where you want to go, and our travel specialists can help you compare suitable one-way, open-jaw and multi-city options."
           buttonLabel="Plan My One-Way or Open-Jaw Journey"
-          buttonHref="#connect"
+          buttonHref="tel:1869-504-657"
           buttonVariant="gold"
         />
       </main>

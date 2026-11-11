@@ -4,6 +4,7 @@ import { ConflictError, NotFoundError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { isRecordNotFoundError, isUniqueConstraintError } from "@/lib/prisma-errors";
 import { revalidateBlogPostBySlug } from "@/lib/revalidate";
+import { sanitizeRichText } from "@/lib/sanitize-html";
 import { findActiveFaqsByEntity } from "@/repositories/faq.repository";
 import { findOrCreateBlogCategoryByName, listBlogCategories } from "@/repositories/blog-category.repository";
 import {
@@ -205,7 +206,7 @@ export async function createBlogPostForUser(input: CreateBlogPostInput, userId: 
 
   let post;
   try {
-    post = await createBlogPost({ ...input, categoryId, authorId: userId });
+    post = await createBlogPost({ ...input, content: sanitizeRichText(input.content), categoryId, authorId: userId });
   } catch (error) {
     if (isUniqueConstraintError(error)) {
       throw new ConflictError("A blog post with this slug already exists");
@@ -234,7 +235,11 @@ export async function updateBlogPostForUser(id: string, input: UpdateBlogPostInp
 
   let post;
   try {
-    post = await updateBlogPost(id, { ...input, ...(input.category !== undefined ? { categoryId } : {}) });
+    post = await updateBlogPost(id, {
+      ...input,
+      ...(input.content !== undefined ? { content: sanitizeRichText(input.content) } : {}),
+      ...(input.category !== undefined ? { categoryId } : {}),
+    });
   } catch (error) {
     if (isRecordNotFoundError(error)) {
       throw new NotFoundError("Blog post not found");

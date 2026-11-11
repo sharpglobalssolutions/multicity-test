@@ -34,7 +34,7 @@ export function Hero({
   primaryButtonLabel = "Speak With a Travel Specialist",
   primaryButtonHref = "#destinations",
   secondaryButtonLabel = "Submit a Travel Enquiry",
-  secondaryButtonHref = "#connect",
+  secondaryButtonHref = "tel:1869-504-657",
 }: HeroProps = {}) {
   // The image always renders as the base layer — instant paint, and the
   // permanent fallback when there's no admin-set video, or it fails to

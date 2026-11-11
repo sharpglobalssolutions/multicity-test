@@ -220,6 +220,8 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   BP_WHO_WE_SUPPORT: { key: "twoColumnItems", label: "Two-column list" },
   BP_FITS_WORKFLOW: { key: "items", label: "Considerations" },
   BP_MORE_THAN_FARE: { key: "twoColumnItems", label: "Two-column list" },
+  CT_UNDERSTAND_JOURNEY: { key: "twoColumnItems", label: "Two-column list" },
+  CT_TRAVEL_SUPPORT: { key: "twoColumnItems", label: "Two-column list" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {
@@ -476,6 +478,23 @@ export function SectionEditorDialog({ pageId, section, createType, onOpenChange,
                   ]
                 }
                 onChange={(columns) => setField("footerNavColumns", columns)}
+              />
+            </div>
+          ) : null}
+
+          {sectionType === "TOP_LINKS" ? (
+            <div className="space-y-1.5">
+              <Label>Columns</Label>
+              <FooterNavColumnsEditor
+                columns={
+                  (formData.columns as { title: string; links: Record<string, string>[] }[] | undefined) ?? [
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                    { title: "", links: [] },
+                  ]
+                }
+                onChange={(columns) => setField("columns", columns)}
               />
             </div>
           ) : null}

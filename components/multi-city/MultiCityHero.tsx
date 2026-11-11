@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
 import { FlightSearch } from "@/components/FlightSearch";
+import { FlightServiceForm } from "@/components/flight-services/FlightServiceForm";
 import { SectionReveal } from "@/components/SectionReveal";
 import { unsplash } from "@/lib/images";
 
@@ -10,10 +11,6 @@ import { unsplash } from "@/lib/images";
  * testimonial avatar), reused here to avoid an unverified photo id. */
 const AGENT_PHOTO_SRC =
   "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80";
-
-/** Static placeholder discount code shown in the call bar — same value for
- * every visitor, not tied to any real promo system. */
-const DISCOUNT_ID = "MCE-2024";
 
 export interface MultiCityHeroTrustStat {
   id: string;
@@ -49,23 +46,35 @@ export interface MultiCityHeroProps {
   buttonLabel?: string;
   buttonHref?: string;
   phoneNumber?: string;
+  phoneHeaderImage?: string;
   trustStats?: MultiCityHeroTrustStat[];
+  /** Swaps the quote card's embedded `FlightSearch` widget for the
+   * lightweight "Last Name + Booking Reference, then call"
+   * `FlightServiceForm` instead — used by the five service-specific pages
+   * (Flight Change, Missed Flight, Date Change, Schedule Changes, Name
+   * Correction), whose hero doesn't need a full flight search. Every other
+   * caller omits this and keeps `FlightSearch`. */
+  serviceForm?: { serviceType: string; ctaLabel?: string };
 }
 
 /** All props optional, falling back to the current hardcoded default — see
  * `Hero.tsx` for the rationale. The right-hand quote card reuses the exact
  * same `FlightSearch` component/logic the homepage Hero uses (see its
  * `variant="light"` doc comment) — only a phone header bar and a trust-stats
- * row are added around it here, not a re-implementation of the form. */
+ * row are added around it here, not a re-implementation of the form.
+ * `serviceForm` swaps that widget for `FlightServiceForm` instead (see its
+ * own doc comment above). */
 export function MultiCityHero({
   headingLines = DEFAULT_HEADING_LINES,
   subheading,
   paragraphs = DEFAULT_PARAGRAPHS,
   backgroundImage = unsplash("1502602898657-3e91760cbb34"),
   buttonLabel = "Plan My Europe Journey",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
   phoneNumber = "1869-504-657",
+  phoneHeaderImage = AGENT_PHOTO_SRC,
   trustStats = DEFAULT_TRUST_STATS,
+  serviceForm,
 }: MultiCityHeroProps = {}) {
   return (
     <section className="relative flex min-h-[650px] items-center overflow-hidden bg-navy-deep pb-16 pt-32 sm:min-h-[700px] lg:min-h-[750px] lg:pt-24">
@@ -126,34 +135,33 @@ export function MultiCityHero({
               href={`tel:${phoneNumber}`}
               className="mb-6 flex items-center gap-4 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
             >
-              <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/25">
+              <span className="relative h-16 w-16 shrink-0 overflow-hidden border-2 border-white/25">
                 <Image
-                  src={AGENT_PHOTO_SRC}
+                  src={phoneHeaderImage}
                   alt=""
                   fill
-                  sizes="56px"
+                  sizes="64px"
                   className="object-cover"
                 />
                 <span className="absolute inset-x-0 bottom-0 bg-black/70 py-[1px] text-center text-[9px] font-bold leading-tight tracking-wide text-[#D9BE85]">
                   24/7
                 </span>
               </span>
-              <div className="min-w-0">
-                <span className="block text-lg font-bold tracking-wide sm:text-2xl">
-                  {phoneNumber}
-                </span>
-                <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] text-white/80 sm:text-xs">
-                    Your Discount ID
-                  </span>
-                  <span className="rounded bg-white px-2 py-0.5 text-[11px] font-semibold text-navy-deep sm:text-xs">
-                    {DISCOUNT_ID}
-                  </span>
-                </div>
-              </div>
+              <span className="min-w-0 text-lg font-bold tracking-wide sm:text-2xl">
+                {phoneNumber}
+              </span>
             </Link>
 
-            <FlightSearch variant="light" />
+            {serviceForm ? (
+              <FlightServiceForm
+                serviceType={serviceForm.serviceType}
+                ctaLabel={serviceForm.ctaLabel}
+                phoneNumber={phoneNumber}
+                bare
+              />
+            ) : (
+              <FlightSearch variant="light" />
+            )}
 
             <div className="mt-6 grid grid-cols-3 divide-x divide-navy-deep/10 border-t border-navy-deep/10 pt-5 text-center">
               {trustStats.map((stat) => (

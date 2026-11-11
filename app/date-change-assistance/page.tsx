@@ -11,7 +11,6 @@ import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsS
 import { ComplexitySection } from "@/components/multi-city/ComplexitySection";
 import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
-import { DateChangeCenteredCta } from "@/components/date-change/DateChangeCenteredCta";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -37,7 +36,6 @@ const DEFAULT_CTA = {
   heading: "Need to Change Your Travel Date?",
   body: "Before you confirm a new date, make sure you understand your options. Tell us what has changed, when you'd prefer to travel and what matters most to you — our specialists can help you explore alternative dates, flights, routes and fare conditions.",
   buttonLabel: "Review My Date Change Options",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1500835556837-99ac94a94552"),
 };
 
@@ -143,7 +141,9 @@ export default async function DateChangeAssistancePage() {
             "Before changing your booking, it's worth understanding what your ticket allows and how different travel dates may affect the fare, routing and availability. Our travel specialists help you review available dates, understand fare conditions and compare suitable alternatives so you can make a more informed decision about your journey.",
           ]}
           buttonLabel="Review My Date Change Options"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          serviceForm={{ serviceType: "date_change", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.DC_HERO}
         />
 
@@ -370,13 +370,6 @@ export default async function DateChangeAssistancePage() {
             ]
           }
           imagePosition="left"
-        />
-
-        <DateChangeCenteredCta
-          heading={sections.DC_REQUEST_FORM?.heading}
-          subheading={sections.DC_REQUEST_FORM?.subheading}
-          buttonLabel={sections.DC_REQUEST_FORM?.buttonLabel}
-          disclaimer={sections.DC_REQUEST_FORM?.disclaimer}
         />
 
         <LightFaqSection

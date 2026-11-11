@@ -31,7 +31,7 @@ export function WhyChooseExperience() {
           />
           <div className="mt-8">
             <a
-              href="#connect"
+              href="tel:1869-504-657"
               className="inline-flex items-center rounded-full bg-navy-deep px-7 py-3.5 text-[15px] text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-navy-dark hover:shadow-[0_12px_28px_-10px_rgba(4,22,39,0.5)]"
             >
               Speak With a Specialist

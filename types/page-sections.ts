@@ -114,6 +114,71 @@ export interface FaqSectionData {
   faqs: { id: string; question: string; answer: string }[];
 }
 
+export interface ContactHeroSectionData {
+  heading: string;
+  body: string;
+  emailLabel: string;
+  emailValue: string;
+  phoneLabel: string;
+  phoneValue: string;
+  backgroundImage?: string;
+}
+
+export interface ContactSupportBandItem {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface ContactSupportBandSectionData {
+  heading: string;
+  items: ContactSupportBandItem[];
+}
+
+/** `/quote` page (`quote` template). The quote form itself (trip type,
+ * airports, dates, passenger/cabin selects) is functional UI, not editable
+ * content — only the lead-capture phone bar above it is. The random
+ * per-visitor discount code's "MCE" prefix is intentionally excluded here;
+ * it's a fixed brand constant, not page content (see `QuoteForm.tsx`). */
+export interface QtFormTrustStat {
+  id: string;
+  value: string;
+  label: string;
+}
+
+export interface QtFormSectionData {
+  phoneNumber: string;
+  agentPhoto: string;
+  trustStats: QtFormTrustStat[];
+}
+
+export interface QtDestinationsDeal {
+  id: string;
+  city: string;
+  route: string;
+  price: string;
+  image: string;
+  alt: string;
+}
+
+export interface QtDestinationsSectionData {
+  heading: string;
+  subheading: string;
+  deals: QtDestinationsDeal[];
+}
+
+/** The `FlightSummaryCard`'s photo strip at the top of the "Congratulations!"
+ * card (the quote page's left column) — any number of images, laid out as
+ * equal-width squares across the row. */
+export interface QtSummaryImage {
+  src: string;
+  alt: string;
+}
+
+export interface QtSummarySectionData {
+  images: QtSummaryImage[];
+}
+
 export interface InsightsSectionData {
   heading: string;
   subheading: string;
@@ -172,9 +237,10 @@ export interface HeaderSectionData {
  * `footerNavColumns` is a fixed set of 4 columns (Services/Insights/
  * Company/Legal today) — the admin editor special-cases it the same way
  * `SUPPORT.items` is special-cased, since a list-of-objects-containing-a-
- * list doesn't fit the generic field-schema model. The Top Countries/
- * Cities/Airlines columns and the Get in Touch / newsletter forms are
- * NOT part of this — they stay DB-driven/functional, not chrome content. */
+ * list doesn't fit the generic field-schema model. The Top Routes/
+ * Countries/Cities/Airlines columns are a separate `TopLinksSectionData`
+ * section below, and the Get in Touch / newsletter forms are NOT part of
+ * this — they stay DB-driven/functional, not chrome content. */
 export interface FooterSectionData {
   connectHeading: string;
   socialLinks: { label: string; href: string; icon: string }[];
@@ -189,6 +255,16 @@ export interface FooterSectionData {
   termsHref: string;
 }
 
+/** The footer's "Top Routes / Top Countries / Top Cities / Top Airlines"
+ * columns — same singleton chrome page as `FooterSectionData`, and the
+ * same shape, editable the same way via `FooterNavColumnsEditor`. Used to
+ * be generated live from the Route/Destination/Airline tables; now a
+ * plain admin-editable list so anyone can add/edit an item and its link
+ * without touching those tables. */
+export interface TopLinksSectionData {
+  columns: { title: string; links: { label: string; href: string }[] }[];
+}
+
 /** Business Class landing page (`business-class` template) — one
  * interface per component, in the order `app/business-class/page.tsx`
  * renders them. `titleLines`/`descriptionLines`/`factors` below are
@@ -201,6 +277,7 @@ export interface BcHeroSectionData {
   headingLines: string[];
   description: string;
   backgroundImage: string;
+  phoneHeaderImage: string;
 }
 
 export interface BcQuickConsultSectionData {
@@ -577,17 +654,17 @@ export interface CnxCenteredCtaSectionData {
   buttonHref: string;
 }
 
-/** The Date Change Assistance page's centered CTA (`DateChangeCenteredCta`)
- * whose button opens `DateChangeRequestModal` — `heading`/`subheading`/
- * `buttonLabel` drive the CTA banner itself, `disclaimer` is passed through
- * to the modal. The modal's own form fields (airline, from/to, dates,
- * passengers, cabin, flexible dates, additional requirements) aren't
- * CMS-editable, same as `FlightSearch`'s fields aren't. */
-export interface DcRequestFormSectionData {
-  heading: string;
-  subheading: string;
-  buttonLabel: string;
-  disclaimer: string;
+/** `FlightServiceForm` (`components/flight-services/FlightServiceForm.tsx`)
+ * — the shared "Last Name + Booking Reference, then call" lead-capture form
+ * embedded in `MultiCityHero`'s quote card (in place of `FlightSearch`) on
+ * Flight Change, Missed Flight, Date Change, Schedule Changes and Name
+ * Correction (`CTA`/`TESTIMONIALS`/`FAQ` above are reused the same way).
+ * The two fields and their validation aren't CMS-editable, same as
+ * `FlightSearch`'s fields aren't — only the button label is. Each page
+ * hardcodes its own `serviceType` identifier (for `FormSubmission.formType`),
+ * since that's a technical key, not content. */
+export interface ServiceFormSectionData {
+  ctaLabel: string;
 }
 
 /** Maps each `SECTION_TYPE` string to its `data` interface — used by the
@@ -606,6 +683,7 @@ export interface SectionDataByType {
   EXPERTS: ExpertsSectionData;
   BRAND_PHILOSOPHY: BrandPhilosophySectionData;
   TESTIMONIALS: TestimonialsSectionData;
+  SERVICE_FORM: ServiceFormSectionData;
   FAQ: FaqSectionData;
   INSIGHTS: InsightsSectionData;
   ROUTES: RoutesSectionData;
@@ -614,6 +692,7 @@ export interface SectionDataByType {
   POLICY_CONTENT: PolicyContentSectionData;
   HEADER: HeaderSectionData;
   FOOTER: FooterSectionData;
+  TOP_LINKS: TopLinksSectionData;
   BC_HERO: BcHeroSectionData;
   BC_QUICK_CONSULT: BcQuickConsultSectionData;
   BC_STATS: BcStatsSectionData;
@@ -745,7 +824,6 @@ export interface SectionDataByType {
   DC_HOW_IT_WORKS: BcHowItWorksSectionData;
   DC_WHY_CHOOSE: McPlanningFactorsSectionData;
   DC_INFO_NEEDED: McImageTextSectionData;
-  DC_REQUEST_FORM: DcRequestFormSectionData;
   DC_FAQ: FaqSectionData;
   SC_HERO: McHeroSectionData;
   SC_WHAT_MEANS: McImageTextSectionData;
@@ -779,7 +857,6 @@ export interface SectionDataByType {
   NC_TIPS: McComplexitySectionData;
   NC_WHY_CHOOSE: McPlanningFactorsSectionData;
   NC_INFO_NEEDED: McImageTextSectionData;
-  NC_REQUEST_FORM: DcRequestFormSectionData;
   NC_FAQ: FaqSectionData;
   BP_HERO: McHeroSectionData;
   BP_INTRO: McImageTextSectionData;
@@ -796,6 +873,16 @@ export interface SectionDataByType {
   BP_MID_CTA: CnxCenteredCtaSectionData;
   BP_FAQ: FaqSectionData;
   BP_DISCLAIMER: CnxInfoBannerSectionData;
+  CT_HERO: ContactHeroSectionData;
+  CT_SPEAK_SPECIALIST: McImageTextSectionData;
+  CT_UNDERSTAND_JOURNEY: McImageTextSectionData;
+  CT_ENQUIRY_STEPS: BcHowItWorksSectionData;
+  CT_TRAVEL_SUPPORT: McImageTextSectionData;
+  CT_FAQ: FaqSectionData;
+  CT_SUPPORT_BAND: ContactSupportBandSectionData;
+  QT_FORM: QtFormSectionData;
+  QT_DESTINATIONS: QtDestinationsSectionData;
+  QT_SUMMARY: QtSummarySectionData;
 }
 
 export type SectionType = keyof SectionDataByType;

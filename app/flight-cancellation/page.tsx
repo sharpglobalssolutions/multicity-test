@@ -17,6 +17,7 @@ import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsSection";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -43,8 +44,12 @@ const DEFAULT_CTA = {
   heading: "Before You Cancel, Know Your Options",
   body: "Your plans may have changed, but cancellation may not be your only path forward. Tell us what happened, and our travel specialists can help you review relevant flight cancellation, flight change, rebooking, refund and travel-credit options based on your booking.",
   buttonLabel: "Speak With a Travel Specialist",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1474302770737-173ee21bab63"),
+};
+
+const DEFAULT_TESTIMONIALS_HEADING = {
+  heading: "Client Experiences",
+  subheading: "Trusted by Discerning Travelers",
 };
 
 const DEFAULT_FAQS: Faq[] = [
@@ -117,7 +122,7 @@ export default async function FlightCancellationPage() {
       description: "Already booked and need to adjust your dates or routing? Explore flight change options for your existing booking.",
       image: unsplash("1569629743817-70d8db6c323b"),
       alt: "A wide-body aircraft on final approach against a blue sky",
-      href: "#connect",
+      href: "/flight-change",
     },
     {
       id: "rebooking-assistance",
@@ -126,7 +131,7 @@ export default async function FlightCancellationPage() {
       description: "If your plans or your airline's schedule has changed, we can help you review suitable rebooking options.",
       image: unsplash("1714079761488-e0c9b9ac4138"),
       alt: "A friendly travel support specialist wearing a headset",
-      href: "#connect",
+      href: "/flight-change",
     },
     {
       id: "multi-city-assistance",
@@ -135,7 +140,7 @@ export default async function FlightCancellationPage() {
       description: "Need to adjust one leg of a multi-city itinerary? We review how a change affects the rest of your journey.",
       image: unsplash("1500835556837-99ac94a94552"),
       alt: "View from an aircraft window over clouds lit by a golden sunset",
-      href: "#connect",
+      href: "/multi-city-flights",
     },
   ];
 
@@ -151,6 +156,7 @@ export default async function FlightCancellationPage() {
             "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.CNX_HERO}
         />
@@ -166,7 +172,7 @@ export default async function FlightCancellationPage() {
             ]
           }
           buttonLabel={intro?.buttonLabel ?? "Speak With a Travel Specialist"}
-          buttonHref={intro?.buttonHref ?? "#connect"}
+          buttonHref={intro?.buttonHref ?? "tel:1869-504-657"}
           buttonVariant="navy"
           imagePosition="right"
         />
@@ -235,7 +241,7 @@ export default async function FlightCancellationPage() {
           credit={sections.CNX_CREDIT_BLOCK}
         />
 
-        <InfoBanner tone="cta" {...sections.CNX_CREDIT_BANNER} />
+        <InfoBanner tone="cta" buttonHref="tel:1869-504-657" {...sections.CNX_CREDIT_BANNER} />
 
         <ScheduleChangeSection {...sections.CNX_SCHEDULE_CHANGE} />
 
@@ -379,7 +385,11 @@ export default async function FlightCancellationPage() {
 
         <StepsListCarousel {...sections.CNX_REVIEW_STEPS} />
 
-        <CenteredCtaBanner {...sections.CNX_PLAN_CTA} />
+        <CenteredCtaBanner buttonHref="tel:1869-504-657" {...sections.CNX_PLAN_CTA} />
+
+        <TestimonialCarousel
+          {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}
+        />
 
         <LightFaqSection
           heading={sections.CNX_FAQ?.heading ?? "Flight Cancellation FAQs"}

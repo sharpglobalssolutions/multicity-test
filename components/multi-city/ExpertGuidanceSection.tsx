@@ -34,7 +34,7 @@ export function ExpertGuidanceSection({
   paragraphs = DEFAULT_PARAGRAPHS,
   tags = DEFAULT_TAGS,
   buttonLabel = "Speak With a Multi-City Specialist",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
   imageSrc = unsplash("1714079761488-e0c9b9ac4138"),
   imagePosition = "right",
 }: ExpertGuidanceSectionProps = {}) {

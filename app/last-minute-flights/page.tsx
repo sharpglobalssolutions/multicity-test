@@ -10,6 +10,7 @@ import { ComplexitySection } from "@/components/multi-city/ComplexitySection";
 import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -34,8 +35,13 @@ const DEFAULT_CTA = {
   heading: "Need to Travel Soon?",
   body: "Whether you're booking for today, tomorrow or the next few days, our travel specialists can help you compare available airlines, routes, cabins and fare options quickly — so you can make a confident decision under time pressure.",
   buttonLabel: "Request an Urgent Flight Quote",
-  buttonHref: "#connect",
+  buttonHref: "/quote",
   backgroundImage: unsplash("1500835556837-99ac94a94552"),
+};
+
+const DEFAULT_TESTIMONIALS_HEADING = {
+  heading: "Client Experiences",
+  subheading: "Trusted by Discerning Travelers",
 };
 
 const DEFAULT_FAQS: Faq[] = [
@@ -115,6 +121,7 @@ export default async function LastMinuteFlightsPage() {
             "Whether you need a last-minute Business Class flight, an urgent one-way journey, a family emergency flight or help changing an existing itinerary, our travel specialists help you explore available airlines, routes, cabins and fare options based on your travel needs.",
           ]}
           buttonLabel="Request an Urgent Flight Quote"
+          buttonHref="/quote"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.LMF_HERO}
         />
@@ -230,6 +237,10 @@ export default async function LastMinuteFlightsPage() {
             ]
           }
           columns={4}
+        />
+
+        <TestimonialCarousel
+          {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}
         />
 
         <LightFaqSection

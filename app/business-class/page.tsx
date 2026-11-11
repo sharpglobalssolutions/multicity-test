@@ -35,7 +35,6 @@ const DEFAULT_CTA = {
   heading: "Your Journey Deserves Better Options.",
   body: "Speak with a Business Class specialist and explore the routes, airlines and fares that fit the way you travel.",
   buttonLabel: "Explore Business Class Options",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1488085061387-422e29b40080"),
 };
 

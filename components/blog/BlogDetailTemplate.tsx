@@ -5,6 +5,7 @@ import { BlogHelpCard } from "@/components/blog/BlogHelpCard";
 import { BlogRelatedArticles } from "@/components/blog/BlogRelatedArticles";
 import { BlogToc } from "@/components/blog/BlogToc";
 import { extractToc, injectHeadingIds } from "@/lib/toc";
+import { ALL_SERVICE_PAGES } from "@/data/content";
 import type { PublicBlogPost } from "@/services/blog.service";
 
 const DEFAULT_FEATURED_IMAGE = "/images/plan-img.webp";
@@ -85,6 +86,8 @@ export function BlogDetailTemplate({
       <ServicesCarousel
         heading="Explore Our Other Services"
         subheading="Whatever's next on your itinerary, our specialists can help you plan it."
+        services={ALL_SERVICE_PAGES}
+        linkLabel="Learn More"
       />
     </>
   );

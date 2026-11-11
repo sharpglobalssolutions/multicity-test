@@ -20,10 +20,20 @@ export interface SessionPayload {
   tokenVersion: number;
 }
 
+/** 32 bytes (256 bits) matches `.env.example`'s `openssl rand -base64 32`
+ * guidance — anything shorter makes the HS256 signature brute-forceable
+ * offline, which would let an attacker forge a session for any user id. */
+const MIN_SESSION_SECRET_LENGTH = 32;
+
 function getSecretKey(): Uint8Array {
   const secret = process.env.SESSION_SECRET;
   if (!secret) {
     throw new Error("SESSION_SECRET environment variable is not set");
+  }
+  if (secret.length < MIN_SESSION_SECRET_LENGTH) {
+    throw new Error(
+      `SESSION_SECRET must be at least ${MIN_SESSION_SECRET_LENGTH} characters (got ${secret.length}) — generate one with \`openssl rand -base64 32\``,
+    );
   }
   return new TextEncoder().encode(secret);
 }

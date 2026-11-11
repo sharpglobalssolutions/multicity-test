@@ -10,7 +10,6 @@ import { HowItWorksCarousel } from "@/components/multi-city/HowItWorksCarousel";
 import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsSection";
 import { ComplexitySection } from "@/components/multi-city/ComplexitySection";
 import { MultiCityHero } from "@/components/multi-city/MultiCityHero";
-import { NameCorrectionCenteredCta } from "@/components/name-correction/NameCorrectionCenteredCta";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -36,7 +35,6 @@ const DEFAULT_CTA = {
   heading: "Need Help Before You Fly?",
   body: "A name discrepancy doesn't always mean you need to start over with a new ticket. Before cancelling, rebooking, or assuming your ticket cannot be used, let a travel specialist review the situation with you. MultiCity Experts is an independent travel consultancy — name corrections and related changes remain subject to the applicable airline, ticket, fare, and booking-provider rules.",
   buttonLabel: "Review My Name Correction Options",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1436491865332-7a61a109cc05"),
 };
 
@@ -136,7 +134,9 @@ export default async function NameCorrectionPage() {
             "A spelling error or legal name update doesn't always mean you need a new ticket. Our travel specialists help you understand airline name correction policies, review available options, identify required documentation, and guide you through the correction process based on your booking and the airline's rules.",
           ]}
           buttonLabel="Review My Name Correction Options"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          serviceForm={{ serviceType: "name_correction", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.NC_HERO}
         />
 
@@ -332,7 +332,7 @@ export default async function NameCorrectionPage() {
             ]
           }
           buttonLabel={urgent?.buttonLabel ?? "Need Help Before You Fly?"}
-          buttonHref={urgent?.buttonHref ?? "#connect"}
+          buttonHref={urgent?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="right"
         />
 
@@ -396,15 +396,8 @@ export default async function NameCorrectionPage() {
             ]
           }
           buttonLabel={infoNeeded?.buttonLabel ?? "Check My Ticket Eligibility"}
-          buttonHref={infoNeeded?.buttonHref ?? "#connect"}
+          buttonHref={infoNeeded?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="left"
-        />
-
-        <NameCorrectionCenteredCta
-          heading={sections.NC_REQUEST_FORM?.heading}
-          subheading={sections.NC_REQUEST_FORM?.subheading}
-          buttonLabel={sections.NC_REQUEST_FORM?.buttonLabel}
-          disclaimer={sections.NC_REQUEST_FORM?.disclaimer}
         />
 
         <LightFaqSection

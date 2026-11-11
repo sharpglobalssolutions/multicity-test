@@ -35,7 +35,7 @@ export function InfoBanner({
   heading = tone === "warning" ? DEFAULT_WARNING_HEADING : DEFAULT_CTA_HEADING,
   body = tone === "warning" ? DEFAULT_WARNING_BODY : DEFAULT_CTA_BODY,
   buttonLabel = "Understand My Refund Options",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
 }: InfoBannerProps = {}) {
   const isWarning = tone === "warning";
 

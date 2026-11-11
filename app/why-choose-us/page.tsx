@@ -56,7 +56,6 @@ export default function WhyChooseUsPage() {
           heading="Travel With Confidence"
           body="Speak with a specialist to get personalised advice built around your route, preferences, and travel requirements."
           buttonLabel="Speak With a Travel Specialist"
-          buttonHref="#connect"
         />
       </main>
       <Footer />

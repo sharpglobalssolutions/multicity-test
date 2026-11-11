@@ -37,7 +37,7 @@ export function FirstClassFareSection({
   heading = "Understand Your First Class Fare Before You Travel",
   body = "A First Class ticket can still have restrictions on changes, cancellations or refunds.",
   buttonLabel = "Compare First Class Fare Options",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
   backgroundImage = unsplash("1533929736458-ca588d08c8be"),
   subheading = "Depending on the airline, route and fare structure, options may include:",
   twoColumnItems = DEFAULT_COLUMNS,

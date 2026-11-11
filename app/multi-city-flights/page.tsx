@@ -15,6 +15,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import type { Faq } from "@/data/content";
 import { unsplash } from "@/lib/images";
 import {
@@ -36,8 +37,12 @@ const DEFAULT_CTA = {
   heading: "Your Multi-City Journey Starts Here",
   body: "Speak with a multi-city specialist and explore the routes, airlines and stopovers that fit the way you want to travel.",
   buttonLabel: "Speak With a Multi-City Travel Expert",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1500835556837-99ac94a94552"),
+};
+
+const DEFAULT_TESTIMONIALS_HEADING = {
+  heading: "Client Experiences",
+  subheading: "Trusted by Discerning Travelers",
 };
 
 const DEFAULT_FAQS: Faq[] = [
@@ -100,8 +105,8 @@ export default async function MultiCityFlightsPage() {
       <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
-        <MultiCityHero {...sections.MC_HERO} />
-        <ExpertGuidanceSection {...sections.MC_EXPERT_GUIDANCE} />
+        <MultiCityHero buttonHref="/quote" {...sections.MC_HERO} />
+        <ExpertGuidanceSection buttonHref="tel:1869-504-657" {...sections.MC_EXPERT_GUIDANCE} />
         <FlightOptionCards {...sections.MC_FLIGHT_OPTIONS} />
         <ComplexitySection {...sections.MC_COMPLEXITY} />
         <PlanningFactorsSection {...sections.MC_PLANNING_FACTORS} />
@@ -146,7 +151,7 @@ export default async function MultiCityFlightsPage() {
           buttonLabel={
             featuredOne?.buttonLabel ?? "Plan My Business Class Journey"
           }
-          buttonHref={featuredOne?.buttonHref ?? "#connect"}
+          buttonHref={featuredOne?.buttonHref ?? "/business-class"}
           imagePosition="left"
         />
         <FeaturedBlockSection
@@ -189,11 +194,11 @@ export default async function MultiCityFlightsPage() {
             ]
           }
           buttonLabel={featuredTwo?.buttonLabel ?? "Compare My Travel Options"}
-          buttonHref={featuredTwo?.buttonHref ?? "#connect"}
+          buttonHref={featuredTwo?.buttonHref ?? "/quote"}
           imagePosition="right"
         />
-        <PopularRoutesSection {...sections.MC_ROUTES} />
-        <ExploreEuropeSection {...sections.MC_EXPLORE_EUROPE} />
+        <PopularRoutesSection buttonHref="/quote" {...sections.MC_ROUTES} />
+        <ExploreEuropeSection buttonHref="/quote" {...sections.MC_EXPLORE_EUROPE} />
         <WhyChooseSection {...sections.MC_WHY_CHOOSE} />
         <FeaturedBlockSection
           headingLines={
@@ -234,8 +239,11 @@ export default async function MultiCityFlightsPage() {
             ]
           }
           buttonLabel={planningCta?.buttonLabel ?? "Start My Itinerary"}
-          buttonHref={planningCta?.buttonHref ?? "#connect"}
+          buttonHref={planningCta?.buttonHref ?? "/quote"}
           imagePosition="left"
+        />
+        <TestimonialCarousel
+          {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}
         />
         <LightFaqSection
           heading={sections.FAQ?.heading ?? DEFAULT_FAQ_SECTION.heading}

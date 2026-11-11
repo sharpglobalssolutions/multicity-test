@@ -40,7 +40,6 @@ const DEFAULT_CTA = {
   heading: "Plan Your International Journey With Expert Guidance",
   body: "You don't need to know the perfect airline, route or fare before you reach out. Tell us where you're going, when you plan to travel and what matters most to you. We'll help you explore the available international flight options and understand the differences before you book.",
   buttonLabel: "Speak With a Travel Specialist",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1436491865332-7a61a109cc05"),
 };
 
@@ -124,7 +123,7 @@ export default async function InternationalFlightBookingPage() {
       description: "Comfortable long-haul travel with premium service and better space.",
       image: unsplash("1569629743817-70d8db6c323b"),
       alt: "A wide-body aircraft on final approach against a blue sky",
-      href: "#connect",
+      href: "/business-class",
     },
     {
       id: "family-travel",
@@ -133,7 +132,7 @@ export default async function InternationalFlightBookingPage() {
       description: "Privacy, space and an elevated experience from the airport to your destination.",
       image: unsplash("1587019158091-1a103c5dd17f"),
       alt: "A commercial aircraft on final approach against a blue sky",
-      href: "#connect",
+      href: "/first-class",
     },
     {
       id: "multi-city-travel",
@@ -142,7 +141,7 @@ export default async function InternationalFlightBookingPage() {
       description: "Multiple destinations & complicated routes made easier with expert planning.",
       image: unsplash("1500835556837-99ac94a94552"),
       alt: "View from an aircraft window over clouds lit by a golden sunset",
-      href: "#connect",
+      href: "/multi-city-flights",
     },
     {
       id: "long-haul-travel",
@@ -151,7 +150,7 @@ export default async function InternationalFlightBookingPage() {
       description: "Multiple destinations & complicated routes made easier with expert planning.",
       image: unsplash("1474302770737-173ee21bab63"),
       alt: "A private jet on the tarmac at golden hour",
-      href: "#connect",
+      href: "/one-way-flights",
     },
   ];
 
@@ -167,6 +166,7 @@ export default async function InternationalFlightBookingPage() {
             "Get personalised guidance based on your destinations, travel dates, cabin preference and priorities.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.IFB_HERO}
         />
@@ -252,7 +252,7 @@ export default async function InternationalFlightBookingPage() {
             ]
           }
           buttonLabel={fareGuidance?.buttonLabel ?? "Talk to a Travel Specialist"}
-          buttonHref={fareGuidance?.buttonHref ?? "#connect"}
+          buttonHref={fareGuidance?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="right"
           background="gray"
         />

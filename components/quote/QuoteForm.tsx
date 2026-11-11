@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import {
   Armchair,
@@ -23,19 +23,33 @@ import {
   type TripType,
 } from "@/lib/flightSearchTypes";
 import type { QuoteCriteria } from "@/lib/quoteQuery";
+import type { QtFormTrustStat } from "@/types/page-sections";
 
-const CONTACT_PHONE_HREF = "tel:1869-504-657";
-const CONTACT_PHONE_LABEL = "1869-504-657";
+const DEFAULT_PHONE_NUMBER = "1869-504-657";
 
 /** Stock support-agent portrait for the call bar — same verified Unsplash
  * id already used elsewhere in this app (as a testimonial avatar), reused
  * here to avoid an unverified photo id. */
-const AGENT_PHOTO_SRC =
+const DEFAULT_AGENT_PHOTO_SRC =
   "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80";
 
-/** Static placeholder discount code shown in the call bar — same value for
- * every visitor, not tied to any real promo system. */
-const DISCOUNT_ID = "MCE-2024";
+/** The constant part of the discount code shown in the call bar — each
+ * visitor gets their own random, unique-looking code after this prefix
+ * (see `generateDiscountId` below). Purely cosmetic, not tied to any real
+ * promo system or persisted anywhere. */
+const DISCOUNT_ID_PREFIX = "MCE";
+
+// Excludes visually ambiguous characters (0/O, 1/I) so a glanced-at code
+// never reads as something it isn't.
+const DISCOUNT_ID_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+function generateDiscountId(): string {
+  let suffix = "";
+  for (let i = 0; i < 6; i++) {
+    suffix += DISCOUNT_ID_CHARS[Math.floor(Math.random() * DISCOUNT_ID_CHARS.length)];
+  }
+  return `${DISCOUNT_ID_PREFIX}-${suffix}`;
+}
 
 // A brighter value color than the site's plain `text-text-dark` — reuses
 // the same secondary brand blue already used for the header's CTA and
@@ -73,10 +87,10 @@ function isValidPhone(value: string): boolean {
   return digits.length >= 7 && digits.length <= 15;
 }
 
-const TRUST_ITEMS = [
-  { value: "100%", label: "Safe & Secure" },
-  { value: "1K+", label: "Travellers Served" },
-  { value: "24/7", label: "Concierge Support" },
+const DEFAULT_TRUST_ITEMS: QtFormTrustStat[] = [
+  { id: "safe", value: "100%", label: "Safe & Secure" },
+  { id: "travellers", value: "1K+", label: "Travellers Served" },
+  { id: "support", value: "24/7", label: "Concierge Support" },
 ];
 
 interface FormErrors {
@@ -94,6 +108,9 @@ export interface QuoteFormProps {
    * two pages disagreed on, so it's the one thing made a prop rather than
    * hardcoded either way. */
   phoneBarVariant?: "green" | "navy";
+  phoneNumber?: string;
+  agentPhoto?: string;
+  trustStats?: QtFormTrustStat[];
 }
 
 /** The lead-capture form on `/quote` — pre-filled from the criteria the
@@ -104,6 +121,9 @@ export interface QuoteFormProps {
 export function QuoteForm({
   criteria,
   phoneBarVariant = "green",
+  phoneNumber = DEFAULT_PHONE_NUMBER,
+  agentPhoto = DEFAULT_AGENT_PHOTO_SRC,
+  trustStats = DEFAULT_TRUST_ITEMS,
 }: QuoteFormProps) {
   const [tripType, setTripType] = useState<TripType>(criteria.tripType);
   const [from, setFrom] = useState<Airport | null>(criteria.from);
@@ -112,6 +132,16 @@ export function QuoteForm({
   const [returnDate, setReturnDate] = useState(criteria.returnDate);
   const [passengers, setPassengers] = useState(criteria.passengers);
   const [cabinClass, setCabinClass] = useState(criteria.cabinClass);
+
+  // Generated client-side after mount, not in `useState`'s initializer —
+  // doing it there would make the server-rendered HTML and the client's
+  // first render pick different random codes, which React flags as a
+  // hydration mismatch. Starting from the constant prefix alone keeps the
+  // server/client markup identical; the real code fills in a moment later.
+  const [discountId, setDiscountId] = useState(DISCOUNT_ID_PREFIX);
+  useEffect(() => {
+    setDiscountId(generateDiscountId());
+  }, []);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -212,19 +242,19 @@ export function QuoteForm({
   return (
     <div className="border border-navy-deep/10 bg-white p-6 sm:p-8">
       <a
-        href={CONTACT_PHONE_HREF}
+        href={`tel:${phoneNumber}`}
         className={`flex items-center gap-4 rounded-input px-4 py-3 text-white transition-colors ${
           phoneBarVariant === "navy"
             ? "bg-navy-deep hover:bg-navy-dark"
             : "bg-emerald hover:bg-emerald-bright"
         }`}
       >
-        <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border-2 border-white/25">
+        <span className="relative h-16 w-16 shrink-0 overflow-hidden border-2 border-white/25">
           <Image
-            src={AGENT_PHOTO_SRC}
+            src={agentPhoto}
             alt=""
             fill
-            sizes="56px"
+            sizes="64px"
             className="object-cover"
           />
           <span className="absolute inset-x-0 bottom-0 bg-black/70 py-[1px] text-center text-[9px] font-bold leading-tight tracking-wide text-[#D9BE85]">
@@ -233,14 +263,14 @@ export function QuoteForm({
         </span>
         <div className="min-w-0">
           <span className="block text-lg font-bold tracking-wide sm:text-xl">
-            {CONTACT_PHONE_LABEL}
+            {phoneNumber}
           </span>
           <div className="mt-1.5 flex flex-wrap items-center gap-2">
             <span className="text-[11px] text-white/80">
               Your Discount ID
             </span>
             <span className="rounded bg-white px-2 py-0.5 text-[11px] font-semibold text-navy-deep">
-              {DISCOUNT_ID}
+              {discountId}
             </span>
           </div>
         </div>
@@ -466,6 +496,12 @@ export function QuoteForm({
           type="submit"
           variant="gold"
           className="h-[58px] w-full text-base uppercase"
+          // `rounded-btn` (the shared Button component's own radius class)
+          // and an arbitrary-value override class share equal Tailwind
+          // specificity, so which one wins depends on generated CSS order,
+          // not JSX className order — an inline style sidesteps that
+          // ambiguity and reliably wins instead.
+          style={{ borderRadius: "2px" }}
           disabled={submitting}
         >
           {submitting ? (
@@ -479,8 +515,8 @@ export function QuoteForm({
         </Button>
 
         <div className="grid grid-cols-3 divide-x divide-navy-deep/10 pt-4 text-center">
-          {TRUST_ITEMS.map((item) => (
-            <div key={item.label}>
+          {trustStats.map((item) => (
+            <div key={item.id}>
               <p className="text-lg text-navy-deep sm:text-[22px]">
                 {item.value}
               </p>

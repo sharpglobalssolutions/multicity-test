@@ -125,12 +125,6 @@ export function BusinessClassExpertise({
               </li>
             ))}
           </ul>
-
-          <p className="mt-10 text-xs font-medium uppercase tracking-wide text-[#07111F]">
-            Clickable Routes
-            <br />
-            (For Developer)
-          </p>
         </SectionReveal>
       </div>
     </section>

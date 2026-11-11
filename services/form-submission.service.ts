@@ -1,6 +1,8 @@
 import type { FormSubmissionStatus, Prisma } from "@prisma/client";
 import { recordAuditLog } from "@/lib/audit";
 import { NotFoundError } from "@/lib/errors";
+import { logger } from "@/lib/logger";
+import { sendFormSubmissionNotification } from "@/lib/mail";
 import { isRecordNotFoundError } from "@/lib/prisma-errors";
 import {
   createFormSubmission,
@@ -16,6 +18,25 @@ import type {
 } from "@/validations/form-submission.validation";
 
 const ENTITY_TYPE = "FormSubmission";
+
+/** Fire-and-forget: a notification-email failure must never break a public
+ * form submission, so this is never awaited by its callers and swallows
+ * (logging) its own errors. */
+function notifyOfSubmission(submission: {
+  id: string;
+  formType: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  payload: unknown;
+}): void {
+  sendFormSubmissionNotification(submission).catch((error) => {
+    logger.error("Failed to send form submission notification email", {
+      submissionId: submission.id,
+      error: error instanceof Error ? error.message : String(error),
+    });
+  });
+}
 
 export async function submitForm(input: CreateFormSubmissionInput, ip: string, userAgent: string | null) {
   const submission = await createFormSubmission({
@@ -38,6 +59,8 @@ export async function submitForm(input: CreateFormSubmissionInput, ip: string, u
     newData: submission,
     ipAddress: ip,
   });
+
+  notifyOfSubmission(submission);
 
   return submission;
 }
@@ -77,6 +100,8 @@ export async function completeFormSubmission(id: string, input: CompleteFormSubm
     newData: submission,
     ipAddress: ip,
   });
+
+  notifyOfSubmission(submission);
 
   return submission;
 }

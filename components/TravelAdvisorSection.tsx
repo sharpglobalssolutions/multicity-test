@@ -66,7 +66,7 @@ export function TravelAdvisorSection({
   items = DEFAULT_ITEMS,
   imageSrc = TRAVEL_ADVISOR_IMAGE.src,
   buttonLabel = "Connect With Travel Specialist",
-  buttonHref = "#connect",
+  buttonHref = "tel:1869-504-657",
 }: TravelAdvisorSectionProps = {}) {
   return (
     // overflow-x-hidden: see BusinessClassSection — clips the SectionReveal

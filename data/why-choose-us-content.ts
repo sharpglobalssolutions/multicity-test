@@ -129,7 +129,7 @@ export const CONSULTATION_SUBHEADING =
   "From understanding your itinerary to reviewing international flight options, our travel specialists guide you through each step with advice tailored to your journey.";
 
 export const CONSULTATION_LINK_HTML =
-  '<a href="#connect" class="font-semibold text-navy-deep hover:text-emerald hover:underline">Explore How Our Travel Consultation Works &rarr;</a>';
+  '<a href="/contact" class="font-semibold text-navy-deep hover:text-emerald hover:underline">Explore How Our Travel Consultation Works &rarr;</a>';
 
 export const WHY_EXPERIENCE_MATTERS_BODY =
   "<p>International travel involves more than finding a flight. Fare rules, transit requirements, connection times, airport choices, cabin options and schedule flexibility can all affect your journey.</p><p>Our experience helps you understand these details, compare your options and make more informed travel decisions.</p>";

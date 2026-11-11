@@ -37,7 +37,6 @@ const DEFAULT_CTA = {
   heading: "Your Airline Changed the Schedule. Know Your Options.",
   body: "A schedule change doesn't necessarily mean you have to accept the first revised itinerary you receive. Whether your departure time changed, your connection no longer works, your airport was moved or your multi-city journey has been disrupted, our specialists can help you review the situation and explore the available alternatives.",
   buttonLabel: "Review My Schedule Change Options",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1436491865332-7a61a109cc05"),
 };
 
@@ -146,7 +145,9 @@ export default async function ScheduleChangesPage() {
             "Before simply accepting the revised itinerary, it can help to understand what has changed and what alternatives may be available. Our travel specialists help you review the updated itinerary, understand applicable airline policies and compare suitable options based on your travel plans.",
           ]}
           buttonLabel="Review My Schedule Change Options"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          serviceForm={{ serviceType: "schedule_changes", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.SC_HERO}
         />
 
@@ -168,7 +169,7 @@ export default async function ScheduleChangesPage() {
             ]
           }
           buttonLabel={whatMeans?.buttonLabel ?? "Review My Schedule Change Options"}
-          buttonHref={whatMeans?.buttonHref ?? "#connect"}
+          buttonHref={whatMeans?.buttonHref ?? "tel:1869-504-657"}
           imagePosition="right"
         />
 
@@ -339,7 +340,7 @@ export default async function ScheduleChangesPage() {
             ]
           }
           buttonLabel={oneWay?.buttonLabel ?? "Explore One-Way Travel"}
-          buttonHref={oneWay?.buttonHref ?? "#connect"}
+          buttonHref={oneWay?.buttonHref ?? "/one-way-flights"}
           imagePosition="left"
         />
 
@@ -427,7 +428,7 @@ export default async function ScheduleChangesPage() {
             "Don't assume the revised itinerary is your only option. Tell us what changed and what matters most to you — our travel specialists can help you understand the updated journey, explore available alternatives and make a more informed decision."
           }
           buttonLabel={sections.SC_REVIEW_CTA?.buttonLabel ?? "Review My Schedule Change"}
-          buttonHref={sections.SC_REVIEW_CTA?.buttonHref ?? "#connect"}
+          buttonHref={sections.SC_REVIEW_CTA?.buttonHref ?? "tel:1869-504-657"}
         />
 
         <LightFaqSection

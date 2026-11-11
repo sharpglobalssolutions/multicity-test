@@ -11,6 +11,7 @@ import { PlanningFactorsSection } from "@/components/multi-city/PlanningFactorsS
 import { WhyChooseSection } from "@/components/multi-city/WhyChooseSection";
 import { InfoBanner } from "@/components/flight-cancellation/InfoBanner";
 import { LightFaqSection } from "@/components/first-class/LightFaqSection";
+import { TestimonialCarousel } from "@/components/TestimonialCarousel";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -36,8 +37,12 @@ const DEFAULT_CTA = {
   heading: "Need to Change Your Flight?",
   body: "Don't make a change before understanding your options. Whether you need to adjust a travel date, restructure a multi-city itinerary, respond to an airline schedule change or explore a different flight, our specialists can help you review the possibilities.",
   buttonLabel: "Speak With a Travel Specialist",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1500835556837-99ac94a94552"),
+};
+
+const DEFAULT_TESTIMONIALS_HEADING = {
+  heading: "Client Experiences",
+  subheading: "Trusted by Discerning Travelers",
 };
 
 const DEFAULT_FAQS: Faq[] = [
@@ -132,7 +137,9 @@ export default async function FlightChangePage() {
             "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
+          serviceForm={{ serviceType: "flight_changes", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.FCH_HERO}
         />
 
@@ -183,7 +190,7 @@ export default async function FlightChangePage() {
             ]
           }
           buttonLabel={optionsChange?.buttonLabel ?? "Explore Flight Change Options"}
-          buttonHref={optionsChange?.buttonHref ?? "#connect"}
+          buttonHref={optionsChange?.buttonHref ?? "/quote"}
           imagePosition="left"
         />
 
@@ -294,6 +301,7 @@ export default async function FlightChangePage() {
           }
           imagePosition="right"
           background="gray"
+          columnRatio="60-40"
         />
 
         <InfoBanner
@@ -301,7 +309,7 @@ export default async function FlightChangePage() {
           heading={sections.FCH_NOT_SURE_BANNER?.heading ?? "Not sure where to start? Tell us what happened, and we'll help you understand your options."}
           body={sections.FCH_NOT_SURE_BANNER?.body ?? ""}
           buttonLabel={sections.FCH_NOT_SURE_BANNER?.buttonLabel ?? "Speak With Travel Specialist"}
-          buttonHref={sections.FCH_NOT_SURE_BANNER?.buttonHref ?? "#connect"}
+          buttonHref={sections.FCH_NOT_SURE_BANNER?.buttonHref ?? "tel:1869-504-657"}
         />
 
         <FeaturedBlockSection
@@ -366,7 +374,6 @@ export default async function FlightChangePage() {
           heading="Flight Changes Aren't One-Size-Fits-All"
           body="The best option depends on what changed and what your ticket allows. A business traveller may need to move a flight by one day. A family may need to change one passenger. A student may need to postpone an international journey. A multi-city traveller may need to restructure several sectors. That's why we start by understanding your situation before discussing possible alternatives."
           buttonLabel="Speak With a Flight Specialist"
-          buttonHref="#connect"
           backgroundImage={unsplash("1436491865332-7a61a109cc05")}
           buttonVariant="gold"
           {...sections.FCH_CINEMATIC_CTA}
@@ -390,6 +397,10 @@ export default async function FlightChangePage() {
             ]
           }
           imagePosition="left"
+        />
+
+        <TestimonialCarousel
+          {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}
         />
 
         <LightFaqSection

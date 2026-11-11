@@ -13,15 +13,10 @@ export interface TestimonialCarouselProps {
   heading?: string;
   subheading?: string;
   testimonials?: Testimonial[];
-  /** Unset renders the default decorative icon background below (no photo,
-   * matches this component's original look). Set one in the admin panel to
-   * use a photo instead — it renders under a light wash so the cards and
-   * dark text on top stay legible. */
   backgroundImage?: string;
 }
 
-/** All props optional, falling back to the current hardcoded default — see
- * `Hero.tsx` for the rationale. */
+
 export function TestimonialCarousel({
   heading = "Client Experiences",
   subheading = "Trusted by travelers worldwide.",
@@ -45,9 +40,7 @@ export function TestimonialCarousel({
           <div className="absolute inset-0 bg-white/85" />
         </>
       ) : (
-        /* Decorative, low-opacity travel motif — not a stock photo, just the
-           site's own icon set (globe + plane) rendered oversized so it reads
-           as a background illustration without competing with the cards. */
+       
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-[0.04]"
@@ -96,12 +89,6 @@ export function TestimonialCarousel({
             {testimonials.map((testimonial) => (
               <SwiperSlide key={testimonial.id} className="h-auto relative">
                 <figure className="relative flex h-full flex-col items-center rounded-card bg-gray-light px-8 pb-10 pt-8 text-center sm:px-12 sm:pb-12 sm:pt-10">
-                  {/* The visible ink of a "“" glyph sits high in its own
-                      line-box (this font's cap-height area, not vertically
-                      centered) — a plain -50% translate centers the box, not
-                      the ink, leaving the mark almost entirely above the
-                      card. -21% is tuned to the actual glyph so the drawn
-                      mark itself straddles the card's top edge evenly. */}
                   <span
                     aria-hidden="true"
                     className="absolute left-1/2 top-0 z-50 -translate-x-1/2 -translate-y-[27%] font-heading text-7xl font-black leading-none text-text-dark sm:text-8xl"

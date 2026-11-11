@@ -36,7 +36,6 @@ export default function AboutPage() {
           heading="Travel Advice Built Around Your Journey"
           body="Every journey is different. Speak with a specialist to get personalised advice and assistance based on your route, preferences, and travel requirements."
           buttonLabel="Connect With a Travel Specialist"
-          buttonHref="#connect"
         />
       </main>
       <Footer />

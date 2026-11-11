@@ -38,7 +38,6 @@ const DEFAULT_CTA = {
   heading: "Ready to Explore a Partnership?",
   body: "Whether you need occasional support for complex premium itineraries or are looking for a dependable B2B airfare partner, start with a conversation.",
   buttonLabel: "Request a B2B Fare Comparison",
-  buttonHref: "#connect",
   backgroundImage: unsplash("1436491865332-7a61a109cc05"),
 };
 
@@ -130,7 +129,7 @@ export default async function BusinessPartnershipsPage() {
             "MultiCity Experts works with businesses and professional organizations that arrange international travel for clients, employees, members, or partners. We specialize in Business and First Class travel, with particular expertise in one-way, open-jaw, and multi-city itineraries between the United States, Canada, the United Kingdom, and Europe. Whether you need help with an occasional complex itinerary or are looking for dependable premium-airfare support as part of your existing operation, our travel professionals can work alongside your team.",
           ]}
           buttonLabel="Request a B2B Fare Comparison"
-          buttonHref="#connect"
+          buttonHref="tel:1869-504-657"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.BP_HERO}
         />
@@ -326,7 +325,7 @@ export default async function BusinessPartnershipsPage() {
             "If your organization arranges premium international travel, MultiCity Experts can provide specialized airfare knowledge and responsive travel assistance for the journeys that require more attention. Tell us about your current travel requirements, partnership model, or an upcoming itinerary you'd like us to review."
           }
           buttonLabel={sections.BP_MID_CTA?.buttonLabel ?? "Discuss a Business Partnership"}
-          buttonHref={sections.BP_MID_CTA?.buttonHref ?? "#connect"}
+          buttonHref={sections.BP_MID_CTA?.buttonHref ?? "tel:1869-504-657"}
         />
 
         <LightFaqSection
