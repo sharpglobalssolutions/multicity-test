@@ -28,6 +28,11 @@ const DEFAULT_LOGO_SRC = "/logo/logo-white.webp";
 const IATAN_VERIFY_HREF = "https://store.iata.org/ieccacfree";
 const IATAN_CODE = "53671332";
 
+/** Same reasoning as the IATAN badge above — a fixed legal disclaimer,
+ * not marketing copy, so it isn't wired into the admin chrome editor. */
+const AGENCY_DISCLAIMER =
+  "MultiCity Experts, operated by SKYALLIANCE LLC, is an independent IATAN-accredited travel agency based in Wyoming, USA. We are not affiliated with or endorsed by any airline. Ticketing is facilitated through airlines or authorized partners. Fares, availability, and airline policies may change. Additional service fees, if applicable, are disclosed before purchase.";
+
 interface LinkColumn {
   title: string;
   links: { label: string; href: string }[];
@@ -303,6 +308,18 @@ export async function Footer({
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Disclaimer strip */}
+          <div className="border-t border-white/10">
+            <div className="content-container py-6 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-white/60">
+                Independent Travel Agency Disclaimer
+              </p>
+              <p className="mx-auto mt-2 max-w-3xl text-[10px] leading-[15px] text-white/40">
+                {AGENCY_DISCLAIMER}
+              </p>
             </div>
           </div>
 
