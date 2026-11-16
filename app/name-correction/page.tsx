@@ -23,9 +23,9 @@ import {
 import type { Faq } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/name-correction.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/name-correction.service.ts) — rendered dynamically (no caching)
+// so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -134,7 +134,7 @@ export default async function NameCorrectionPage() {
             "A spelling error or legal name update doesn't always mean you need a new ticket. Our travel specialists help you understand airline name correction policies, review available options, identify required documentation, and guide you through the correction process based on your booking and the airline's rules.",
           ]}
           buttonLabel="Review My Name Correction Options"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           serviceForm={{ serviceType: "name_correction", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.NC_HERO}
@@ -332,7 +332,7 @@ export default async function NameCorrectionPage() {
             ]
           }
           buttonLabel={urgent?.buttonLabel ?? "Need Help Before You Fly?"}
-          buttonHref={urgent?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={urgent?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="right"
         />
 
@@ -396,7 +396,7 @@ export default async function NameCorrectionPage() {
             ]
           }
           buttonLabel={infoNeeded?.buttonLabel ?? "Check My Ticket Eligibility"}
-          buttonHref={infoNeeded?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={infoNeeded?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="left"
         />
 

@@ -26,9 +26,9 @@ import {
 import type { Faq } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/business-partnerships.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/business-partnerships.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -129,7 +129,7 @@ export default async function BusinessPartnershipsPage() {
             "MultiCity Experts works with businesses and professional organizations that arrange international travel for clients, employees, members, or partners. We specialize in Business and First Class travel, with particular expertise in one-way, open-jaw, and multi-city itineraries between the United States, Canada, the United Kingdom, and Europe. Whether you need help with an occasional complex itinerary or are looking for dependable premium-airfare support as part of your existing operation, our travel professionals can work alongside your team.",
           ]}
           buttonLabel="Request a B2B Fare Comparison"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.BP_HERO}
         />
@@ -325,7 +325,7 @@ export default async function BusinessPartnershipsPage() {
             "If your organization arranges premium international travel, MultiCity Experts can provide specialized airfare knowledge and responsive travel assistance for the journeys that require more attention. Tell us about your current travel requirements, partnership model, or an upcoming itinerary you'd like us to review."
           }
           buttonLabel={sections.BP_MID_CTA?.buttonLabel ?? "Discuss a Business Partnership"}
-          buttonHref={sections.BP_MID_CTA?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={sections.BP_MID_CTA?.buttonHref ?? "tel:888-608-1038"}
         />
 
         <LightFaqSection

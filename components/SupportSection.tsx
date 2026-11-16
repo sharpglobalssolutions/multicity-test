@@ -51,7 +51,7 @@ export function SupportSection({
   imageSrc = SUPPORT_SPECIALIST_IMAGE.src,
   closingParagraph = DEFAULT_CLOSING_PARAGRAPH,
   buttonLabel = "Need Travel Assistance? Call Us",
-  buttonHref = "tel:1869-504-657",
+  buttonHref = "tel:888-608-1038",
 }: SupportSectionProps = {}) {
   return (
     // overflow-x-hidden: see BusinessClassSection — clips the SectionReveal

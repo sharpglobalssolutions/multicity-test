@@ -19,11 +19,11 @@ import { TravelAdvisorSection } from "@/components/TravelAdvisorSection";
 import { TravelInsights } from "@/components/TravelInsights";
 import { getHomePageSeoSafely, getHomeSectionsSafely } from "@/services/home.service";
 
-// The page is otherwise fully static, but TravelInsights reads live blog
-// posts, and every section below now reads its content from the database
-// (see services/home.service.ts) — revalidate periodically so edits made
-// in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// TravelInsights reads live blog posts, and every section below now reads
+// its content from the database (see services/home.service.ts) — rendered
+// dynamically (no caching) so edits made in the admin panel appear
+// immediately.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getHomePageSeoSafely();

@@ -31,9 +31,9 @@ import {
 import type { Faq, ServiceCard } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/flight-cancellation.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/flight-cancellation.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -156,7 +156,7 @@ export default async function FlightCancellationPage() {
             "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.CNX_HERO}
         />
@@ -172,7 +172,7 @@ export default async function FlightCancellationPage() {
             ]
           }
           buttonLabel={intro?.buttonLabel ?? "Speak With a Travel Specialist"}
-          buttonHref={intro?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={intro?.buttonHref ?? "tel:888-608-1038"}
           buttonVariant="navy"
           imagePosition="right"
         />
@@ -241,7 +241,7 @@ export default async function FlightCancellationPage() {
           credit={sections.CNX_CREDIT_BLOCK}
         />
 
-        <InfoBanner tone="cta" buttonHref="tel:1869-504-657" {...sections.CNX_CREDIT_BANNER} />
+        <InfoBanner tone="cta" buttonHref="tel:888-608-1038" {...sections.CNX_CREDIT_BANNER} />
 
         <ScheduleChangeSection {...sections.CNX_SCHEDULE_CHANGE} />
 
@@ -385,7 +385,7 @@ export default async function FlightCancellationPage() {
 
         <StepsListCarousel {...sections.CNX_REVIEW_STEPS} />
 
-        <CenteredCtaBanner buttonHref="tel:1869-504-657" {...sections.CNX_PLAN_CTA} />
+        <CenteredCtaBanner buttonHref="tel:888-608-1038" {...sections.CNX_PLAN_CTA} />
 
         <TestimonialCarousel
           {...(sections.TESTIMONIALS ?? DEFAULT_TESTIMONIALS_HEADING)}

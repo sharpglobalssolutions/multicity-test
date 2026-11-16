@@ -2,7 +2,7 @@ import { Button } from "@/components/Button";
 import { SectionReveal } from "@/components/SectionReveal";
 
 // The header's existing "call an expert" action — see components/Header.tsx.
-const CALL_EXPERT_HREF = "tel:1869-504-657";
+const CALL_EXPERT_HREF = "tel:888-608-1038";
 const DEFAULT_BACKGROUND_IMAGE = "/images/cta-banner.jpg";
 
 export interface FinalCTAProps {

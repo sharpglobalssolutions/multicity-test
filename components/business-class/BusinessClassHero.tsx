@@ -80,7 +80,7 @@ export function BusinessClassHero({
         <SectionReveal delay={0.1} x={40} className="order-1 lg:order-2">
           <div className="rounded-[7px] bg-white p-6 shadow-soft ring-1 ring-navy-deep/[0.06] sm:p-8">
             <Link
-              href="tel:1869-504-657"
+              href="tel:888-608-1038"
               className="mb-6 flex items-center gap-4 rounded-input bg-gradient-to-r from-navy-deep to-navy-secondary px-4 py-3 text-white transition-opacity hover:opacity-90"
             >
               <span className="relative h-16 w-16 shrink-0 overflow-hidden border-2 border-white/25">
@@ -96,7 +96,7 @@ export function BusinessClassHero({
                 </span>
               </span>
               <span className="min-w-0 text-lg font-bold tracking-wide sm:text-2xl">
-                1869-504-657
+                888-608-1038
               </span>
             </Link>
 

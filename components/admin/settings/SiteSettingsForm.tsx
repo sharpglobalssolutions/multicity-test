@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Loader2, Upload } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { ApiRequestError as UploadError, uploadMedia } from "@/lib/pages-api";
 import {
   ApiRequestError,
   fetchSiteSettings,
@@ -34,6 +37,10 @@ import {
  * rich-text editor's HTML output.
  */
 export function SiteSettingsForm() {
+  const [faviconId, setFaviconId] = useState<string | null>(null);
+  const [faviconUrl, setFaviconUrl] = useState("");
+  const [uploadingFavicon, setUploadingFavicon] = useState(false);
+  const faviconInputRef = useRef<HTMLInputElement>(null);
   const [headerCode, setHeaderCode] = useState("");
   const [bodyCode, setBodyCode] = useState("");
   const [footerCode, setFooterCode] = useState("");
@@ -51,6 +58,8 @@ export function SiteSettingsForm() {
     fetchSiteSettings()
       .then((settings) => {
         if (cancelled) return;
+        setFaviconId(settings?.faviconId ?? null);
+        setFaviconUrl(settings?.favicon?.url ?? "");
         setHeaderCode(settings?.headerCode ?? "");
         setBodyCode(settings?.bodyCode ?? "");
         setFooterCode(settings?.footerCode ?? "");
@@ -76,10 +85,34 @@ export function SiteSettingsForm() {
     };
   }, []);
 
+  async function handleFaviconChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setUploadingFavicon(true);
+    try {
+      const media = await uploadMedia(file);
+      setFaviconId(media.id);
+      setFaviconUrl(media.url);
+      toast.success("Favicon uploaded — click Save Settings to publish it.");
+    } catch (error) {
+      toast.error(error instanceof UploadError ? error.message : "Upload failed. Please try again.");
+    } finally {
+      setUploadingFavicon(false);
+    }
+  }
+
+  function handleRemoveFavicon() {
+    setFaviconId(null);
+    setFaviconUrl("");
+  }
+
   async function handleSave() {
     setSaving(true);
     try {
       await updateSiteSettings({
+        faviconId,
         headerCode: headerCode.trim() || null,
         bodyCode: bodyCode.trim() || null,
         footerCode: footerCode.trim() || null,
@@ -107,6 +140,14 @@ export function SiteSettingsForm() {
       <div className="space-y-6">
         <Card>
           <CardHeader>
+            <CardTitle>Branding</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Skeleton className="h-12 w-12 rounded" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
             <CardTitle>Header, Body &amp; Footer Scripts</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -130,6 +171,63 @@ export function SiteSettingsForm() {
 
   return (
     <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Branding</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-1.5">
+            <Label>Favicon</Label>
+            <div className="flex items-center gap-4">
+              {faviconUrl ? (
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded border bg-muted">
+                  <Image src={faviconUrl} alt="" fill sizes="48px" className="object-contain" unoptimized />
+                </div>
+              ) : null}
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={saving || uploadingFavicon}
+                  onClick={() => faviconInputRef.current?.click()}
+                >
+                  {uploadingFavicon ? <Loader2 className="animate-spin" /> : <Upload />}
+                  {faviconUrl ? "Replace" : "Upload"}
+                </Button>
+                {faviconUrl ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    disabled={saving || uploadingFavicon}
+                    onClick={handleRemoveFavicon}
+                  >
+                    Remove
+                  </Button>
+                ) : null}
+              </div>
+              <input
+                ref={faviconInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                className="hidden"
+                onChange={handleFaviconChange}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Shown as the browser tab icon site-wide. A square PNG (512×512
+              or 32×32) works best.
+            </p>
+          </div>
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Button onClick={handleSave} disabled={saving}>
+            {saving ? "Saving…" : "Save Settings"}
+          </Button>
+        </CardFooter>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Header, Body &amp; Footer Scripts</CardTitle>

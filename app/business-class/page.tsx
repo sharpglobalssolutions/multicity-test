@@ -23,9 +23,9 @@ import {
 } from "@/services/business-class.service";
 
 // Every section below now reads its content from the database (see
-// services/business-class.service.ts) — revalidate periodically so edits
-// made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/business-class.service.ts) — rendered dynamically (no caching)
+// so edits made in the admin panel appear immediately, not after a delay.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA`/`TESTIMONIALS`/`FAQ`
  * section types — those components' own built-in defaults are homepage

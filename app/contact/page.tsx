@@ -22,9 +22,9 @@ import {
 import { getContactPageSeoSafely, getContactSectionsSafely } from "@/services/contact.service";
 
 // Every section below reads its content from the database (see
-// services/contact.service.ts) — revalidate periodically so edits made in
-// the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/contact.service.ts) — rendered dynamically (no caching) so
+// edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getContactPageSeoSafely();
@@ -65,7 +65,7 @@ export default async function ContactPage() {
                 images={speakSpecialist?.images ?? [SPEAK_WITH_SPECIALIST_IMAGE]}
                 imagePosition="left"
                 buttonLabel={speakSpecialist?.buttonLabel ?? "Call an expert"}
-                buttonHref={speakSpecialist?.buttonHref ?? "tel:1869-504-657"}
+                buttonHref={speakSpecialist?.buttonHref ?? "tel:888-608-1038"}
                 buttonVariant="navy"
               />
             </SectionReveal>

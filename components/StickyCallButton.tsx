@@ -14,7 +14,7 @@ export interface StickyCallButtonProps {
  * `chrome.HEADER.phone` value the header shows — no separate number to
  * keep in sync. */
 export function StickyCallButton({
-  phone = "1869-504-657",
+  phone = "888-608-1038",
 }: StickyCallButtonProps) {
   return (
     <Link

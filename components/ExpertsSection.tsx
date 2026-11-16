@@ -82,7 +82,7 @@ export function ExpertsSection({
   backgroundImage = EXPERTS_BACKGROUND_IMAGE.src,
   features = DEFAULT_FEATURES,
   buttonLabel = "Talk to a Travel Specialist",
-  buttonHref = "tel:1869-504-657",
+  buttonHref = "tel:888-608-1038",
 }: ExpertsSectionProps = {}) {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({

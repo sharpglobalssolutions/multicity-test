@@ -66,11 +66,11 @@ export function DestinationCarousel({
                     />
                   </div>
                   <div className="exlusive-heal-content">
-                    <p>Exclusive Deals {deal.city}</p>
+                    <p>{deal.caption}</p>
                     <h3 className="mt-0 text-[20px] text-text-dark">
                       {deal.price}
                     </h3>
-                    <a href="tel:1869-504-657">Call An Expert</a>
+                    <a href="tel:888-608-1038">Call An Expert</a>
                   </div>
                 </article>
               </SwiperSlide>

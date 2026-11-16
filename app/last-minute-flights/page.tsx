@@ -23,9 +23,9 @@ import {
 import type { Faq } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/last-minute-flights.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/last-minute-flights.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section

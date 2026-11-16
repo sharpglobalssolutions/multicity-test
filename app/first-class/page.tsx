@@ -28,9 +28,9 @@ import { getFirstClassPageSeoSafely, getFirstClassSectionsSafely } from "@/servi
 import type { FcRouteDeal } from "@/types/page-sections";
 
 // Every section below reads its content from the database (see
-// services/first-class.service.ts) — revalidate periodically so edits made
-// in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/first-class.service.ts) — rendered dynamically (no caching) so
+// edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -99,7 +99,7 @@ export default async function FirstClassPage() {
           ]}
           backgroundImage={unsplash("1474302770737-173ee21bab63")}
           buttonLabel="Speak With a First Class Travel Specialist"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           {...sections.FC_HERO}
         />
         <ExpertGuidanceSection
@@ -148,7 +148,7 @@ export default async function FirstClassPage() {
             ]
           }
           buttonLabel={flightSearchChallenge?.buttonLabel ?? "Speak With a First Class Specialist"}
-          buttonHref={flightSearchChallenge?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={flightSearchChallenge?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="right"
         />
         <FirstClassOptionsCarousel {...sections.FC_OPTIONS} />
@@ -186,7 +186,7 @@ export default async function FirstClassPage() {
             ]
           }
           buttonLabel={beforeBooking?.buttonLabel ?? "Review My First Class Options"}
-          buttonHref={beforeBooking?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={beforeBooking?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="left"
         />
         <FeaturedBlockSection

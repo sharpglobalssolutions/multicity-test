@@ -26,10 +26,10 @@ import {
 import type { Faq, ServiceCard } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/international-flight-booking.service.ts) — revalidate
-// periodically so edits made in the admin panel appear without a full
-// redeploy.
-export const revalidate = 300;
+// services/international-flight-booking.service.ts) — rendered
+// dynamically (no caching) so edits made in the admin panel appear
+// immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -166,7 +166,7 @@ export default async function InternationalFlightBookingPage() {
             "Get personalised guidance based on your destinations, travel dates, cabin preference and priorities.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           {...sections.IFB_HERO}
         />
@@ -252,7 +252,7 @@ export default async function InternationalFlightBookingPage() {
             ]
           }
           buttonLabel={fareGuidance?.buttonLabel ?? "Talk to a Travel Specialist"}
-          buttonHref={fareGuidance?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={fareGuidance?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="right"
           background="gray"
         />

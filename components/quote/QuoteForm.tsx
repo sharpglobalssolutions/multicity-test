@@ -25,7 +25,7 @@ import {
 import type { QuoteCriteria } from "@/lib/quoteQuery";
 import type { QtFormTrustStat } from "@/types/page-sections";
 
-const DEFAULT_PHONE_NUMBER = "1869-504-657";
+const DEFAULT_PHONE_NUMBER = "888-608-1038";
 
 /** Stock support-agent portrait for the call bar — same verified Unsplash
  * id already used elsewhere in this app (as a testimonial avatar), reused

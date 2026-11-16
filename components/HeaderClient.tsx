@@ -37,7 +37,7 @@ export interface HeaderClientProps {
  * for the scroll listener and mobile-menu state. */
 export function HeaderClient({
   logoImageSrc,
-  phone = "1869-504-657",
+  phone = "888-608-1038",
   navLinks = [...NAV_LINKS],
 }: HeaderClientProps) {
   const [scrolled, setScrolled] = useState(false);

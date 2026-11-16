@@ -38,7 +38,7 @@ export function ChecklistSection({
   subheading = "You don't need to have every detail figured out. It helps to share:",
   items = DEFAULT_ITEMS,
   buttonLabel = "Plan My Journey",
-  buttonHref = "tel:1869-504-657",
+  buttonHref = "tel:888-608-1038",
 }: ChecklistSectionProps = {}) {
   return (
     <section className="bg-gray-light py-10 sm:py-14">

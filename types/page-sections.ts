@@ -159,6 +159,7 @@ export interface QtDestinationsDeal {
   price: string;
   image: string;
   alt: string;
+  caption: string;
 }
 
 export interface QtDestinationsSectionData {
@@ -251,8 +252,6 @@ export interface FooterSectionData {
   tagline: string;
   footerNavColumns: { title: string; links: { label: string; href: string }[] }[];
   copyrightText: string;
-  privacyPolicyHref: string;
-  termsHref: string;
 }
 
 /** The footer's "Top Routes / Top Countries / Top Cities / Top Airlines"

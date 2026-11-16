@@ -25,12 +25,12 @@ interface MobileMenuProps {
  * resolved values (CMS or hardcoded fallback), so these defaults only
  * matter if `MobileMenu` is ever rendered standalone. Previously this
  * hardcoded a *different* phone number than the header bar's own
- * `1869-504-657` — now both read from the same source. */
+ * `888-608-1038` — now both read from the same source. */
 export function MobileMenu({
   open,
   onClose,
   navLinks = [...NAV_LINKS],
-  phone = "1869-504-657",
+  phone = "888-608-1038",
 }: MobileMenuProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 

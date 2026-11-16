@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { GetInTouchForm } from "@/components/GetInTouchForm";
 import { SOCIAL_ICON_MAP } from "@/components/SocialIcons";
@@ -20,6 +21,12 @@ const DEFAULT_DARK_FOOTER_COLUMNS: {
 ];
 
 const DEFAULT_LOGO_SRC = "/logo/logo-white.webp";
+
+/** Fixed accreditation badge — a compliance credential, not marketing
+ * copy, so (like the Get in Touch/newsletter forms above) it's not wired
+ * into the admin chrome editor. */
+const IATAN_VERIFY_HREF = "https://store.iata.org/ieccacfree";
+const IATAN_CODE = "53671332";
 
 interface LinkColumn {
   title: string;
@@ -97,8 +104,6 @@ export async function Footer({
   tagline = "Specialists in complex international routing, premium cabins and multi-city journeys designed around you.",
   footerNavColumns = DEFAULT_DARK_FOOTER_COLUMNS,
   copyrightText = "Multicity Experts is a service operated by SkyAlliance LLC.",
-  privacyPolicyHref = "#",
-  termsHref = "#",
 }: {
   connectHeading?: string;
   socialLinks?: { label: string; href: string; icon: string }[];
@@ -112,8 +117,6 @@ export async function Footer({
     links: { label: string; href: string }[];
   }[];
   copyrightText?: string;
-  privacyPolicyHref?: string;
-  termsHref?: string;
 } = {}) {
   const year = new Date().getFullYear();
   const [chrome, siteSettings] = await Promise.all([
@@ -133,9 +136,6 @@ export async function Footer({
   const resolvedTagline = footer?.tagline ?? tagline;
   const resolvedFooterNavColumns = footer?.footerNavColumns ?? footerNavColumns;
   const resolvedCopyrightText = footer?.copyrightText ?? copyrightText;
-  const resolvedPrivacyPolicyHref =
-    footer?.privacyPolicyHref || privacyPolicyHref;
-  const resolvedTermsHref = footer?.termsHref || termsHref;
 
   return (
     <>
@@ -245,6 +245,35 @@ export async function Footer({
                 <p className="mt-4 max-w-xs text-[13px] leading-[18px] text-white/60">
                   {resolvedTagline}
                 </p>
+
+                <div className="mt-6 flex max-w-xs items-center gap-3 rounded-lg bg-white/5 p-3">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-white p-1.5">
+                    <Image
+                      src="/images/iatan-logo.jpg"
+                      alt="IATAN"
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[13px] font-semibold text-white">
+                      IATAN Accredited Agency
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-white/60">
+                      IATA Code: {IATAN_CODE}
+                    </p>
+                    <a
+                      href={IATAN_VERIFY_HREF}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-1 inline-flex items-center gap-1 text-[11px] text-white underline decoration-dotted underline-offset-4 hover:text-emerald-bright"
+                    >
+                      Verify Accreditation
+                      <ArrowUpRight size={12} aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -281,21 +310,10 @@ export async function Footer({
               fixed bottom bar so it never permanently covers this text;
               not needed from `lg` up, where that button is hidden. */}
           <div className="border-t border-white/10">
-            <div className="content-container flex flex-col items-center gap-3 py-6 pb-24 text-center sm:flex-row sm:justify-between sm:text-left lg:pb-6">
+            <div className="content-container flex flex-col items-center gap-3 py-6 pb-24 text-center lg:pb-6">
               <div className="text-[13px] leading-[18px] text-white/50">
                 <p>{resolvedCopyrightText}</p>
                 <p>© {year} MulticityExperts. All rights reserved.</p>
-              </div>
-              <div className="flex items-center gap-6 text-xs text-white/50">
-                <Link
-                  href={resolvedPrivacyPolicyHref}
-                  className="hover:text-white"
-                >
-                  Privacy Policy
-                </Link>
-                <Link href={resolvedTermsHref} className="hover:text-white">
-                  Terms &amp; Conditions
-                </Link>
               </div>
             </div>
           </div>

@@ -8,10 +8,9 @@ import { parseQuoteQuery, type QuotePageSearchParams } from "@/lib/quoteQuery";
 import { getQuotePageSeoSafely, getQuoteSectionsSafely } from "@/services/quote.service";
 
 // The phone bar, testimonials and deals carousel below read their content
-// from the database (see services/quote.service.ts) — revalidate
-// periodically so edits made in the admin panel appear without a full
-// redeploy.
-export const revalidate = 300;
+// from the database (see services/quote.service.ts) — rendered dynamically
+// (no caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await getQuotePageSeoSafely();

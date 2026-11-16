@@ -3,9 +3,14 @@
  * as `lib/pages-api.ts`'s `request` helper, kept as its own small file
  * since settings aren't a sub-resource of pages.
  */
-import type { SiteSettings } from "@prisma/client";
+import type { Media, SiteSettings as PrismaSiteSettings } from "@prisma/client";
 import type { ApiErrorDetail, ApiResponse } from "@/types/api";
 import type { UpdateSiteSettingsInput } from "@/validations/site-settings.validation";
+
+/** `SiteSettings` as the API actually returns it — the repository always
+ * includes the `favicon` Media relation (see
+ * `repositories/site-settings.repository.ts`). */
+export type SiteSettings = PrismaSiteSettings & { favicon: Media | null };
 
 export class ApiRequestError extends Error {
   constructor(

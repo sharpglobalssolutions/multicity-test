@@ -25,9 +25,9 @@ import {
 import type { Faq } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/schedule-changes.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/schedule-changes.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -145,7 +145,7 @@ export default async function ScheduleChangesPage() {
             "Before simply accepting the revised itinerary, it can help to understand what has changed and what alternatives may be available. Our travel specialists help you review the updated itinerary, understand applicable airline policies and compare suitable options based on your travel plans.",
           ]}
           buttonLabel="Review My Schedule Change Options"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           serviceForm={{ serviceType: "schedule_changes", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.SC_HERO}
@@ -169,7 +169,7 @@ export default async function ScheduleChangesPage() {
             ]
           }
           buttonLabel={whatMeans?.buttonLabel ?? "Review My Schedule Change Options"}
-          buttonHref={whatMeans?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={whatMeans?.buttonHref ?? "tel:888-608-1038"}
           imagePosition="right"
         />
 
@@ -428,7 +428,7 @@ export default async function ScheduleChangesPage() {
             "Don't assume the revised itinerary is your only option. Tell us what changed and what matters most to you — our travel specialists can help you understand the updated journey, explore available alternatives and make a more informed decision."
           }
           buttonLabel={sections.SC_REVIEW_CTA?.buttonLabel ?? "Review My Schedule Change"}
-          buttonHref={sections.SC_REVIEW_CTA?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={sections.SC_REVIEW_CTA?.buttonHref ?? "tel:888-608-1038"}
         />
 
         <LightFaqSection

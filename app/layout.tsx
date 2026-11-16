@@ -12,16 +12,19 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "MultiCityExperts — Premium Business Class Travel",
-  description:
-    "Fly premium, pay smarter. MultiCityExperts finds exceptional business and first class fares for complex international itineraries, backed by expert travel advisors.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettingsSafely();
+  return {
+    title: "MultiCityExperts — Premium Business Class Travel",
+    description:
+      "Fly premium, pay smarter. MultiCityExperts finds exceptional business and first class fares for complex international itineraries, backed by expert travel advisors.",
+    icons: settings?.favicon?.url ? { icon: settings.favicon.url } : undefined,
+  };
+}
 
-// Re-fetched periodically rather than on every request, same ISR
-// convention every page in this app uses — an admin's saved header/body/
-// footer code change appears site-wide within 5 minutes, not instantly.
-export const revalidate = 300;
+// Rendered dynamically (no caching) — an admin's saved header/body/footer
+// code change appears site-wide immediately, not after a delay.
+export const dynamic = "force-dynamic";
 
 export default async function RootLayout({
   children,

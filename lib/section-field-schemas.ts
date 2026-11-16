@@ -63,8 +63,8 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
       key: "deals",
       label: "Deals",
       kind: "list",
-      itemFields: [text("id", "ID"), text("city", "City"), text("price", "Price"), image("image", "Image"), text("alt", "Image alt text")],
-      emptyItem: { id: "", city: "", price: "", image: "", alt: "" },
+      itemFields: [text("id", "ID"), text("city", "City"), text("price", "Price"), text("caption", "Caption"), image("image", "Image"), text("alt", "Image alt text")],
+      emptyItem: { id: "", city: "", price: "", caption: "", image: "", alt: "" },
     },
   ],
   BUSINESS_CLASS: [
@@ -255,8 +255,6 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
     image("logoImageSrc", "Dark section logo (reversed/white)"),
     richtext("tagline", "Tagline"),
     text("copyrightText", "Copyright line"),
-    text("privacyPolicyHref", "Privacy Policy link"),
-    text("termsHref", "Terms & Conditions link"),
   ],
   // `columns` isn't listed here — like `FOOTER.footerNavColumns`, it's a
   // list-of-columns-of-links shape the generic field-schema model doesn't
@@ -2395,10 +2393,11 @@ export const SECTION_FIELD_SCHEMAS: Record<SectionType, FieldSchema[]> = {
         text("city", "City"),
         text("route", "Route"),
         text("price", "Price"),
+        text("caption", "Caption"),
         image("image", "Image"),
         text("alt", "Image alt text"),
       ],
-      emptyItem: { id: "", city: "", route: "", price: "", image: "", alt: "" },
+      emptyItem: { id: "", city: "", route: "", price: "", caption: "", image: "", alt: "" },
     },
   ],
   QT_SUMMARY: [

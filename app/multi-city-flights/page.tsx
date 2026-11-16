@@ -24,9 +24,9 @@ import {
 } from "@/services/multi-city-flights.service";
 
 // Every section below reads its content from the database (see
-// services/multi-city-flights.service.ts) — revalidate periodically so
-// edits made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/multi-city-flights.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA`/`FAQ` section types —
  * those components' own built-in defaults are homepage copy, so without
@@ -106,7 +106,7 @@ export default async function MultiCityFlightsPage() {
       <Header />
       <main id="top">
         <MultiCityHero buttonHref="/quote" {...sections.MC_HERO} />
-        <ExpertGuidanceSection buttonHref="tel:1869-504-657" {...sections.MC_EXPERT_GUIDANCE} />
+        <ExpertGuidanceSection buttonHref="tel:888-608-1038" {...sections.MC_EXPERT_GUIDANCE} />
         <FlightOptionCards {...sections.MC_FLIGHT_OPTIONS} />
         <ComplexitySection {...sections.MC_COMPLEXITY} />
         <PlanningFactorsSection {...sections.MC_PLANNING_FACTORS} />

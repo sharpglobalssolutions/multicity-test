@@ -21,7 +21,7 @@ export function ExploreEuropeSection({
   headingLines = DEFAULT_HEADING_LINES,
   subheading = "Your journey could connect destinations such as:",
   buttonLabel = "Plan My Europe Journey",
-  buttonHref = "tel:1869-504-657",
+  buttonHref = "tel:888-608-1038",
   backgroundImage = unsplash("1513635269975-59663e0ac1ad"),
   rightHeading = "London • Paris • Amsterdam • Frankfurt • Zurich • Madrid • Barcelona • Lisbon • Rome • Milan • Vienna • Athens",
   rightBody = "Departures may include New York, Chicago, Miami, Los Angeles, Toronto, Vancouver or Montreal, depending on your requirements and available flight options.",

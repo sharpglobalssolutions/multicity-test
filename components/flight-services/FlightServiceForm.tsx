@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Phone } from "lucide-react";
 import { Button } from "@/components/Button";
 
-const DEFAULT_PHONE_NUMBER = "1869-504-657";
+const DEFAULT_PHONE_NUMBER = "888-608-1038";
 
 const FIELD_CLASSES =
   "w-full appearance-none rounded-input border border-navy-deep/10 bg-white px-4 py-3.5 text-[13px] leading-[18px] font-medium text-text-dark placeholder:text-text-gray placeholder:font-normal outline-none transition-all duration-200 hover:border-navy-deep/20 focus:border-emerald focus:shadow-[0_0_0_4px_rgba(0,182,122,0.12)]";

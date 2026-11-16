@@ -3,7 +3,7 @@ import { SectionReveal } from "@/components/SectionReveal";
 import { HOW_WE_HELP_IMAGE } from "@/data/about-content";
 
 // The header's existing "call an expert" action — see components/Header.tsx.
-const CALL_EXPERT_HREF = "tel:1869-504-657";
+const CALL_EXPERT_HREF = "tel:888-608-1038";
 
 export function AboutHowWeHelp() {
   return (

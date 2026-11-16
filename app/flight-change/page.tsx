@@ -24,9 +24,9 @@ import {
 import type { Faq } from "@/data/content";
 
 // Every section below reads its content from the database (see
-// services/flight-change.service.ts) — revalidate periodically so edits
-// made in the admin panel appear without a full redeploy.
-export const revalidate = 300;
+// services/flight-change.service.ts) — rendered dynamically (no caching)
+// so edits made in the admin panel appear immediately.
+export const dynamic = "force-dynamic";
 
 /** This page's own fallback for the reused `CTA` section type — `FinalCTA`'s
  * own built-in default is homepage copy, so without this, a missing section
@@ -137,7 +137,7 @@ export default async function FlightChangePage() {
             "Travel plans can change without warning. A family emergency, business schedule change, visa delay or airline disruption can leave you unsure about what to do with your flight booking.",
           ]}
           buttonLabel="Speak With a Travel Specialist"
-          buttonHref="tel:1869-504-657"
+          buttonHref="tel:888-608-1038"
           backgroundImage={unsplash("1573497491208-6b1acb260507")}
           serviceForm={{ serviceType: "flight_changes", ctaLabel: sections.SERVICE_FORM?.ctaLabel }}
           {...sections.FCH_HERO}
@@ -309,7 +309,7 @@ export default async function FlightChangePage() {
           heading={sections.FCH_NOT_SURE_BANNER?.heading ?? "Not sure where to start? Tell us what happened, and we'll help you understand your options."}
           body={sections.FCH_NOT_SURE_BANNER?.body ?? ""}
           buttonLabel={sections.FCH_NOT_SURE_BANNER?.buttonLabel ?? "Speak With Travel Specialist"}
-          buttonHref={sections.FCH_NOT_SURE_BANNER?.buttonHref ?? "tel:1869-504-657"}
+          buttonHref={sections.FCH_NOT_SURE_BANNER?.buttonHref ?? "tel:888-608-1038"}
         />
 
         <FeaturedBlockSection

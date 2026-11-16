@@ -23,6 +23,7 @@ export function PolicyPageTemplate({
   content,
 }: PolicyPageTemplateProps) {
   const toc = extractToc(content);
+  const hasToc = toc.length > 0;
 
   return (
     <>
@@ -51,10 +52,16 @@ export function PolicyPageTemplate({
 
       {/* Content */}
       <section className="bg-white py-10 sm:py-14">
-        <div className="content-container grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_2.2fr] lg:gap-16">
-          <PolicyToc items={toc} />
+        <div
+          className={
+            hasToc
+              ? "content-container grid grid-cols-1 gap-12 lg:grid-cols-[0.8fr_2.2fr] lg:gap-16"
+              : "content-container"
+          }
+        >
+          {hasToc ? <PolicyToc items={toc} /> : null}
 
-          <div className="order-2 max-w-3xl lg:order-none">
+          <div className={hasToc ? "order-2 max-w-3xl lg:order-none" : ""}>
             <article
               className="prose prose-neutral max-w-none prose-headings:font-heading prose-headings:font-semibold prose-headings:text-text-dark prose-h1:mt-12 prose-h1:text-3xl prose-h2:mt-12 prose-h2:text-2xl prose-h3:mt-8 prose-h3:text-lg prose-p:text-[13px] prose-p:leading-[18px] prose-p:text-text-gray prose-a:text-navy-deep prose-a:underline-offset-4 prose-strong:text-text-dark prose-li:text-text-gray prose-table:text-sm first:prose-h1:mt-0 first:prose-h2:mt-0"
               // Content is authored by an RBAC-gated admin through the
