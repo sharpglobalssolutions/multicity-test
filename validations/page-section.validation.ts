@@ -316,6 +316,29 @@ export const SECTION_TYPES = [
   "QT_FORM",
   "QT_DESTINATIONS",
   "QT_SUMMARY",
+  /** One-Way & Open-Jaw Flights landing page (`one-way-flights` template) —
+   * see `types/page-sections.ts`'s doc comment for the full section list. */
+  "OW_HERO",
+  "OW_FEATURED_ONE",
+  "OW_FEATURED_TWO",
+  "OW_FEATURED_THREE",
+  "OW_ITINERARY_COMPARISON",
+  "OW_NOT_SURE_CTA",
+  "OW_PLANNING_ONE",
+  "OW_ROUTE_FLOW_COMPARE",
+  "OW_PLANNING_TWO",
+  "OW_PLANNING_THREE",
+  "OW_WHY_CHOOSE_ONE",
+  "OW_FEATURED_FOUR",
+  "OW_PLANNING_FOUR",
+  "OW_COMPLEXITY",
+  "OW_INFO_BANNER",
+  "OW_PLANNING_FIVE",
+  "OW_HOW_IT_WORKS",
+  "OW_WHY_CHOOSE_TWO",
+  "OW_CHECKLIST",
+  "OW_FAQ",
+  "OW_CTA",
 ] as const;
 
 export const sectionTypeSchema = z.enum(SECTION_TYPES);

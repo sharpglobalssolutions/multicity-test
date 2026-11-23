@@ -222,6 +222,10 @@ const TWO_COLUMN_LIST_FIELDS_BY_SECTION: Partial<Record<SectionType, { key: stri
   BP_MORE_THAN_FARE: { key: "twoColumnItems", label: "Two-column list" },
   CT_UNDERSTAND_JOURNEY: { key: "twoColumnItems", label: "Two-column list" },
   CT_TRAVEL_SUPPORT: { key: "twoColumnItems", label: "Two-column list" },
+  OW_FEATURED_ONE: { key: "twoColumnItems", label: "Two-column list" },
+  OW_FEATURED_TWO: { key: "twoColumnItems", label: "Two-column list" },
+  OW_FEATURED_FOUR: { key: "twoColumnItems", label: "Two-column list" },
+  OW_COMPLEXITY: { key: "items", label: "Considerations" },
 };
 
 const FOOTER_COLUMN_LINKS_SCHEMA: ListFieldSchema = {

@@ -15,20 +15,27 @@ import { LightFaqSection } from "@/components/first-class/LightFaqSection";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { unsplash } from "@/lib/images";
 import type { Faq } from "@/data/content";
+import {
+  getOneWayFlightsPageSeoSafely,
+  getOneWayFlightsSectionsSafely,
+} from "@/services/one-way-flights.service";
 
-export const metadata: Metadata = {
-  title: "One-Way & Open-Jaw Flights | MultiCityExperts",
-  description:
-    "Explore one-way and open-jaw flight options across North America, the UK and Europe. Our travel specialists help you compare routes, airlines and fares around the way you actually want to travel.",
-};
-
-// Rendered dynamically (no caching) for consistency with every other page
-// on the site — this page's content is currently hardcoded rather than
-// database-driven, so this has no visible effect today, but keeps the
-// page ready if it's wired up to the CMS later.
+// Every section below reads its content from the database (see
+// services/one-way-flights.service.ts) — rendered dynamically (no
+// caching) so edits made in the admin panel appear immediately.
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seo = await getOneWayFlightsPageSeoSafely();
+  if (!seo) return {};
+  return {
+    title: seo.seoTitle ?? undefined,
+    description: seo.metaDescription ?? undefined,
+  };
+}
 
 const FAQS: Faq[] = [
   {
@@ -111,9 +118,13 @@ const FAQS: Faq[] = [
   },
 ];
 
-export default function OneWayFlightsPage() {
+export default async function OneWayFlightsPage() {
+  const sections = await getOneWayFlightsSectionsSafely();
+  const seo = await getOneWayFlightsPageSeoSafely();
+
   return (
     <>
+      <JsonLd data={seo?.schemaData} />
       <Header />
       <main id="top">
         <MultiCityHero
@@ -124,6 +135,7 @@ export default function OneWayFlightsPage() {
           ]}
           buttonLabel="Speak With a Travel Specialist"
           backgroundImage={unsplash("1502602898657-3e91760cbb34")}
+          {...sections.OW_HERO}
         />
 
         <FeaturedBlockSection
@@ -145,6 +157,7 @@ export default function OneWayFlightsPage() {
             ],
           ]}
           imagePosition="left"
+          {...sections.OW_FEATURED_ONE}
         />
 
         <FeaturedBlockSection
@@ -156,6 +169,7 @@ export default function OneWayFlightsPage() {
             ["Cruise travel", "Digital nomad travel", "Flexible return plans", "Last-minute international travel", "Multi-country journeys"],
           ]}
           imagePosition="right"
+          {...sections.OW_FEATURED_TWO}
         />
 
         <FeaturedBlockSection
@@ -163,14 +177,16 @@ export default function OneWayFlightsPage() {
           body="An open-jaw itinerary allows you to arrive in one city and return from another — New York → London, travel independently through London → Paris → Rome, then return Rome → New York. Instead of travelling back to London simply to catch your international flight home, your return flight leaves from Rome. This can make sense when your trip naturally moves between several destinations."
           images={[{ src: unsplash("1513635269975-59663e0ac1ad"), alt: "A European city skyline viewed from across a river" }]}
           imagePosition="left"
+          {...sections.OW_FEATURED_THREE}
         />
 
-        <ItineraryComparisonSection />
+        <ItineraryComparisonSection {...sections.OW_ITINERARY_COMPARISON} />
 
         <CenteredCtaBanner
           heading="Not Sure Which Structure You Need?"
           subheading="You don't need to know the answer before contacting us. Tell us where you're going, the cities you're considering and how you want the trip to unfold. Our specialists can help you explore which itinerary structure may fit your plans."
           buttonLabel="Compare My Itinerary Options"
+          {...sections.OW_NOT_SURE_CTA}
         />
 
         <PlanningFactorsSection
@@ -184,9 +200,10 @@ export default function OneWayFlightsPage() {
             { id: "build-around-plans", label: "Build Around Your Actual Plans", description: "Your flights should support your journey — not force you to reshape the trip around a conventional return ticket." },
           ]}
           columns={3}
+          {...sections.OW_PLANNING_ONE}
         />
 
-        <RouteFlowCompareSection />
+        <RouteFlowCompareSection {...sections.OW_ROUTE_FLOW_COMPARE} />
 
         <PlanningFactorsSection
           heading="Popular One-Way & Open-Jaw Routes to Europe"
@@ -199,6 +216,7 @@ export default function OneWayFlightsPage() {
             { id: "la-london-rome", label: "Los Angeles → London | Rome → Los Angeles", description: "Suitable for longer European journeys covering multiple regions." },
           ]}
           columns={3}
+          {...sections.OW_PLANNING_TWO}
         />
 
         <PlanningFactorsSection
@@ -211,6 +229,7 @@ export default function OneWayFlightsPage() {
             { id: "vancouver-paris-zurich", label: "Vancouver → Paris | Zurich → Vancouver", description: "A possible structure for a longer Western European itinerary." },
           ]}
           columns={4}
+          {...sections.OW_PLANNING_THREE}
         />
 
         <WhyChooseSection
@@ -226,6 +245,7 @@ export default function OneWayFlightsPage() {
           variant="light"
           cardStyle="bordered"
           layout="grid"
+          {...sections.OW_WHY_CHOOSE_ONE}
         />
 
         <FeaturedBlockSection
@@ -239,6 +259,7 @@ export default function OneWayFlightsPage() {
           buttonLabel="Compare Premium Cabin Options"
           buttonHref="tel:888-608-1038"
           imagePosition="right"
+          {...sections.OW_FEATURED_FOUR}
         />
 
         <PlanningFactorsSection
@@ -256,6 +277,7 @@ export default function OneWayFlightsPage() {
             { id: "travel-dates", label: "Travel Dates", description: "Could shifting your departure or return by a day create additional possibilities?" },
           ]}
           columns={3}
+          {...sections.OW_PLANNING_FOUR}
         />
 
         <ComplexitySection
@@ -268,6 +290,7 @@ export default function OneWayFlightsPage() {
           ]}
           backgroundImage=""
           align="left"
+          {...sections.OW_COMPLEXITY}
         />
 
         <InfoBanner
@@ -275,6 +298,7 @@ export default function OneWayFlightsPage() {
           heading="Can You Use Different Airlines?"
           body="Your outbound and return flights don't always need to be on the same airline. Depending on the itinerary and ticketing structure, comparing different airlines may provide alternatives that better suit your route, timing or cabin preference."
           buttonLabel="Evaluate Airline Combinations"
+          {...sections.OW_INFO_BANNER}
         />
 
         <PlanningFactorsSection
@@ -291,6 +315,7 @@ export default function OneWayFlightsPage() {
             { id: "rail-air", label: "You're Combining Rail & Air", description: "You want to fly across the Atlantic and travel between European destinations independently." },
           ]}
           columns={4}
+          {...sections.OW_PLANNING_FIVE}
         />
 
         <HowItWorksCarousel
@@ -304,6 +329,7 @@ export default function OneWayFlightsPage() {
             { id: "confirm-itinerary", titleLines: "Confirm Your\nPreferred Itinerary", descriptionLines: "Once you've chosen your preferred option,\nproceed with the applicable booking." },
             { id: "post-booking", titleLines: "Get Post-Booking\nAssistance", descriptionLines: "Where applicable, our specialists remain\navailable for subsequent travel requirements." },
           ]}
+          {...sections.OW_HOW_IT_WORKS}
         />
 
         <WhyChooseSection
@@ -322,13 +348,14 @@ export default function OneWayFlightsPage() {
           variant="dark"
           cardStyle="bordered"
           layout="grid"
+          {...sections.OW_WHY_CHOOSE_TWO}
         />
 
-        <ChecklistSection />
+        <ChecklistSection {...sections.OW_CHECKLIST} />
 
         <OneWayFlightsRequestForm />
 
-        <LightFaqSection heading="Frequently Asked Questions" faqs={FAQS} />
+        <LightFaqSection heading="Frequently Asked Questions" faqs={FAQS} {...sections.OW_FAQ} />
 
         <FinalCTA
           heading="Your International Journey Doesn't Have to Be a Round Trip"
@@ -336,6 +363,7 @@ export default function OneWayFlightsPage() {
           buttonLabel="Plan My One-Way or Open-Jaw Journey"
           buttonHref="tel:888-608-1038"
           buttonVariant="gold"
+          {...sections.OW_CTA}
         />
       </main>
       <Footer />

@@ -1,42 +1,53 @@
 import { ArrowRight } from "lucide-react";
 import { SectionReveal } from "@/components/SectionReveal";
 
+/** `example`/`points` are newline-separated — one row each — same
+ * convention as `PopularRoute.stops` (see
+ * `components/multi-city/PopularRoutesSection.tsx`'s `parseStops`): the
+ * admin list editor only models scalar item fields, so each card's route
+ * chips and bullet list are stored as plain strings and split via
+ * `parseLines` below at render time. */
 export interface ItineraryComparisonCard {
   id: string;
   title: string;
-  example: string[];
-  points: string[];
+  example: string;
+  points: string;
+}
+
+function parseLines(value: string): string[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
 }
 
 const DEFAULT_CARDS: ItineraryComparisonCard[] = [
   {
     id: "one-way",
     title: "One-Way",
-    example: ["Toronto", "Paris"],
+    example: "Toronto\nParis",
     points: [
       "You don't need a return flight yet",
       "You're relocating",
       "Your return destination isn't known",
       "You're planning an extended stay",
-    ],
+    ].join("\n"),
   },
   {
     id: "open-jaw",
     title: "Open-Jaw",
-    example: ["Toronto", "London", "Amsterdam", "Toronto"],
+    example: "Toronto\nLondon\nAmsterdam\nToronto",
     points: [
       "You want to travel between your arrival and departure cities",
       "You want to avoid unnecessary backtracking",
       "Your journey naturally finishes somewhere different",
-    ],
+    ].join("\n"),
   },
   {
     id: "multi-city",
     title: "Multi-City",
-    example: ["New York", "London", "Rome", "Paris", "New York"],
-    points: [
-      "Several flight sectors need to be included in the same overall itinerary",
-    ],
+    example: "New York\nLondon\nRome\nParis\nNew York",
+    points: "Several flight sectors need to be included in the same overall itinerary",
   },
 ];
 
@@ -69,18 +80,21 @@ export function ItineraryComparisonSection({
         </SectionReveal>
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {cards.map((card, index) => (
+          {cards.map((card, index) => {
+            const example = parseLines(card.example);
+            const points = parseLines(card.points);
+            return (
             <SectionReveal key={card.id} delay={index * 0.08}>
               <div className="flex h-full flex-col rounded-card bg-white p-7 shadow-card">
                 <h3 className="text-xl text-navy-deep">{card.title}</h3>
 
                 <div className="mt-4 flex flex-wrap items-center gap-x-1.5 gap-y-1">
-                  {card.example.map((city, cityIndex) => (
+                  {example.map((city, cityIndex) => (
                     <span key={`${card.id}-${cityIndex}`} className="flex items-center gap-1.5">
                       <span className="rounded-full bg-emerald/10 px-3 py-1 text-[13px] font-medium text-emerald">
                         {city}
                       </span>
-                      {cityIndex < card.example.length - 1 ? (
+                      {cityIndex < example.length - 1 ? (
                         <ArrowRight
                           size={13}
                           className="shrink-0 text-navy-deep/30"
@@ -95,7 +109,7 @@ export function ItineraryComparisonSection({
                   May suit you if
                 </p>
                 <ul className="mt-3 space-y-2.5">
-                  {card.points.map((point) => (
+                  {points.map((point) => (
                     <li
                       key={point}
                       className="flex items-start gap-2 text-[13px] leading-[18px] text-text-gray"
@@ -110,7 +124,8 @@ export function ItineraryComparisonSection({
                 </ul>
               </div>
             </SectionReveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -5,32 +5,41 @@ export interface RouteFlowStep {
   value: string;
 }
 
+/** `steps` is newline-separated "Label|Value" rows — same convention as
+ * `PopularRoute.stops` (see
+ * `components/multi-city/PopularRoutesSection.tsx`'s `parseStops`): the
+ * admin list editor only models scalar item fields, so each panel's step
+ * sequence is stored as a plain string and split via `parseSteps` below
+ * at render time. */
 export interface RouteFlowPanel {
   id: string;
   title: string;
-  steps: RouteFlowStep[];
+  steps: string;
   caption?: string;
+}
+
+function parseSteps(value: string): RouteFlowStep[] {
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const [label, stepValue] = line.split("|");
+      return { label: label?.trim() ?? "", value: stepValue?.trim() ?? "" };
+    });
 }
 
 const DEFAULT_PANELS: RouteFlowPanel[] = [
   {
     id: "traditional",
     title: "Traditional Round Trip",
-    steps: [
-      { label: "Fly", value: "New York → London" },
-      { label: "Travel", value: "London → Paris → Rome" },
-      { label: "Then", value: "Rome → London → New York" },
-    ],
+    steps: ["Fly|New York → London", "Travel|London → Paris → Rome", "Then|Rome → London → New York"].join("\n"),
     caption: "You return to London primarily because that's where your international flight started.",
   },
   {
     id: "open-jaw",
     title: "Open-Jaw Alternative",
-    steps: [
-      { label: "Fly", value: "New York → London" },
-      { label: "Travel", value: "London → Paris → Rome" },
-      { label: "Then", value: "Rome → New York" },
-    ],
+    steps: ["Fly|New York → London", "Travel|London → Paris → Rome", "Then|Rome → New York"].join("\n"),
     caption: "The international flights follow the direction of your journey.",
   },
 ];
@@ -42,15 +51,16 @@ export interface RouteFlowCompareSectionProps {
 }
 
 function RouteFlowPanelCard({ panel }: { panel: RouteFlowPanel }) {
+  const steps = parseSteps(panel.steps);
   return (
     <div className="h-full rounded-card border border-navy-deep/10 bg-white p-7 sm:p-8">
       <h3 className="text-xl text-text-dark">{panel.title}</h3>
       <div className="mt-6 space-y-4">
-        {panel.steps.map((step, index) => (
+        {steps.map((step, index) => (
           <div key={`${panel.id}-${index}`} className="flex gap-4">
             <div className="flex flex-col items-center">
               <span className="flex size-2 shrink-0 rounded-full bg-emerald" aria-hidden="true" />
-              {index < panel.steps.length - 1 ? (
+              {index < steps.length - 1 ? (
                 <span className="mt-1 w-px flex-1 bg-navy-deep/10" aria-hidden="true" />
               ) : null}
             </div>

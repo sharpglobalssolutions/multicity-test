@@ -653,6 +653,57 @@ export interface CnxCenteredCtaSectionData {
   buttonHref: string;
 }
 
+/** One-Way & Open-Jaw Flights landing page (`one-way-flights` template) —
+ * one interface per component, in the order `app/one-way-flights/page.tsx`
+ * renders them. Most sections reuse the shared `Mc*`/`Cnx*`/`Bc*` shapes
+ * above (same component, same data model); only the three components
+ * unique to this page (`ItineraryComparisonSection`,
+ * `RouteFlowCompareSection`, `ChecklistSection`) get their own interfaces
+ * below. */
+/** `example`/`points` are newline-separated — one row each — same
+ * convention as `PopularRoute.stops` (see
+ * `components/multi-city/PopularRoutesSection.tsx`'s `parseStops`): the
+ * admin list editor only models scalar item fields, so each card's route
+ * chips and bullet list are stored as plain strings and split at render
+ * time. */
+export interface OwItineraryComparisonCard {
+  id: string;
+  title: string;
+  example: string;
+  points: string;
+}
+
+export interface OwItineraryComparisonSectionData {
+  heading: string;
+  subheading: string;
+  cards: OwItineraryComparisonCard[];
+}
+
+/** `steps` is newline-separated "Label|Value" rows — same convention as
+ * `OwItineraryComparisonCard` above and `PopularRoute.stops`. `caption` is
+ * optional (every existing panel sets it, but the shape allows a
+ * caption-less panel). */
+export interface OwRouteFlowPanel {
+  id: string;
+  title: string;
+  steps: string;
+  caption?: string;
+}
+
+export interface OwRouteFlowCompareSectionData {
+  heading: string;
+  subheading: string;
+  panels: OwRouteFlowPanel[];
+}
+
+export interface OwChecklistSectionData {
+  heading: string;
+  subheading: string;
+  items: string[];
+  buttonLabel: string;
+  buttonHref: string;
+}
+
 /** `FlightServiceForm` (`components/flight-services/FlightServiceForm.tsx`)
  * — the shared "Last Name + Booking Reference, then call" lead-capture form
  * embedded in `MultiCityHero`'s quote card (in place of `FlightSearch`) on
@@ -882,6 +933,27 @@ export interface SectionDataByType {
   QT_FORM: QtFormSectionData;
   QT_DESTINATIONS: QtDestinationsSectionData;
   QT_SUMMARY: QtSummarySectionData;
+  OW_HERO: McHeroSectionData;
+  OW_FEATURED_ONE: McImageTextSectionData;
+  OW_FEATURED_TWO: McImageTextSectionData;
+  OW_FEATURED_THREE: McImageTextSectionData;
+  OW_ITINERARY_COMPARISON: OwItineraryComparisonSectionData;
+  OW_NOT_SURE_CTA: CnxCenteredCtaSectionData;
+  OW_PLANNING_ONE: McPlanningFactorsSectionData;
+  OW_ROUTE_FLOW_COMPARE: OwRouteFlowCompareSectionData;
+  OW_PLANNING_TWO: McPlanningFactorsSectionData;
+  OW_PLANNING_THREE: McPlanningFactorsSectionData;
+  OW_WHY_CHOOSE_ONE: McWhyChooseSectionData;
+  OW_FEATURED_FOUR: McImageTextSectionData;
+  OW_PLANNING_FOUR: McPlanningFactorsSectionData;
+  OW_COMPLEXITY: McComplexitySectionData;
+  OW_INFO_BANNER: CnxInfoBannerSectionData;
+  OW_PLANNING_FIVE: McPlanningFactorsSectionData;
+  OW_HOW_IT_WORKS: BcHowItWorksSectionData;
+  OW_WHY_CHOOSE_TWO: McWhyChooseSectionData;
+  OW_CHECKLIST: OwChecklistSectionData;
+  OW_FAQ: FaqSectionData;
+  OW_CTA: CtaSectionData;
 }
 
 export type SectionType = keyof SectionDataByType;
