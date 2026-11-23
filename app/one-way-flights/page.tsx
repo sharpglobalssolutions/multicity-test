@@ -24,6 +24,12 @@ export const metadata: Metadata = {
     "Explore one-way and open-jaw flight options across North America, the UK and Europe. Our travel specialists help you compare routes, airlines and fares around the way you actually want to travel.",
 };
 
+// Rendered dynamically (no caching) for consistency with every other page
+// on the site — this page's content is currently hardcoded rather than
+// database-driven, so this has no visible effect today, but keeps the
+// page ready if it's wired up to the CMS later.
+export const dynamic = "force-dynamic";
+
 const FAQS: Faq[] = [
   {
     id: "what-is-open-jaw",
